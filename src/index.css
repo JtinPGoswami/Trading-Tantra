@@ -1,0 +1,74 @@
+
+@import "tailwindcss";
+@theme {
+  --color-primary: #0256f5;
+  --font-abcRepro: "ABC Repro";
+  --font-Inter: "Inter";
+}
+
+.neon-button {
+  font-size: 18px;
+  font-weight: semibold;
+  color: white;
+  background-color: #111;
+  padding: 12px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  position: relative;
+  box-shadow: inset 0 0 20px rgba(0, 162, 255, 0.8),
+    inset 0 0 30px rgba(0, 162, 255, 0.6), 0 0 20px rgba(0, 162, 255, 0.9);
+  transition: 0.3s;
+}
+
+.neon-button:hover {
+  box-shadow: inset 0 0 15px rgba(0, 162, 255, 1),
+    inset 0 0 25px rgba(0, 162, 255, 0.8), 0 0 15px rgba(0, 162, 255, 1);
+}
+
+.blue-blur-circle {
+  position: absolute;
+  width: 700px; 
+  height: 700px;
+  background: rgba(0, 122, 255, 0.3); 
+  filter: blur(100px); 
+  border-radius: 50%;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
+
+
+@keyframes scroll-down {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes scroll-up {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.infinite-scroll {
+  display: flex;
+  flex-direction: column;
+  animation-duration: 10s; /* Adjust speed */
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.animate-scroll-down {
+  animation-name: scroll-down;
+}
+
+.animate-scroll-up {
+  animation-name: scroll-up;
+}
