@@ -36,6 +36,8 @@ const UpdatesPage = () => {
   return (
     <>
       <div className="bg-[url(./assets/Images/heroImg.png)]  w-[90%] h-[360px] mx-auto object-center bg-no-repeat my-35 flex items-center justify-center ">
+      <div class="blue-blur-circle"></div>
+
         <h1 className="text-6xl font-abcRepro font-bold">Updates</h1>
       </div>
 

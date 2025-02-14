@@ -31,8 +31,8 @@ const HomePage = () => {
     <>
       {/* hero section */}
       <div className="bg-[#02000e] w-full h-screen font-Inter ">
-        <div class="blue-blur-circle"></div>
-        <div className="flex flex-col items-center justify-center mt-40 space-y-12 w-[70%] mx-auto">
+      <div class="blue-blur-circle"></div>
+      <div className="flex flex-col items-center justify-center mt-40 space-y-12 w-[70%] mx-auto">
           <img src={AiStar} alt="" />
           <h1 className="text-primary font-extrabold text-6xl text-center">
             India’s First AI Stock Screener
