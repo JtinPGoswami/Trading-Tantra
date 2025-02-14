@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 
-const FaqSection = ({ faqs }) => {
+import { IoTriangle } from "react-icons/io5";
+const FAQPage = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const contentRefs = useRef([]);
 
@@ -80,57 +81,52 @@ const FaqSection = ({ faqs }) => {
     contentRefs.current = contentRefs.current.slice(0, faqs.length);
   }, [faqs]);
 
-  return (<>
+  return (
+    <>
+      <div className="bg-[url(./assets/Images/heroImg.png)]  w-[90%] h-[360px] mx-auto object-center bg-no-repeat my-35 flex items-center justify-center ">
+        <div class="blue-blur-circle"></div>
 
+        <h1 className="text-6xl font-abcRepro font-bold">FAQ</h1>
+      </div>
+      <div className="w-full mx-auto ">
+        {faqs.map((faq, index) => (
+          <div key={index} className="bg-[#01071C] mb-5 rounded-2xl border border-primary">
+            {/* Question Section */}
+            <div
+              className="py-5 px-4 cursor-pointer flex gap-2 items-center justify-between  "
+              onClick={() => toggleFAQ(index)}
+            >
+              <h3 className="text-lg font-light font-abcRepro">
+                {faq.question}
+              </h3>
+              <span>
+                {activeIndex === index ? (
+                  <IoTriangle className="text-lg font-semibold rotate-180" />
+                ) : (
+                  <IoTriangle className="text-lg font-semibold" />
+                )}
+              </span>
+            </div>
 
-
-
-
-    <div className="w-full mx-auto ">
-      {faqs.map((faq, index) => (
-        <div key={index} className="border-b border-gray-300">
-          {/* Question Section */}
-          <div
-            className="py-4 px-4 cursor-pointer flex gap-2 items-center"
-            onClick={() => toggleFAQ(index)}
-          >
-            <span className="text-[#6B1EE6]">
-              {activeIndex === index ? (
-                <FaMinus className="text-lg font-semibold" />
-              ) : (
-                <FaPlus className="text-lg font-semibold" />
-              )}
-            </span>
-            <h3 className="text-lg font-semibold text-[#6B1EE6]">
-              {faq.question}
-            </h3>
+            {/* Answer Section */}
+            <div
+              ref={(el) => (contentRefs.current[index] = el)}
+              className={`overflow-hidden transition-[height,opacity] duration-200 ease-linear px-4  `}
+              style={{
+                height:
+                  activeIndex === index
+                    ? `${contentRefs.current[index]?.scrollHeight}px`
+                    : "0px",
+                opacity: activeIndex === index ? 1 : 0,
+              }}
+            >
+              <p className="text-base font-abcRepro py-4">{faq.answer}</p>
+            </div>
           </div>
-
-          {/* Answer Section */}
-          <div
-            ref={(el) => (contentRefs.current[index] = el)}
-            className={`overflow-hidden transition-[height,opacity] duration-500 ease-in-out border-t border-gray-300`}
-            style={{
-              height:
-                activeIndex === index
-                  ? `${contentRefs.current[index]?.scrollHeight}px`
-                  : "0px",
-              opacity: activeIndex === index ? 1 : 0,
-            }}
-          >
-            <ul className="space-y-4 p-4">
-              {faq.answer.map((answer, index) => (
-                <li key={index} className="text-base  text-[#2B016E]">
-                  {answer}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ))}
-    </div>
-      </>
+        ))}
+      </div>
+    </>
   );
 };
 
-export default FaqSection;
+export default FAQPage;

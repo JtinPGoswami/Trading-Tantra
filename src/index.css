@@ -72,3 +72,9 @@
 .animate-scroll-up {
   animation-name: scroll-up;
 }
+  
+    .custom-border {
+      border-width: 1.34px; 
+      border-image-source: linear-gradient(113.83deg, #0009B3 0.45%, #02000E 100%);
+    }
+

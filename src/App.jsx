@@ -10,6 +10,7 @@ import RefundPolicyPage from "./pages/RefundPolicyPage";
 import DisclosuresPage from "./pages/DisclosuresPage";
 import TermsAndConditionPage from "./pages/TermsAndConditionPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import FAQPage from "./pages/FAQPage";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
             element={<TermsAndConditionPage />}
           />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/faq" element={<FAQPage />} />
         </Route>
       </Routes>
     </div>
