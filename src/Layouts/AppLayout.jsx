@@ -12,7 +12,7 @@ const AppLayout = () => {
   return (
     <>
       <Header />
-      <main className="w-full px-[5%]">
+      <main className="w-full px-[5%] cursor-default">
         <Outlet />
       </main>
       <Footer />

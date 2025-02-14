@@ -90,7 +90,10 @@ const FAQPage = () => {
       </div>
       <div className="w-full mx-auto ">
         {faqs.map((faq, index) => (
-          <div key={index} className="bg-[#01071C] mb-5 rounded-2xl border border-primary">
+          <div
+            key={index}
+            className="bg-[#01071C] mb-5 rounded-2xl border border-[#0256f535] "
+          >
             {/* Question Section */}
             <div
               className="py-5 px-4 cursor-pointer flex gap-2 items-center justify-between  "

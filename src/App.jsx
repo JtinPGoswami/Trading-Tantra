@@ -11,6 +11,8 @@ import DisclosuresPage from "./pages/DisclosuresPage";
 import TermsAndConditionPage from "./pages/TermsAndConditionPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import FAQPage from "./pages/FAQPage";
+import RenewPlanPage from "./pages/RenewPlanPage";
+import BuyPlanPage from "./pages/BuyPlanPage";
 
 const App = () => {
   return (
@@ -30,6 +32,8 @@ const App = () => {
           />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/renew-plan" element={<RenewPlanPage />} />
+          <Route path="/buy-plan" element={<BuyPlanPage />} />
         </Route>
       </Routes>
     </div>

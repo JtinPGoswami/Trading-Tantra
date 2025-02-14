@@ -73,8 +73,20 @@
   animation-name: scroll-up;
 }
   
-    .custom-border {
-      border-width: 1.34px; 
-      border-image-source: linear-gradient(113.83deg, #0009B3 0.45%, #02000E 100%);
-    }
+.border-gradient {
+  border: 1.11px solid;
+  border-image-source: linear-gradient(113.83deg, #0009B3 0.45%, #02000E 100%);
+  border-image-slice: 1;
+  border-radius: 40px;
+}
 
+  
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
