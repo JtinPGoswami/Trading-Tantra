@@ -6,6 +6,8 @@ import UpdatesPage from "./pages/UpdatesPage";
 import ContactUsPage from "./pages/ContactUsPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import DisclaimerPage from "./pages/DisclaimerPage";
+import RefundPolicyPage from "./pages/RefundPolicyPage";
+import DisclosuresPage from "./pages/DisclosuresPage";
 
 
 const App = () => {
@@ -18,6 +20,8 @@ const App = () => {
           <Route path="/contact-us" element={<ContactUsPage />} />
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/disclaimer" element={<DisclaimerPage />} />
+          <Route path="/refund-policy" element={<RefundPolicyPage />} />
+          <Route path="/disclosures" element={<DisclosuresPage />} />
         </Route>
       </Routes>
     </div>
