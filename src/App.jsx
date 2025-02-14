@@ -8,7 +8,8 @@ import AboutUsPage from "./pages/AboutUsPage";
 import DisclaimerPage from "./pages/DisclaimerPage";
 import RefundPolicyPage from "./pages/RefundPolicyPage";
 import DisclosuresPage from "./pages/DisclosuresPage";
-
+import TermsAndConditionPage from "./pages/TermsAndConditionPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 
 const App = () => {
   return (
@@ -22,6 +23,11 @@ const App = () => {
           <Route path="/disclaimer" element={<DisclaimerPage />} />
           <Route path="/refund-policy" element={<RefundPolicyPage />} />
           <Route path="/disclosures" element={<DisclosuresPage />} />
+          <Route
+            path="/terms-and-condition"
+            element={<TermsAndConditionPage />}
+          />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         </Route>
       </Routes>
     </div>
