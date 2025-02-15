@@ -3,17 +3,17 @@ import React from "react";
 const PrivacyPolicyPage = () => {
   return (
     <>
-      <div className="bg-[url(./assets/Images/heroImg.png)]  w-[90%] h-[360px] mx-auto object-center bg-no-repeat my-35 flex items-center justify-center ">
+      <div className="bg-[url(./assets/Images/heroImg.png)]  rounded-3xl md:w-[90%] w-full md:h-[360px] h-[200px] mx-auto object-center bg-no-repeat md:my-35 mt-30 mb-20  flex items-center justify-center font-abcRepro ">
         <div class="blue-blur-circle"></div>
 
-        <h1 className="text-6xl font-abcRepro font-bold">Privacy Policy</h1>
+        <h1 className="md:text-6xl text-4xl font-abcRepro font-bold">Privacy Policy</h1>
       </div>
 
       <section className="font-abcRepro space-y-10 mt-40">
         {/* THE AGREEMENT */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">THE AGREEMENT</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">THE AGREEMENT</h2>
+          <p className="font-light md:text-xl text-lg ">
             The use of this website and services on this website provided by
             TradeFinder (hereinafter referred to as "Owner" ) are subject to the
             following Terms & Conditions (hereinafter the "Terms of Service" ),
@@ -23,7 +23,7 @@ const PrivacyPolicyPage = () => {
             "Website" ), all pages on the Website, and any services provided by
             or on this Website ("Services").
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             By accessing either directly or through a hyperlink, the Website,
             and/or purchasing something from us, you engage in our "Service" and
             agree to be bound by the Terms of Service including those additional
@@ -39,8 +39,8 @@ const PrivacyPolicyPage = () => {
 
         {/* point 1 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">1. DEFINITIONS</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">1. DEFINITIONS</h2>
+          <p className="font-light md:text-xl text-lg ">
             The parties referred to in these Terms of Service shall be defined
             as follows:
           </p>
@@ -71,8 +71,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 2 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">2. ASSENT & ACCEPTANCE</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">2. ASSENT & ACCEPTANCE</h2>
+          <p className="font-light md:text-xl text-lg  ">
             By using the Website, You warrant that You have read and reviewed
             these Terms of Service and that You agree to be bound by it. If You
             do not agree to be bound by these Terms of Service, please leave the
@@ -85,8 +85,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 3 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">3. AGE RESTRICTION</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">3. AGE RESTRICTION</h2>
+          <p className="font-light md:text-xl text-lg ">
             You must be at least 18 (eighteen) years of age to use this Website,
             or any Services contained herein. By using this Website, You
             represent and warrant that You are at least 18 years of age and may
@@ -96,8 +96,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 4 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">4. ABOUT THE SITE</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">4. ABOUT THE SITE</h2>
+          <p className="font-light md:text-xl text-lg ">
             The Website is an online store that carries out sales of the
             following: Coaching Services, Financial Services, and Consultancy
             Services. We reserve the right to refuse service or refuse to sell
@@ -105,7 +105,7 @@ const PrivacyPolicyPage = () => {
             reason at any time.
           </p>
 
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             The Website does not screen or censor the users who register on and
             access the Website. You assume all risks associated with dealing
             with other users with whom you come in contact through the Website.
@@ -116,8 +116,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 5 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">5. LICENSE TO USE WEBSITE</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">5. LICENSE TO USE WEBSITE</h2>
+          <p className="font-light md:text-xl text-lg ">
             The Owner may provide You with certain information as a result of
             Your use of the Website or Services. Such information may include
             but is not limited to, documentation, data, or information developed
@@ -130,13 +130,13 @@ const PrivacyPolicyPage = () => {
             license terminates upon Your cessation of use of the Website or
             Services or at the termination of these Terms of Service.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             You agree not to collect the contact information of other Users from
             the Website or download or copy any information by means of
             unsolicited access so as to communicate directly with them or for
             any reason whatsoever.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             Any unauthorized use by you shall terminate the permission or
             license granted to you by the Website and You agree that you shall
             not bypass any measures used by the Owner to prevent or restrict
@@ -145,8 +145,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 6 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">6. INTELLECTUAL PROPERTY</h2>
-          <p className="font-thin text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">6. INTELLECTUAL PROPERTY</h2>
+          <p className="font-thin md:text-xl text-lg ">
             You agree that the Website and all Services provided by the Owner
             are the property of the Owner, including all copyrights, trademarks,
             trade secrets, patents, and other intellectual property ("Owner
@@ -162,8 +162,8 @@ const PrivacyPolicyPage = () => {
 
         {/* point 7 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">7. USER OBLIGATIONS</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">7. USER OBLIGATIONS</h2>
+          <p className="font-light md:text-xl text-lg ">
             As a user of the Website or Services, You may be asked to register
             with Us. When You do so, You will choose a user identifier, which
             may be Your email address or another term, as well as a password.
@@ -189,8 +189,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 8 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">8. PAYMENT & FEES</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">8. PAYMENT & FEES</h2>
+          <p className="font-light md:text-xl text-lg ">
             Should You register for any of the paid Services on this website or
             purchase any product or service on this website, You agree to pay Us
             the specific monetary amounts required for that product or those
@@ -202,7 +202,7 @@ const PrivacyPolicyPage = () => {
             Your access to the Services.
           </p>
 
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             We reserve the right to refuse service or refuse to sell the
             products on the Website at our sole discretion to anyone for any
             reason at any time.
@@ -211,8 +211,8 @@ const PrivacyPolicyPage = () => {
 
         {/* point 9 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">9. ACCEPTABLE USE</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">9. ACCEPTABLE USE</h2>
+          <p className="font-light md:text-xl text-lg ">
             You agree not to use the Website or Services for any unlawful
             purpose or any purpose prohibited under this clause. You agree not
             to use the Website or Services in any way that could damage the
@@ -355,8 +355,8 @@ const PrivacyPolicyPage = () => {
 
         {/* point 10 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">10. COMMUNICATION</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">10. COMMUNICATION</h2>
+          <p className="font-light md:text-xl text-lg ">
             You understand that each time uses the Website in any manner, you
             agree to these Terms. By agreeing to these Terms, you acknowledge
             that you are interested in availing and purchasing the Services that
@@ -372,10 +372,10 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 11 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">
+          <h2 className="font-bold md:text-3xl text-xl ">
             11. AFFILIATE MARKETING & ADVERTISING
           </h2>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             The Owner, through the Website and Services, may engage in affiliate
             marketing whereby the Owner receives a commission on or percentage
             of the sale of goods or services on or through the Website. The
@@ -386,8 +386,8 @@ const PrivacyPolicyPage = () => {
 
         {/* point 12 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">12. Data Loss</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">12. Data Loss</h2>
+          <p className="font-light md:text-xl text-lg ">
             Through Your Use of the Website and Services, You may provide Us
             with certain information. By using the Website or the Services, You
             authorize the Owner to use Your information in India and any other
@@ -428,8 +428,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 13 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">13. ASSUMPTION OF RISK</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">13. ASSUMPTION OF RISK</h2>
+          <p className="font-light md:text-xl text-lg ">
             The Website and Services are provided for communication purposes
             only. You acknowledge and agree that any information posted on Our
             Website is not intended to be legal advice, medical advice, or
@@ -442,8 +442,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 14 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">14. SALE OF GOODS/SERVICES</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">14. SALE OF GOODS/SERVICES</h2>
+          <p className="font-light md:text-xl text-lg ">
             The Owner may sell goods or services or allow third parties to sell
             goods or services on the Website. The Owner undertakes to be as
             accurate as possible with all information regarding the goods and
@@ -471,7 +471,7 @@ const PrivacyPolicyPage = () => {
                 we are informed about your decision to cancel this contract.
               </li>
             </ol>
-            <p className="font-light text-xl">
+            <p className="font-light md:text-xl text-lg ">
               We will make the reimbursement using the same means of payment as
               you used for the initial transaction unless you have expressly
               agreed otherwise; in any event, you will not incur any fees as a
@@ -481,7 +481,7 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 15 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">
+          <h2 className="font-bold md:text-3xl text-xl ">
             15. REVERSE ENGINEERING & SECURITY
           </h2>
           <div className="space-y-4">
@@ -505,8 +505,8 @@ const PrivacyPolicyPage = () => {
 
         {/* point 16 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">16. DATA LOSS</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">16. DATA LOSS</h2>
+          <p className="font-light md:text-xl text-lg ">
             The Owner does not accept responsibility for the security of Your
             account or content. You agree that Your use of the Website or
             Services is at Your own risk.
@@ -515,8 +515,8 @@ const PrivacyPolicyPage = () => {
 
         {/* point 17 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">17. INDEMNIFICATION</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">17. INDEMNIFICATION</h2>
+          <p className="font-light md:text-xl text-lg ">
             You agree to defend and indemnify the Owner and any of its
             affiliates (if applicable) and hold Us harmless against any and all
             legal claims and demands, including reasonable attorney's fees,
@@ -529,8 +529,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 18 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">18. SPAM POLICY</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">18. SPAM POLICY</h2>
+          <p className="font-light md:text-xl text-lg ">
             You are strictly prohibited from using the Website or any of the
             Owner's Services for illegal spam activities, including gathering
             email addresses and personal information from others or sending any
@@ -539,10 +539,10 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 19 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">
+          <h2 className="font-bold md:text-3xl text-xl ">
             19. THIRD-PARTY LINKS & CONTENT
           </h2>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             The Owner may occasionally post links to third-party websites or
             other services. You agree that the Owner is not responsible or
             liable for any loss or damage caused as a result of Your use of any
@@ -551,8 +551,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 20 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">20. MODIFICATION & VARIATION</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">20. MODIFICATION & VARIATION</h2>
+          <p className="font-light md:text-xl text-lg ">
             The Owner may, from time to time and at any time without notice to
             You, modify these Terms of Service. You agree that the Owner has the
             right to modify these Terms of Service or revise anything contained
@@ -592,8 +592,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 21 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">21. ENTIRE AGREEMENT</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">21. ENTIRE AGREEMENT</h2>
+          <p className="font-light md:text-xl text-lg ">
             This Agreement constitutes the entire understanding between the
             Parties with respect to any and all use of this Website. This
             Agreement supersedes and replaces all prior or contemporaneous
@@ -603,8 +603,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 22 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">22. SERVICE INTERRUPTIONS</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">22. SERVICE INTERRUPTIONS</h2>
+          <p className="font-light md:text-xl text-lg ">
             The Owner may need to interrupt Your access to the Website to
             perform maintenance or emergency services on a scheduled or
             unscheduled basis. You agree that Your access to the Website may be
@@ -615,10 +615,10 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 23 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">
+          <h2 className="font-bold md:text-3xl text-xl ">
             23. TERM, TERMINATION & SUSPENSION
           </h2>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             The Owner may terminate these Terms of Service with You at any time
             for any reason, with or without cause. The Owner specifically
             reserves the right to terminate these Terms of Service if You
@@ -637,8 +637,8 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* point 24 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">24. NO WARRANTIES</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">24. NO WARRANTIES</h2>
+          <p className="font-light md:text-xl text-lg ">
             You agree that Your use of the Website and Services is at Your sole
             and exclusive risk and that any Services provided by Us are on an
             'As Is' basis. The Owner hereby expressly disclaims any and all
@@ -654,7 +654,7 @@ const PrivacyPolicyPage = () => {
             Your use of the Website or Services is Your sole responsibility and
             that the Owner is not liable for any such damage or loss.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             All information, software, products, services, and related graphics
             provided on this site are 'as is' and 'as available' basis without
             warranty of any kind, either expressed or implied. The Website
@@ -668,21 +668,21 @@ const PrivacyPolicyPage = () => {
             Website does not constitute any endorsement or recommendation of
             such products or services.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             The Website makes no warranty that the use of the Website will be
             uninterrupted, timely, secure, without defect, or error-free. You
             expressly agree that the use of the site is at your own risk. The
             Website shall not be responsible for any content found on the
             Website.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             Your use of any information or materials on this site or otherwise
             obtained through the use of this Website is entirely at your own
             risk, for which we shall not be liable. It shall be your own
             responsibility to ensure that any products, services or information
             available through this website meet your specific requirements.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             The Website assumes no responsibility for the accuracy, currency,
             completeness or usefulness of information, views, opinions, or
             advice in any material contained on the Website. Any information
@@ -695,7 +695,7 @@ const PrivacyPolicyPage = () => {
             whom such Content originated, and the Website does not control and
             is not responsible for Content available on the Website.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             There may be instances when incorrect information is published
             inadvertently on our Website or in the Service such as typographical
             errors, inaccuracies or omissions that may relate to product
@@ -707,7 +707,7 @@ const PrivacyPolicyPage = () => {
             without prior notice (including after you have submitted your
             order).
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             We undertake no obligation to update, amend or clarify information
             in the Service or on any related website, including without
             limitation, pricing information, except as required by law. No
@@ -715,7 +715,7 @@ const PrivacyPolicyPage = () => {
             related website should be taken to indicate that all information in
             the Service or on any related website has been modified or updated.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             The Website shall not be responsible for any interaction between you
             and the other users of the Website. Under no circumstances will the
             Website be liable for any goods, services, resources, or content
@@ -726,7 +726,7 @@ const PrivacyPolicyPage = () => {
             release the Website from any and all claims, demands, and damages
             arising out of or in connection with such dispute.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             You agree and understand that while the Website has made reasonable
             efforts to safeguard the Website, it cannot and does not ensure or
             make any representations that the Website or any of the information
@@ -736,7 +736,7 @@ const PrivacyPolicyPage = () => {
             any material or data sent or received or not sent or received, or
             any transactions entered into through the Website.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             You hereby agree and confirm that the Website shall not be held
             liable or responsible in any manner whatsoever for such hacking or
             any loss or damages suffered by you due to unauthorized access of
@@ -747,7 +747,7 @@ const PrivacyPolicyPage = () => {
             have not been authorized by the Website) which is in violation or
             contravention of this Terms of Service or the Privacy Policy.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             You specifically agree that the Website is not responsible or liable
             for any threatening, defamatory, obscene, offensive, or illegal
             content or conduct of any other party or any infringement of
@@ -756,21 +756,21 @@ const PrivacyPolicyPage = () => {
             content sent using and/or included on the Website by any third
             party.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             The Website has no liability and will make no refund in the event of
             any delay, cancellation, strike, force majeure, or other causes
             beyond their direct control, and they have no responsibility for any
             additional expense omissions delays or acts of any government or
             authority.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             You will be solely responsible for any damage to your computer
             system or loss of data that results from the download of any
             information and/or material. Some jurisdictions do not allow the
             exclusion of certain warranties, so some of the above exclusions may
             not apply to you.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             In no event shall the Website be liable for any direct, indirect,
             punitive, incidental, special, consequential damages or any damages
             whatsoever including, without limitation, damages for loss of use,
@@ -791,7 +791,7 @@ const PrivacyPolicyPage = () => {
             no event exceed, 50% (Fifty percent) of the amount you paid to Us in
             connection with such transaction(s) on this Website.
           </p>
-          <p className="font-light text-xl">
+          <p className="font-light md:text-xl text-lg ">
             You accept all responsibility for and hereby agree to indemnify and
             hold harmless Us from and against, any actions taken by you or by
             any person authorized to use your account, including without
@@ -807,8 +807,8 @@ const PrivacyPolicyPage = () => {
 
         {/* point 25 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">25. LIMITATION ON LIABILITY</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">25. LIMITATION ON LIABILITY</h2>
+          <p className="font-light md:text-xl text-lg ">
             The Owner is not liable for any damage that may occur to You as a
             result of Your use of the Website or Services, to the fullest extent
             permitted by law. The maximum liability of the Owner arising from or
@@ -823,7 +823,7 @@ const PrivacyPolicyPage = () => {
 
         {/* point 26 */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">26. GENERAL PROVISIONS:</h2>
+          <h2 className="font-bold md:text-3xl text-xl ">26. GENERAL PROVISIONS:</h2>
           <div className="space-y-4">
             <ol className="list-decimal pl-10">
               <li className="text-[#C6C6C6] text-base">
@@ -905,7 +905,7 @@ const PrivacyPolicyPage = () => {
         </div>
         {/* Disclaimers */}
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">Disclaimers:</h2>
+          <h2 className="font-bold md:text-3xl text-xl ">Disclaimers:</h2>
           <div className="space-y-4">
             <p className="font-normal text-2xl"></p>
             <ul className="list-disc">
@@ -938,8 +938,8 @@ const PrivacyPolicyPage = () => {
         {/* Changes to Disclaimer */}
 
         <div className="space-y-5">
-          <h2 className="font-bold text-3xl">Changes to Disclaimer</h2>
-          <p className="font-light text-xl">
+          <h2 className="font-bold md:text-3xl text-xl ">Changes to Disclaimer</h2>
+          <p className="font-light md:text-xl text-lg ">
             We reserve the right to modify or update this disclaimer at any time
             without notice. Your continued use of this website/platform
             constitutes your acceptance of any changes.

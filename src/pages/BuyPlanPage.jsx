@@ -75,41 +75,41 @@ const BuyPlanPage = () => {
 
   return (
     <>
-      <div className="bg-[url(./assets/Images/heroImg.png)] w-[90%] h-[360px] mx-auto object-center bg-no-repeat my-35 flex items-center justify-center ">
+         <div className="bg-[url(./assets/Images/heroImg.png)]  rounded-3xl md:w-[90%] w-full md:h-[360px] h-[200px] mx-auto object-center bg-no-repeat md:my-35 mt-30 mb-20  flex items-center justify-center font-abcRepro ">
         <div className="blue-blur-circle"></div>
-        <h1 className="text-6xl font-abcRepro font-bold ">Buy Plan</h1>
+        <h1 className="md:text-6xl text-4xl font-abcRepro font-bold ">Buy Plan</h1>
       </div>
 
-      <div className="w-[70%] mx-auto bg-[#01071C] px-8 pt-8 font-abcRepro space-y-10 rounded-xl border border-[#0256f550] flex items-start gap-5 ">
-        <div className="w-[60%]">
-          <div className="flex flex-col space-y-10">
+      <div className="xl:w-[70%] md:w-[90%] w-full mx-auto bg-[#01071C] md:px-8 px-4 md:py-8 py-4 font-abcRepro space-y-10 rounded-xl border border-[#0256f550] flex sm:flex-row flex-col items-start gap-5 ">
+        <div className="sm:w-[60%] w-full">
+          <div className="flex flex-col md:space-y-10 space-y-5">
             <h3 className="text-2xl font-medium">Don’t Just Trade Dominate</h3>
-            <p className="bg-primary rounded-lg text-2xl font-thin px-3 py-2 w-1/2">
+            <p className="bg-primary rounded-lg md:text-2xl text-xl font-thin px-3 py-2 md:w-1/2 w-4/5">
               CRYSTAL (Rs. 3999)
             </p>
-            <p className="text-2xl font-bold">
+            <p className="md:text-2xl text-xl font-bold">
               Duration: 6 months + 6 Months Free
             </p>
           </div>
 
-          <div className=" mt-15">
+          <div className=" md:mt-15 mt-8">
             <form action="">
-              <div className="flex items-center justify-between flex-wrap  text-white space-y-6">
+              <div className="flex items-center justify-between flex-wrap  text-white md:space-y-6 space-y-3">
                 <input
                   type="text"
                   placeholder="First Name*"
-                  className="w-[45%]  bg-[#000A2D] py-2 rounded-lg px-3"
+                  className="sm:w-[45%] w-full  bg-[#000A2D] py-2 rounded-lg px-3"
                 />
                 <input
                   type="text"
                   placeholder="Last Name*"
-                  className="w-[45%]   bg-[#000A2D] py-2 rounded-lg px-3"
+                  className="sm:w-[45%] w-full   bg-[#000A2D] py-2 rounded-lg px-3"
                 />
 
                 {/* Country Dropdown */}
                 <select
                   name="country"
-                  className="w-[45%] px-4 bg-[#000A2D] py-2 rounded-lg"
+                  className="sm:w-[45%] w-full px-4 bg-[#000A2D] py-2 rounded-lg"
                   value={selectedCountry}
                   onChange={handleCountryChange}
                 >
@@ -126,7 +126,7 @@ const BuyPlanPage = () => {
                 {/* State Dropdown */}
                 <select
                   name="state"
-                  className="w-[45%] px-4 bg-[#000A2D] py-2 rounded-lg"
+                  className="sm:w-[45%] w-full px-4 bg-[#000A2D] py-2 rounded-lg"
                   value={selectedState}
                   onChange={handleStateChange}
                   disabled={!selectedCountry} // Disable if no country is selected
@@ -170,42 +170,42 @@ const BuyPlanPage = () => {
         </div>
 
         {/* Payment Information */}
-        <div className="w-[40%] bg-[#72A3FD] rounded-2xl  p-5">
+        <div className="sm:w-[40%] w-full bg-[#72A3FD] rounded-2xl  p-5">
           <h5 className="text-primary font-bold text-xl">Payment Information</h5>
 
-          <div className="w-full flex justify-between items-center text-black text-sm font-thin mt-10 ">
+          <div className="w-full flex justify-between items-center text-black text-sm font-thin md:mt-10 mt-5 ">
             <p>Amount</p>
             <p>&#8377;3388.98</p>
           </div>
-          <div className="w-full flex justify-between items-center text-black text-sm font-thin mt-5">
+          <div className="w-full flex justify-between items-center text-black text-sm font-thin md:mt-5 mt-2">
             <p>GST @18%</p>
             <p>&#8377;610.02</p>
           </div>
-          <div className="w-full flex justify-between items-center text-black text-sm font-thin mt-5">
+          <div className="w-full flex justify-between items-center text-black text-sm font-thin md:mt-5 mt-2">
             <p>Amount Payable</p>
             <p>&#8377;3,999</p>
           </div>
-          <div className="flex flex-col space-y-5 text-black my-10">
+          <div className="flex flex-col  md:space-y-5 space-y-2 text-black md:my-10 my-5">
             <div className="flex items-center gap-3">
-              <img src={lock} alt="" className="w-6 h-6" />
-              <p className="text-base font-normal">Get Instant Access Now</p>
+              <img src={lock} alt="" className="md:w-6 w-4 md:h-6 h-4" />
+              <p className="md:text-base text-sm font-normal">Get Instant Access Now</p>
             </div>
             <div className="flex items-center gap-3">
-              <img src={doc} alt="" className="w-6 h-6" />
-              <p className="text-base font-normal">Watch Tutorials Inside</p>
+              <img src={doc} alt="" className="md:w-6 w-4 md:h-6 h-4" />
+              <p className="md:text-base text-sm font-normal">Watch Tutorials Inside</p>
             </div>
             <div className="flex items-center gap-3">
-              <img src={play} alt="" className="w-6 h-6" />
-              <p className="text-base font-normal">View All Strategies</p>
+              <img src={play} alt="" className="md:w-6 w-4 md:h-6 h-4" />
+              <p className="md:text-base text-sm font-normal">View All Strategies</p>
             </div>
             <div className="flex items-center gap-3">
-              <img src={shild} alt="" className="w-6 h-6" />
-              <p className="text-base font-normal">Prepare For Tomorrow</p>
+              <img src={shild} alt="" className="md:w-6 w-4 md:h-6 h-4" />
+              <p className="md:text-base text-sm font-normal">Prepare For Tomorrow</p>
             </div>
           </div>
           <div className="flex items-center gap-2 text-black">
             <input type="checkbox" className="w-4 h-4" name="TandC" />
-            <label htmlFor="TandC" className="text-xl">I agree with terms & Condition</label>
+            <label htmlFor="TandC" className="md:text-xl text-xs">I agree with terms & Condition</label>
           </div>
           <img src={pay} alt="" className="w-4/5 cursor-pointer mt-5 mx-auto" />
         </div>

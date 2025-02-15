@@ -36,19 +36,19 @@ const DisclaimerPage = () => {
 
   return (
     <>
-      <div className="bg-[url(./assets/Images/heroImg.png)]  w-[90%] h-[360px] mx-auto object-center bg-no-repeat my-35 flex items-center justify-center font-abcRepro ">
+   <div className="bg-[url(./assets/Images/heroImg.png)]  rounded-3xl md:w-[90%] w-full md:h-[360px] h-[200px] mx-auto object-center bg-no-repeat md:my-35 mt-30 mb-20  flex items-center justify-center font-abcRepro ">
         <div class="blue-blur-circle"></div>
 
-        <h1 className="text-6xl font-abcRepro font-bold">Disclaimer</h1>
+        <h1 className="md:text-6xl text-4xl font-abcRepro font-bold">Disclaimer</h1>
       </div>
 
-      <h1 className="text-2xl font-bold font-abcRepro text-wrap w-[60%] text-center leading-10 mx-auto ">
+      <h1 className="md:text-2xl text-xl font-bold font-abcRepro text-wrap md:w-[60%] w-full text-center md:leading-10 mx-auto ">
         Welcome to <span className="text-primary"> TradingTantra.in. </span>
         By using our website, you acknowledge and agree to the following
         disclaimers:
       </h1>
 
-      <div className="space-y-10 mt-20">
+      <div className="md:space-y-10 space-y-5 mt-20">
         {disclaimerListData.map((list, index) => (
           <DisclaimerList key={index} list={list} />
         ))}
@@ -57,9 +57,9 @@ const DisclaimerPage = () => {
   );
 };
 const DisclaimerList = ({ list }) => (
-  <div className="bg-[#01071C] w-full mx-10 border-l-2 border-l-primary p-5 font-abcRepro space-y-2">
-    <h1 className="text-2xl font-bold ">{list.title}</h1>
-    <p className="text-base font-light">{list.desc}</p>
+  <div className="bg-[#01071C] w-full md:mx-10 border-l-2 border-l-primary p-5 font-abcRepro md:space-y-2 space-y-1">
+    <h1 className="md:text-2xl text-xl font-bold ">{list.title}</h1>
+    <p className="md:text-base text-sm font-light">{list.desc}</p>
     {list.desc2 && <p className="text-base font-light">{list.desc2}</p>}
   </div>
 );

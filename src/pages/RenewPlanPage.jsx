@@ -54,30 +54,30 @@ const RenewPlanPage = () => {
 
   return (
     <>
-      <div className="bg-[url(./assets/Images/heroImg.png)] w-[90%] h-[360px] mx-auto object-center bg-no-repeat my-35 flex items-center justify-center ">
+     <div className="bg-[url(./assets/Images/heroImg.png)]  rounded-3xl md:w-[90%] w-full md:h-[360px] h-[200px] mx-auto object-center bg-no-repeat md:my-35 mt-30 mb-20  flex items-center justify-center font-abcRepro ">
         <div className="blue-blur-circle"></div>
-        <h1 className="text-6xl font-abcRepro font-bold ">Renew Plan</h1>
+        <h1 className="md:text-6xl text-4xl font-abcRepro font-bold ">Renew Plan</h1>
       </div>
 
-      <div className="w-[70%] mx-auto bg-[#01071C] px-8 py-8 font-abcRepro space-y-10 rounded-xl border border-[#0256f550] ">
+      <div className="xl:w-[70%] w-[90%] mx-auto bg-[#01071C] px-8 py-8 font-abcRepro space-y-10 rounded-xl border border-[#0256f550] ">
         <div className="flex items-start justify-between w-full">
           <div className="flex flex-col space-y-5 ">
-            <h3 className="text-5xl font-bold">Renew Plan</h3>
-            <p className="bg-primary rounded-lg text-3xl font-thin px-3 py-2">
+            <h3 className="md:text-5xl sm:text-3xl text-xl font-bold">Renew Plan</h3>
+            <p className="bg-primary rounded-lg md:text-3xl sm:text-xl text-base font-thin px-3 py-2">
               DIAMOND (3999)
             </p>
           </div>
           <div>
-            <p className="text-3xl font-light">Validity: 365 Days</p>
+            <p className="md:text-3xl sm:text-2xl text-base  font-light">Validity: 365 Days</p>
           </div>
         </div>
         <div className="space-y-5">
           <p className="text-center text-xl">Select Country and State</p>
-          <div className="flex items-center justify-between">
+          <div className="flex sm:flex-row flex-col gap-y-6 items-center justify-between">
             {/* Country Dropdown */}
             <select
               name="country"
-              className="w-[45%] px-4 bg-[#000A2D] py-2 rounded-lg"
+              className="sm:w-[45%] w-full px-4 bg-[#000A2D] py-2 rounded-lg"
               value={selectedCountry}
               onChange={handleCountryChange}
             >
@@ -94,7 +94,7 @@ const RenewPlanPage = () => {
             {/* State Dropdown */}
             <select
               name="state"
-              className="w-[45%] px-4 bg-[#000A2D] py-2 rounded-lg"
+              className="sm:w-[45%] w-full px-4 bg-[#000A2D] py-2 rounded-lg"
               value={selectedState}
               onChange={handleStateChange}
               disabled={!selectedCountry} // Disable if no country is selected
@@ -114,22 +114,22 @@ const RenewPlanPage = () => {
             </select>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-10 w-full mx-auto ml-15">
+        <div className="grid sm:grid-cols-2 grid-cols-1 sm:gap-10 gap-5 w-full mx-auto lg:ml-15">
           <div className="flex items-center gap-3">
-            <img src={lock} alt="" className="w-10 h-10" />
-            <p className="text-xl font-normal">Get Instant Access Now</p>
+            <img src={lock} alt="" className="md:w-10 w-7 md:h-10 h-7" />
+            <p className="md:text-xl text-sm font-normal">Get Instant Access Now</p>
           </div>
           <div className="flex items-center gap-3">
-            <img src={doc} alt="" className="w-10 h-10" />
-            <p className="text-xl font-normal">Watch Tutorials Inside</p>
+            <img src={doc} alt="" className="md:w-10 w-7 md:h-10 h-7" />
+            <p className="md:text-xl text-sm font-normal">Watch Tutorials Inside</p>
           </div>
           <div className="flex items-center gap-3">
-            <img src={play} alt="" className="w-10 h-10" />
-            <p className="text-xl font-normal">View All Strategies</p>
+            <img src={play} alt="" className="md:w-10 w-7 md:h-10 h-7" />
+            <p className="md:text-xl text-sm font-normal">View All Strategies</p>
           </div>
           <div className="flex items-center gap-3">
-            <img src={shild} alt="" className="w-10 h-10" />
-            <p className="text-xl font-normal">Prepare For Tomorrow</p>
+            <img src={shild} alt="" className="md:w-10 w-7 md:h-10 h-7" />
+            <p className="md:text-xl text-sm font-normal">Prepare For Tomorrow</p>
           </div>
         </div>
         <button className="cursor-pointer bg-primary py-4 text-xl font-thin w-full rounded-xl">

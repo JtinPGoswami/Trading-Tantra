@@ -15,15 +15,15 @@ const AboutUsPage = () => {
   ]
   return (
     <>
-      <div className="bg-[url(./assets/Images/heroImg.png)]  w-[90%] h-[360px] mx-auto object-center bg-no-repeat my-35 flex items-center justify-center font-abcRepro ">
+      <div className="bg-[url(./assets/Images/heroImg.png)]  rounded-3xl md:w-[90%] w-full md:h-[360px] h-[200px] mx-auto object-center bg-no-repeat md:my-35 mt-30 mb-20  flex items-center justify-center font-abcRepro ">
         <div class="blue-blur-circle"></div>
 
-        <h1 className="text-6xl font-abcRepro font-bold">About Us</h1>
+        <h1 className="md:text-6xl text-4xl font-abcRepro font-bold">About Us</h1>
       </div>
-      <div className="grid grid-cols-2 gap-10 font-abcRepro  ">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-10 font-abcRepro  ">
         <img src={AboutUsImg} className="rounded-2xl" />
         <div className="space-y-4">
-          <h3 className="font-bold text-4xl text-wrap tracking-wide leading-15">
+          <h3 className="font-bold md:text-4xl text-xl text-wrap tracking-wide md:leading-15">
             About Trading Tantra: Empowering Your Trading Journey
           </h3>
           <p className="text-base font-light text-wrap">
@@ -59,7 +59,7 @@ const AboutUsPage = () => {
         With TradingTantra you can do the following types of trading - 
       </h1>
 
-      <div className="flex items-center justify-between flex-wrap font-abcRepro  w-4/5 mx-auto mb-10">
+      <div className="flex items-center lg:justify-between justify-center flex-wrap font-abcRepro  lg:w-4/5 w-full  mx-auto mb-10 gap-5">
         <p className="bg-[#01071C] px-5 py-3 rounded-full font-light text-base">
           Intraday Trading
         </p>
@@ -88,9 +88,9 @@ const AboutUsPage = () => {
 };
 
 const AboutList = ({list}) => (
-  <div className="bg-[#01071C] w-full mx-10 border-l-2 border-l-primary p-5 font-abcRepro space-y-2">
-    <h1 className="text-2xl font-bold ">{list.title}</h1>
-    <p className="text-base font-light">{list.desc}</p>
+  <div className="bg-[#01071C] w-full md:mx-10 mx-0 border-l-2 border-l-primary p-5 font-abcRepro space-y-2">
+    <h1 className="md:text-2xl text-xl font-bold ">{list.title}</h1>
+    <p className="md:text-base text-sm font-light">{list.desc}</p>
   </div>
 );
 export default AboutUsPage;

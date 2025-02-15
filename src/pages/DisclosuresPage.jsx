@@ -3,12 +3,12 @@ import React from "react";
 const DisclosuresPage = () => {
   return (
     <>
-      <div className="bg-[url(./assets/Images/heroImg.png)]  w-[90%] h-[360px] mx-auto object-center bg-no-repeat my-35 flex items-center justify-center ">
+     <div className="bg-[url(./assets/Images/heroImg.png)]  rounded-3xl md:w-[90%] w-full md:h-[360px] h-[200px] mx-auto object-center bg-no-repeat md:my-35 mt-30 mb-20  flex items-center justify-center font-abcRepro ">
         <div class="blue-blur-circle"></div>
 
-        <h1 className="text-6xl font-abcRepro font-bold">Refund Policy</h1>
+        <h1 className="md:text-6xl text-4xl font-abcRepro font-bold">Refund Policy</h1>
       </div>
-      <h1 className="text-2xl font-bold font-abcRepro text-wrap w-[90%] text-center leading-10 mx-auto ">
+      <h1 className="md:text-2xl sm:text-xl text-lg sm:font-bold font-semibold font-abcRepro text-wrap md:w-[90%] w-full text-center md:leading-10 mx-auto ">
         Welcome to <span className="text-primary"> TradingTantra.in. </span>Your
         privacy is important to us, and we are committed to protecting your
         personal information. This Privacy Policy explains how we collect, use,

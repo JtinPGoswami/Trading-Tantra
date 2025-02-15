@@ -83,23 +83,22 @@ const FAQPage = () => {
 
   return (
     <>
-      <div className="bg-[url(./assets/Images/heroImg.png)]  w-[90%] h-[360px] mx-auto object-center bg-no-repeat my-35 flex items-center justify-center ">
-        <div class="blue-blur-circle"></div>
+      <div className="bg-[url(./assets/Images/heroImg.png)]  rounded-3xl md:w-[90%] w-full md:h-[360px] h-[200px] mx-auto object-center bg-no-repeat md:my-35 mt-30 mb-20  flex items-center justify-center font-abcRepro ">
 
-        <h1 className="text-6xl font-abcRepro font-bold">FAQ</h1>
+        <h1 className="md:text-6xl text-4xl font-abcRepro font-bold">FAQ</h1>
       </div>
       <div className="w-full mx-auto ">
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="bg-[#01071C] mb-5 rounded-2xl border border-[#0256f535] "
+            className="bg-[#01071C] sm:mb-5 mb-3 rounded-2xl border border-[#0256f535] "
           >
             {/* Question Section */}
             <div
               className="py-5 px-4 cursor-pointer flex gap-2 items-center justify-between  "
               onClick={() => toggleFAQ(index)}
             >
-              <h3 className="text-lg font-light font-abcRepro">
+              <h3 className="md:text-lg text-base font-light font-abcRepro">
                 {faq.question}
               </h3>
               <span>

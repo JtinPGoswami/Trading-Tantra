@@ -6,7 +6,7 @@ const Header = () => {
     <header className="w-full mt-5 absolute top-0 z-20 mx-auto flex justify-between items-center text-white xl:px-20 px-10">
       {/* logo */}
 
-      <div className="xl:w-auto lg:w-42 w-40">
+      <div className="xl:w-auto lg:w-42 sm:w-40 w-30">
         <img src={logo} alt="logo" />
       </div>
 
@@ -35,16 +35,9 @@ const Header = () => {
       </nav>
 
       {/* buttons */}
-      <div className="flex sm:gap-5 gap-2">
+      <div className="flex sm:gap-5 gap-4">
         <button className="sm:text-base text-sm">Login</button>
-
-        {/* <div className="button-wrapper p-1 sm:text-base text-sm rounded-3xl">
-          <button className="buy-now-button opacity-50 sm:px-4 px-2   py-2 rounded-3xl">Buy Now</button>
-        </div>
-        <div className="lg:hidden bloack mt-3">
-          <GiHamburgerMenu className=" text-3xl" />
-        </div> */}
-        <button className="neon-button">Buy Now</button>
+        <button className="neon-button sm:text-base text-sm bg-black cursor-pointer font-semibold px-6 py-3 rounded-[20px]">Buy Now</button>
       </div>
     </header>
   );

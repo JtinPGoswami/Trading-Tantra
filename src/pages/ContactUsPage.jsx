@@ -13,7 +13,7 @@ const ContactUsPage = () => {
       <div className="font-abcRepro mt-40">
         {" "}
         <div class="blue-blur-circle"></div>
-        <div className="grid grid-cols-2 gap-10 w-full min-h-[700px] ">
+        <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 w-full min-h-[700px] ">
           <div className="bg-[#01071C] rounded-2xl p-5 space-y-3 w-full">
             <img src={logo} className="w-40 h-auto" />
             <h4 className="text-3xl font-bold ">We’d love to help</h4>
@@ -107,9 +107,9 @@ const ContactUsPage = () => {
               </form>
             </div>
           </div>
-          <div className="bg-[url(./assets/Images/contactUsBg.png)]  overflow-hidden bg-center bg-no-repeat object-contain rounded-2xl">
-            <img src={contactUsBg} className="ml-16 mt-10 rounded-l-2xl" />
-            <div className="flex justify-start gap-3 text-4xl ml-20 mt-10  ">
+          <div className="bg-[url(./assets/Images/contactUsBg.png)]  overflow-hidden bg-center bg-no-repeat object-contain rounded-2xl lg:block flex flex-col items-center">
+            <img src={contactUsBg} className="lg:ml-16   mt-10 lg:rounded-l-2xl rounded-2xl" />
+            <div className="flex justify-start gap-3 lg:text-4xl text-2xl lg:ml-20 lg:mt-10 mt-5 lg:pb-0 pb-10  ">
               <PiInstagramLogoFill />
               <FaFacebookSquare />
               <FaXTwitter />
