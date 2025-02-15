@@ -6,19 +6,19 @@ const RefundPolicyPage = () => {
   return (
     <>
      <div className="bg-[url(./assets/Images/heroImg.png)]  rounded-3xl md:w-[90%] w-full md:h-[360px] h-[200px] mx-auto object-center bg-no-repeat md:my-35 mt-30 mb-20  flex items-center justify-center font-abcRepro ">
-        <div class="blue-blur-circle"></div>
+        <div className="blue-blur-circle"></div>
 
         <h1 className="md:text-6xl text-4xl font-abcRepro font-bold">Refund Policy</h1>
       </div>
-      <h1 className="text-2xl font-bold font-abcRepro text-wrap w-[60%] text-center leading-10 mx-auto ">
+      <h1 className="md:text-2xl text-xl font-bold font-abcRepro text-wrap lg:w-[60%] md:w-[90%] w-full text-center lg:leading-10 mx-auto ">
         Thank you for choosing{" "}
         <span className="text-primary"> TradingTantra.in. </span> an AI-powered
         stock market screener. Please read our refund policy carefully before
         making any purchases.
       </h1>
 
-      <div className="flex items-center justify-between w-full mt-20">
-        <div className="font-abcRepro w-1/2 space-y-5">
+      <div className="flex  items-center justify-between w-full mt-20">
+        <div className="font-abcRepro lg:w-1/2 w-full space-y-5">
           <h4 className="text-3xl font-bold ">No Refund Policy</h4>
           <p className="text-base font-thin text-wrap ">
             All purchases made on TradingTantra.in are final and non-refundable.
@@ -42,26 +42,26 @@ const RefundPolicyPage = () => {
           </p>
         </div>
         <div>
-          <img src={image1} />
+          <img src={image1} className="lg:block hidden" />
         </div>
       </div>
 
-      <div className="w-full flex items-center justify-between mt-20">
-        <div className="flex flex-col items-center w-[40%] ">
-          <img src={image2} className="w-60 h-60" />
-          <div className="text-center space-y-2 mt-10">
+      <div className="w-full flex  md:flex-row flex-col items-center justify-between mt-20 space-y-10">
+        <div className="flex flex-col items-center lg:w-[40%] md:w-1/2  w-full">
+          <img src={image2} className="sm:w-60 sm:h-60 w-auto h-auto" />
+          <div className="text-center sm:space-y-2 mt-10">
             <h4 className="font-bold text-3xl">Exceptional Cases</h4>
-            <p className="text-base font-light">
+            <p className="text-base font-light mt-4">
               Refunds will only be considered in the following circumstances:
             </p>
             <p className="text-base font-light">If you were charged incorrectly due to a system error.</p>
           </div>
         </div>
-        <div className="flex flex-col items-center w-[40%]">
-          <img src={image3} className="w-60 h-60" />
+        <div className="flex flex-col items-center lg:w-[40%] md:w-1/2 w-full">
+          <img src={image3} className="sm:w-60 sm:h-60 w-auto h-auto" />
           <div className="text-center space-y-3 mt-10">
             <h4 className="font-bold text-3xl">Changes to This Policy</h4>
-            <p className="text-base font-light leading-8">
+            <p className="text-base font-light lg:leading-8">
               We reserve the right to update or modify this refund policy at any
               time. Any changes will be posted on this page, and continued use
               of our services implies acceptance of the updated policy.

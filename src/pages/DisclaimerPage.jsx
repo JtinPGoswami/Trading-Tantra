@@ -37,7 +37,7 @@ const DisclaimerPage = () => {
   return (
     <>
    <div className="bg-[url(./assets/Images/heroImg.png)]  rounded-3xl md:w-[90%] w-full md:h-[360px] h-[200px] mx-auto object-center bg-no-repeat md:my-35 mt-30 mb-20  flex items-center justify-center font-abcRepro ">
-        <div class="blue-blur-circle"></div>
+        <div className="blue-blur-circle"></div>
 
         <h1 className="md:text-6xl text-4xl font-abcRepro font-bold">Disclaimer</h1>
       </div>

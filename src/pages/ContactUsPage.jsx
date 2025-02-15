@@ -12,7 +12,7 @@ const ContactUsPage = () => {
     <>
       <div className="font-abcRepro mt-40">
         {" "}
-        <div class="blue-blur-circle"></div>
+        <div className="blue-blur-circle"></div>
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-10 w-full min-h-[700px] ">
           <div className="bg-[#01071C] rounded-2xl p-5 space-y-3 w-full">
             <img src={logo} className="w-40 h-auto" />

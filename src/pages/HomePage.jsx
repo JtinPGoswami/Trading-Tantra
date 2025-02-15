@@ -30,7 +30,7 @@ const HomePage = () => {
     <>
       {/* hero section */}
       <div className="bg-[#02000e] w-full md:h-screen h-auto font-Inter ">
-        <div class="blue-blur-circle"></div>
+        <div className="blue-blur-circle"></div>
         <div className="flex flex-col items-center justify-center mt-40 space-y-12 md:w-[70%] sm:w-[90%] w-full mx-auto">
           <img src={AiStar} alt="" />
           <h1 className="text-primary font-extrabold md:text-6xl text-4xl text-center">
@@ -161,6 +161,7 @@ const HomePage = () => {
           <TestimonialsCarousel />
         </div>
       </div>
+
     </>
   );
 };

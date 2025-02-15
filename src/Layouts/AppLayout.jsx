@@ -3,6 +3,7 @@ import Header from "../Components/Header";
 import { Outlet } from "react-router-dom";
 import Footer from "../Components/Footer";
 import Lenis from "@studio-freight/lenis";
+import StockCarousel from "../Components/StockCarousel";
 
 const AppLayout = () => {
   useEffect(() => {
@@ -29,6 +30,7 @@ const AppLayout = () => {
 
   return (
     <>
+  <StockCarousel/>
       <Header />
       <main className="w-full px-[5%] cursor-default">
         <Outlet />
