@@ -13,10 +13,12 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import FAQPage from "./pages/FAQPage";
 import RenewPlanPage from "./pages/RenewPlanPage";
 import BuyPlanPage from "./pages/BuyPlanPage";
+import ScrollToTop from "./Components/ScrollTop";
 
 const App = () => {
   return (
     <div>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />

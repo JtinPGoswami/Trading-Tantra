@@ -3,14 +3,20 @@ import logo from "../assets/Images/logo.svg";
 import { FaFacebookSquare } from "react-icons/fa";
 import { PiInstagramLogoFill } from "react-icons/pi";
 import { FaXTwitter } from "react-icons/fa6";
-import flag from "../assets/Images/flag.svg"
+import flag from "../assets/Images/flag.svg";
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
     <div className="bg-[#01071C] w-full px-[5%]  pt-10 font-abcRepro mt-20">
       <div className="flex sm:flex-row flex-col gap-y-5 justify-between">
         <div className="lg:space-y-10 space-y-8">
-          <img src={logo} className="lg:w-96 w-75 h-auto" alt="treding tantra logo " />
+          <img
+            src={logo}
+            className="lg:w-96 w-75 h-auto"
+            alt="treding tantra logo "
+          />
           <div className="flex justify-start gap-3 text-4xl ">
             <PiInstagramLogoFill />
             <FaFacebookSquare />
@@ -25,19 +31,39 @@ const Footer = () => {
           <div className="flex justify-between w-full items-start">
             <ul className="space-y-2">
               <h3 className="sm:text-2xl text-lg font-bold">Terms Of Use</h3>
-              <li className="text-sm font-light">Disclaimer</li>
-              <li className="text-sm font-light">Refund Policy</li>
-              <li className="text-sm font-light">Disclosures</li>
-              <li className="text-sm font-light">Terms & Conditions</li>
-              <li className="text-sm font-light">Privacy Policy</li>
+              <Link to={"/disclaimer"}>
+                <li className="text-lg font-light">Disclaimer</li>
+              </Link>
+              <Link to={"/refund-policy"}>
+                <li className="text-lg font-light">Refund Policy</li>
+              </Link>
+              <Link to={"/disclosures"}>
+                <li className="text-lg font-light">Disclosures</li>
+              </Link>
+              <Link to={"/terms-and-condition"}>
+                <li className="text-lg font-light">Terms & Conditions</li>
+              </Link>
+              <Link to={"/privacy-policy"}>
+                <li className="text-lg font-light">Privacy Policy</li>
+              </Link>
             </ul>
             <ul className="space-y-2">
               <h3 className="sm:text-2xl text-lg font-bold">Company</h3>
-              <li className="text-sm font-light">Home</li>
-              <li className="text-sm font-light">Updates</li>
-              <li className="text-sm font-light">About Us</li>
-              <li className="text-sm font-light">Contact Us</li>
-              <li className="text-sm font-light">FAQ</li>
+              <Link to={"/"}>
+                <li className="text-lg font-light">Home</li>
+              </Link>
+              <Link to={"/updates"}>
+                <li className="text-lg font-light">Updates</li>
+              </Link>
+              <Link to={"/about-us"}>
+                <li className="text-lg font-light">About Us</li>
+              </Link>
+              <Link to={"/contact-us"}>
+                <li className="text-lg font-light">Contact Us</li>
+              </Link>
+              <Link to={"/faq"}>
+                <li className="text-lg font-light">FAQ</li>
+              </Link>
             </ul>
           </div>
         </div>
@@ -91,9 +117,11 @@ const Footer = () => {
         </ul>
       </div>
       <div className="flex items-center sm:flex-row flex-col justify-between py-10 ">
-        <p className="sm:text-base text-sm">&copy; {currentYear} Trading Tantra. All Rights Reserved</p>
+        <p className="sm:text-base text-sm">
+          &copy; {currentYear} Trading Tantra. All Rights Reserved
+        </p>
         <div className="flex items-center gap-1 sm:text-base text-sm">
-        Made with❤️in <img src={flag}  className="w-5 h-5" alt="" srcset="" />
+          Made with❤️in <img src={flag} className="w-5 h-5" alt="" srcset="" />
         </div>
       </div>
     </div>
