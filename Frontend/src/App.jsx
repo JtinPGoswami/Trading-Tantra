@@ -16,6 +16,8 @@ import BuyPlanPage from "./pages/WebPage/BuyPlanPage";
 import ScrollToTop from "./Components/Web/ScrollTop";
 import CalendarGrid from "./Components/Web/Trying";
 import WebLayout from "./Layouts/WebLayout";
+import DashboardLayout from "./Layouts/DashboardLayout";
+import Homepage from "./pages/DashboardPage/Homepage";
 
 const App = () => {
   return (
@@ -39,6 +41,11 @@ const App = () => {
           <Route path="/renew-plan" element={<RenewPlanPage />} />
           <Route path="/buy-plan" element={<BuyPlanPage />} />
           <Route path="/trying" element={<CalendarGrid />} />
+        </Route>
+
+
+        <Route path="/dashboard" element={<DashboardLayout/>} >
+          <Route index element={<Homepage/>}/>
         </Route>
       </Routes>
     </div>
