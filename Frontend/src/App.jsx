@@ -18,6 +18,10 @@ import CalendarGrid from "./Components/Web/Trying";
 import WebLayout from "./Layouts/WebLayout";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import Homepage from "./pages/DashboardPage/Homepage";
+import UpdatesPageDashboard from "./pages/DashboardPage/UpdatesPage";
+import ProfitPage from "./pages/DashboardPage/ProfitPage";
+import FeedBackPage from "./pages/DashboardPage/FeedBackPage";
+import LearnFromUsPage from "./pages/DashboardPage/LearnFromUsPage";
 
 const App = () => {
   return (
@@ -46,6 +50,10 @@ const App = () => {
 
         <Route path="/dashboard" element={<DashboardLayout/>} >
           <Route index element={<Homepage/>}/>
+          <Route path="updates" element={<UpdatesPageDashboard />} />
+          <Route path="profit" element={<ProfitPage />} />
+          <Route path="feedback" element={<FeedBackPage />} />
+          <Route path="learn-from-us" element={<LearnFromUsPage />} />
         </Route>
       </Routes>
     </div>

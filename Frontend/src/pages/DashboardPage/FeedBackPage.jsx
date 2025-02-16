@@ -1,0 +1,107 @@
+import React, { useRef } from "react";
+import folderimg from "../../assets/Images/Dashboard/FeedbackImg/folderImg.png";
+import { CiUser } from "react-icons/ci";
+import { MdOutlinePhone } from "react-icons/md";
+
+const FeedBackPage = () => {
+  const fileInputRef = useRef(null);
+  const handleClick = () => {
+    fileInputRef.current.click();
+  };
+
+  return (
+    <div className="bg-[#01071C] rounded-2xl p-5 space-y-3 w-1/2 mx-auto mt-10">
+      <h4 className="text-3xl font-medium font-Inter ">Feed Back</h4>
+      <div className="w-full mt-10">
+        <form className="flex items-center justify-between flex-wrap w-full space-y-4">
+          <div className="flex flex-col items-start text-[#C9CFE5] w-full space-y-2">
+            <label className="font-Inter  text-sm font-light" htmlFor="name">
+              Name
+            </label>
+            <div className="flex items-center gap-2 placeholder:text-[#C9CFE5] text-white bg-[#151B2D] rounded-lg px-2 w-full py-2">
+              <CiUser className="text-xl" />
+              <input
+                type="text"
+                placeholder="Jhon"
+                name="name"
+                className="outline-none border-none bg-transparent w-full"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col items-start text-[#C9CFE5] w-full space-y-2">
+            <label htmlFor="phone" className="font-Inter  text-sm font-light">
+              Whatsapp Number
+            </label>
+            <div className="flex items-center gap-2 placeholder:text-[#C9CFE5] text-white bg-[#151B2D] rounded-lg px-2 w-full py-2">
+              <MdOutlinePhone className="text-xl text-[#c9cfe5]" />
+              <input
+                type="text"
+                placeholder="+91 xxxx-xxxx-xx"
+                name="phone"
+                className="outline-none border-none bg-transparent w-full"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col items-start text-[#C9CFE5] w-full space-y-2">
+            <label
+              htmlFor="category"
+              className="font-Inter  text-sm font-light"
+            >
+              Select Category
+            </label>
+            <div className="flex items-center gap-2 placeholder:text-[#C9CFE5] text-white bg-[#151B2D] rounded-lg px-2 w-full py-2">
+              <input
+                type="text"
+                placeholder="Select Category"
+                name="category"
+                className="outline-none border-none bg-transparent w-full"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center text-[#C9CFE5] w-full space-y-5 bg-[#151B2D] rounded-lg px-2 py-2">
+            <img className="w-16 h-16" src={folderimg} />
+            <p className="text-base font-Inter font-light ">
+              Choose Your File to upload
+            </p>
+            <div className="flex flex-col items-center gap-4">
+              <button
+                onClick={handleClick}
+                className="px-4 py-2 bg-primary text-white rounded-md font-Inter "
+              >
+                Browse File
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={(e) => console.log(e.target.files[0])}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col items-start text-[#C9CFE5] w-full space-y-2">
+            <label
+              htmlFor="feedback"
+              className="font-Inter  text-sm font-light"
+            >
+              Feedback
+            </label>
+            <div className="flex items-center gap-2 placeholder:text-[#C9CFE5] text-white bg-[#151B2D] rounded-lg px-2 w-full py-2">
+              <textarea
+                name="feedback"
+                placeholder="Enter Your Feedback Here"
+                className="outline-none border-none bg-transparent w-full resize-none h-30"
+              ></textarea>
+            </div>
+          </div>
+          {/* <button className="w-full bg-primary mt-5 py-5 rounded-lg">
+                   Send message
+                 </button> */}
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default FeedBackPage;

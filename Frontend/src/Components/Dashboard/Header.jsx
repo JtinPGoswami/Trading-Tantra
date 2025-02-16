@@ -1,28 +1,87 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import user from "../../assets/Images/Dashboard/HeaderImg/user.png";
+import lightThemeIcon from "../../assets/Images/Dashboard/HeaderImg/lightThemeIcon.png"
+import darkThemeIcon from "../../assets/Images/Dashboard/HeaderImg/darkThemeIcon.png"
+import { motion } from "framer-motion";
 const Header = () => {
+  const [hovered, setHovered] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
+
   return (
-    <div className="bg-[#000517] border border-[#000B34] h-20 w-full mx-auto rounded-2xl p-3 flex items-center justify-between ">
+    <div className=" dark:bg-[#000517] m-5 border border-[#000B34] h-20 w-full mx-auto rounded-[10px] p-3 flex items-center justify-between">
       <div className="w-1/2">
-        <button className="bg-gradient-to-b from-[#0256F5] to-[#74A4FE] text-white px-4 py-2 rounded-lg">
-          Go to Website
-        </button>
+
+
+    <button
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="relative overflow-hidden bg-gradient-to-b from-[#0256F5] to-[#74A4FE] text-white px-6 py-3 rounded-lg h-12 w-30 flex justify-center items-center"
+    >
+      {/* First Text (Visible by Default) */}
+      <motion.span
+        initial={{ y: 0, opacity: 1 }}
+        animate={hovered ? { y: -20, opacity: 0 } : { y: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="absolute"
+      >
+        Go to Website
+      </motion.span>
+
+      {/* Second Text (Appears on Hover) */}
+      <motion.span
+        initial={{ y: 20, opacity: 0 }}
+        animate={hovered ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className="absolute"
+        >
+        Go to Website
+      </motion.span>
+    </button>
+ 
+
       </div>
+
       <div className="w-1/2 flex justify-end gap-5 items-center">
-        <div className="bg-[#000A2D] border border-[#0256F5] px-2 py-2 rounded-lg flex ">
+        {/* Search Bar */}
+        <div className="bg-[#000A2D] border border-[#0256F5] px-2 py-2 rounded-lg flex">
           <input
             type="text"
-            name=""
-            id=""
-            className="outline-none border-none bg-transparent"
+            className="outline-none border-none bg-transparent text-white"
           />
-          <FaSearch  className="text-xl text-white"/>
+          <FaSearch className="text-xl text-white" />
         </div>
-        <button className="bg-gradient-to-b from-[#0256F5] to-[#74A4FE] text-white px-4 py-2 rounded-lg">
-          theme
-        </button>
+
+        {/* Sliding Dark Mode Toggle */}
+        <div
+          onClick={() => setIsDarkMode(!isDarkMode)}
+          className="w-14 h-7 bg-white dark:bg-[#000E40] rounded-full flex items-center p-1 cursor-pointer transition-all"
+        >
+          <div
+            className={`w-6 h-6 bg-primary  rounded-full flex items-center justify-center shadow-md transform transition-all ${
+              !isDarkMode ? "translate-x-6" : ""
+            }`}
+          >
+            {isDarkMode ? (
+              <img src={darkThemeIcon} className="w-5 h-5 text-white" />
+            ) : (
+              <img src={lightThemeIcon} className="w-5 h-5 text-yellow-500" />
+            )}
+          </div>
+        </div>
 
         <IoIosNotifications className="text-white text-3xl" />
         <img src={user} className="w-10 h-10 rounded-sm" alt="" />
