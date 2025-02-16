@@ -1,9 +1,9 @@
 import React from "react";
-import logo from "../assets/Images/logo.svg";
+import logo from "../../assets/Images/logo.svg";
 import { FaFacebookSquare } from "react-icons/fa";
 import { PiInstagramLogoFill } from "react-icons/pi";
 import { FaXTwitter } from "react-icons/fa6";
-import flag from "../assets/Images/flag.svg";
+import flag from "../../assets/Images/flag.svg";
 import { Link } from "react-router-dom";
 
 const Footer = () => {

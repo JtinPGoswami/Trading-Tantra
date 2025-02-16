@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import Header from "../Components/Header";
+import Header from "../Components/Web/Header";
 import { Outlet } from "react-router-dom";
-import Footer from "../Components/Footer";
-import StockCarousel from "../Components/StockCarousel";
+import Footer from "../Components/Web/Footer";
+import StockCarousel from "../Components/Web/StockCarousel";
 
-const AppLayout = () => {
+const WebLayout = () => {
   useEffect(() => {
     document.body.style.backgroundColor = "#02000E";
     document.body.style.color = "#fff";
@@ -22,4 +22,4 @@ const AppLayout = () => {
   );
 };
 
-export default AppLayout;
+export default WebLayout;
