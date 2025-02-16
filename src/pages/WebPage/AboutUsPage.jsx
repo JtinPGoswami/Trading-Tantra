@@ -1,5 +1,5 @@
 import React from "react";
-import AboutUsImg from "../assets/Images/AboutUsImg.png";
+import AboutUsImg from "../../assets/Images/AboutUsImg.png"
 const AboutUsPage = () => {
 
   const aboutListData =[

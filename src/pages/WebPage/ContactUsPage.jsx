@@ -1,6 +1,6 @@
 import React from "react";
-import contactUsBg from "../assets/Images/contactUsBg1.png";
-import logo from "../assets/Images/logo.svg";
+import contactUsBg from "../../assets/Images/contactUsBg1.png";
+import logo from "../../assets/Images/logo.svg";
 import { CiUser } from "react-icons/ci";
 import { HiOutlineMail } from "react-icons/hi";
 import { MdOutlinePhone } from "react-icons/md";

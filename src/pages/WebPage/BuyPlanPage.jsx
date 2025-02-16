@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import lock from "../assets/Images/lock.svg";
-import play from "../assets/Images/play.svg";
-import doc from "../assets/Images/doc.svg";
-import shild from "../assets/Images/shild.svg";
-import pay from "../assets/Images/payImg.png";
+import lock from "../../assets/Images/lock.svg";
+import play from "../../assets/Images/play.svg";
+import doc from "../../assets/Images/doc.svg";
+import shild from "../../assets/Images/shild.svg";
+import pay from "../../assets/Images/payImg.png";
 
 const BuyPlanPage = () => {
   const [countries, setCountries] = useState([]);

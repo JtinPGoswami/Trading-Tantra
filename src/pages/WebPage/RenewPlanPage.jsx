@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import lock from "../assets/Images/lock.svg";
-import play from "../assets/Images/play.svg";
-import doc from "../assets/Images/doc.svg";
-import shild from "../assets/Images/shild.svg";
+import lock from "../../assets/Images/lock.svg";
+import play from "../../assets/Images/play.svg";
+import doc from "../../assets/Images/doc.svg";
+import shild from "../../assets/Images/shild.svg";
 
 const RenewPlanPage = () => {
   const [countries, setCountries] = useState([]);
@@ -11,7 +11,6 @@ const RenewPlanPage = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedState, setSelectedState] = useState("");
 
-  // Fetch country data on page load
   useEffect(() => {
     const fetchCountries = async () => {
       try {
@@ -24,7 +23,6 @@ const RenewPlanPage = () => {
     fetchCountries();
   }, []);
 
-  // Fetch state data based on the selected country
   useEffect(() => {
     const fetchStates = async () => {
       if (selectedCountry) {

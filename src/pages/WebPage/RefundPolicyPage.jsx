@@ -1,7 +1,7 @@
 import React from "react";
-import image1 from "../assets/Images/RefundPolicyImg1.png";
-import image2 from "../assets/Images/RefundPolicyImg2.png";
-import image3 from "../assets/Images/RefundPolicyImg3.png";
+import image1 from "../../assets/Images/RefundPolicyImg1.png";
+import image2 from "../../assets/Images/RefundPolicyImg2.png";
+import image3 from "../../assets/Images/RefundPolicyImg3.png";
 const RefundPolicyPage = () => {
   return (
     <>

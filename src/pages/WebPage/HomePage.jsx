@@ -1,16 +1,16 @@
 import React from "react";
-import AiStar from "../assets/Images/AiIntegrationImg.png";
-import AiStock from "../assets/Images/AiIntegrationStartImg.svg";
-import DoorImg from "../assets/Images/DoorImg.svg";
-import GearImg from "../assets/Images/GearImg.svg";
-import Target from "../assets/Images/Target.svg";
-import laptopImg from "../assets/Images/laptopImg.png";
-import done from "../assets/Images/done.svg";
+import AiStar from "../../assets/Images/AiIntegrationImg.png";
+import AiStock from "../../assets/Images/AiIntegrationStartImg.svg";
+import DoorImg from "../../assets/Images/DoorImg.svg";
+import GearImg from "../../assets/Images/GearImg.svg";
+import Target from "../../assets/Images/Target.svg";
+import laptopImg from "../../assets/Images/laptopImg.png";
+import done from "../../assets/Images/done.svg";
 import { PiFireSimpleFill } from "react-icons/pi";
 import { LuLogIn } from "react-icons/lu";
-import AiPowerdCard from "../Components/AiPowerdCards";
-import BenefitCards from "../Components/BenefitCards";
-import TestimonialsCarousel from "../Components/TestimonialsCarousel";
+import AiPowerdCard from "../../Components/AiPowerdCards";
+import BenefitCards from "../../Components/BenefitCards";
+import TestimonialsCarousel from "../../Components/TestimonialsCarousel";
 const HomePage = () => {
   const Features = [
     "Market Depth",
@@ -101,7 +101,9 @@ const HomePage = () => {
 
       {/* crystal plan */}
       <div className="font-abcRepro flex flex-col items-center justify-center mt-40">
-        <h2 className="md:text-4xl text-2xl  font-bold mb-10">Trust,Trade,Win,Boom</h2>
+        <h2 className="md:text-4xl text-2xl  font-bold mb-10">
+          Trust,Trade,Win,Boom
+        </h2>
         <div className="bg-[url(./assets/Images/CrystalPlanImg.png)] lg:w-[806px] w-full md:h-[453px] h-auto  max-auto rounded-3xl">
           <div className=" bg-[#000A2D66] text-white border border-[#0A7CFF33]  w-full h-full  rounded-4xl md:px-10 px-4 md:pb-0 pb-10 ">
             <div className="flex justify-between items-center  ">
@@ -118,7 +120,9 @@ const HomePage = () => {
                   <p className="md:text-xl  sm:text-lg text-sm  font-black">
                     Validity = 6 Months{" "}
                   </p>
-                  <p className="md:text-3xl  sm:text-lg text-sm   font-bold">+</p>
+                  <p className="md:text-3xl  sm:text-lg text-sm   font-bold">
+                    +
+                  </p>
                   <p className="md:text-2xl  sm:text-lg text-sm   font-black">
                     6 Months Free
                   </p>
@@ -129,8 +133,12 @@ const HomePage = () => {
               </div>
             </div>
             <div>
-              <p className="md:text-2xl text-xl md:tracking-[13px] tracking-widest">Total</p>
-              <p className="md:text-6xl text-5xl font-extrabold text-primary">₹ 3,999</p>
+              <p className="md:text-2xl text-xl md:tracking-[13px] tracking-widest">
+                Total
+              </p>
+              <p className="md:text-6xl text-5xl font-extrabold text-primary">
+                ₹ 3,999
+              </p>
             </div>
             <button className="w-full md:h-15 h-10 bg-primary rounded-lg md:mt-10 mt-5 md:text-2xl text-xl">
               Buy Now
@@ -161,7 +169,6 @@ const HomePage = () => {
           <TestimonialsCarousel />
         </div>
       </div>
-
     </>
   );
 };

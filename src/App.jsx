@@ -1,19 +1,20 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import AppLayout from "./Layouts/AppLayout";
-import HomePage from "./pages/HomePage";
-import UpdatesPage from "./pages/UpdatesPage";
-import ContactUsPage from "./pages/ContactUsPage";
-import AboutUsPage from "./pages/AboutUsPage";
-import DisclaimerPage from "./pages/DisclaimerPage";
-import RefundPolicyPage from "./pages/RefundPolicyPage";
-import DisclosuresPage from "./pages/DisclosuresPage";
-import TermsAndConditionPage from "./pages/TermsAndConditionPage";
-import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
-import FAQPage from "./pages/FAQPage";
-import RenewPlanPage from "./pages/RenewPlanPage";
-import BuyPlanPage from "./pages/BuyPlanPage";
+import HomePage from "./pages/WebPage/HomePage";
+import UpdatesPage from "./pages/WebPage/UpdatesPage";
+import ContactUsPage from "./pages/WebPage/ContactUsPage";
+import AboutUsPage from "./pages/WebPage/AboutUsPage";
+import DisclaimerPage from "./pages/WebPage/DisclaimerPage";
+import RefundPolicyPage from "./pages/WebPage/RefundPolicyPage";
+import DisclosuresPage from "./pages/WebPage/DisclosuresPage";
+import TermsAndConditionPage from "./pages/WebPage/TermsAndConditionPage";
+import PrivacyPolicyPage from "./pages/WebPage/PrivacyPolicyPage";
+import FAQPage from "./pages/WebPage/FAQPage";
+import RenewPlanPage from "./pages/WebPage/RenewPlanPage";
+import BuyPlanPage from "./pages/WebPage/BuyPlanPage";
 import ScrollToTop from "./Components/ScrollTop";
+import CalendarGrid from "./Components/Trying";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/renew-plan" element={<RenewPlanPage />} />
           <Route path="/buy-plan" element={<BuyPlanPage />} />
+          <Route path="/trying" element={<CalendarGrid />} />
         </Route>
       </Routes>
     </div>

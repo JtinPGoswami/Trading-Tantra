@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Header from "../Components/Header";
 import { Outlet } from "react-router-dom";
 import Footer from "../Components/Footer";
-import Lenis from "@studio-freight/lenis";
 import StockCarousel from "../Components/StockCarousel";
 
 const AppLayout = () => {
