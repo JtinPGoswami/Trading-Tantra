@@ -1,12 +1,12 @@
 import React from "react";
-import Journal from "../assets/Images/tredingJournalImg.png";
-import search from "../assets/Images/searchImg.png";
-import money from "../assets/Images/moneyImg.png";
-import smallChart from "../assets/Images/smallChartImg.png";
-import calculator from "../assets/Images/calculatorImg.png";
-import videoImg from "../assets/Images/videoImg.png";
-import FiiDii from "../assets/Images/FiiDiiImg.png";
-import calander from "../assets/Images/calanderImg.png";
+import Journal from "../../assets/Images/tredingJournalImg.png";
+import search from "../../assets/Images/searchImg.png";
+import money from "../../assets/Images/moneyImg.png";
+import smallChart from "../../assets/Images/smallChartImg.png";
+import calculator from "../../assets/Images/calculatorImg.png";
+import videoImg from "../../assets/Images/videoImg.png";
+import FiiDii from "../../assets/Images/FiiDiiImg.png";
+import calander from "../../assets/Images/calanderImg.png";
 import { DiJava } from "react-icons/di";
 
 const BenefitCards = () => {

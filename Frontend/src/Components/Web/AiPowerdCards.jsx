@@ -1,8 +1,8 @@
 import React from "react";
-import AiPoweredCardImage1 from "../assets/Images/AiPoweredCardImage1.png";
-import moneyImg from "../assets/Images/moneyImg.png";
-import AiSectorAnalysisImg from "../assets/Images/AiSectorAnalysisImg.png";
-import SwingTradesImg from "../assets/Images/SwingTradesImg.png";
+import AiPoweredCardImage1 from "../../assets/Images/AiPoweredCardImage1.png";
+import moneyImg from "../../assets/Images/moneyImg.png";
+import AiSectorAnalysisImg from "../../assets/Images/AiSectorAnalysisImg.png";
+import SwingTradesImg from "../../assets/Images/SwingTradesImg.png";
 const AiPowerdCards = () => {
   const cardData = [
     {

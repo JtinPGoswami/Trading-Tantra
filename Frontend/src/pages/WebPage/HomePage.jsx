@@ -8,9 +8,9 @@ import laptopImg from "../../assets/Images/laptopImg.png";
 import done from "../../assets/Images/done.svg";
 import { PiFireSimpleFill } from "react-icons/pi";
 import { LuLogIn } from "react-icons/lu";
-import AiPowerdCard from "../../Components/AiPowerdCards";
-import BenefitCards from "../../Components/BenefitCards";
-import TestimonialsCarousel from "../../Components/TestimonialsCarousel";
+import AiPowerdCard from "../../Components/Web/AiPowerdCards";
+import BenefitCards from "../../Components/Web/BenefitCards";
+import TestimonialsCarousel from "../../Components/Web/TestimonialsCarousel";
 const HomePage = () => {
   const Features = [
     "Market Depth",

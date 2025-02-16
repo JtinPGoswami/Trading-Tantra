@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import userImg from "../assets/Images/userImg.png";
+import userImg from "../../assets/Images/userImg.png";
 
 const testimonials = [
   {

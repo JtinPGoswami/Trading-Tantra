@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import AppLayout from "./Layouts/AppLayout";
+
 import HomePage from "./pages/WebPage/HomePage";
 import UpdatesPage from "./pages/WebPage/UpdatesPage";
 import ContactUsPage from "./pages/WebPage/ContactUsPage";
@@ -13,15 +13,16 @@ import PrivacyPolicyPage from "./pages/WebPage/PrivacyPolicyPage";
 import FAQPage from "./pages/WebPage/FAQPage";
 import RenewPlanPage from "./pages/WebPage/RenewPlanPage";
 import BuyPlanPage from "./pages/WebPage/BuyPlanPage";
-import ScrollToTop from "./Components/ScrollTop";
-import CalendarGrid from "./Components/Trying";
+import ScrollToTop from "./Components/Web/ScrollTop";
+import CalendarGrid from "./Components/Web/Trying";
+import WebLayout from "./Layouts/WebLayout";
 
 const App = () => {
   return (
     <div>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<AppLayout />}>
+        <Route path="/" element={<WebLayout/>}>
           <Route index element={<HomePage />} />
           <Route path="/updates" element={<UpdatesPage />} />
           <Route path="/contact-us" element={<ContactUsPage />} />
