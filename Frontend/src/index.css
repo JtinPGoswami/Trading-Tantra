@@ -2,10 +2,11 @@
 @import "tailwindcss";
 @theme {
   --color-primary: #0256f5;
+  --color-db-primary: #01071C;
   --font-abcRepro: "ABC Repro";
   --font-Inter: "Inter";
 }
-
+@custom-variant dark (&:where(.dark, .dark *));
 .neon-button {
     box-shadow: inset 0 0 20px rgba(0, 86, 245, 0.8),
     inset 0 0 30px rgba(0, 162, 255, 0.6), 0 0 20px rgba(0, 162, 255, 0.9);
