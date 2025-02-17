@@ -1,8 +1,11 @@
 import React from 'react'
+import MarketSection from '../../Components/Dashboard/MarketSection'
 
 const Homepage = () => {
   return (
-    <div className='text-gray-900'>Homepage</div>
+     <>
+      <MarketSection/>
+     </>
   )
 }
 
