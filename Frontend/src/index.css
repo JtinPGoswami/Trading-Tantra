@@ -84,3 +84,6 @@ input[type="number"] {
 }
 
 
+.scrollbar-hidden::-webkit-scrollbar{
+  display: none;
+}
