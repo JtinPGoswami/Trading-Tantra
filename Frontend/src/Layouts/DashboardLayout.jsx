@@ -15,7 +15,11 @@ const DashboardLayout = () => {
     <>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div className="flex gap-8 p-2">
+=======
+      <div className="flex gap-8 mr-5">
+>>>>>>> fb999db1f3e3c1a706564fa295bcfa391460cc34
 =======
       <div className="flex gap-8 mr-5">
 >>>>>>> fb999db1f3e3c1a706564fa295bcfa391460cc34
