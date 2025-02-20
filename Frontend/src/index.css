@@ -3,6 +3,8 @@
 @theme {
   --color-primary: #0256f5;
   --color-db-primary: #01071C;
+  --color-db-secondary: #000A2D;
+
   --font-abcRepro: "ABC Repro";
   --font-Inter: "Inter";
 }

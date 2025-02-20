@@ -1,0 +1,252 @@
+import React, { useState } from "react";
+import { BsStars } from "react-icons/bs";
+
+const EMICalculator = ({ calculator }) => {
+  const [loanAmount, setLoanAmount] = useState(500);
+  const [interest, setInterest] = useState(1);
+  const [duration, setDuration] = useState(1);
+  const [monthlyEMI, setMonthlyEMI] = useState(0);
+  const [totalInterest, setTotalInterest] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  const handleClear = (e) => {
+    e.preventDefault();
+    setLoanAmount(500);
+    setInterest(1);
+    setDuration(1);
+    setMonthlyEMI(0);
+    setTotalInterest(0);
+    setTotalAmount(0);
+  };
+
+  const handleCalculate = (e) => {
+    e.preventDefault();
+
+    const monthlyInterestRate = interest / 12 / 100;
+    const numberOfPayments = duration * 12;
+    const EMI = 
+      (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) /
+      (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+    const total = EMI * numberOfPayments;
+    const interestAmount = total - loanAmount;
+
+    setMonthlyEMI(EMI.toFixed(2));
+    setTotalInterest(interestAmount.toFixed(2));
+    setTotalAmount(total.toFixed(2));
+  };
+
+  return (
+    <div>
+      <div className="py-11 px-5 bg-[#00114E] rounded-md mt-10">
+        <form className="space-y-6">
+          <div className="grid grid-cols-2 gap-y-8">
+            {calculator === "SIP" ? (
+              <div className="flex flex-col space-y-[50px]">
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-lg font-abcRepro font-light">
+                      Loan Amount*
+                    </label>
+                    <input
+                      type="number"
+                      value={loanAmount}
+                      onChange={(e) => setLoanAmount(Number(e.target.value))}
+                      className="text-xs p-2 rounded-sm bg-[#01071C] text-white"
+                      min="100"
+                      max="10000"
+                      step="100"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min="100"
+                    max="10000"
+                    step="100"
+                    value={loanAmount}
+                    onChange={(e) => setLoanAmount(Number(e.target.value))}
+                    className="w-full h-1 cursor-pointer"
+                  />
+                </div>
+
+                {/* Expected Return Slider */}
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-lg font-abcRepro font-light">
+                      Rate Of Interest (p.a.) (%)*
+                    </label>
+                    <input
+                      type="number"
+                      value={interest}
+                      onChange={(e) => setInterest(Number(e.target.value))}
+                      className="text-xs p-2 rounded-sm bg-[#01071C] text-white"
+                      min="1"
+                      max="40"
+                      step="0.1"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="40"
+                    step="0.1"
+                    value={interest}
+                    onChange={(e) => setInterest(Number(e.target.value))}
+                    className="w-full h-1 cursor-pointer"
+                  />
+                </div>
+
+                {/* Duration Slider */}
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-lg font-abcRepro font-light">
+                      Loan Tenure (Years) *
+                    </label>
+                    <input
+                      type="number"
+                      value={duration}
+                      onChange={(e) => setDuration(Number(e.target.value))}
+                      className="text-xs p-2 rounded-sm bg-[#01071C] text-white"
+                      min="1"
+                      max="30"
+                      step="1"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="30"
+                    step="1"
+                    value={duration}
+                    onChange={(e) => setDuration(Number(e.target.value))}
+                    className="w-full h-1 cursor-pointer"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col space-y-[50px]">
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-lg font-abcRepro font-light">
+                      Total Investment*
+                    </label>
+                    <input
+                      type="number"
+                      value={loanAmount}
+                      onChange={(e) => setLoanAmount(Number(e.target.value))}
+                      className="text-xs p-2 rounded-sm bg-[#01071C] text-white"
+                      min="100"
+                      max="10000"
+                      step="100"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min="100"
+                    max="10000"
+                    step="100"
+                    value={loanAmount}
+                    onChange={(e) => setLoanAmount(Number(e.target.value))}
+                    className="w-full h-1 cursor-pointer"
+                  />
+                </div>
+
+                {/* Expected Return Slider */}
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-lg font-abcRepro font-light">
+                      Expected Return p.a. (%)*
+                    </label>
+                    <input
+                      type="number"
+                      value={interest}
+                      onChange={(e) => setInterest(Number(e.target.value))}
+                      className="text-xs p-2 rounded-sm bg-[#01071C] text-white"
+                      min="1"
+                      max="40"
+                      step="0.1"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="40"
+                    step="0.1"
+                    value={interest}
+                    onChange={(e) => setInterest(Number(e.target.value))}
+                    className="w-full h-1 cursor-pointer"
+                  />
+                </div>
+
+                {/* Duration Slider */}
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-lg font-abcRepro font-light">
+                      Time Period (Years)*
+                    </label>
+                    <input
+                      type="number"
+                      value={duration}
+                      onChange={(e) => setDuration(Number(e.target.value))}
+                      className="text-xs p-2 rounded-sm bg-[#01071C] text-white"
+                      min="1"
+                      max="30"
+                      step="1"
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="30"
+                    step="1"
+                    value={duration}
+                    onChange={(e) => setDuration(Number(e.target.value))}
+                    className="w-full h-1 cursor-pointer"
+                  />
+                </div>
+              </div>
+            )}
+            <div>chart</div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-between items-center gap-10 mt-[82px]">
+            <button onClick={handleClear} className="bg-[#72A2FE] py-2 rounded-md w-4/5">
+              Clear
+            </button>
+            <button onClick={handleCalculate} className="bg-primary py-2 rounded-md w-4/5">
+              Calculate
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="py-5 px-7 bg-[#00114E] rounded-md mt-5">
+        <div className="flex justify-between items-center">
+          <h4 className="text-3xl font-abcRepro font-light">Result:</h4>
+          <button onClick={handleClear} className="text-base font-abcRepro px-3 py-2 rounded-md bg-primary">
+            Reset
+          </button>
+        </div>
+        <div className="mt-[30px] grid grid-cols-2 gap-5 space-y-5 text-2xl font-light font-abcRepro">
+          <div className="flex justify-between">
+            <p>Monthly EMI:</p>
+            <p>&#8377; {monthlyEMI}</p>
+          </div>
+          <div className="flex justify-between">
+            <p>Total Interest:</p>
+            <p>&#8377; {totalInterest}</p>
+          </div>
+          <div className="flex justify-between text-lg">
+            <p>Principal Amount:</p>
+            <p>&#8377; {loanAmount}</p>
+          </div>
+          <div className="flex justify-between">
+            <p>Total Amount:</p>
+            <p>&#8377; {totalAmount}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EMICalculator

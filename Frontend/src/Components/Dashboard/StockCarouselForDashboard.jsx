@@ -36,7 +36,7 @@ const StockCarouselForDashboard = () => {
         transition={{
           repeat: Infinity,
           ease: "linear",
-          duration:50,
+          duration:150,
         }}
       >
         {tickerData.map((stock, index) => (

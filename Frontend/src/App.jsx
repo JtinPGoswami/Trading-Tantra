@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-
 import HomePage from "./pages/WebPage/HomePage";
 import UpdatesPage from "./pages/WebPage/UpdatesPage";
 import ContactUsPage from "./pages/WebPage/ContactUsPage";
@@ -22,6 +21,7 @@ import UpdatesPageDashboard from "./pages/DashboardPage/UpdatesPage";
 import ProfitPage from "./pages/DashboardPage/ProfitPage";
 import FeedBackPage from "./pages/DashboardPage/FeedBackPage";
 import LearnFromUsPage from "./pages/DashboardPage/LearnFromUsPage";
+import CalculatorsPage from "./pages/DashboardPage/CalculatorsPage";
 
 const App = () => {
   return (
@@ -54,6 +54,7 @@ const App = () => {
           <Route path="profit" element={<ProfitPage />} />
           <Route path="feedback" element={<FeedBackPage />} />
           <Route path="learn-from-us" element={<LearnFromUsPage />} />
+          <Route path="calculator" element={<CalculatorsPage />} />
         </Route>
       </Routes>
     </div>

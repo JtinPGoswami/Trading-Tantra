@@ -17,7 +17,7 @@ const DashboardLayout = () => {
       <div className="flex gap-8 p-2">
         <Sidebar />
 
-        <main className="w-full overflow-x-hidden">
+        <main className="w-full overflow-x-hidden bg-[#02000e]">
           <Header/>
             <StockCarouselForDashboard/>
           <Outlet />
