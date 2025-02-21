@@ -6,22 +6,23 @@ import StockCarouselForDashboard from "../Components/Dashboard/StockCarouselForD
 import Footer from "../Components/Web/Footer";
 
 const DashboardLayout = () => {
-   useEffect(() => {
-      document.body.style.backgroundColor = "#02000E";
-      document.body.style.color = "#fff";
-    }, []);
-  
+  useEffect(() => {
+    document.body.style.backgroundColor = "#02000E";
+    document.body.style.color = "#fff";
+  }, []);
+
   return (
     <>
+      <div className="flex h-screen w-screen gap-8 px-2 ">
+        <aside>
+          <Sidebar />
+        </aside>
 
-      <div className="flex gap-8 p-2">
-        <Sidebar />
-
-        <main className="w-full overflow-x-hidden bg-[#02000e]">
-          <Header/>
-            <StockCarouselForDashboard/>
+        <main className="w-full overflow-y-auto overflow-x-hidden scrollbar-hidden">
+          <Header />
+          <StockCarouselForDashboard />
           <Outlet />
-          <Footer/>
+          <Footer />
         </main>
       </div>
     </>
