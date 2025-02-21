@@ -23,6 +23,14 @@ import FeedBackPage from "./pages/DashboardPage/FeedBackPage";
 import LearnFromUsPage from "./pages/DashboardPage/LearnFromUsPage";
 import CalculatorsPage from "./pages/DashboardPage/CalculatorsPage";
 import { RiskProvider } from "./contexts/RiskContext";
+import Notifications from "./Components/Dashboard/Notifications";
+import MyProfilePage from "./pages/DashboardPage/MyProfilePage";
+import MyPlanPage from "./pages/DashboardPage/MyPlanPage";
+import MarketDepthPage from "./pages/DashboardPage/MarketDepthPage";
+import MonryActionPage from "./pages/DashboardPage/MoneyActionPage";
+import AiSwingTradesPage from "./pages/DashboardPage/AiSwingTradesPage";
+import OptionClockPage from "./pages/DashboardPage/OptionClockPage";
+import AIOptionDataPage from "./pages/DashboardPage/AIOptionDatAPage";
 
 const App = () => {
   return (
@@ -49,15 +57,24 @@ const App = () => {
             <Route path="/trying" element={<CalendarGrid />} />
           </Route>
 
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<Homepage />} />
-            <Route path="updates" element={<UpdatesPageDashboard />} />
-            <Route path="profit" element={<ProfitPage />} />
-            <Route path="feedback" element={<FeedBackPage />} />
-            <Route path="learn-from-us" element={<LearnFromUsPage />} />
-            <Route path="calculator" element={<CalculatorsPage />} />
-          </Route>
-        </Routes>
+
+        <Route path="/dashboard" element={<DashboardLayout/>} >
+          <Route index element={<Homepage/>}/>
+          <Route path="notifications" element={<Notifications />} />
+          <Route path="profile" element={<MyProfilePage />} />
+          <Route path="plan" element={<MyPlanPage />} />
+          <Route path="market-depth" element={<MarketDepthPage />} />
+          <Route path="smart-action" element={<MonryActionPage />} />
+          <Route path="swing-trades" element={<AiSwingTradesPage />} />
+          <Route path="option-clock" element={<OptionClockPage />} />
+          <Route path="option-data" element={<AIOptionDataPage />} />
+          <Route path="updates" element={<UpdatesPageDashboard />} />
+          <Route path="profit" element={<ProfitPage />} />
+          <Route path="feedback" element={<FeedBackPage />} />
+          <Route path="learn-from-us" element={<LearnFromUsPage />} />
+          <Route path="calculator" element={<CalculatorsPage />} />
+        </Route>
+      </Routes>
       </RiskProvider>
     </div>
   );
