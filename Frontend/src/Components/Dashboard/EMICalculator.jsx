@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { BsStars } from "react-icons/bs";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const EMICalculator = ({ calculator }) => {
   const [loanAmount, setLoanAmount] = useState(500);
@@ -35,6 +38,46 @@ const EMICalculator = ({ calculator }) => {
     setTotalAmount(total.toFixed(2));
   };
 
+  const chartData = {
+    datasets: [
+      {
+        data: [parseFloat(loanAmount) || 1, parseFloat(totalInterest) || 1],
+        backgroundColor: ["#0659F4", "#95025A"],
+        hoverBackgroundColor: ["#36A2EB", "#FF6384"],
+        borderColor: ["#fff", "#fff"],
+        borderWidth: 1,
+      },
+    ],
+    labels: ["Principal Amount", "Interest Amount"],
+  };
+
+  const chartOptions = {
+    cutout: "70%",
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          color: "#fff",
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.label || "";
+            if (label) {
+              label += ": ";
+            }
+            if (context.raw !== null) {
+              label += context.raw;
+            }
+            return label;
+          },
+        },
+      },
+    },
+  };
   return (
     <div>
       <div className="py-11 px-5 bg-[#00114E] rounded-md mt-10">
@@ -205,7 +248,8 @@ const EMICalculator = ({ calculator }) => {
                 </div>
               </div>
             )}
-            <div>chart</div>
+            <div className="w-full"> <Doughnut data={chartData} options={chartOptions} width={"324px"}
+                height={"324px"}/></div>
           </div>
 
           {/* Buttons */}
@@ -226,7 +270,7 @@ const EMICalculator = ({ calculator }) => {
             Reset
           </button>
         </div>
-        <div className="mt-[30px] grid grid-cols-2 gap-5 space-y-5 text-2xl font-light font-abcRepro">
+        <div className="mt-[30px] grid grid-cols-2 gap-x-10  space-y-5 text-xl font-light font-abcRepro">
           <div className="flex justify-between">
             <p>Monthly EMI:</p>
             <p>&#8377; {monthlyEMI}</p>
@@ -235,7 +279,7 @@ const EMICalculator = ({ calculator }) => {
             <p>Total Interest:</p>
             <p>&#8377; {totalInterest}</p>
           </div>
-          <div className="flex justify-between text-lg">
+          <div className="flex justify-between">
             <p>Principal Amount:</p>
             <p>&#8377; {loanAmount}</p>
           </div>

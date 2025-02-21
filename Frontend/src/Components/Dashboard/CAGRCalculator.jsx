@@ -74,6 +74,7 @@ const CAGRCalculator = ({ calculator }) => {
     labels: ["Initial Amount", "Final Amount"],
   };
 
+  // Chart options with center text
   const chartOptions = {
     cutout: "70%",
     plugins: {
@@ -97,6 +98,31 @@ const CAGRCalculator = ({ calculator }) => {
           },
         },
       },
+      // Custom plugin for center text
+      centerTextPlugin: {
+        text: result || calculator==="CAGR" ? "0 X" : "CAGR 0",
+      },
+    },
+  };
+
+  // Custom plugin for center text
+  const centerTextPlugin = {
+    id: "centerTextPlugin",
+    beforeDraw: (chart) => {
+      const { width, height } = chart;
+      const ctx = chart.ctx;
+      ctx.restore();
+      const fontSize = (height / 150).toFixed(2);
+      ctx.font = `${fontSize}em sans-serif`;
+      ctx.textBaseline = "middle";
+
+      const text = chart.config.options.plugins.centerTextPlugin.text;
+      const textX = Math.round((width - ctx.measureText(text).width) / 2);
+      const textY = height / 2;
+
+      ctx.fillStyle = "#fff"; // White text color
+      ctx.fillText(text, textX, textY);
+      ctx.save();
     },
   };
 
@@ -173,7 +199,7 @@ const CAGRCalculator = ({ calculator }) => {
                   ))}
             </div>
             <div>
-              <Doughnut data={chartData} options={chartOptions} />
+              <Doughnut data={chartData} options={chartOptions} plugins={[centerTextPlugin]} />
             </div>
           </div>
 
