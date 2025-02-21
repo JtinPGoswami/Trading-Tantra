@@ -41,9 +41,9 @@ const SIPCalculator = ({ calculator }) => {
   const [expectedReturn, setExpectedReturn] = useState(1);
   const [duration, setDuration] = useState(1);
   const [calculatedValues, setCalculatedValues] = useState({
-    investedAmount: 0,
-    estimatedReturns: 0,
-    totalValue: 0,
+    investedAmount: 1,
+    estimatedReturns: 1,
+    totalValue: 1,
   });
 
   const calculateSIP = (monthlyInvestment, annualReturn, years) => {
@@ -234,11 +234,13 @@ const SIPCalculator = ({ calculator }) => {
             </div>
             <div className="w-full">
               <Doughnut
-                className="w-full h-full"
                 data={chartData}
                 options={chartOptions}
                 plugins={[textInsidePlugin]}
+                width={"324px"}
+                height={"324px"}
               />
+          
             </div>
           </div>
 

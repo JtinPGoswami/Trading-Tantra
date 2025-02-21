@@ -3,7 +3,7 @@ import CAGRImg from "../../assets/Images/Dashboard/calculators/CRGRImg.png";
 import EMIImg from "../../assets/Images/Dashboard/calculators/EMIImg.png";
 import OptionImg from "../../assets/Images/Dashboard/calculators/OptionImg.png";
 import SIPImg from "../../assets/Images/Dashboard/calculators/SIPImg.png";
-import RiskCalculator from "../../Components/Dashboard/RiskCalculator";
+import { RiskCalculator,RiskCalculatorRight } from "../../Components/Dashboard/RiskCalculator";
 import CAGRCalculator from "../../Components/Dashboard/CAGRCalculator";
 import SIPCalculator from "../../Components/Dashboard/SIPCalculator";
 import EMICalculator from "../../Components/Dashboard/EMICalculator";
@@ -11,7 +11,7 @@ import OptionCalculator from "../../Components/Dashboard/OptionCalculator";
 const CalculatorsPage = () => {
   const [calculator, setCalculator] = useState("Equity");
   const [selectedCalculator, setSelectedCalculator] = useState("Risk");
-
+  const [riskLevel, setRiskLevel] = useState(localStorage.getItem("riskLevel") || "Low");
   const handleToggle = () => {
     if (selectedCalculator === "Risk") {
       setCalculator((prev) => (prev === "Equity" ? "F&O" : "Equity"));
@@ -38,7 +38,7 @@ const CalculatorsPage = () => {
   const calculators = ["Risk", "CAGR", "SIP", "EMI", "Option"];
 
   return (
-    <div className="grid grid-cols-3 gap-10 mt-10 mx-10 ">
+    <div className="grid grid-cols-3 gap-10 mt-10  ">
       {/* Left Section */}
       <div className="col-span-2 bg-db-primary border border-[#0256f550] p-5 rounded-md">
         {/* Header Section */}
@@ -162,21 +162,7 @@ const CalculatorsPage = () => {
       {/* Right Section  */}
       <div className="flex flex-col items-center px-5 py-12 font-abcRepro  bg-db-primary border border-[#0256f550]  space-y-[45px]">
         {selectedCalculator === "Risk" ? (
-          <>
-            <h1 className="text-2xl font-medium text-wrap">
-              Risk/Position Size Calculator
-            </h1>
-            <div className="w-[150px] h-[150px] "></div>
-            <p className="text-2xl font-normal text-wrap">
-              Calculating risk before enter a trade is important to ensure
-              traders capital safety.
-            </p>
-            <p className="text-wrap text-lg font-light">
-              To use this risk calculator, enter your account capital, and the
-              percentage of your account you wish to risk. Our calculator will
-              suggest position sizes based on the information you provide.
-            </p>
-          </>
+        <RiskCalculatorRight/>
         ) : selectedCalculator === "CAGR" ? (
           <>
             <h1 className="text-2xl font-medium text-wrap">
