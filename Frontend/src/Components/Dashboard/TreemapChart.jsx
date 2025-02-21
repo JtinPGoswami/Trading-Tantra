@@ -28,7 +28,7 @@ const getColor = (change) => {
 
 const TreemapChart = () => {
   return (
-    <div className="w-full h-[400px] bg-[#01071C]  rounded-lg">
+    <div className="w-full h-full bg-[#01071C]  rounded-lg">
      
       <ResponsiveContainer width="100%" height="100%">
         <Treemap

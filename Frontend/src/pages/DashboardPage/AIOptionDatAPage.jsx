@@ -3,6 +3,9 @@ import { FaPlayCircle } from "react-icons/fa";
 import { FcCandleSticks } from "react-icons/fc";
 import { GoDotFill } from "react-icons/go";
 import GaugeMeter from "../../Components/Dashboard/GaugeMeter";
+import TreemapChart from "../../Components/Dashboard/TreemapChart";
+import CandlestickChart from '../../Components/Dashboard/CandleChart'
+  
 
 const AIOptionDataPage = () => {
   const meterData = [
@@ -82,12 +85,12 @@ const AIOptionDataPage = () => {
       </section>
 
       {/* second  section */}
-      <section className="grid grid-cols-2 gap-4">
+      <section className="grid grid-cols-2 gap-4 mt-8">
         {/* first card */}
         <div className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
-          <div className="bg-[#01071C] rounded-lg p-4 ">
+          <div className="bg-[#01071C] rounded-lg p-4 h-full ">
             {/* heading */}
-            <div className="flex gap-4 items-center">
+            <div className="flex gap-4 items-center ">
               <h1 className="text-2xl font-medium">Nifty 50</h1>
 
               <span className="flex gap-1 items-center text-base font-light">How to Use <FaPlayCircle className="text-[#0256F5]" /> </span>
@@ -96,6 +99,10 @@ const AIOptionDataPage = () => {
                 <GoDotFill />
                 Live
               </span>
+            </div>
+
+            <div className="mt-8 h-full">
+              <CandlestickChart/>
             </div>
           </div>
         </div>
@@ -109,6 +116,21 @@ const AIOptionDataPage = () => {
                {
                 meterData.map((item, index) => ( <GaugeMeter key={index} title={item.title} value={item.value} />))
                }
+            </div>
+
+            <div className="flex gap-4 items-center mt-8">
+              <h1 className="text-2xl font-medium">Money Flux</h1>
+
+              <span className="flex gap-1 items-center text-base font-light">How to Use <FaPlayCircle className="text-[#0256F5]" /> </span>
+
+              <span className="flex items-center px-2 py-px rounded-full w-fit h-fit bg-[#0256F5] text-xs">
+                <GoDotFill />
+                Live
+              </span>
+            </div>
+
+            <div className="rounded-lg overflow-hidden h-[300px] mt-4">
+              <TreemapChart/>
             </div>
 
           </div>
