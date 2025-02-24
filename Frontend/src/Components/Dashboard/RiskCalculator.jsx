@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import GaugeChart from "react-gauge-chart";
 import { useRisk } from "../../contexts/RiskContext";
 
@@ -14,6 +14,7 @@ const RiskCalculator = ({ calculator }) => {
     totalQuantity: 0,
   });
   const { updateRisk } = useRisk();
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -35,25 +36,30 @@ const RiskCalculator = ({ calculator }) => {
     }
   
     const riskPerTrade = (parseFloat(ACcapital) * parseFloat(RPTrade)) / 100;
-    const totalQuantity = parseFloat(riskPerTrade) / parseFloat(stoploss);
+    let totalQuantity, amountAtRisk;
+  
+    if (calculator === "Equity") {
+      totalQuantity = Math.floor(riskPerTrade / parseFloat(stoploss));
+      amountAtRisk = totalQuantity * parseFloat(stoploss);
+    } else {
+      const riskPerLot = parseFloat(lotSize) * parseFloat(stoploss);
+      const noOfLots = Math.floor(riskPerTrade / riskPerLot);
+      totalQuantity = noOfLots * parseFloat(lotSize);
+      amountAtRisk = noOfLots * riskPerLot;
+    }
+  
     const riskLevel = determineRiskLevel(parseFloat(RPTrade));
-  
-    updateRisk(riskLevel); 
-  
-    const finalTotalQuantity =
-      calculator === "Equity"
-        ? Math.floor(totalQuantity)
-        : Math.floor(totalQuantity / parseFloat(lotSize));
+    updateRisk(riskLevel);
   
     setResult({
-      amountAtRisk: riskPerTrade.toFixed(2),
-      totalQuantity: finalTotalQuantity,
+      amountAtRisk: amountAtRisk.toFixed(2),
+      totalQuantity,
     });
   };
 
   const handleClear = () => {
     setFormData({ ACcapital: "", RPTrade: "", stoploss: "", lotSize: "" });
-    setResult({ amountAtRisk: 0, totalQuantity: 0, riskLevel: "" });
+    setResult({ amountAtRisk: 0, totalQuantity: 0 });
   };
 
   return (
