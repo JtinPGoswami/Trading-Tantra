@@ -90,3 +90,22 @@ input[type="number"] {
 .scrollbar-hidden::-webkit-scrollbar{
   display: none;
 }
+
+/*chart menu bg color */
+
+.apexcharts-menu {
+  background: #01071C !important;  /* Set the menu background */
+  color: #ffffff !important;        /* Set the text color */
+  border: 1px solid #ffffff !important; /* Optional: Add a white border */
+}
+
+.apexcharts-menu-item {
+  color: #ffffff !important; /* Ensure menu items are white */
+}
+
+.apexcharts-menu-item:hover {
+  background: #0a0f2d !important; /* Darker hover effect */
+}
+
+
+ 

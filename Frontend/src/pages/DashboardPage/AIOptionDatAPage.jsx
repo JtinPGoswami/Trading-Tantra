@@ -4,7 +4,9 @@ import { FcCandleSticks } from "react-icons/fc";
 import { GoDotFill } from "react-icons/go";
 import GaugeMeter from "../../Components/Dashboard/GaugeMeter";
 import TreemapChart from "../../Components/Dashboard/TreemapChart";
-import CandlestickChart from '../../Components/Dashboard/CandleChart'
+ 
+import CandleChart from "../../Components/Dashboard/CandleChart";
+import OptionDataDonutChart from "../../Components/Dashboard/OptionDataDonutChart";
   
 
 const AIOptionDataPage = () => {
@@ -101,8 +103,8 @@ const AIOptionDataPage = () => {
               </span>
             </div>
 
-            <div className="mt-8 h-full">
-              <CandlestickChart/>
+            <div className="mt-8 h-[350px]">
+              <CandleChart/>
             </div>
           </div>
         </div>
@@ -129,13 +131,22 @@ const AIOptionDataPage = () => {
               </span>
             </div>
 
-            <div className="rounded-lg overflow-hidden h-[300px] mt-4">
+            <div className="rounded-lg overflow-hidden h-[350px] mt-4">
               <TreemapChart/>
             </div>
 
           </div>
 
         </div>
+      </section>
+
+
+      <section className="mt-10 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+
+        <div className="w-full h-full bg-[#01071C] rounded-lg p-4">
+          <OptionDataDonutChart/>
+        </div>
+
       </section>
     </>
   );

@@ -31,6 +31,9 @@ import MonryActionPage from "./pages/DashboardPage/MoneyActionPage";
 import AiSwingTradesPage from "./pages/DashboardPage/AiSwingTradesPage";
 import OptionClockPage from "./pages/DashboardPage/OptionClockPage";
 import AIOptionDataPage from "./pages/DashboardPage/AIOptionDatAPage";
+import IndexDepthPage from "./pages/DashboardPage/IndexDepthPage";
+import FIIDIIPage from "./pages/DashboardPage/FIIDIIPage";
+import AiSectorDepthPage from "./pages/DashboardPage/AiSectorDepthPage";
 
 const App = () => {
   return (
@@ -68,6 +71,9 @@ const App = () => {
           <Route path="swing-trades" element={<AiSwingTradesPage />} />
           <Route path="option-clock" element={<OptionClockPage />} />
           <Route path="option-data" element={<AIOptionDataPage />} />
+          <Route path="index-depth" element={<IndexDepthPage />} />
+          <Route path="fii-dii" element={<FIIDIIPage />} />
+          <Route path="sector-depth" element={<AiSectorDepthPage />} />
           <Route path="updates" element={<UpdatesPageDashboard />} />
           <Route path="profit" element={<ProfitPage />} />
           <Route path="feedback" element={<FeedBackPage />} />

@@ -3,7 +3,10 @@ import CAGRImg from "../../assets/Images/Dashboard/calculators/CRGRImg.png";
 import EMIImg from "../../assets/Images/Dashboard/calculators/EMIImg.png";
 import OptionImg from "../../assets/Images/Dashboard/calculators/OptionImg.png";
 import SIPImg from "../../assets/Images/Dashboard/calculators/SIPImg.png";
-import { RiskCalculator,RiskCalculatorRight } from "../../Components/Dashboard/RiskCalculator";
+import {
+  RiskCalculator,
+  RiskCalculatorRight,
+} from "../../Components/Dashboard/RiskCalculator";
 import CAGRCalculator from "../../Components/Dashboard/CAGRCalculator";
 import SIPCalculator from "../../Components/Dashboard/SIPCalculator";
 import EMICalculator from "../../Components/Dashboard/EMICalculator";
@@ -11,7 +14,9 @@ import OptionCalculator from "../../Components/Dashboard/OptionCalculator";
 const CalculatorsPage = () => {
   const [calculator, setCalculator] = useState("Equity");
   const [selectedCalculator, setSelectedCalculator] = useState("Risk");
-  const [riskLevel, setRiskLevel] = useState(localStorage.getItem("riskLevel") || "Low");
+  const [riskLevel, setRiskLevel] = useState(
+    localStorage.getItem("riskLevel") || "Low"
+  );
   const handleToggle = () => {
     if (selectedCalculator === "Risk") {
       setCalculator((prev) => (prev === "Equity" ? "F&O" : "Equity"));
@@ -156,13 +161,23 @@ const CalculatorsPage = () => {
         </div>
 
         {/* Calculator Form */}
-      {selectedCalculator==="Risk"?<RiskCalculator calculator={calculator}/>:selectedCalculator==="CAGR"?<CAGRCalculator calculator={calculator}/>: selectedCalculator==="SIP"?<SIPCalculator calculator={calculator}/>:selectedCalculator==="EMI"?<EMICalculator/>:selectedCalculator==="Option"&&<OptionCalculator/>}
+        {selectedCalculator === "Risk" ? (
+          <RiskCalculator calculator={calculator} />
+        ) : selectedCalculator === "CAGR" ? (
+          <CAGRCalculator calculator={calculator} />
+        ) : selectedCalculator === "SIP" ? (
+          <SIPCalculator calculator={calculator} />
+        ) : selectedCalculator === "EMI" ? (
+          <EMICalculator />
+        ) : (
+          selectedCalculator === "Option" && <OptionCalculator />
+        )}
       </div>
 
       {/* Right Section  */}
       <div className="flex flex-col items-center px-5 py-12 font-abcRepro  bg-db-primary border border-[#0256f550]  space-y-[45px]">
         {selectedCalculator === "Risk" ? (
-        <RiskCalculatorRight/>
+          <RiskCalculatorRight />
         ) : selectedCalculator === "CAGR" ? (
           <>
             <h1 className="text-2xl font-medium text-wrap">
@@ -182,34 +197,36 @@ const CalculatorsPage = () => {
           </>
         ) : selectedCalculator === "SIP" ? (
           <>
-            <h1 className="text-2xl font-medium text-wrap">
-            SIP Calculator
-            </h1>
+            <h1 className="text-2xl font-medium text-wrap">SIP Calculator</h1>
             <img src={SIPImg} />
             <p className="text-2xl font-normal text-wrap">
-            Calculating risk before enter a trade is important to ensure traders capital safety.
+              Calculating risk before enter a trade is important to ensure
+              traders capital safety.
             </p>
             <p className="text-wrap text-lg font-light">
-            To use this risk calculator, enter your account capital, and the percentage of your account you wish to risk. Our calculator will suggest position sizes based on the information you provide.
+              To use this risk calculator, enter your account capital, and the
+              percentage of your account you wish to risk. Our calculator will
+              suggest position sizes based on the information you provide.
             </p>
           </>
         ) : selectedCalculator === "EMI" ? (
           <>
-            <h1 className="text-2xl font-medium text-wrap">
-            EMI Calculator
-            </h1>
+            <h1 className="text-2xl font-medium text-wrap">EMI Calculator</h1>
             <img src={EMIImg} />
             <p className="text-2xl font-normal text-wrap">
-            Calculate your monthly Installment for your Loan with This EMI calculator.
+              Calculate your monthly Installment for your Loan with This EMI
+              calculator.
             </p>
             <p className="text-wrap text-lg font-light">
-            To use this Calculator, Enter the Loan Amount, The Loan tenure and the rate of interest. After filling the below fields you will get the amount you will have to pay per month.
+              To use this Calculator, Enter the Loan Amount, The Loan tenure and
+              the rate of interest. After filling the below fields you will get
+              the amount you will have to pay per month.
             </p>
           </>
         ) : (
           <>
             <h1 className="text-2xl font-medium text-wrap">
-            Option Calculator
+              Option Calculator
             </h1>
             <p className="text-2xl font-normal text-wrap">
               Compound annual growth rate (CAGR) is the mean annual growth rate

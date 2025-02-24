@@ -2,23 +2,23 @@ import { useState } from "react";
 import { Home, User, Settings, Menu, X } from "lucide-react";
 import logo from "../../assets/Images/logo.svg";
 import { RiLockFill } from "react-icons/ri";
-import AiOptionClock from "../../assets/Images/sidebar/AiOptionClock.png";
-import AiOptionData from "../../assets/Images/sidebar/AiOptionData.png";
-import AiSectorDepth from "../../assets/Images/sidebar/AiSectorDepth.png";
-import AiSwing from "../../assets/Images/sidebar/AiSwing.png";
-import calculator from "../../assets/Images/sidebar/calculator.png";
-import feedback from "../../assets/Images/sidebar/feedback.png";
-import FiiDii from "../../assets/Images/sidebar/FiiDii.png";
-import financialCalender from "../../assets/Images/sidebar/financialCalender.png";
-import indexDepth from "../../assets/Images/sidebar/indexDepth.png";
-import learnFromUs from "../../assets/Images/sidebar/learnFromUs.png";
+import AiOptionClock from "../../assets/Images/sidebar/AiOptionClock.svg";
+import AiOptionData from "../../assets/Images/sidebar/AiOptionData.svg";
+import AiSectorDepth from "../../assets/Images/sidebar/AiSectorDepth.svg";
+import AiSwing from "../../assets/Images/sidebar/AiSwing.svg";
+import calculator from "../../assets/Images/sidebar/calculator.svg";
+import feedback from "../../assets/Images/sidebar/feedback.svg";
+import FiiDii from "../../assets/Images/sidebar/FiiDii.svg";
+import financialCalender from "../../assets/Images/sidebar/financialCalender.svg";
+import indexDepth from "../../assets/Images/sidebar/indexDepth.svg";
+import learnFromUs from "../../assets/Images/sidebar/learnFromUs.svg";
 import marketDepth from "../../assets/Images/sidebar/marketDepth.svg";
-import ourStrategy from "../../assets/Images/sidebar/ourStrategy.png";
-import profit from "../../assets/Images/sidebar/profit.png";
-import smartMoneyAction from "../../assets/Images/sidebar/smartMoneyAction.png";
-import tradingJournal from "../../assets/Images/sidebar/tradingJournal.png";
-import updates from "../../assets/Images/sidebar/updates.png";
-   
+import ourStrategy from "../../assets/Images/sidebar/ourStrategy.svg";
+import profit from "../../assets/Images/sidebar/profit.svg";
+import smartMoneyAction from "../../assets/Images/sidebar/smartMoneyAction.svg";
+import tradingJournal from "../../assets/Images/sidebar/tradingJournal.svg";
+import updates from "../../assets/Images/sidebar/updates.svg";
+
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
 
