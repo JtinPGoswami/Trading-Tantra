@@ -20,7 +20,7 @@ export const RiskProvider = ({ children }) => {
   const updateRisk = (level) => {
     localStorage.setItem("riskLevel", level);
     setRiskLevel(level);
-    window.dispatchEvent(new Event("riskLevelUpdate")); // ट्रिगर इवेंट
+    window.dispatchEvent(new Event("riskLevelUpdate")); 
   };
 
   return (
