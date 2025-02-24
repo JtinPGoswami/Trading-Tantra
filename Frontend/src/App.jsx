@@ -33,6 +33,10 @@ import AIOptionDataPage from "./pages/DashboardPage/AIOptionDatAPage";
 import FinancialCalendar from "./pages/DashboardPage/FinancialCalendar";
 import OurStrategy from "./pages/DashboardPage/OurStrategy";
 import TradingJournal from "./pages/DashboardPage/TradingJournal";
+import IndexDepthPage from "./pages/DashboardPage/IndexDepthPage";
+import FIIDIIPage from "./pages/DashboardPage/FIIDIIPage";
+import AiSectorDepthPage from "./pages/DashboardPage/AiSectorDepthPage";
+
 const App = () => {
   return (
     <div>
@@ -68,6 +72,9 @@ const App = () => {
           <Route path="swing-trades" element={<AiSwingTradesPage />} />
           <Route path="option-clock" element={<OptionClockPage />} />
           <Route path="option-data" element={<AIOptionDataPage />} />
+          <Route path="index-depth" element={<IndexDepthPage />} />
+          <Route path="fii-dii" element={<FIIDIIPage />} />
+          <Route path="sector-depth" element={<AiSectorDepthPage />} />
           <Route path="updates" element={<UpdatesPageDashboard />} />
           <Route path="profit" element={<ProfitPage />} />
           <Route path="feedback" element={<FeedBackPage />} />

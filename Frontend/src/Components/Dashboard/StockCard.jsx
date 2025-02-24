@@ -11,9 +11,9 @@ const StockCard = ({ title, stocks, img, price }) => {
         {/* Header Section */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src={img} alt="Logo" className="w-12 h-12 object-contain" />
+           {img &&  <img src={img} alt="Logo" className="w-12 h-12 object-contain" />}
             <div>
-              <h2 className="text-white text-xl font-semibold">{title} 📈</h2>
+              <h2 className="text-white text-xl font-semibold flex items-center gap-2">{title} <FcCandleSticks/></h2>
               <p className="text-gray-400 text-sm flex items-center gap-2">
                 How to use <FaPlayCircle className="text-[#0256F5]" />{" "}
                 <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">

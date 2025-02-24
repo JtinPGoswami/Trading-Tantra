@@ -2,57 +2,66 @@ import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import user from "../../assets/Images/Dashboard/HeaderImg/user.png";
-import lightThemeIcon from "../../assets/Images/Dashboard/HeaderImg/lightThemeIcon.png"
-import darkThemeIcon from "../../assets/Images/Dashboard/HeaderImg/darkThemeIcon.png"
+import lightThemeIcon from "../../assets/Images/Dashboard/HeaderImg/lightThemeIcon.png";
+import darkThemeIcon from "../../assets/Images/Dashboard/HeaderImg/darkThemeIcon.png";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { set } from "date-fns";
+import { setTheme } from "../../contexts/Redux/Slices/themeSlice";
 const Header = () => {
   const [hovered, setHovered] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
+  const [isDarkMode, setIsDarkMode] = useState("dark");
+  var theme = useSelector((state) => state.theme.theme);
+  console.log(theme);
+
+  const dispatch = useDispatch();
+
+  const themeToggler = () => {
+    if (isDarkMode === "dark") {
+      setIsDarkMode("light");
+      dispatch(setTheme("light"));
+    } else {
+      setIsDarkMode("dark");
+      dispatch(setTheme("dark"));
+    }
+  }
 
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
     }
   }, [isDarkMode]);
 
   return (
     <div className=" dark:bg-[#000517] border border-[#000B34] h-20 w-full mx-auto rounded-[10px] p-3 flex items-center justify-between">
       <div className="w-1/2">
-
-
-    <button
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="relative overflow-hidden bg-gradient-to-b from-[#0256F5] to-[#74A4FE] text-white px-6 py-3 rounded-lg h-12 w-30 flex justify-center items-center"
-    >
-      {/* First Text (Visible by Default) */}
-      <motion.span
-        initial={{ y: 0, opacity: 1 }}
-        animate={hovered ? { y: -20, opacity: 0 } : { y: 0, opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        className="absolute"
-      >
-        Go to Website
-      </motion.span>
-
-      {/* Second Text (Appears on Hover) */}
-      <motion.span
-        initial={{ y: 20, opacity: 0 }}
-        animate={hovered ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="absolute"
+        <button
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          className="relative overflow-hidden bg-gradient-to-b from-[#0256F5] to-[#74A4FE] text-white px-6 py-3 rounded-lg h-12 w-30 flex justify-center items-center"
         >
-        Go to Website
-      </motion.span>
-    </button>
- 
+          {/* First Text (Visible by Default) */}
+          <motion.span
+            initial={{ y: 0, opacity: 1 }}
+            animate={hovered ? { y: -20, opacity: 0 } : { y: 0, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="absolute"
+          >
+            Go to Website
+          </motion.span>
 
+          {/* Second Text (Appears on Hover) */}
+          <motion.span
+            initial={{ y: 20, opacity: 0 }}
+            animate={hovered ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute"
+          >
+            Go to Website
+          </motion.span>
+        </button>
       </div>
 
       <div className="w-1/2 flex justify-end gap-5 items-center">
@@ -67,13 +76,15 @@ const Header = () => {
 
         {/* Sliding Dark Mode Toggle */}
         <div
-          onClick={() => setIsDarkMode(!isDarkMode)}
+          onClick={() => {setIsDarkMode(!isDarkMode);themeToggler()}}
           className="w-14 h-7 bg-white dark:bg-[#000E40] rounded-full flex items-center p-1 cursor-pointer transition-all"
         >
           <div
             className={`w-6 h-6 bg-primary  rounded-full flex items-center justify-center shadow-md transform transition-all ${
-              !isDarkMode ? "translate-x-6" : ""
+              isDarkMode === "light" ? "translate-x-6" : ""
             }`}
+
+            
           >
             {isDarkMode ? (
               <img src={darkThemeIcon} className="w-5 h-5 text-white" />

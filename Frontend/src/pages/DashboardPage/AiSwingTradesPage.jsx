@@ -211,7 +211,7 @@ const AiSwingTradesPage = () => {
             </div>
           </div>
 
-          <div className="mt-4 overflow-hidden rounded-xl">
+          <div className="mt-4 overflow-hidden rounded-xl h-[400px]">
             <TreemapChart />
           </div>
         </div>
