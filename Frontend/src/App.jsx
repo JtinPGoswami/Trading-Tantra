@@ -13,7 +13,6 @@ import FAQPage from "./pages/WebPage/FAQPage";
 import RenewPlanPage from "./pages/WebPage/RenewPlanPage";
 import BuyPlanPage from "./pages/WebPage/BuyPlanPage";
 import ScrollToTop from "./Components/Web/ScrollTop";
-import CalendarGrid from "./Components/Web/Trying";
 import WebLayout from "./Layouts/WebLayout";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import Homepage from "./pages/DashboardPage/Homepage";
@@ -31,7 +30,9 @@ import MonryActionPage from "./pages/DashboardPage/MoneyActionPage";
 import AiSwingTradesPage from "./pages/DashboardPage/AiSwingTradesPage";
 import OptionClockPage from "./pages/DashboardPage/OptionClockPage";
 import AIOptionDataPage from "./pages/DashboardPage/AIOptionDatAPage";
-
+import FinancialCalendar from "./pages/DashboardPage/FinancialCalendar";
+import OurStrategy from "./pages/DashboardPage/OurStrategy";
+import TradingJournal from "./pages/DashboardPage/TradingJournal";
 const App = () => {
   return (
     <div>
@@ -54,7 +55,6 @@ const App = () => {
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/renew-plan" element={<RenewPlanPage />} />
             <Route path="/buy-plan" element={<BuyPlanPage />} />
-            <Route path="/trying" element={<CalendarGrid />} />
           </Route>
 
 
@@ -73,6 +73,9 @@ const App = () => {
           <Route path="feedback" element={<FeedBackPage />} />
           <Route path="learn-from-us" element={<LearnFromUsPage />} />
           <Route path="calculator" element={<CalculatorsPage />} />
+          <Route path="calander" element={<FinancialCalendar />} />
+          <Route path="our-strategy" element={<OurStrategy />} />
+          <Route path="trading-journal" element={<TradingJournal />} />
         </Route>
       </Routes>
       </RiskProvider>

@@ -51,7 +51,9 @@
     transform: translateY(0);
   }
 }
-
+*{
+  cursor:default;
+}
 .infinite-scroll {
   display: flex;
   flex-direction: column;
@@ -89,4 +91,123 @@ input[type="number"] {
 
 .scrollbar-hidden::-webkit-scrollbar{
   display: none;
+}
+.custom-calendar {
+  overflow: hidden;
+  background: #01071C !important;
+  border:transparent !important;
+  width: 100% !important;
+}
+.custom-calendar-TJ {
+  overflow: hidden;
+  background: transparent !important;
+  border:transparent !important;
+  width: 100% !important;
+}
+
+/* Change active date color */
+.react-calendar__tile--active {
+  background: #01071C !important;
+  color: white !important;
+}
+.react-calendar__tile{
+  margin: 0;
+}
+
+
+.react-calendar__month-view__weekdays , .react-calendar__month-view__days{
+  row-gap: 2px !important;
+
+}
+/* Highlight hover effect */
+.react-calendar__tile:hover {
+  background: #0009B2 !important;
+  
+}
+
+/* Remove default border from navigation buttons */
+.react-calendar__navigation button {
+  color: #374151;
+  font-weight: bold;
+}
+
+/* Customizing the weekday labels */
+.react-calendar__month-view__weekdays {
+  text-transform: uppercase;
+  color: #6b7280;
+  font-weight: bold;
+}
+
+/* Styling the previous/next buttons */
+.react-calendar__navigation button:enabled:hover {
+  background: #eff6ff;
+}
+
+.react-calendar__month-view__days__day--weekend{
+  background:#00114E !important;
+  color: white !important;
+}
+
+.current-date {
+  background-color: #0256f5 !important; 
+  color: white !important;
+  font-weight: bold;
+}
+
+.react-calendar__navigation__label, .react-calendar__navigation__arrow{
+  color: white !important;
+}
+.react-calendar__navigation__label:hover, .react-calendar__navigation__arrow:hover{
+  color: white !important;
+  background:transparent !important;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%); /* Makes the icon white */
+}
+
+.custom-shadow {
+  text-shadow: 
+    0px 0px 0.34px 0px #B7A6FF,
+    0px 0px 0.67px 0px #B7A6FF,
+    0px 0px 2.35px 0px #B7A6FF,
+    0px 0px 4.7px 0px #011E7F,
+    0px 0px 8.06px 0px #011E7F,
+    0px 0px 14.11px 0px #011E7F;
+}
+
+
+
+button {
+  cursor: pointer;
+}
+
+
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+.rdrDay ,.rdrDateDisplayWrapper,.rdrDateInput{
+  background-color: var(--color-db-secondary) !important; /* Uses variable */
+  color: white !important; /* Uses variable */
+}
+
+.rdrCalendarWrapper {
+  background-color: var(--color-db-secondary) !important; /* Uses variable */
+  color: white !important; /* Uses variable */
+  width: 100% !important;
+}
+
+.rdrDayNumber span{
+  color: white !important; /* Uses variable */
+
+}
+
+.rdrMonthPicker select, .rdrYearPicker select{
+  background-color: var(--color-db-secondary) !important; /* Uses variable */
+  color: white !important; /* Uses variable */
+  border: 1px solid white !important; /* Uses variable */
 }
