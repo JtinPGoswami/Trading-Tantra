@@ -9,6 +9,7 @@ import profit from '../../assets/Images/Dashboard/homepage/profit.png'
 import graph from '../../assets/Images/Dashboard/homepage/graph.png'
 import learnBook from '../../assets/Images/Dashboard/homepage/learn-book.png'
 import overStrategy from '../../assets/Images/Dashboard/homepage/over-strategy.png'
+import HomePageGridLayout from "./HomePageGridLayout";
 const Card = ({ title, description, buttonText, icon }) => {
   return (
     <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg"
@@ -97,11 +98,12 @@ const MarketSection = () => {
   return (
     <div className="dark:bg-db-primary min-h-screen px-6 py-10">
       <h1 className=" text-2xl font-bold mb-6">Indian Markets</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards.map((card, index) => (
           <Card key={index} {...card} />
         ))}
-      </div>
+      </div> */}
+      <HomePageGridLayout/>
     </div>
   );
 };

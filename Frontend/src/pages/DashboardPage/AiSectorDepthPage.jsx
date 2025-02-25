@@ -5,7 +5,7 @@ import { GoDotFill } from "react-icons/go";
 import TreemapChart from "../../Components/Dashboard/TreemapChart";
 import AISectorChart from "../../Components/Dashboard/AISectorChart";
 import StockCard from "../../Components/Dashboard/StockCard";
-
+import TreeGrpahsGrid from "../../Components/Dashboard/TreeGraphsGrid";
 const AiSectorDepthPage = () => {
   const stockDataList = [
     {
@@ -401,8 +401,8 @@ const AiSectorDepthPage = () => {
   ];
   return (
     <>
-      <section className="mt-8 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg h-auto">
-        <div className="dark:bg-db-primary bg-db-primary-light rounded-lg p-2 h-auto">
+      <section className="mt-8 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg h-auto ">
+        <div className="dark:bg-db-primary bg-db-primary-light rounded-lg p-2 h-auto pb-12">
           <div className="flex gap-4 items-center">
             <h1 className="text-3xl font-bold">AI Sector Depth</h1>
             <span className="text-xl">
@@ -411,14 +411,14 @@ const AiSectorDepthPage = () => {
             <span className="flex items-center gap-1">
               How to use <FaPlayCircle className="text-[#0256F5]" />
             </span>
-            <span className="flex items-center px-2 py-px rounded-full w-fit bg-[#0256F5] text-xs">
+            <span className="flex items-center px-2 py-px rounded-full w-fit text-white bg-[#0256F5] text-xs">
               <GoDotFill />
               Live
             </span>
           </div>
 
           {/* graphs */}
-          <div className="grid grid-cols-3 gap-8 w-full auto-rows-min mt-8">
+          {/* <div className="grid grid-cols-3 gap-8 w-full auto-rows-min mt-8">
             {[
               "Energy",
               "Auto",
@@ -449,7 +449,8 @@ const AiSectorDepthPage = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
+          <TreeGrpahsGrid />
         </div>
       </section>
 
