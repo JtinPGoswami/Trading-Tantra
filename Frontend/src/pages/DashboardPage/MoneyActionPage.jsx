@@ -178,14 +178,14 @@ const MonryActionPage = () => {
     <>
       {/* // 5 MIN MOMENTUM SPIKE card  */}
       <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
-        <div className="bg-[#01071C] p-4 rounded-2xl">
+        <div className="dark:bg-db-primary bg-db-primary-light p-4 rounded-2xl">
           <div className="flex items-center gap-2">
             <img src={candles} alt="candle" className="w-15 object-contain" />
             <div>
-              <h2 className="text-white text-xl font-semibold flex items-center gap-2">
+              <h2 className=" text-xl font-semibold flex items-center gap-2">
                 5 MIN MOMENTUM SPIKE <FcCandleSticks />
               </h2>
-              <p className="text-gray-400 text-sm flex items-center gap-2">
+              <p className="dark:text-gray-400  text-sm flex items-center gap-2">
                 How to use <FaPlayCircle className="text-[#0256F5]" />{" "}
                 <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
                   Live
@@ -203,14 +203,14 @@ const MonryActionPage = () => {
 // 10 MIN MOMENTUM SPIKE card */}
 
       <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
-        <div className="bg-[#01071C] p-4 rounded-2xl">
+        <div className="dark:bg-db-primary bg-db-primary-light p-4 rounded-2xl">
           <div className="flex items-center gap-2">
             <img src={candles} alt="candle" className="w-15 object-contain" />
             <div>
-              <h2 className="text-white text-xl font-semibold flex items-center gap-2">
+              <h2 className=" text-xl font-semibold flex items-center gap-2">
                 10 MIN MOMENTUM SPIKE <FcCandleSticks />
               </h2>
-              <p className="text-gray-400 text-sm flex items-center gap-2">
+              <p className="dark:text-gray-400 text-sm flex items-center gap-2">
                 How to use <FaPlayCircle className="text-[#0256F5]" />{" "}
                 <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
                   Live

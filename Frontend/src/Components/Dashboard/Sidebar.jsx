@@ -18,22 +18,23 @@ import profit from "../../assets/Images/sidebar/profit.svg";
 import smartMoneyAction from "../../assets/Images/sidebar/smartMoneyAction.svg";
 import tradingJournal from "../../assets/Images/sidebar/tradingJournal.svg";
 import updates from "../../assets/Images/sidebar/updates.svg";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-
+const theme= useSelector((state)=>state.theme.theme)
   return (
     <aside className="flex h-screen">
       <div className="w-fit">
         {/* Sidebar */}
         <div
-          className={`bg-[#000517] text-[#D7E3FF] border border-[#000B34] h-full transition-all duration-300 rounded-lg ${
+          className={`dark:bg-[#000517] bg-[#273D8F]   text-[#D7E3FF] border border-[#000B34] h-full transition-all duration-300 rounded-lg ${
             isOpen ? "w-64" : "w-20"
           }`}
         >
           {/* Fixed Header */}
           <div className="border-b-2 border-transparent bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] bg-clip-border">
-            <div className="flex items-center w-full h-fit justify-center bg-[#000517] py-5">
+            <div className="flex items-center w-full h-fit justify-center dark:bg-[#000517] bg-[#273D8F]  py-5">
               {isOpen ? (
                 <img src={logo} alt="logo" />
               ) : (
@@ -123,7 +124,7 @@ const Sidebar = () => {
 
       {/* Close Button (Fixed) */}
       <div
-        className={`w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 bg-[#000517] ${
+        className={`w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 dark:bg-[#000517] bg-[#273D8F]  ${
           isOpen ? "block" : "hidden"
         }`}
       >
@@ -139,7 +140,7 @@ const Sidebar = () => {
 };
 
 const NavItem = ({ icon, label, isOpen }) => (
-  <li className="flex items-center justify-between w-full  px-4 py-2  rounded-md cursor-pointer text-base font-medium space-x-4 hover:bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] transition-all duration-1000 ease-in-out ">
+  <li className="flex items-center justify-between w-full  px-4 py-2  rounded-md cursor-pointer text-base font-medium space-x-4 dark:hover:bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] hover:bg-[#ededff] transition-all duration-1000 ease-in-out ">
     <span className="flex items-center space-x-2 ">
       <img src={icon} alt={label} className="w-auto h-5" />
       {isOpen && <span>{label}</span>}

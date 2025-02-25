@@ -64,7 +64,7 @@ const RiskCalculator = ({ calculator }) => {
 
   return (
     <div>
-      <div className="py-11 px-5 bg-[#00114E] rounded-md mt-10">
+      <div className="py-11 px-5 dark:bg-[#00114E] bg-db-secondary-light text-white rounded-md mt-10">
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-x-6 gap-y-8">
             {[{
@@ -116,7 +116,7 @@ const RiskCalculator = ({ calculator }) => {
           </div>
         </form>
       </div>
-      <div className="py-5 px-7 bg-[#00114E] rounded-md mt-5">
+      <div className="py-5 px-7 dark:bg-[#00114E] bg-db-secondary-light text-white rounded-md mt-5">
         <h4 className="text-3xl font-abcRepro font-light">Result:</h4>
         <div className="mt-[30px] space-y-5">
           <div className="flex w-full justify-between items-center font-abcRepro text-2xl font-light">
@@ -135,13 +135,13 @@ const RiskCalculator = ({ calculator }) => {
 
 const RiskCalculatorRight = () => {
   const { riskLevel } = useRisk();
-  const riskPercent = riskLevel === "Low" ? 0.2 : riskLevel === "Medium" ? 0.5 : 0.8;
+  const riskPercent = riskLevel === "Low" ? 0.2 : riskLevel === "Medium" ? 0.4 : 0.6;
   const [riskLabel, setRiskLabel] = useState("");
 
-  // Update label based on riskLevel
   useEffect(() => {
-    if (riskLevel <= 0.33) setRiskLabel("LOW");
-    else if (riskLevel <= 0.66) setRiskLabel("MEDIUM");
+    if (riskLevel <= 0.2) setRiskLabel("LOW");
+    else if (riskLevel <= 0.4) setRiskLabel("MEDIUM");
+    else if (riskLevel <= 0.6) setRiskLabel("MEDIUM");
     else setRiskLabel("HIGH");
   }, [riskLevel]);
 
@@ -153,7 +153,7 @@ const RiskCalculatorRight = () => {
       {/* Gauge Chart */}
       <GaugeChart
         id="gauge-chart"
-        nrOfLevels={6}
+        nrOfLevels={5}
         colors={["green", "orange", "red"]}
         arcWidth={1}
         percent={riskPercent}

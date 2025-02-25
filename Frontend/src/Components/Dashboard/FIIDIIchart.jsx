@@ -33,7 +33,7 @@ const datasets = [
 
 const CustomBarChart = () => {
   return (
-    <div style={{ width: "100%", height: "600px", background: "#000A2D", padding: "20px", borderRadius: "10px" }}>
+    <div style={{ width: "100%", height: "600px",  padding: "20px", borderRadius: "10px" }} className="dark:bg-db-secondary bg-db-secondary-light" >
       <ResponsiveContainer width="100%" height="100%">
         <div>
           {datasets.map((data, index) => (

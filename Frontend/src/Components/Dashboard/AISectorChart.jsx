@@ -30,7 +30,7 @@ const data = [
 
 const AISectorChart = () => {
   return (
-    <div className="p-4 bg-[#000A2D] text-white rounded-lg shadow-md w-full">
+    <div className="p-4 dark:bg-db-secondary bg-db-secondary-light text-white rounded-lg shadow-md w-full">
     
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>

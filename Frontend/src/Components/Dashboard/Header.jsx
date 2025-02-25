@@ -27,7 +27,7 @@ const Header = () => {
   }
 
   useEffect(() => {
-    if (isDarkMode) {
+    if (isDarkMode==="dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
@@ -35,7 +35,7 @@ const Header = () => {
   }, [isDarkMode]);
 
   return (
-    <div className=" dark:bg-[#000517] border border-[#000B34] h-20 w-full mx-auto rounded-[10px] p-3 flex items-center justify-between">
+    <div className=" dark:bg-[#000517] border bg-[#273D8F]  border-[#000B34] h-20 w-full mx-auto rounded-[10px] p-3 flex items-center justify-between">
       <div className="w-1/2">
         <button
           onMouseEnter={() => setHovered(true)}
@@ -66,7 +66,7 @@ const Header = () => {
 
       <div className="w-1/2 flex justify-end gap-5 items-center">
         {/* Search Bar */}
-        <div className="bg-[#000A2D] border border-[#0256F5] px-2 py-2 rounded-lg flex">
+        <div className="dark:bg-db-secondary bg-transparent  border dark:border-[#0256F5] border-white px-2 py-2 rounded-lg flex">
           <input
             type="text"
             className="outline-none border-none bg-transparent text-white"
@@ -76,7 +76,7 @@ const Header = () => {
 
         {/* Sliding Dark Mode Toggle */}
         <div
-          onClick={() => {setIsDarkMode(!isDarkMode);themeToggler()}}
+          onClick={() => {themeToggler()}}
           className="w-14 h-7 bg-white dark:bg-[#000E40] rounded-full flex items-center p-1 cursor-pointer transition-all"
         >
           <div
@@ -86,8 +86,8 @@ const Header = () => {
 
             
           >
-            {isDarkMode ? (
-              <img src={darkThemeIcon} className="w-5 h-5 text-white" />
+            {isDarkMode ==="dark"? (
+              <img src={darkThemeIcon} className="w-5 h-5" />
             ) : (
               <img src={lightThemeIcon} className="w-5 h-5 text-yellow-500" />
             )}

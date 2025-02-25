@@ -11,7 +11,7 @@ import learnBook from '../../assets/Images/Dashboard/homepage/learn-book.png'
 import overStrategy from '../../assets/Images/Dashboard/homepage/over-strategy.png'
 const Card = ({ title, description, buttonText, icon }) => {
   return (
-    <div className="bg-[#01071C] border border-transparent rounded-xl p-4 relative shadow-lg"
+    <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg"
       style={{
         borderImage: "linear-gradient(180deg, #0256F5, #02000E) 1",
       }}
@@ -22,11 +22,11 @@ const Card = ({ title, description, buttonText, icon }) => {
           <img className="w-12 h-12  " src={icon} alt={title} />
         </div>
 
-        <h2 className="text-white font-semibold text-lg">{title}</h2>
+        <h2 className=" font-semibold text-lg">{title}</h2>
         </div>
         <div>
         
-          <p className="text-gray-400 text-sm mt-5">{description}</p>
+          <p className="dark:text-gray-400 text-gray-800 text-sm mt-5">{description}</p>
         </div>
       </div>
       <button className="w-full bg-[#0256F5] text-white mt-4 py-2 rounded-md font-medium">
@@ -95,8 +95,8 @@ const MarketSection = () => {
   ];
 
   return (
-    <div className="bg-[#01071C] min-h-screen px-6 py-10">
-      <h1 className="text-white text-2xl font-bold mb-6">Indian Markets</h1>
+    <div className="dark:bg-db-primary min-h-screen px-6 py-10">
+      <h1 className=" text-2xl font-bold mb-6">Indian Markets</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards.map((card, index) => (
           <Card key={index} {...card} />

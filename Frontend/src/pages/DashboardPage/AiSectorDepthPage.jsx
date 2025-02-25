@@ -402,7 +402,7 @@ const AiSectorDepthPage = () => {
   return (
     <>
       <section className="mt-8 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg h-auto">
-        <div className="bg-[#01071C] rounded-lg p-2 h-auto">
+        <div className="dark:bg-db-primary bg-db-primary-light rounded-lg p-2 h-auto">
           <div className="flex gap-4 items-center">
             <h1 className="text-3xl font-bold">AI Sector Depth</h1>
             <span className="text-xl">
@@ -441,8 +441,8 @@ const AiSectorDepthPage = () => {
                 key={index}
                 className="bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg "
               >
-                <div className="bg-[#000A2D] rounded-lg p-2">
-                  <p className="text-xl font-semibold mb-2">{item}</p>
+                <div className="dark:bg-db-secondary bg-db-secondary-light rounded-lg p-2">
+                  <p className="text-xl font-semibold text-white mb-2">{item}</p>
                   <div className="h-[350px] rounded">
                     <TreemapChart />
                   </div>
@@ -454,7 +454,7 @@ const AiSectorDepthPage = () => {
       </section>
 
       <section className="mt-8 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
-        <div className="bg-[#000517] rounded-lg p-2">
+        <div className="dark:bg-[#000517] bg-db-primary-light rounded-lg p-2">
           <div className="flex gap-4 items-center mb-4">
             <h2 className="text-2xl font-semibold mb-2">AI Sector Depth</h2>
             <span className="flex items-center gap-1">

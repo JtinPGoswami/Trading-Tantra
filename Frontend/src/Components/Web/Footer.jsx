@@ -1,26 +1,28 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import logo from "../../assets/Images/logo.svg";
+import logo_light from "../../assets/Images/logo_light.svg";
 import { FaFacebookSquare } from "react-icons/fa";
 import { PiInstagramLogoFill } from "react-icons/pi";
 import { FaXTwitter } from "react-icons/fa6";
 import flag from "../../assets/Images/flag.svg";
+import { useSelector } from "react-redux";
 
 const Footer = () => {
   const location = useLocation();
   const currentYear = new Date().getFullYear();
   const isDashboardRoute = location.pathname.includes("/dashboard");
-
+const theme=useSelector((state)=>state.theme.theme)
   return (
-    <div className="bg-[#01071C] w-full px-[5%]  pt-10 font-abcRepro mt-20">
+    <div className="dark:bg-db-primary bg-db-primary-light  w-full px-[5%]  pt-10 font-abcRepro mt-20">
       <div className="flex sm:flex-row flex-col gap-y-5 justify-between">
         <div className="lg:space-y-10 space-y-8">
           <img
-            src={logo}
+            src={theme==="dark"?logo:logo_light}
             className="lg:w-96 w-75 h-auto"
             alt="trading tantra logo"
           />
-          <div className="flex justify-start gap-3 text-4xl">
+          <div className="flex justify-start gap-3 text-4xl ">
             <PiInstagramLogoFill />
             <FaFacebookSquare />
             <FaXTwitter />
@@ -29,7 +31,7 @@ const Footer = () => {
         <div className="sm:w-96 w-65 space-y-8 ">
           {/* Conditionally Render Button */}
           <Link to={isDashboardRoute ? "/" : "/dashboard"}>
-            <button className="lg:ml-48 md:ml-40 sm:ml-35 ml-0 px-4 py-2 mb-10 bg-primary rounded-md font-light lg:text-xl md:text-lg text-base">
+            <button className="lg:ml-48 md:ml-40 sm:ml-35 ml-0 px-4 py-2 mb-10 dark:bg-primary bg-primary-light rounded-md font-light lg:text-xl md:text-lg text-base">
               {isDashboardRoute ? "Go to Website" : "View Dashboard"}
             </button>
           </Link>

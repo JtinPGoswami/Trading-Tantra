@@ -3,6 +3,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css"; // Import default styles
 import companyLogo from "../../assets/Images/Dashboard/financialCalendar/companyLogo.png";
 import { BsSearch } from "react-icons/bs";
+import { useSelector } from "react-redux";
 const FinancialCalendar = () => {
   const [date, setDate] = useState(new Date());
   const today = new Date();
@@ -10,7 +11,7 @@ const FinancialCalendar = () => {
   const [toDate, setToDate] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [category, setCategory] = useState("Select Category");
-
+const theme =useSelector((state)=>state.theme.theme)
   const categories = [
     "Corporate Actions",
     "Board Meeting",
@@ -275,13 +276,13 @@ const FinancialCalendar = () => {
       <div className="w-full flex items-start my-5 ">
         {/* left section */}
         <section className="rounded-lg w-full max-w-md bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px  mr-5">
-          <div className="bg-db-primary w-full rounded-lg p-2.5">
-            <div className="flex flex-col items-center bg-db-primary shadow-lg rounded-sm w-full">
+          <div className="dark:bg-db-primary bg-db-primary-light w-full rounded-lg p-2.5">
+            <div className="flex flex-col items-center dark:bg-db-primary bg-db-primary-light shadow-lg rounded-sm w-full">
               <Calendar
                 onChange={setDate}
                 value={date}
                 locale="en-US"
-                className="custom-calendar"
+                className={`${theme==="dark"?"custom-calendar-dark": "custom-calendar"}`}
                 tileClassName={({ date }) => {
                   const day = date.getDay();
                   if (date.toDateString() === today.toDateString())
@@ -292,7 +293,7 @@ const FinancialCalendar = () => {
                 }}
               />
             </div>
-            <div className="grid grid-cols-3 bg-db-secondary mt-2.5 gap-y-2 p-4">
+            <div className="grid grid-cols-3 dark:bg-db-secondary bg-db-secondary-light mt-2.5 gap-y-2 p-4 text-white">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#FC5C5D]"></div>
                 <p className="text-xs">Corporate Actions</p>
@@ -330,19 +331,19 @@ const FinancialCalendar = () => {
         </section>{" "}
         {/* right section */}
         <section className="rounded-lg w-full  bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px ">
-          <div className="w-full bg-db-primary p-5">
+          <div className="w-full dark:bg-db-primary bg-db-primary-light  p-5">
             <h3 className="font-medium text-2xl text-center">
               Event Date: 10 February, 2025
             </h3>
-            <div className="w-full bg-db-primary h-[340px] overflow-y-auto scrollbar-hidden">
+            <div className="w-full dark:bg-db-primary bg-db-primary-light h-[340px] overflow-y-auto scrollbar-hidden">
               <div className="flex flex-col gap-y-5 mt-8  ">
                 {eventData.map((event, index) => (
-                  <div key={index} className="space-y-2">
+                  <div key={index} className="space-y-2 ">
                     <p className="text-primary font-light text-base">
                       {event.event}
                     </p>
 
-                    <div className=" w-full bg-db-primary p-2 rounded-lg flex border border-[#0356F5] justify-between">
+                    <div className=" w-full dark:bg-db-primary bg-db-secondary-light text-white p-2 rounded-lg flex border border-[#0356F5] justify-between">
                       <div>
                         <p className="text-base font-normal">{event.company}</p>
                         <p className="text-[10px] font-light">
@@ -363,15 +364,15 @@ const FinancialCalendar = () => {
         </section>
       </div>
       {/* date form */}
-      <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px">
-        <div className="bg-db-primary w-full p-5">
+      <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md">
+        <div className="dark:bg-db-primary bg-db-primary-light w-full p-5 rounded-md">
           <h2 className="text-2xl font-medium mb-5">Calendar Events</h2>
-          <div className="bg-db-secondary">
+          <div className="dark:bg-db-secondary bg-db-secondary-light">
             <form className="grid grid-cols-2 p-5 gap-4 ">
               <div>
-                <label htmlFor="fromDate">From Date</label>
+                <label htmlFor="fromDate" className="text-white">From Date</label>
                 <div
-                  className="w-full flex items-center justify-between bg-db-primary rounded-[10px] px-2 py-4"
+                  className="w-full flex items-center justify-between dark:bg-db-primary bg-db-primary-light rounded-[10px] px-2 py-4"
                   onClick={(e) => {
                     e.stopPropagation(); // Prevents unnecessary event bubbling
                     document.getElementById("fromDateInput").showPicker();
@@ -387,9 +388,9 @@ const FinancialCalendar = () => {
                 </div>
               </div>
               <div>
-                <label htmlFor="toDate">To Date</label>
+                <label htmlFor="toDate" className="text-white">To Date</label>
                 <div
-                  className="w-full flex items-center justify-between bg-db-primary rounded-[10px] px-2 py-4"
+                  className="w-full flex items-center justify-between dark:bg-db-primary bg-db-primary-light rounded-[10px] px-2 py-4"
                   onClick={(e) => {
                     e.stopPropagation(); // Prevents unnecessary event bubbling
                     document.getElementById("toDateInput").showPicker();
@@ -405,15 +406,15 @@ const FinancialCalendar = () => {
                 </div>
               </div>
               <div className="relative">
-                <label htmlFor="category">Category</label>
+                <label htmlFor="category" className="text-white">Category</label>
                 <div
-                  className="w-full flex items-center justify-between bg-db-primary rounded-[10px] px-2 py-4 cursor-pointer"
+                  className="w-full flex items-center justify-between dark:bg-db-primary bg-db-primary-light  rounded-[10px] px-2 py-4 cursor-pointer"
                   onClick={() => setShowDropdown(!showDropdown)}
                 >
                   <span>{category}</span>
                 </div>
                 {showDropdown && (
-                  <ul className="absolute w-full bg-db-primary text-white mt-1 rounded-lg shadow-lg z-10">
+                  <ul className="absolute w-full dark:bg-db-primary bg-db-primary-light mt-1 rounded-lg shadow-lg z-10">
                     {categories.map((item, index) => (
                       <li
                         key={index}
@@ -450,18 +451,18 @@ const FinancialCalendar = () => {
       </section>
 
       {/* entries */}
-      <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px mt-5">
-        <div className="bg-db-primary w-full p-5">
+      <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px mt-5 rounded-md">
+        <div className="dark:bg-db-primary bg-db-primary-light w-full p-5 rounded-md">
           {/* Header Section */}
           <div className="flex justify-between  mb-4">
             <h2 className="text-2xl font-light">
               Total Entries: {entriesData.length}
             </h2>
-            <div className="flex items-center px-2 py-2 bg-[#085AF5] rounded-sm">
+            <div className="flex items-center px-2 py-2 text-white bg-[#085AF5] rounded-sm">
               <input
                 type="text"
                 name="searchEntries"
-                className="bg-transparent outline-none border-none grow"
+                className="bg-transparent outline-none border-none grow text-white placeholder:text-white"
                 placeholder="Search..."
               />
               <BsSearch />
@@ -469,7 +470,7 @@ const FinancialCalendar = () => {
           </div>
 
           {/* Entries Table */}
-          <div className="bg-db-secondary">
+          <div className="dark:bg-db-secondary bg-db-secondary-light rounded-md">
             {/* Table Header */}
             <div className="w-full grid grid-cols-5 px-10 font-semibold  text-white py-2">
               <p>Date</p>

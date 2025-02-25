@@ -1,13 +1,34 @@
 
 @import "tailwindcss";
-@theme {
-  --color-primary: #0256f5;
-  --color-db-primary: #01071C;
+/* .dark{
+  @theme {
+    
+    --color-primary: #0256f5;
+  --color-db-primary: #e6f0fa;
   --color-db-secondary: #000A2D;
-
+  
   --font-abcRepro: "ABC Repro";
   --font-Inter: "Inter";
+
+  
+} */
+/* } */
+@theme {
+    
+  --color-primary: #0256F5;
+  --color-db-primary: #01071C;
+  --color-db-secondary: #000A2D;
+  
+  --color-primary-light: #6183E4;
+  --color-db-primary-light: #f0f2fc;
+--color-db-secondary-light: #273D8F;
+
+--font-abcRepro: "ABC Repro";
+--font-Inter: "Inter";
+
+
 }
+
 @custom-variant dark (&:where(.dark, .dark *));
 .neon-button {
     box-shadow: inset 0 0 20px rgba(0, 86, 245, 0.8),
@@ -92,9 +113,15 @@ input[type="number"] {
 .scrollbar-hidden::-webkit-scrollbar{
   display: none;
 }
-.custom-calendar {
+.custom-calendar-dark {
   overflow: hidden;
   background: #01071C !important;
+  border:transparent !important;
+  width: 100% !important;
+}
+.custom-calendar {
+  overflow: hidden;
+  background: #273D8F !important;
   border:transparent !important;
   width: 100% !important;
 }
@@ -105,6 +132,9 @@ input[type="number"] {
   width: 100% !important;
 }
 
+.react-calendar__month-view__weekdays{
+  color: #d5d9e2 !important;
+}
 /* Change active date color */
 .react-calendar__tile--active {
   background: #01071C !important;
@@ -112,8 +142,12 @@ input[type="number"] {
 }
 .react-calendar__tile{
   margin: 0;
+  color: white !important;
 }
-
+.react-calendar__tile--now{
+background: #0256f5 !important;
+color: white !important;
+}
 
 .react-calendar__month-view__weekdays , .react-calendar__month-view__days{
   row-gap: 2px !important;

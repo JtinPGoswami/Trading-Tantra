@@ -9,11 +9,11 @@ const MyPlanPage = () => {
         <ProfileHeader />
       </div>
 
-      <div className="bg-[#01071C] rounded-[20px] max-w-lg mx-auto  py-6 h-full ">
+      <div className="dark:bg-db-primary bg-db-primary-light rounded-[20px] max-w-lg mx-auto  py-6 h-full ">
         <div>
-          <h3 className="text-xl font-semibold px-6 py-2">My Plan</h3>
+          <h3 className="text-xl font-semibold px-6 py-2 ">My Plan</h3>
 
-          <div className="w-full space-x-4 text-xs mt-9 text-[#C9CFE5] px-6 border-b border-[#26304A]">
+          <div className="w-full space-x-4 text-xs mt-9 dark:text-[#C9CFE5] text-gray-800 px-6 border-b border-[#26304A]">
             <button className={`p-2 cursor-pointer ${activeTab === "Active Plan" && " border-b-2 border-[#0155F3]"}`} onClick={() => setActiveTab("Active Plan")}>
               Active Plan
             </button>
@@ -29,12 +29,12 @@ const MyPlanPage = () => {
               <div>
                 <h4 className="text-xl font-semibold">Diamonds</h4>
                 <p className="font-light">Valid till: 07 January, 2026</p>
-                <p className="font-light text-[#0155F3]">
+                <p className="font-light dark:text-[#0155F3]   text-primary">
                   View Transaction Details
                 </p>
               </div>
 
-              <button className="bg-[#0155F3] font-light py-2 px-2.5 h-fit rounded">
+              <button className="dark:bg-[#0155F3] bg-primary-light text-white  font-light py-2 px-2.5 h-fit rounded">
                 Renew
               </button>
             </li>
@@ -43,12 +43,12 @@ const MyPlanPage = () => {
               <div>
                 <h4 className="text-xl font-semibold">Diamonds</h4>
                 <p className="font-light">Valid till: 07 January, 2027</p>
-                <p className="font-light text-[#0155F3]">
+                <p className="font-light dark:text-[#0155F3]  text-primary">
                   View Transaction Details
                 </p>
               </div>
 
-              <button className="bg-[#0155F3] font-light py-2 px-2.5 h-fit rounded">
+              <button className="dark:bg-[#0155F3] bg-primary-light text-white font-light py-2 px-2.5 h-fit rounded">
                 Renew
               </button>
             </li>

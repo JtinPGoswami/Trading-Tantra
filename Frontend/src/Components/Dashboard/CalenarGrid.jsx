@@ -96,7 +96,7 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
 
   return (
     <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md">
-      <div className="p-5 bg-db-secondary">
+      <div className="p-5 dark:bg-db-secondary bg-db-secondary-light text-white">
         <p className="text-lg font-light inline-block">Tradebook</p>
         <div className="flex flex-col items-center">
           <h2 className="text-center text-lg font-bold text-primary mb-6">

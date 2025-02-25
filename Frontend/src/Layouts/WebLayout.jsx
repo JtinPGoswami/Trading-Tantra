@@ -8,6 +8,7 @@ const WebLayout = () => {
   useEffect(() => {
     document.body.style.backgroundColor = "#02000E";
     document.body.style.color = "#fff";
+    document.documentElement.classList.add("dark");
   }, []);
 
   return (

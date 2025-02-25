@@ -7,14 +7,14 @@ import { RiLockFill } from "react-icons/ri";
 const StockCard = ({ title, stocks, img, price }) => {
   return (
     <div className=" relative w-full h-[360px] bg-gradient-to-tr from-[#0009B2] to-[#02000E] rounded-lg p-px overflow-hidden">
-      <div className="w-full h-full   bg-[#01071C] rounded-lg p-2  ">
+      <div className="w-full h-full   dark:bg-db-primary bg-db-primary-light rounded-lg p-2  ">
         {/* Header Section */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
            {img &&  <img src={img} alt="Logo" className="w-12 h-12 object-contain" />}
             <div>
-              <h2 className="text-white text-xl font-semibold flex items-center gap-2">{title} <FcCandleSticks/></h2>
-              <p className="text-gray-400 text-sm flex items-center gap-2">
+              <h2 className=" text-xl font-semibold flex items-center gap-2">{title} <FcCandleSticks/></h2>
+              <p className="dark:text-gray-400 text-sm flex items-center gap-2">
                 How to use <FaPlayCircle className="text-[#0256F5]" />{" "}
                 <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
                   Live
@@ -30,9 +30,9 @@ const StockCard = ({ title, stocks, img, price }) => {
 
         {/* Table Section */}
         <div className="bg-gradient-to-bl  from-[#00078F] to-[#01071C] p-px h-fit mt-4 rounded-lg">
-          <div className=" w-full  rounded-lg bg-[#000A2D]  p-2 relative">
+          <div className=" w-full  rounded-lg dark:bg-db-secondary bg-db-secondary-light  p-2 relative">
             {/* lock container */}
-            <div className={`bg-[#000A2D80]/50 rounded-lg flex backdrop-blur-xs absolute z-20 w-full h-full top-0 left-0  justify-center items-center ${price === "purchased" ? "hidden": ""} `}>
+            <div className={`dark:bg-[#000A2D80]/50  bg-[#273D8F30]/90 rounded-lg flex backdrop-blur-xs absolute z-20 w-full h-full top-0 left-0  justify-center items-center ${price === "purchased" ? "hidden": ""} `}>
               <svg
                 width="34"
                 height="34"
@@ -52,7 +52,7 @@ const StockCard = ({ title, stocks, img, price }) => {
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden  ">
               <table className="w-full text-white">
                 {/* Table Header */}
-                <thead className="sticky top-0 bg-[#000A2D] z-10  ">
+                <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10  ">
                   <tr className="text-gray-300 ">
                     <th className="flex justify-start items-center py-2">
                       Symbol <MdOutlineKeyboardArrowDown />

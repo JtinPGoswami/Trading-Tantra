@@ -14,13 +14,13 @@ const data = Array(10).fill({
 
 const FiiDiiTable = () => {
   return (
-    <div className="bg-[#01071C] rounded-lg p-2 ">
-      <h2 className="text-white text-2xl font-semibold p-2 flex items-center gap-2">
+    <div className="dark:bg-db-primary  bg-db-primary-light rounded-lg p-2 ">
+      <h2 className=" text-2xl font-semibold p-2 flex items-center gap-2">
         FII / DII <FcCandleSticks />
       </h2>
 
       <div className="bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
-        <div className="bg-[#000A2D] rounded-lg p-4 w-full ">
+        <div className="dark:bg-db-secondary bg-db-secondary-light rounded-lg p-4 w-full ">
           <table className="w-full text-white text-sm">
             <thead>
               <tr className="border-b border-gray-600">

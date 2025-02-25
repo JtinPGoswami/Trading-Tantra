@@ -4,7 +4,7 @@ const ProfitPage = () => {
   return (
     <div className="mt-10 space-y-10">
       <h4 className="font-Inter text-3xl font-medium ">Profit</h4>
-      <div className="bg-db-primary  border border-[#0009B250] p-5 rounded-[5px] space-y-10">
+      <div className="dark:bg-db-primary bg-db-primary-light  border border-[#0009B250] p-5 rounded-[5px] space-y-10">
         <div className="space-y-5 text-2xl font-normal font-abcRepro ">
         <p>Hello folks,</p>
         <p>We regularly post Trading outcome of traders on our social media.</p>

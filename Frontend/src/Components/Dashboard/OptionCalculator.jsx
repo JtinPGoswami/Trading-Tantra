@@ -34,7 +34,7 @@ const OptionCalculator = () => {
 
   return (
     <div>
-      <div className="py-11 px-5 bg-[#00114E] rounded-md mt-10">
+      <div className="py-11 px-5 dark:bg-[#00114E] bg-db-secondary-light text-white rounded-md mt-10">
         <form className="space-y-6" onSubmit={calculateQuantity}>
           <div className="grid grid-cols-2 gap-x-6 gap-y-8">
             <div className="flex flex-col space-y-3">
@@ -96,7 +96,7 @@ const OptionCalculator = () => {
           </div>
         </form>
       </div>
-      <div className="py-5 px-7 bg-[#00114E] rounded-md mt-5">
+      <div className="py-5 px-7 dark:bg-[#00114E] bg-db-secondary-light text-white rounded-md mt-5">
         <h4 className="text-3xl font-light">Result:</h4>
         <div className="mt-[30px] flex w-full justify-between items-center text-2xl font-light">
           <p>Quantity:</p>

@@ -90,7 +90,7 @@ const TradingJournal = () => {
       </div>
 
       <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md">
-        <div className="bg-db-primary rounded-md p-2.5">
+        <div className="dark:bg-db-primary bg-db-primary-light rounded-md p-2.5">
           <CalendarGrid
             setSelectedDate={setSelectedDate}
             selectedDateRange={dateRange}
@@ -98,7 +98,7 @@ const TradingJournal = () => {
 
           <div className="grid grid-cols-3 gap-2.5 my-2.5">
             <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md">
-              <div className="bg-db-secondary shadow-lg rounded-sm p-3 h-full">
+              <div className="dark:bg-db-secondary bg-db-secondary-light shadow-lg rounded-sm p-3 h-full">
                 <Calendar
                   onChange={setDate}
                   value={new Date(selectedYear, selectedMonthIndex, 1)}
@@ -116,7 +116,7 @@ const TradingJournal = () => {
             </section>
 
             <section className="col-span-2 bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md">
-              <div className="bg-db-secondary rounded-md p-2.5">
+              <div className="dark:bg-db-secondary bg-db-secondary-light rounded-md p-2.5">
                 <h5 className="font-normal text-2xl text-center mb-6">
                   Statistics
                 </h5>
@@ -133,7 +133,7 @@ const TradingJournal = () => {
                   ].map((stat, index) => (
                     <div
                       key={stat}
-                      className={`bg-db-primary flex flex-col items-center rounded-md px-4 py-5 ${
+                      className={`dark:bg-db-primary bg-db-primary-light flex flex-col items-center rounded-md px-4 py-5 ${
                         index >= 4 ? "col-span-2" : ""
                       }`}
                     >
@@ -155,7 +155,7 @@ const TradingJournal = () => {
                 key={title}
                 className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md"
               >
-                <div className="bg-db-secondary rounded-md p-2.5">
+                <div className="dark:bg-db-secondary bg-db-secondary-light rounded-md p-2.5">
                   <h5 className="font-normal text-2xl text-center mb-6">
                     {title}
                   </h5>
@@ -163,7 +163,7 @@ const TradingJournal = () => {
                     {[1, 2, 3].map((num) => (
                       <div
                         key={num}
-                        className="bg-db-primary flex flex-col items-center rounded-md px-4 py-5"
+                        className="dark:bg-db-primary  bg-db-primary-light flex flex-col items-center rounded-md px-4 py-5"
                       >
                         <p className="text-sm">
                           {title.split(" ")[1]} {num}
