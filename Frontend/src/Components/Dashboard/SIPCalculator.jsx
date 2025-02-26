@@ -143,14 +143,14 @@ const SIPCalculator = ({ calculator }) => {
 
   return (
     <div>
-      <div className="py-11 px-5 dark:bg-[#00114E] bg-db-secondary-light  rounded-md mt-10">
+      <div className="py-11 px-5 dark:bg-[#00114E] bg-light-b2  rounded-md mt-10">
         <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
           <div className=" w-full grid grid-cols-2 gap-x-10 gap-y-8">
             <div className="flex flex-col space-y-[50px]">
               {/* Investment Input */}
               <div className="flex flex-col space-y-3">
                 <div className="flex items-center justify-between">
-                  <label className="text-lg font-abcRepro font-light text-white ">
+                  <label className="text-lg font-abcRepro font-light  ">
                     {calculator === "SIP"
                       ? "Monthly Investment*"
                       : "Total Investment*"}
@@ -179,7 +179,7 @@ const SIPCalculator = ({ calculator }) => {
               {/* Expected Return Input */}
               <div className="flex flex-col space-y-3">
                 <div className="flex items-center justify-between">
-                  <label className="text-lg font-abcRepro font-light text-white">
+                  <label className="text-lg font-abcRepro font-light ">
                     Expected Return p.a. (%)*
                   </label>
                   <div className="flex gap-2 p-2 rounded-sm dark:bg-db-primary bg-db-primary-light w-20 text-center">
@@ -208,7 +208,7 @@ const SIPCalculator = ({ calculator }) => {
               {/* Duration Input */}
               <div className="flex flex-col space-y-3">
                 <div className="flex items-center justify-between">
-                  <label className="text-lg font-abcRepro font-light text-white ">
+                  <label className="text-lg font-abcRepro font-light  ">
                     Time Period (Years)*
                   </label>
                   <div className="flex gap-2 p-2 rounded-sm dark:bg-db-primary bg-db-primary-light w-20 text-center">
@@ -245,9 +245,9 @@ const SIPCalculator = ({ calculator }) => {
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-between items-center gap-10 mt-[82px] text-white">
+          <div className="flex justify-between items-center gap-10 mt-[82px] ">
             <button
-              className="bg-[#72A2FE] py-2 rounded-md w-4/5"
+              className="dark:bg-[#72A2FE] bg-white py-2 rounded-md w-4/5"
               onClick={() => {
                 setInitialAmount(500);
                 setExpectedReturn(1);
@@ -273,7 +273,7 @@ const SIPCalculator = ({ calculator }) => {
       </div>
 
       {/* Result Display */}
-      <div className="py-5 px-7 dark:bg-[#00114E] bg-db-secondary-light  text-white rounded-md mt-5">
+      <div className="py-5 px-7 dark:bg-[#00114E] bg-light-b2   rounded-md mt-5">
         <div className="flex justify-between items-center">
           <h4 className="text-3xl font-abcRepro font-light">Result:</h4>
           <button

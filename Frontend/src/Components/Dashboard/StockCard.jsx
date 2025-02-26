@@ -16,7 +16,7 @@ const StockCard = ({ title, stocks, img, price }) => {
               <h2 className=" text-xl font-semibold flex items-center gap-2">{title} <FcCandleSticks/></h2>
               <p className="dark:text-gray-400 text-sm flex items-center gap-2">
                 How to use <FaPlayCircle className="text-[#0256F5]" />{" "}
-                <span className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
+                <span className="bg-blue-600  px-2 py-1 rounded-full text-xs">
                   Live
                 </span>
               </p>
@@ -24,7 +24,7 @@ const StockCard = ({ title, stocks, img, price }) => {
           </div>
 
           <button className="p-2 rounded-lg   transition bg-gradient-to-b from-[#085AF5] to-[#73A3FE]">
-            <FaSearch className="text-white" />
+            <FaSearch  />
           </button>
         </div>
 
@@ -50,7 +50,7 @@ const StockCard = ({ title, stocks, img, price }) => {
             </div>
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden  ">
-              <table className="w-full text-white">
+              <table className="w-full ">
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10  ">
                   <tr className="text-gray-300 ">

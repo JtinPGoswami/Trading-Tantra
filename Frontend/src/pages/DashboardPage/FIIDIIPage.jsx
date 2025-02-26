@@ -9,7 +9,7 @@ const FIIDIIPage = () => {
   return (
     <>
       <h1 className="text-3xl font-bold mt-8">FII/DII</h1>
-      <section className="mt-8 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
+      <section className="mt-8 dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
         <div className="dark:bg-db-primary bg-db-primary-light rounded-lg p-2">
           <div>
             <div className="flex gap-4 items-center">
@@ -25,7 +25,7 @@ const FIIDIIPage = () => {
               <span className="flex items-center gap-1">How to use <FaPlayCircle className="text-[#0256F5]"/></span>
             </div>
 
-            <div className="mt-4 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
+            <div className="mt-4 dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
                 <CustomBarChart/>
             </div>
 
@@ -34,7 +34,7 @@ const FIIDIIPage = () => {
         </div>
       </section>
 
-      <section className="mt-8 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
+      <section className="mt-8 dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
 
             <FiiDiiTable/>
       </section>

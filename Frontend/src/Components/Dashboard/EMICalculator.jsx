@@ -80,13 +80,13 @@ const EMICalculator = ({ calculator }) => {
   };
   return (
     <div>
-      <div className="py-11 px-5 dark:bg-[#00114E] bg-db-secondary-light t rounded-md mt-10">
+      <div className="py-11 px-5 dark:bg-[#00114E] bg-light-b2 rounded-md mt-10">
         <form className="space-y-6">
           <div className="grid grid-cols-2 gap-y-8">
               <div className="flex flex-col space-y-[50px]">
                 <div className="flex flex-col space-y-3">
                   <div className="flex items-center justify-between">
-                    <label className="text-lg font-abcRepro font-light text-white ">
+                    <label className="text-lg font-abcRepro font-light  ">
                       Loan Amount*
                     </label>
                     <input
@@ -113,7 +113,7 @@ const EMICalculator = ({ calculator }) => {
                 {/* Expected Return Slider */}
                 <div className="flex flex-col space-y-3">
                   <div className="flex items-center justify-between">
-                    <label className="text-lg font-abcRepro font-light text-white">
+                    <label className="text-lg font-abcRepro font-light ">
                       Rate Of Interest (p.a.) (%)*
                     </label>
                     <input
@@ -140,7 +140,7 @@ const EMICalculator = ({ calculator }) => {
                 {/* Duration Slider */}
                 <div className="flex flex-col space-y-3">
                   <div className="flex items-center justify-between">
-                    <label className="text-lg font-abcRepro font-light text-white">
+                    <label className="text-lg font-abcRepro font-light ">
                       Loan Tenure (Years) *
                     </label>
                     <input
@@ -170,8 +170,8 @@ const EMICalculator = ({ calculator }) => {
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-between items-center gap-10 mt-[82px] text-white">
-            <button onClick={handleClear} className="bg-[#72A2FE] py-2 rounded-md w-4/5">
+          <div className="flex justify-between items-center gap-10 mt-[82px]">
+            <button onClick={handleClear} className="dark:bg-[#72A2FE] bg-white py-2 rounded-md w-4/5">
               Clear
             </button>
             <button onClick={handleCalculate} className="bg-primary py-2 rounded-md w-4/5">
@@ -180,7 +180,7 @@ const EMICalculator = ({ calculator }) => {
           </div>
         </form>
       </div>
-      <div className="py-5 px-7 dark:bg-[#00114E] bg-db-secondary-light text-white rounded-md mt-5">
+      <div className="py-5 px-7 dark:bg-[#00114E] bg-light-b2  rounded-md mt-5">
         <div className="flex justify-between items-center">
           <h4 className="text-3xl font-abcRepro font-light">Result:</h4>
           <button onClick={handleClear} className="text-base font-abcRepro px-3 py-2 rounded-md bg-primary">

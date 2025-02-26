@@ -46,7 +46,7 @@ const CalculatorsPage = () => {
     <>
       <div className="grid grid-cols-3 gap-10 mt-10  ">
         {/* Left Section */}
-        <div className="col-span-2 dark:bg-db-primary bg-db-primary-light border border-[#0256f550] p-5 rounded-md">
+        <div className="col-span-2 dark:bg-db-primary bg-db-secondary-light border border-[#0256f550] p-5 rounded-md">
           {/* Header Section */}
           <div className="flex justify-between items-center">
             {selectedCalculator === "Risk" ? (
@@ -176,7 +176,7 @@ const CalculatorsPage = () => {
         </div>
 
         {/* Right Section  */}
-        <div className="flex flex-col items-center px-5 py-12 font-abcRepro  dark:bg-db-primary bg-db-primary-light border border-[#0256f550]  space-y-[45px]">
+        <div className="flex flex-col items-center px-5 py-12 font-abcRepro  dark:bg-db-primary bg-db-secondary-light border border-[#0256f550]  space-y-[45px]">
           {selectedCalculator === "Risk" ? (
             <RiskCalculatorRight />
           ) : selectedCalculator === "CAGR" ? (

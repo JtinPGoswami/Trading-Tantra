@@ -19,9 +19,9 @@ const FiiDiiTable = () => {
         FII / DII <FcCandleSticks />
       </h2>
 
-      <div className="bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
-        <div className="dark:bg-db-secondary bg-db-secondary-light rounded-lg p-4 w-full ">
-          <table className="w-full text-white text-sm">
+      <div className="dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
+        <div className="dark:bg-db-secondary bg-light-b2 rounded-lg p-4 w-full ">
+          <table className="w-full  text-sm">
             <thead>
               <tr className="border-b border-gray-600">
                 {[

@@ -14,10 +14,10 @@ const IndexDepthPage = () => {
         <FaPlayCircle className="text-lg text-[#0256F5] ml-2" />
       </div>
 
-      <section className="mt-10  bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg ">
-        <div className="dark:bg-db-primary bg-db-secondary-light rounded-lg p-2">
+      <section className="mt-10  dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg ">
+        <div className="dark:bg-db-primary bg-db-primary-light rounded-lg p-2">
           <div className="flex justify-between gap-4">
-            <div className="flex justify-between items-center w-[40%] dark:bg-db-secondary bg-db-primary-light rounded-lg py-2 px-4">
+            <div className="flex justify-between items-center w-[40%] dark:bg-db-secondary bg-db-secondary-light rounded-lg py-2 px-4">
               <h4 className="text-4xl font-bold text-[#ED9B2F] drop-shadow-md">
                 Nifty <br />
                 50
@@ -30,7 +30,7 @@ const IndexDepthPage = () => {
               </span>
             </div>
 
-            <div className="w-[60%] dark:bg-db-secondary bg-db-primary-light px-4 py-2 rounded-lg ">
+            <div className="w-[60%] dark:bg-db-secondary bg-db-secondary-light px-4 py-2 rounded-lg ">
               <p>Gainers/Loosers</p>
 
               <div className="w-full h-2 bg-[#9B3B44] mt-2 rounded-full ">

@@ -177,7 +177,7 @@ const MonryActionPage = () => {
   return (
     <>
       {/* // 5 MIN MOMENTUM SPIKE card  */}
-      <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
+      <section className="dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
         <div className="dark:bg-db-primary bg-db-primary-light p-4 rounded-2xl">
           <div className="flex items-center gap-2">
             <img src={candles} alt="candle" className="w-15 object-contain" />
@@ -202,7 +202,7 @@ const MonryActionPage = () => {
       {/* 
 // 10 MIN MOMENTUM SPIKE card */}
 
-      <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
+      <section className="dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
         <div className="dark:bg-db-primary bg-db-primary-light p-4 rounded-2xl">
           <div className="flex items-center gap-2">
             <img src={candles} alt="candle" className="w-15 object-contain" />

@@ -194,7 +194,7 @@ const AiSwingTradesPage = () => {
       </section>
 
       {/* section weekly watch */}
-      <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
+      <section className="dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
         <div className="dark:bg-db-primary bg-db-primary-light p-4 rounded-2xl">
           <div className="flex items-center gap-2">
             <img src={candles} alt="candle" className="w-15 object-contain" />
@@ -218,7 +218,7 @@ const AiSwingTradesPage = () => {
       </section>
 
       {/* delivery scanner section */}
-      <section className="mt-10 bg-gradient-to-br  from-[#0009B2] to-[#02000E] p-px rounded-xl">
+      <section className="mt-10 dark:bg-gradient-to-br  from-[#0009B2] to-[#02000E] p-px rounded-xl">
         <div className="p-3  dark:bg-db-primary bg-db-primary-light rounded-xl">
           <div className="flex justify-between items-center mb-8">
             <div className="flex gap-2 items-center">
@@ -259,9 +259,9 @@ const AiSwingTradesPage = () => {
             </div>
           </div>
 
-          <div className="p-px rounded-lg bg-gradient-to-br from-[#0009B2] to-[#02000E]">
+          <div className="p-px rounded-lg dark:bg-gradient-to-br from-[#0009B2] to-[#02000E]">
             <div className="rounded-lg p-4  dark:bg-db-secondary bg-db-secondary-light ">
-              <table className="w-full text-white text-left ">
+              <table className="w-full  text-left ">
                 <thead className="relative text-xl">
                   <tr>
                     <th className="">Name</th>

@@ -16,7 +16,7 @@ if(theme==="dark"){
   document.body.style.backgroundColor = "#02000E";
   document.body.style.color = "#fff";
 }else{
-  document.body.style.backgroundColor = "#f8faff";
+  document.body.style.backgroundColor = "#E3EBFF";
   document.body.style.color = "#000";
 }
 

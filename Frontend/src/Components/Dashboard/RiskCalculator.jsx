@@ -64,8 +64,8 @@ const RiskCalculator = ({ calculator }) => {
 
   return (
     <div>
-      <div className="py-11 px-5 dark:bg-[#00114E] bg-db-secondary-light text-white rounded-md mt-10">
-        <form className="space-y-6" onSubmit={handleSubmit}>
+      <div className="py-11 px-5 dark:bg-[#00114E] bg-light-b2  rounded-md mt-10">
+        <form className="space-y-6" onSubmit={handleSubmit}> 
           <div className="grid grid-cols-2 gap-x-6 gap-y-8">
             {[{
                 label: "Account Capital*",
@@ -107,7 +107,7 @@ const RiskCalculator = ({ calculator }) => {
             ))}
           </div>
           <div className="flex justify-between items-center gap-10 mt-[50px]">
-            <button type="button" className="bg-[#72A2FE] py-2 rounded-md w-4/5" onClick={handleClear}>
+            <button type="button" className="dark:bg-[#72A2FE] bg-white py-2 rounded-md w-4/5" onClick={handleClear}>
               Clear
             </button>
             <button type="submit" className="bg-primary py-2 rounded-md w-4/5">
@@ -116,7 +116,7 @@ const RiskCalculator = ({ calculator }) => {
           </div>
         </form>
       </div>
-      <div className="py-5 px-7 dark:bg-[#00114E] bg-db-secondary-light text-white rounded-md mt-5">
+      <div className="py-5 px-7 dark:bg-[#00114E] bg-light-b2 rounded-md mt-5">
         <h4 className="text-3xl font-abcRepro font-light">Result:</h4>
         <div className="mt-[30px] space-y-5">
           <div className="flex w-full justify-between items-center font-abcRepro text-2xl font-light">

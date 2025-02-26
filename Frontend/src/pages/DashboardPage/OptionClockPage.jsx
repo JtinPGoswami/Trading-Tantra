@@ -61,7 +61,7 @@ const OptionClockPage = () => {
       </section>
 
       {/* oi clock charts section*/}
-      <section className="bg-gradient-to-br from-[#00078F] to-[#01071C] rounded-lg p-px mt-8">
+      <section className="dark:bg-gradient-to-br from-[#00078F] to-[#01071C] rounded-lg p-px mt-8">
         <div className="dark:bg-db-primary bg-db-primary-light rounded-lg p-3">
           <div className="dark:bg-db-primary bg-db-primary-lightrounded-lg ">
             <div className="flex items-center gap-2">
@@ -71,13 +71,13 @@ const OptionClockPage = () => {
               </span>
             </div>
 
-            <div className="mt-5 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
+            <div className="mt-5 dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
               <OiClockChart />
             </div>
           </div>
 
           <div className="w-full mt-5 h-auto grid grid-cols-2 gap-5">
-            <div className="  h-full bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
+            <div className="  h-full dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
               <div className="dark:bg-db-secondary bg-db-primary-light rounded-lg p-3">
                 <div className="flex items-center gap-2">
                   <h2 className="text-3xl font-medium">OI Clock</h2>{" "}
@@ -89,7 +89,7 @@ const OptionClockPage = () => {
               </div>
             </div>
 
-            <div className=" h-full bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
+            <div className=" h-full dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
               <div className="dark:bg-db-secondary bg-db-primary-light px-3 rounded-lg h-full  ">
                 <div className="flex gap-2 items-center justify-between p-2">
                   <div className="flex gap-2 items-center text-xl">

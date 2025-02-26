@@ -401,7 +401,7 @@ const AiSectorDepthPage = () => {
   ];
   return (
     <>
-      <section className="mt-8 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg h-auto ">
+      <section className="mt-8 dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg h-auto ">
         <div className="dark:bg-db-primary bg-db-primary-light rounded-lg p-2 h-auto pb-12">
           <div className="flex gap-4 items-center">
             <h1 className="text-3xl font-bold">AI Sector Depth</h1>
@@ -439,7 +439,7 @@ const AiSectorDepthPage = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg "
+                className="dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg "
               >
                 <div className="dark:bg-db-secondary bg-db-secondary-light rounded-lg p-2">
                   <p className="text-xl font-semibold text-white mb-2">{item}</p>
@@ -454,7 +454,7 @@ const AiSectorDepthPage = () => {
         </div>
       </section>
 
-      <section className="mt-8 bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
+      <section className="mt-8 dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
         <div className="dark:bg-[#000517] bg-db-primary-light rounded-lg p-2">
           <div className="flex gap-4 items-center mb-4">
             <h2 className="text-2xl font-semibold mb-2">AI Sector Depth</h2>
@@ -475,7 +475,7 @@ const AiSectorDepthPage = () => {
       {/* shares card */}
 
       <section className="mt-8">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
         {stockDataList.map((item, index) => (
           <StockCard
             key={index}

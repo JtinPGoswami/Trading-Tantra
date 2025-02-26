@@ -89,11 +89,11 @@ const AIOptionDataPage = () => {
       {/* second  section */}
       <section className="grid grid-cols-2 gap-4 mt-8">
         {/* first card */}
-        <div className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+        <div className="dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
           <div className="dark:bg-db-primary bg-db-secondary-light   rounded-lg p-4 h-full ">
             {/* heading */}
             <div className="flex gap-4 items-center ">
-              <h1 className="text-2xl font-medium text-white">Nifty 50</h1>
+              <h1 className="text-2xl font-medium ">Nifty 50</h1>
 
               <span className="flex gap-1 items-center text-base font-light text-white">How to Use <FaPlayCircle className="text-[#0256F5]" /> </span>
 
@@ -110,7 +110,7 @@ const AIOptionDataPage = () => {
         </div>
 
         {/* second card */}
-        <div className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+        <div className="dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
 
           <div className="dark:bg-db-primary bg-db-secondary-light   rounded-lg p-4 ">
 
@@ -121,9 +121,9 @@ const AIOptionDataPage = () => {
             </div>
 
             <div className="flex gap-4 items-center mt-8">
-              <h1 className="text-2xl font-medium text-white">Money Flux</h1>
+              <h1 className="text-2xl font-medium ">Money Flux</h1>
 
-              <span className="flex gap-1 items-center text-base font-light text-white">How to Use <FaPlayCircle className="text-[#0256F5]" /> </span>
+              <span className="flex gap-1 items-center text-base font-light ">How to Use <FaPlayCircle className="text-[#0256F5]" /> </span>
 
               <span className="flex items-center px-2 py-px rounded-full w-fit h-fit bg-[#0256F5] text-xs text-white">
                 <GoDotFill />

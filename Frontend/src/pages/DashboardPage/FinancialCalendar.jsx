@@ -270,6 +270,9 @@ const theme =useSelector((state)=>state.theme.theme)
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
+  
   return (
     <>
         <h2 className="mt-5 text-3xl font-semibold ">Financial Calendar</h2>
@@ -293,7 +296,7 @@ const theme =useSelector((state)=>state.theme.theme)
                 }}
               />
             </div>
-            <div className="grid grid-cols-3 dark:bg-db-secondary bg-db-secondary-light mt-2.5 gap-y-2 p-4 text-white">
+            <div className="grid grid-cols-3 dark:bg-db-secondary bg-primary-light mt-2.5 gap-y-2 p-4 ">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full bg-[#FC5C5D]"></div>
                 <p className="text-xs">Corporate Actions</p>
@@ -343,7 +346,7 @@ const theme =useSelector((state)=>state.theme.theme)
                       {event.event}
                     </p>
 
-                    <div className=" w-full dark:bg-db-primary bg-db-secondary-light text-white p-2 rounded-lg flex border border-[#0356F5] justify-between">
+                    <div className=" w-full dark:bg-db-primary bg-db-secondary-light p-2 rounded-lg flex border border-[#0356F5] justify-between">
                       <div>
                         <p className="text-base font-normal">{event.company}</p>
                         <p className="text-[10px] font-light">
@@ -370,9 +373,9 @@ const theme =useSelector((state)=>state.theme.theme)
           <div className="dark:bg-db-secondary bg-db-secondary-light">
             <form className="grid grid-cols-2 p-5 gap-4 ">
               <div>
-                <label htmlFor="fromDate" className="text-white">From Date</label>
+                <label htmlFor="fromDate" >From Date</label>
                 <div
-                  className="w-full flex items-center justify-between dark:bg-db-primary bg-db-primary-light rounded-[10px] px-2 py-4"
+                  className="w-full flex items-center justify-between dark:bg-db-primary bg-primary-light rounded-[10px] px-2 py-4"
                   onClick={(e) => {
                     e.stopPropagation(); // Prevents unnecessary event bubbling
                     document.getElementById("fromDateInput").showPicker();
@@ -388,9 +391,9 @@ const theme =useSelector((state)=>state.theme.theme)
                 </div>
               </div>
               <div>
-                <label htmlFor="toDate" className="text-white">To Date</label>
+                <label htmlFor="toDate" >To Date</label>
                 <div
-                  className="w-full flex items-center justify-between dark:bg-db-primary bg-db-primary-light rounded-[10px] px-2 py-4"
+                  className="w-full flex items-center justify-between dark:bg-db-primary bg-primary-light rounded-[10px] px-2 py-4"
                   onClick={(e) => {
                     e.stopPropagation(); // Prevents unnecessary event bubbling
                     document.getElementById("toDateInput").showPicker();
@@ -406,9 +409,9 @@ const theme =useSelector((state)=>state.theme.theme)
                 </div>
               </div>
               <div className="relative">
-                <label htmlFor="category" className="text-white">Category</label>
+                <label htmlFor="category" >Category</label>
                 <div
-                  className="w-full flex items-center justify-between dark:bg-db-primary bg-db-primary-light  rounded-[10px] px-2 py-4 cursor-pointer"
+                  className="w-full flex items-center justify-between dark:bg-db-primary bg-primary-light  rounded-[10px] px-2 py-4 cursor-pointer"
                   onClick={() => setShowDropdown(!showDropdown)}
                 >
                   <span>{category}</span>
@@ -458,11 +461,11 @@ const theme =useSelector((state)=>state.theme.theme)
             <h2 className="text-2xl font-light">
               Total Entries: {entriesData.length}
             </h2>
-            <div className="flex items-center px-2 py-2 text-white bg-[#085AF5] rounded-sm">
+            <div className="flex items-center px-2 py-2  bg-[#085AF5] rounded-sm">
               <input
                 type="text"
                 name="searchEntries"
-                className="bg-transparent outline-none border-none grow text-white placeholder:text-white"
+                className="bg-transparent outline-none border-none grow  "
                 placeholder="Search..."
               />
               <BsSearch />
@@ -470,9 +473,9 @@ const theme =useSelector((state)=>state.theme.theme)
           </div>
 
           {/* Entries Table */}
-          <div className="dark:bg-db-secondary bg-db-secondary-light rounded-md">
+          <div className="dark:bg-db-secondary bg-primary-light rounded-md">
             {/* Table Header */}
-            <div className="w-full grid grid-cols-5 px-10 font-semibold  text-white py-2">
+            <div className="w-full grid grid-cols-5 px-10 font-semibold   py-2">
               <p>Date</p>
               <p>Heading</p>
               <p>Description</p>
@@ -485,7 +488,7 @@ const theme =useSelector((state)=>state.theme.theme)
               {currentEntries.map((entry, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-5  py-2 text-gray-200 "
+                  className="grid grid-cols-5  py-2 dark:text-gray-200 "
                 >
                   <p className="text-sm">{entry.Date}</p>
                   <p className="text-sm">{entry.Heading}</p>
@@ -505,7 +508,7 @@ const theme =useSelector((state)=>state.theme.theme)
                 className={` ${
                   currentPage === 1
                     ? "text-gray-500 cursor-not-allowed"
-                    : " text-[#71A2FE]"
+                    : " dark:text-[#71A2FE] text-primary"
                 }`}
               >
                {"<"} Previous
@@ -516,7 +519,7 @@ const theme =useSelector((state)=>state.theme.theme)
                     onClick={() => paginate(i + 1)}
                     className={`px-5 py-1  rounded ${
                       currentPage === i + 1
-                        ? "bg-[#00114E] text-white"
+                        ? "dark:bg-[#00114E] bg-primary-light "
                         : "bg-transparent"
                     }`}
                   >
@@ -529,7 +532,7 @@ const theme =useSelector((state)=>state.theme.theme)
                   className={` ${
                     currentPage === totalPages
                       ? " text-gray-500 cursor-not-allowed"
-                      : " text-[#71A2FE]"
+                      : " dark:text-[#71A2FE] text-primary"
                   }`}
                 >
                   Next {">"}

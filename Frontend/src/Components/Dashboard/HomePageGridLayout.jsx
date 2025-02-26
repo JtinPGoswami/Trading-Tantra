@@ -9,73 +9,13 @@ import graph from "../../assets/Images/Dashboard/homepage/graph.png";
 import learnBook from "../../assets/Images/Dashboard/homepage/learn-book.png";
 import overStrategy from "../../assets/Images/Dashboard/homepage/over-strategy.png";
 const HomePageGridLayout = () => {
-  const cards = [
-    {
-      title: "Market Depth",
-      description:
-        "It identifies stocks where the big players are actively building positions.",
-      buttonText: "Market Depth",
-      icon: marketDepth,
-    },
-    {
-      title: "Customer Strategy",
-      description:
-        '"Customer Strategy" analyzes stocks based on proven market structures.',
-      buttonText: "Customer Strategy",
-      icon: customStrategy,
-    },
-    {
-      title: "Sector Depth",
-      description:
-        "Perfect for traders aiming for high-profit trades with pinpoint accuracy.",
-      buttonText: "Sector Depth",
-      icon: sectorDepth,
-    },
-    {
-      title: "Ai Swing Traders",
-      description:
-        "Find best stocks for swing trading based on different strategies.",
-      buttonText: "Ai Swing Traders",
-      icon: AiSwing,
-    },
-    {
-      title: "Option Clock",
-      description: "Just select time and get position built up by big players.",
-      buttonText: "Option Clock",
-      icon: clock,
-    },
-    {
-      title: "Profit",
-      description:
-        "Trading profit is earnings from core business activities before deductions.",
-      buttonText: "Market Depth",
-      icon: profit,
-    },
-    {
-      title: "Index Mover",
-      description:
-        '"Index Depth" shows which stocks are the driving forces behind index movements.',
-      buttonText: "Index Mover",
-      icon: graph,
-    },
-    {
-      title: "Learn From Us",
-      description:
-        "Take maximum benefits of Trade Tantra & learn how to use different features.",
-      buttonText: "Learn More",
-      icon: learnBook,
-    },
-    {
-      title: "Over Strategy",
-      description:
-        "Take maximum benefits of TradeFinder & learn how to use different features.",
-      buttonText: "Over Strategy",
-      icon: overStrategy,
-    },
-  ];
+ 
   return (
+    <div className="dark:bg-db-primary min-h-screen  py-10">
+      <h1 className=" text-2xl font-bold mb-6">Indian Markets</h1>
+ 
     <div class="homeParent">
-      <div class="div1 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg  ">
+      <div class="div1 dark:bg-gradient-to-br dark:from-[#0009B2] dark:to-[#02000E] p-px rounded-lg  ">
         <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg w-full h-full flex flex-col justify-between">
           <div className="flex flex-col items-start justify-between   space-x-3">
             <div className="flex items-center gap-3">
@@ -101,7 +41,7 @@ const HomePageGridLayout = () => {
           </button>
         </div>
       </div>
-      <div class="div2 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+      <div class="div2 dark:bg-gradient-to-br dark:from-[#0009B2] dark:to-[#02000E] p-px rounded-lg">
         <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg w-full h-full flex flex-col justify-between">
           <div className="flex flex-col items-start space-x-3">
             <div className="flex items-center gap-3">
@@ -127,7 +67,7 @@ const HomePageGridLayout = () => {
           </button>
         </div>
       </div>
-      <div class="div3 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+      <div class="div3 dark:bg-gradient-to-br dark:from-[#0009B2] dark:to-[#02000E] p-px rounded-lg">
         <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg w-full h-full flex flex-col justify-between">
           <div className="flex flex-col items-start space-x-3">
             <div className="flex items-center gap-3">
@@ -148,7 +88,7 @@ const HomePageGridLayout = () => {
           </button>
         </div>
       </div>
-      <div class="div4 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+      <div class="div4 dark:bg-gradient-to-br dark:from-[#0009B2] dark:to-[#02000E] p-px rounded-lg">
         <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg w-full h-full flex flex-col justify-between">
           <div className="flex flex-col items-start space-x-3">
             <div className="flex items-center gap-3">
@@ -175,7 +115,7 @@ const HomePageGridLayout = () => {
         </div>
       </div>
 
-      <div class="div5 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+      <div class="div5 dark:bg-gradient-to-br dark:from-[#0009B2] dark:to-[#02000E] p-px rounded-lg">
         <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg w-full h-full flex flex-col justify-between">
           <div className="flex flex-col items-start space-x-3">
             <div className="flex items-center gap-3">
@@ -201,7 +141,7 @@ const HomePageGridLayout = () => {
         </div>
       </div>
 
-      <div class="div6 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+      <div class="div6 dark:bg-gradient-to-br dark:from-[#0009B2] dark:to-[#02000E] p-px rounded-lg">
         <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg w-full h-full flex flex-col justify-between">
           <div className="flex flex-col items-start space-x-3">
             <div className="flex items-center gap-3">
@@ -223,7 +163,7 @@ const HomePageGridLayout = () => {
           </button>
         </div>
       </div>
-      <div class="div7 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+      <div class="div7 dark:bg-gradient-to-br dark:from-[#0009B2] dark:to-[#02000E] p-px rounded-lg">
       <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg w-full h-full flex flex-col justify-between">
           <div className="flex flex-col items-start space-x-3 space-y-6">
               <div>
@@ -241,8 +181,8 @@ const HomePageGridLayout = () => {
           </button>
         </div>
       </div>
-      <div class="div8 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
-      <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg ">
+      <div class="div8 dark:bg-gradient-to-br dark:from-[#0009B2] dark:to-[#02000E] p-px rounded-lg md:h-auto h-full">
+      <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg  h-full">
           <div className="flex flex-col items-start space-x-3">
             <div className="flex items-center gap-3">
               <div>
@@ -260,8 +200,8 @@ const HomePageGridLayout = () => {
           
         </div>
       </div>
-      <div class="div9 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
-      <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg">
+      <div class="div9 dark:bg-gradient-to-br dark:from-[#0009B2] dark:to-[#02000E] p-px rounded-lg md:h-auto h-full">
+      <div className="dark:bg-db-primary bg-db-primary-light   border border-transparent rounded-xl p-4 relative shadow-lg h-full">
           <div className="flex flex-col items-start space-x-3">
             <div className="flex items-center gap-3">
               <div>
@@ -279,6 +219,7 @@ const HomePageGridLayout = () => {
           
         </div>
       </div>
+    </div>
     </div>
   );
 };

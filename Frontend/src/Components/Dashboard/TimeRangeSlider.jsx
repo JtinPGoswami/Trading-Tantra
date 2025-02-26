@@ -24,7 +24,7 @@ const TimeRangeSlider = () => {
   return (
     <div className="flex gap-4 items-center mt-5 w-full">
       {/* Slider Container */}
-      <div className="bg-gradient-to-br from-[#0108B1] to-[#02000E] w-full p-px rounded-lg">
+      <div className="dark:bg-gradient-to-br from-[#0108B1] to-[#02000E] w-full p-px rounded-lg">
         <div className="w-full p-4 dark:bg-db-primary bg-db-primary-light rounded-lg">
           <Slider
             range

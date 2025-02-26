@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import Chart from "react-apexcharts";
-
+import { useSelector } from "react-redux";
 const CandleChart = () => {
+
+  const theme= useSelector((state) => state.theme.theme);
+  const labelStyle={
+    color: theme === "dark" ? "white" : "black",
+  }
   const [chartData] = useState({
     series: [
       {
@@ -39,11 +44,11 @@ const CandleChart = () => {
       
       xaxis: {
         type: "datetime",
-        labels: { style: { colors: "#ffffff" } } // White text color
+        labels: { style: { colors: labelStyle } } // White text color
       },
       yaxis: {
         tooltip: { enabled: true },
-        labels: { style: { colors: "#ffffff" } } // White text color
+        labels: { style: { colors: labelStyle } } // White text color
       },
       tooltip: {
         theme: "dark",
