@@ -33,7 +33,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`absolute top-0 left-0 md:static z-20 flex h-screen ${
+      className={`absolute top-0 left-0 md:static z-50 flex h-screen ${
         isOpen
           ? "translate-x-0 sm:translate-x-0"
           : "-translate-x-full sm:translate-x-0"

@@ -44,7 +44,7 @@ const Header = () => {
 
   return (
     <div className=" dark:bg-[#000517] border bg-[#273D8F]  border-[#000B34] h-20 w-full mx-auto rounded-[10px] p-3 flex items-center justify-between">
-      <div className="w-1/2">
+      <div className="w-1/2 flex items-center gap-2">
         <button
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
@@ -71,7 +71,7 @@ const Header = () => {
           </motion.span>
         </button>
 
-        <img src={hamburger} alt="icon" className="w-4 h-4 sm:hidden block" 
+        <img src={hamburger} alt="icon" className="w-4 h-4 sm:hidden block cursor-pointer" 
         onClick={() => dispatch(toggleSideBar(!isOpen))}
         />
 
