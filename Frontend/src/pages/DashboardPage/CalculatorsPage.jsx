@@ -44,9 +44,9 @@ const CalculatorsPage = () => {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-10 mt-10  ">
+      <div className="grid lg:grid-cols-3 grid-cols-1 gap-10 mt-10  ">
         {/* Left Section */}
-        <div className="col-span-2 bg-db-primary border border-[#0256f550] p-5 rounded-md">
+        <div className="lg:col-span-2 bg-db-primary border border-[#0256f550] p-5 rounded-md">
           {/* Header Section */}
           <div className="flex justify-between items-center">
             {selectedCalculator === "Risk" ? (
@@ -147,18 +147,20 @@ const CalculatorsPage = () => {
           </div>
 
           {/* Calculator Selection Buttons */}
-          <div className="flex justify-between items-center mt-8">
-            {calculators.map((calc) => (
-              <button
-                key={calc}
-                className={`p-2.5  rounded-sm hover:bg-primary transition-all ${
-                  selectedCalculator === calc && "bg-primary"
-                }`}
-                onClick={() => handelCalculatorChange(calc)}
-              >
-                {calc} Calculator
-              </button>
-            ))}
+          <div className="w-full overflow-x-auto whitespace-nowrap scrollbar-hide mt-8">
+            <div className="flex space-x-4 w-max">
+              {calculators.map((calc) => (
+                <button
+                  key={calc}
+                  className={`p-2.5 rounded-sm hover:bg-primary transition-all ${
+                    selectedCalculator === calc ? "bg-primary" : ""
+                  }`}
+                  onClick={() => handelCalculatorChange(calc)}
+                >
+                  {calc} Calculator
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Calculator Form */}
@@ -176,7 +178,7 @@ const CalculatorsPage = () => {
         </div>
 
         {/* Right Section  */}
-        <div className="flex flex-col items-center px-5 py-12 font-abcRepro  bg-db-primary border border-[#0256f550]  space-y-[45px]">
+        <div className=" flex flex-col items-center px-5 py-12 font-abcRepro  bg-db-primary border border-[#0256f550]  space-y-[45px]">
           {selectedCalculator === "Risk" ? (
             <RiskCalculatorRight />
           ) : selectedCalculator === "CAGR" ? (
@@ -245,97 +247,145 @@ const CalculatorsPage = () => {
         </div>
       </div>
       <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px my-[30px] rounded-md mr-2">
-
-     
-      <div className="font-abcRepro bg-db-primary  p-[30px] rounded-md  ">
-        <h2 className="text-2xl font-bold mb-5">What is Risk calculator?</h2>
-        <div className="space-y-6">
-        <p className="text-lg font-light">
-          One of the most important tools in a trader's bag is risk management.
-          Proper position sizing is key to managing risk and to avoid blowing
-          out your account on a single trade. If your position size is too
-          limited or too wide, you may end up taking a lot of risks or end up
-          taking not enough for you to profit from a trade.
-        </p>
-        <p className="text-lg font-light">
-          Knowing your risk position is critical to establishing a winning
-          strategy. Our calculator helps you make trading decisions based on
-          intellect and not emotion. That's how you trade like a pro.
-        </p>
-        <p className="text-lg font-light">
-          With a few simple inputs, our calculator will help you find the
-          approximate units to buy or sell to control your maximum risk per
-          position.
-        </p>
-        </div>
-        <h2 className="text-2xl font-bold my-[30px]">Important terms to understand</h2>
-       <div className="space-y-6">
-
-        <p className="text-lg font-light">
-          Account capital : Pretty straightforward, traders just need to input
-          their account capital.
-        </p>
-        <p className="text-lg font-light">
-          Risk per trade (%) : This is a crucial field. Here you have to put the
-          risk you are wiling to take on that trade in terms of % of your
-          account capital.
-          <br />
-          All Pro traders take risk in a range of 1-5% per trade.
-        </p>
-        <p className="text-lg font-light">
-          Stoploss in rupee : Here, traders should input the maximum number of
-          points they are willing to risk, or lose, in a trade, to protect the
-          account capital in case the market goes against their position.
-        </p>
-        <p className="text-lg font-light">
-          For eg: You bought in BankNifty CE at 250 Rs and as per your analysis
-          you should exit that trade if price goes below 200 Rs. So here you are
-          stoploss is (250 - 200) = Rs. 50
-        </p>
-        <p className="text-lg font-light">
-          Lot size : If you are trading in F&O enter the lot size of instrument
-          you are taking trade in.
-        </p>
-       </div>
-      </div> </section>
+        <div className="font-abcRepro bg-db-primary  p-[30px] rounded-md  ">
+          <h2 className="text-2xl font-bold mb-5">What is Risk calculator?</h2>
+          <div className="space-y-6">
+            <p className="text-lg font-light">
+              One of the most important tools in a trader's bag is risk
+              management. Proper position sizing is key to managing risk and to
+              avoid blowing out your account on a single trade. If your position
+              size is too limited or too wide, you may end up taking a lot of
+              risks or end up taking not enough for you to profit from a trade.
+            </p>
+            <p className="text-lg font-light">
+              Knowing your risk position is critical to establishing a winning
+              strategy. Our calculator helps you make trading decisions based on
+              intellect and not emotion. That's how you trade like a pro.
+            </p>
+            <p className="text-lg font-light">
+              With a few simple inputs, our calculator will help you find the
+              approximate units to buy or sell to control your maximum risk per
+              position.
+            </p>
+          </div>
+          <h2 className="text-2xl font-bold my-[30px]">
+            Important terms to understand
+          </h2>
+          <div className="space-y-6">
+            <p className="text-lg font-light">
+              Account capital : Pretty straightforward, traders just need to
+              input their account capital.
+            </p>
+            <p className="text-lg font-light">
+              Risk per trade (%) : This is a crucial field. Here you have to put
+              the risk you are wiling to take on that trade in terms of % of
+              your account capital.
+              <br />
+              All Pro traders take risk in a range of 1-5% per trade.
+            </p>
+            <p className="text-lg font-light">
+              Stoploss in rupee : Here, traders should input the maximum number
+              of points they are willing to risk, or lose, in a trade, to
+              protect the account capital in case the market goes against their
+              position.
+            </p>
+            <p className="text-lg font-light">
+              For eg: You bought in BankNifty CE at 250 Rs and as per your
+              analysis you should exit that trade if price goes below 200 Rs. So
+              here you are stoploss is (250 - 200) = Rs. 50
+            </p>
+            <p className="text-lg font-light">
+              Lot size : If you are trading in F&O enter the lot size of
+              instrument you are taking trade in.
+            </p>
+          </div>
+        </div>{" "}
+      </section>
       <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px my-[30px] rounded-md mr-2">
-      <div className="font-abcRepro bg-db-primary  p-[30px] rounded-md  ">
-        <h2 className="text-2xl font-bold mb-[25px]">How to use this Calculator?</h2>
-        <h2 className="text-2xl font-bold mb-5">For Equity:</h2>
-        <ul>
-          <li className="text-lg font-light ">Let's say you have purchased Reliance at 2500.</li>
-          <li className="text-lg font-light ">Your Account Capital is 1,00,000</li>
-          <li className="text-lg font-light ">You are willing to take Risk per trade is 2%</li>
-          <li className="text-lg font-light mb-6">You are planning to exit Reliance if it goes down below 2430, so stoploss in rupees is 70</li>
-          <li className="text-lg font-light ">Total quantity you can enter with =</li>
-          <li className="text-lg font-light mb-6 ">Account capital × Risk per trade (%) / 100 / Stoploss in rupees = (1,00,000) × (2) / 100 / 70 = 28.57 ≈ 28</li>
-          <li className="text-lg font-light ">Now amount at risk = Total quantity × stoploss = 28 × 70 = 1960</li>
-          
-        </ul>
-        <h2 className="text-2xl font-bold my-[30px]">For F&O:</h2>
-        <ul>
-          <li className="text-lg font-light ">Let's say you have a capital of 1,00,000</li>
-          <li className="text-lg font-light mb-6 ">Account Capital = 1,00,000</li>
-          <li className="text-lg font-light ">Now you are willing to take 2% risk per trade. That is the maximum you are willing to lose if trade goes wrong is 2% of account capital</li>
-          <li className="text-lg font-light mb-6">= 2% of 1,00,000 = 2000</li>
-          <li className="text-lg font-light ">So, Risk Per Trade (%) = 2%</li>
-          <li className="text-lg font-light ">You are trading in BankNifty CE</li>
-          <li className="text-lg font-light ">Lot size of BankNIfty is 25</li>
-          <li className="text-lg font-light mb-6">Lot size = 25</li>
-          <li className="text-lg font-light ">Now you have bought the BankNIfty CE at 250 rupees and as per your analysis if BankNifty CE goes below 215 level, you should exit the trade. So here your risk is (250-215) = Rs. 35</li>
-          <li className="text-lg font-light mb-6 ">So, Stoploss in rupee = 35</li>
-          <li className="text-lg font-light ">Here as you are trading in Derivative, you have to buy/sell minimum 1 lot.</li>
-          <li className="text-lg font-light ">So. first we will find risk per lot</li>
-          <li className="text-lg font-light mb-6">Risk per Lot = Lot Size × Stoploss in Rupee = 25 × 35 = 875</li>
-          <li className="text-lg font-light ">Now, No of lots you can trade = Risk per trade in rupee / Risk per Lot</li>
-          <li className="text-lg font-light mb-6 ">= 2% of capital / (25 × 35) = 2000 / 875 = 2.28 ≈ 2 lots</li>
-          <li className="text-lg font-light mb-6">Total Quantity = No. of lots × Lot Size = 2 × 25 = 50</li>
-          <li className="text-lg font-light ">Amount at risk = No. of Lots × Risk per Lot = 2 × 875 = 1750</li>
-        
-
-        </ul>
-      </div></section>
-      
+        <div className="font-abcRepro bg-db-primary  p-[30px] rounded-md  ">
+          <h2 className="text-2xl font-bold mb-[25px]">
+            How to use this Calculator?
+          </h2>
+          <h2 className="text-2xl font-bold mb-5">For Equity:</h2>
+          <ul>
+            <li className="text-lg font-light ">
+              Let's say you have purchased Reliance at 2500.
+            </li>
+            <li className="text-lg font-light ">
+              Your Account Capital is 1,00,000
+            </li>
+            <li className="text-lg font-light ">
+              You are willing to take Risk per trade is 2%
+            </li>
+            <li className="text-lg font-light mb-6">
+              You are planning to exit Reliance if it goes down below 2430,
+              so stoploss in rupees is 70
+            </li>
+            <li className="text-lg font-light ">
+              Total quantity you can enter with =
+            </li>
+            <li className="text-lg font-light mb-6 ">
+              Account capital × Risk per trade (%) / 100 / Stoploss in rupees =
+              (1,00,000) × (2) / 100 / 70 = 28.57 ≈ 28
+            </li>
+            <li className="text-lg font-light ">
+              Now amount at risk = Total quantity × stoploss = 28 × 70 = 1960
+            </li>
+          </ul>
+          <h2 className="text-2xl font-bold my-[30px]">For F&O:</h2>
+          <ul>
+            <li className="text-lg font-light ">
+              Let's say you have a capital of 1,00,000
+            </li>
+            <li className="text-lg font-light mb-6 ">
+              Account Capital = 1,00,000
+            </li>
+            <li className="text-lg font-light ">
+              Now you are willing to take 2% risk per trade. That is the maximum
+              you are willing to lose if trade goes wrong is 2% of account
+              capital
+            </li>
+            <li className="text-lg font-light mb-6">= 2% of 1,00,000 = 2000</li>
+            <li className="text-lg font-light ">So, Risk Per Trade (%) = 2%</li>
+            <li className="text-lg font-light ">
+              You are trading in BankNifty CE
+            </li>
+            <li className="text-lg font-light ">Lot size of BankNIfty is 25</li>
+            <li className="text-lg font-light mb-6">Lot size = 25</li>
+            <li className="text-lg font-light ">
+              Now you have bought the BankNIfty CE at 250 rupees and as per your
+              analysis if BankNifty CE goes below 215 level, you should exit the
+              trade. So here your risk is (250-215) = Rs. 35
+            </li>
+            <li className="text-lg font-light mb-6 ">
+              So, Stoploss in rupee = 35
+            </li>
+            <li className="text-lg font-light ">
+              Here as you are trading in Derivative, you have to buy/sell
+              minimum 1 lot.
+            </li>
+            <li className="text-lg font-light ">
+              So. first we will find risk per lot
+            </li>
+            <li className="text-lg font-light mb-6">
+              Risk per Lot = Lot Size × Stoploss in Rupee = 25 × 35 = 875
+            </li>
+            <li className="text-lg font-light ">
+              Now, No of lots you can trade = Risk per trade in rupee / Risk per
+              Lot
+            </li>
+            <li className="text-lg font-light mb-6 ">
+              = 2% of capital / (25 × 35) = 2000 / 875 = 2.28 ≈ 2 lots
+            </li>
+            <li className="text-lg font-light mb-6">
+              Total Quantity = No. of lots × Lot Size = 2 × 25 = 50
+            </li>
+            <li className="text-lg font-light ">
+              Amount at risk = No. of Lots × Risk per Lot = 2 × 875 = 1750
+            </li>
+          </ul>
+        </div>
+      </section>
     </>
   );
 };

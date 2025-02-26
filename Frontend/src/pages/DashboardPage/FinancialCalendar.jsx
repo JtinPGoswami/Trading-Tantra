@@ -272,10 +272,10 @@ const FinancialCalendar = () => {
   return (
     <>
         <h2 className="mt-5 text-3xl font-semibold ">Financial Calendar</h2>
-      <div className="w-full flex items-start my-5 ">
+      <div className="w-full flex items-start lg:gap-y-0 gap-y-5 lg:flex-row flex-col my-5 ">
         {/* left section */}
-        <section className="rounded-lg w-full max-w-md bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px  mr-5">
-          <div className="bg-db-primary w-full rounded-lg p-2.5">
+        <section className="rounded-lg w-full lg:max-w-md   bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px  mr-5">
+          <div className="bg-db-primary w-full rounded-lg p-2.5 ">
             <div className="flex flex-col items-center bg-db-primary shadow-lg rounded-sm w-full">
               <Calendar
                 onChange={setDate}
@@ -363,8 +363,8 @@ const FinancialCalendar = () => {
         </section>
       </div>
       {/* date form */}
-      <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px">
-        <div className="bg-db-primary w-full p-5">
+      <section className="bg-gradient-to-tr from-[#0009B2] rounded-md to-[#02000E] p-px">
+        <div className="bg-db-primary w-full p-5 rounded-md ">
           <h2 className="text-2xl font-medium mb-5">Calendar Events</h2>
           <div className="bg-db-secondary">
             <form className="grid grid-cols-2 p-5 gap-4 ">
@@ -450,93 +450,89 @@ const FinancialCalendar = () => {
       </section>
 
       {/* entries */}
-      <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px mt-5">
-        <div className="bg-db-primary w-full p-5">
-          {/* Header Section */}
-          <div className="flex justify-between  mb-4">
-            <h2 className="text-2xl font-light">
-              Total Entries: {entriesData.length}
-            </h2>
-            <div className="flex items-center px-2 py-2 bg-[#085AF5] rounded-sm">
-              <input
-                type="text"
-                name="searchEntries"
-                className="bg-transparent outline-none border-none grow"
-                placeholder="Search..."
-              />
-              <BsSearch />
-            </div>
+      <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md   mt-5">
+  <div className="bg-db-primary w-full p-3 sm:p-5 rounded-md">
+    {/* Header Section */}
+    <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
+      <h2 className="text-lg sm:text-xl font-light text-white">
+        Total Entries: {entriesData.length}
+      </h2>
+      <div className="flex items-center px-3 py-2 bg-[#085AF5] rounded-md w-full sm:w-auto">
+        <input
+          type="text"
+          name="searchEntries"
+          className="bg-transparent outline-none border-none grow text-white placeholder-gray-300 text-sm sm:text-base"
+          placeholder="Search..."
+        />
+        <BsSearch className="text-white" />
+      </div>
+    </div>
+
+    {/* Entries Table */}
+    <div className="bg-db-secondary overflow-x-auto rounded-md">
+      {/* Table Header */}
+      <div className="w-full grid grid-cols-5 px-4 sm:px-6 md:px-10 font-semibold text-white py-3 text-xs sm:text-sm md:text-base border-b border-gray-700">
+        <p className="text-center">Date</p>
+        <p className="text-center">Heading</p>
+        <p className="text-center">Description</p>
+        <p className="text-center">Symbol</p>
+        <p className="text-center">Name</p>
+      </div>
+
+      {/* Table Body */}
+      <div className="w-full min-h-[400px] mt-2">
+        {currentEntries.map((entry, index) => (
+          <div
+            key={index}
+            className="grid grid-cols-5 py-3 text-gray-200 text-xs sm:text-sm md:text-base border-b border-gray-700 px-4 sm:px-6 md:px-10"
+          >
+            <p className="text-center">{entry.Date}</p>
+            <p className="text-center">{entry.Heading}</p>
+            <p className="text-center">{entry.Description}</p>
+            <p className="text-center">{entry.Symbol}</p>
+            <p className="text-center">{entry.Name}</p>
           </div>
+        ))}
+      </div>
+    </div>
 
-          {/* Entries Table */}
-          <div className="bg-db-secondary">
-            {/* Table Header */}
-            <div className="w-full grid grid-cols-5 px-10 font-semibold  text-white py-2">
-              <p>Date</p>
-              <p>Heading</p>
-              <p>Description</p>
-              <p>Symbol</p>
-              <p>Name</p>
-            </div>
+    {/* Pagination */}
+    {totalPages > 1 && (
+      <div className="flex justify-center sm:justify-end mt-4 space-x-2 text-xs sm:text-sm md:text-base">
+        <button
+          onClick={handlePrevious}
+          disabled={currentPage === 1}
+          className={`px-3 py-1 ${
+            currentPage === 1 ? "text-gray-500 cursor-not-allowed" : "text-[#71A2FE]"
+          }`}
+        >
+          {"<"} Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => paginate(i + 1)}
+            className={`px-4 py-1 rounded ${
+              currentPage === i + 1 ? "bg-[#00114E] text-white" : "bg-transparent"
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages}
+          className={`px-3 py-1 ${
+            currentPage === totalPages ? "text-gray-500 cursor-not-allowed" : "text-[#71A2FE]"
+          }`}
+        >
+          Next {">"}
+        </button>
+      </div>
+    )}
+  </div>
+</section>
 
-            {/* Table Body */}
-            <div className="border-t border-primary px-10 w-full min-h-[400px] mt-3 pt-3">
-              {currentEntries.map((entry, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-5  py-2 text-gray-200 "
-                >
-                  <p className="text-sm">{entry.Date}</p>
-                  <p className="text-sm">{entry.Heading}</p>
-                  <p className="text-sm">{entry.Description}</p>
-                  <p className="text-sm">{entry.Symbol}</p>
-                  <p className="text-sm">{entry.Name}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {totalPages > 1 && (
-              <div className="flex justify-end mt-4 space-x-2">
-              <button
-                onClick={handlePrevious}
-                disabled={currentPage === 1}
-                className={` ${
-                  currentPage === 1
-                    ? "text-gray-500 cursor-not-allowed"
-                    : " text-[#71A2FE]"
-                }`}
-              >
-               {"<"} Previous
-              </button>
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <button
-                    key={i + 1}
-                    onClick={() => paginate(i + 1)}
-                    className={`px-5 py-1  rounded ${
-                      currentPage === i + 1
-                        ? "bg-[#00114E] text-white"
-                        : "bg-transparent"
-                    }`}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-                <button
-                  onClick={handleNext}
-                  disabled={currentPage === totalPages}
-                  className={` ${
-                    currentPage === totalPages
-                      ? " text-gray-500 cursor-not-allowed"
-                      : " text-[#71A2FE]"
-                  }`}
-                >
-                  Next {">"}
-                </button>
-              </div>
-          )}
-        </div>
-      </section>
     </>
   );
 };

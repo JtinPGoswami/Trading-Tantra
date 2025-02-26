@@ -180,7 +180,7 @@ const AiSwingTradesPage = () => {
       <section className="mt-10">
         <h2 className="text-3xl font-bold ">AI Swing Trades</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
           {stockDataList.map((item, index) => (
             <StockCard
               key={index}
@@ -218,107 +218,78 @@ const AiSwingTradesPage = () => {
       </section>
 
       {/* delivery scanner section */}
-      <section className="mt-10 bg-gradient-to-br  from-[#0009B2] to-[#02000E] p-px rounded-xl">
-        <div className="p-3  bg-[#01071C] rounded-xl">
-          <div className="flex justify-between items-center mb-8">
-            <div className="flex gap-2 items-center">
-              <img src={topGainers} alt="icon" />
-              <h2 className="text-white text-4xl font-bold mb-4">
-                Delivery Scanner
-              </h2>
-            </div>
+      <section className="mt-10 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-xl">
+  <div className="p-3 bg-[#01071C] rounded-xl">
+    <div className="flex flex-wrap justify-between items-center mb-8">
+      <div className="flex gap-2 items-center">
+        <img src={topGainers} alt="icon" />
+        <h2 className="text-white text-4xl font-bold mb-4">Delivery Scanner</h2>
+      </div>
 
-            <div className="flex gap-4">
-              <div className="flex flex-col">
-                <label className="text-2xl font-semibold mb-4">Scan Type</label>
-                <select
-                  name=""
-                  id=""
-                  className="text-xs px-2 w-fit py-px border  border-white rounded outline-none"
-                >
-                  <option value="">Highest Delivery</option>
-                  <option value="">Highest Delivery</option>
-                  <option value="">Highest Delivery</option>
-                  <option value="">Highest Delivery</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col">
-                <label className="text-2xl font-semibold mb-4">Segment</label>
-                <select
-                  name=""
-                  id=""
-                  className="text-xs w-fit border px-2 py-px border-white rounded outline-none "
-                >
-                  <option value="">F&O</option>
-                  <option value="">Highest Delivery</option>
-                  <option value="">Highest Delivery</option>
-                  <option value="">Highest Delivery</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-px rounded-lg bg-gradient-to-br from-[#0009B2] to-[#02000E]">
-            <div className="rounded-lg p-4  bg-[#000A2D]">
-              <table className="w-full text-white text-left ">
-                <thead className="relative text-xl">
-                  <tr>
-                    <th className="">Name</th>
-                    <th>Volume</th>
-                    <th>Avg. Del%</th>
-                    <th>Delivery (%)</th>
-                  </tr>
-                  <tr className="absolute -bottom-2 left-0  w-full h-[1px] bg-gradient-to-r from-[#000A2D] via-[#002ED0] to-[#000A2D] " />
-                </thead>
-                <tbody>
-                  {[
-                    {
-                      name: "KPITTECH",
-                      volume: 3319808,
-                      avgDel: 55.55,
-                      del: 55.55,
-                    },
-                    {
-                      name: "ZOMATO",
-                      volume: 10138270,
-                      avgDel: 63.04,
-                      del: 63.04,
-                    },
-                    {
-                      name: "TVS MOTOR",
-                      volume: 1075095,
-                      avgDel: 54.53,
-                      del: 54.53,
-                    },
-                    {
-                      name: "SUPER MEIND",
-                      volume: 6077580,
-                      avgDel: 51.19,
-                      del: 51.19,
-                    },
-                  ].map((stock, index) => (
-                    <tr key={index} className="text-xl ">
-                      <td className=" pt-3 ">{stock.name}</td>
-                      <td className="pt-3">{stock.volume.toLocaleString()}</td>
-                      <td className="pt-3">{stock.avgDel.toFixed(2)}</td>
-                      <td className="flex items-center gap-2 pt-3">
-                        {stock.del.toFixed(2)}
-                        <div className="w-24 h-2 bg-gray-50 rounded">
-                          <div
-                            className="h-2 bg-blue-500 rounded"
-                            style={{ width: `${stock.del}%` }}
-                          ></div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+      <div className="flex gap-4 flex-wrap">
+        <div className="flex flex-col">
+          <label className="text-2xl font-semibold mb-2">Scan Type</label>
+          <select className="text-xs px-2 w-fit py-1 border border-white rounded outline-none bg-[#01071C] text-white">
+            <option value="">Highest Delivery</option>
+            <option value="">Highest Delivery</option>
+            <option value="">Highest Delivery</option>
+            <option value="">Highest Delivery</option>
+          </select>
         </div>
-      </section>
+
+        <div className="flex flex-col">
+          <label className="text-2xl font-semibold mb-2">Segment</label>
+          <select className="text-xs w-fit border px-2 py-1 border-white rounded outline-none bg-[#01071C] text-white">
+            <option value="">F&O</option>
+            <option value="">Highest Delivery</option>
+            <option value="">Highest Delivery</option>
+            <option value="">Highest Delivery</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div className="p-px rounded-lg bg-gradient-to-br from-[#0009B2] to-[#02000E]">
+      <div className="rounded-lg p-4 bg-[#000A2D] overflow-x-auto">
+        <table className="w-full text-white text-left min-w-[600px]">
+          <thead className="relative text-xl">
+            <tr>
+              <th className="whitespace-nowrap">Name</th>
+              <th className="whitespace-nowrap">Volume</th>
+              <th className="whitespace-nowrap">Avg. Del%</th>
+              <th className="whitespace-nowrap">Delivery (%)</th>
+            </tr>
+            <tr className="absolute -bottom-2 left-0 w-full h-[1px] bg-gradient-to-r from-[#000A2D] via-[#002ED0] to-[#000A2D]" />
+          </thead>
+          <tbody>
+            {[
+              { name: "KPITTECH", volume: 3319808, avgDel: 55.55, del: 55.55 },
+              { name: "ZOMATO", volume: 10138270, avgDel: 63.04, del: 63.04 },
+              { name: "TVS MOTOR", volume: 1075095, avgDel: 54.53, del: 54.53 },
+              { name: "SUPER MEIND", volume: 6077580, avgDel: 51.19, del: 51.19 },
+            ].map((stock, index) => (
+              <tr key={index} className="text-xl">
+                <td className="pt-3">{stock.name}</td>
+                <td className="pt-3">{stock.volume.toLocaleString()}</td>
+                <td className="pt-3">{stock.avgDel.toFixed(2)}</td>
+                <td className="flex items-center gap-2 pt-3 whitespace-nowrap">
+                  {stock.del.toFixed(2)}
+                  <div className="w-24 h-2 bg-gray-50 rounded">
+                    <div
+                      className="h-2 bg-blue-500 rounded"
+                      style={{ width: `${stock.del}%` }}
+                    ></div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <section className="mt-12">
         <div >

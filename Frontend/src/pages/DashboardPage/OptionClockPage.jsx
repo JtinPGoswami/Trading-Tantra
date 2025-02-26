@@ -10,7 +10,7 @@ const OptionClockPage = () => {
     <>
       {/* sector depth section */}
 
-      <section className="mt-5 flex justify-between items-center">
+      <section className="mt-5 flex md:justify-between md:items-center md:flex-row flex-col md:gap-0 gap-4">
         <div className="flex gap-4 items-center">
           <h1 className="text-3xl font-bold">Sector Depth</h1>
           <span className="flex items-center px-2 py-px rounded-full w-fit bg-[#0256F5] text-xs">
@@ -76,7 +76,7 @@ const OptionClockPage = () => {
             </div>
           </div>
 
-          <div className="w-full mt-5 h-auto grid grid-cols-2 gap-5">
+          <div className="w-full mt-5 h-auto grid grid-cols-1 lg:grid-cols-2 gap-5">
             <div className="  h-full bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
               <div className="bg-[#000A2D] rounded-lg p-3">
                 <div className="flex items-center gap-2">
@@ -91,7 +91,7 @@ const OptionClockPage = () => {
 
             <div className=" h-full bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
               <div className="bg-[#000A2D] rounded-lg h-full  ">
-                <div className="flex gap-2 items-center justify-between p-2">
+                <div className="flex md:gap-2 gap-y-4 md:flex-row flex-col md:items-center md:justify-between p-2">
                   <div className="flex gap-2 items-center text-xl">
                     <h2 className="text-3xl font-medium">OI Clock</h2>{" "}
                     <span className="text-xl">
@@ -99,7 +99,7 @@ const OptionClockPage = () => {
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 ">
                     <div className="h-5 w-5 rounded bg-[#0256F5]"></div>{" "}
                     <p>Bulls Total OI</p>
                     <div className="h-5 w-5 rounded bg-[#95025A] ml-3"></div>{" "}

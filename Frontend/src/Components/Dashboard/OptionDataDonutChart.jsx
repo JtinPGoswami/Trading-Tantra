@@ -10,7 +10,6 @@ const OptionDataDonutChart = () => {
     { name: "ICICI Bank", percent: 15, change: 1.2 }, 
   ];
 
-  // Function to interpolate between two colors
   const interpolateColor = (startColor, endColor, factor) => {
     const hexToRgb = (hex) =>
       hex
@@ -31,18 +30,15 @@ const OptionDataDonutChart = () => {
     return rgbToHex(resultRGB);
   };
 
-  // Generate color based on percentage and change
   const getColor = (percent, change) => {
     const minPercent = Math.min(...shares.map((s) => s.percent));
     const maxPercent = Math.max(...shares.map((s) => s.percent));
 
-    // Normalize percent value between 0 and 1
     const factor = (percent - minPercent) / (maxPercent - minPercent);
 
-    if (change > 0) {
-      return interpolateColor("#c0f2c0", "#144d14", factor); // Light Green → Dark Green
-    }
-    return interpolateColor("#f2c0c0", "#611414", factor); // Light Red → Dark Red
+    return change > 0
+      ? interpolateColor("#c0f2c0", "#144d14", factor) // Light Green → Dark Green
+      : interpolateColor("#f2c0c0", "#611414", factor); // Light Red → Dark Red
   };
 
   const [chartData] = useState({
@@ -50,7 +46,7 @@ const OptionDataDonutChart = () => {
     options: {
       chart: {
         type: "donut",
-        width: 250,
+        width: "100%",
       },
       labels: shares.map((s) => s.name),
       colors: shares.map((s) => getColor(s.percent, s.change)),
@@ -77,21 +73,46 @@ const OptionDataDonutChart = () => {
         },
       },
       legend: {
-        position: "right",
+        position: "bottom",
         labels: {
           useSeriesColors: true,
           colors: "#fff",
         },
       },
+      responsive: [
+        {
+          breakpoint: 1024,
+          options: {
+            chart: { width: 350 },
+            legend: { position: "bottom" },
+          },
+        },
+        {
+          breakpoint: 768,
+          options: {
+            chart: { width: 300 },
+            legend: { position: "bottom" },
+          },
+        },
+        {
+          breakpoint: 480,
+          options: {
+            chart: { width: 250 },
+            legend: { position: "bottom" },
+          },
+        },
+      ],
     },
   });
 
   return (
-    <div>
+    <div className="w-full flex flex-col items-center">
       <p className="text-sm font-bold text-center text-white">
         Nifty 50 is down by 32 pts
       </p>
-      <Chart options={chartData.options} series={chartData.series} type="donut" width={400} />
+      <div className="w-full flex justify-center">
+        <Chart options={chartData.options} series={chartData.series} type="donut" width="100%" />
+      </div>
     </div>
   );
 };

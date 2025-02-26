@@ -13,8 +13,8 @@ const DashboardLayout = () => {
 
   return (
     <>
-      <div className="flex h-screen w-screen gap-8 px-2 ">
-        <aside>
+      <div className="flex h-screen w-screen md:gap-5 gap-0 px-2 ">
+        <aside >
           <Sidebar />
         </aside>
 

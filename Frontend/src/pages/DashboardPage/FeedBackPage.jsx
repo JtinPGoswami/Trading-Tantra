@@ -10,7 +10,7 @@ const FeedBackPage = () => {
   };
 
   return (
-    <div className="bg-[#01071C] rounded-2xl p-5 space-y-3 w-1/2 mx-auto mt-10">
+    <div className="bg-[#01071C] rounded-2xl p-5 space-y-3 w-full md:w-4/5  lg:w-1/2 md:mx-auto mt-10">
       <h4 className="text-3xl font-medium font-Inter ">Feed Back</h4>
       <div className="w-full mt-10">
         <form className="flex items-center justify-between flex-wrap w-full space-y-4">

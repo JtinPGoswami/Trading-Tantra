@@ -81,7 +81,7 @@ const MarketDepthPage = () => {
         <h1 className='text-3xl font-medium mt-5'>Market Depth</h1>
 
 
-        <div className='grid grid-cols-2 gap-6 w-full mt-10'>
+        <div className='grid md:grid-cols-2 grid-cols-1 gap-6 w-full mt-10'>
           {
             stockDataList.map((item, index) => <StockCard key={index} title={item.title} stocks={item.stocks} img={item.img} price={item.price} />)
           }

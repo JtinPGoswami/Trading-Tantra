@@ -13,7 +13,7 @@ import twoDayHL from "../../assets/Images/Dashboard/monryActionPage/twoDayHL.png
 const MonryActionPage = () => {
   const stockDataList = [
     {
-      title: "Lom Short Terms",
+      title: "AI Intraday Reversal (TF - 5 min)",
       img: LomShortTerm,
       price: "purchased",
       stocks: [
@@ -74,7 +74,7 @@ const MonryActionPage = () => {
       ],
     },
     {
-      title: "Lom Long Terms",
+      title: "AI Swing Reversal (TF - Daily)",
       img: LomLongTerm,
       price: "purchased",
       stocks: [
@@ -99,7 +99,57 @@ const MonryActionPage = () => {
       ],
     },
     {
-      title: "Contraction BO",
+      title: "AI Swing Reversal (TF - Daily)",
+      img: LomLongTerm,
+      price: "purchased",
+      stocks: [
+        {
+          symbol: "HDFC",
+          icon: "https://via.placeholder.com/20/008000",
+          percent: 1.23,
+          turnover: 125.3,
+        },
+        {
+          symbol: "ICICI",
+          icon: "https://via.placeholder.com/20/FF4500",
+          percent: 2.45,
+          turnover: 76.5,
+        },
+        {
+          symbol: "TATA STEEL",
+          icon: "https://via.placeholder.com/20/0000FF",
+          percent: 3.78,
+          turnover: 56.1,
+        },
+      ],
+    },
+    {
+      title: "AI Swing Reversal (TF - Daily)",
+      img: LomLongTerm,
+      price: "purchased",
+      stocks: [
+        {
+          symbol: "HDFC",
+          icon: "https://via.placeholder.com/20/008000",
+          percent: 1.23,
+          turnover: 125.3,
+        },
+        {
+          symbol: "ICICI",
+          icon: "https://via.placeholder.com/20/FF4500",
+          percent: 2.45,
+          turnover: 76.5,
+        },
+        {
+          symbol: "TATA STEEL",
+          icon: "https://via.placeholder.com/20/0000FF",
+          percent: 3.78,
+          turnover: 56.1,
+        },
+      ],
+    },
+    {
+      title: "AI Range Breakout (TF - Daily)",
       img: contraction,
       price: "no",
       stocks: [
@@ -177,7 +227,7 @@ const MonryActionPage = () => {
   return (
     <>
       {/* // 5 MIN MOMENTUM SPIKE card  */}
-      <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
+      {/* <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
         <div className="bg-[#01071C] p-4 rounded-2xl">
           <div className="flex items-center gap-2">
             <img src={candles} alt="candle" className="w-15 object-contain" />
@@ -198,11 +248,11 @@ const MonryActionPage = () => {
             <TreemapChart />
           </div>
         </div>
-      </section>
+      </section> */}
       {/* 
 // 10 MIN MOMENTUM SPIKE card */}
 
-      <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
+      {/* <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
         <div className="bg-[#01071C] p-4 rounded-2xl">
           <div className="flex items-center gap-2">
             <img src={candles} alt="candle" className="w-15 object-contain" />
@@ -223,11 +273,11 @@ const MonryActionPage = () => {
             <TreemapChart />
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* stock cards section */}
 
-      <section className="grid grid-cols-2 gap-8 mt-10">
+      <section className="grid lg:grid-cols-2 grid-col-1 gap-8 mt-10">
         {stockDataList.map((item, index) => (
           <StockCard
             key={index}

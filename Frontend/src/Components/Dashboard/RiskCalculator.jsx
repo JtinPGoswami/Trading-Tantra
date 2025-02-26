@@ -63,7 +63,7 @@ const RiskCalculator = ({ calculator }) => {
   };
 
   return (
-    <div>
+    <div >
       <div className="py-11 px-5 bg-[#00114E] rounded-md mt-10">
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-x-6 gap-y-8">

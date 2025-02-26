@@ -6,7 +6,7 @@ import { RiLockFill } from "react-icons/ri";
 
 const StockCard = ({ title, stocks, img, price }) => {
   return (
-    <div className=" relative w-full h-[360px] bg-gradient-to-tr from-[#0009B2] to-[#02000E] rounded-lg p-px overflow-hidden">
+    <div className=" relative w-full lg:h-[360px] h-auto bg-gradient-to-tr from-[#0009B2] to-[#02000E] rounded-lg p-px overflow-hidden">
       <div className="w-full h-full   bg-[#01071C] rounded-lg p-2  ">
         {/* Header Section */}
         <div className="flex justify-between items-center">

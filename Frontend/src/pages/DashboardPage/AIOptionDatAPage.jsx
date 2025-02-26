@@ -23,8 +23,8 @@ const AIOptionDataPage = () => {
   
   return (
     <>
-      <section className="mt-5 flex justify-between items-center">
-        <div className="flex gap-4 items-center">
+      <section className="mt-5 flex lg:flex-row flex-col md:justify-between lg:items-center lg:gap-y-0 gap-y-4">
+        <div className="flex gap-4  items-center">
           <h1 className="text-3xl font-bold">AI Option Data</h1>
           <span className="text-xl">
             <FcCandleSticks />
@@ -87,7 +87,7 @@ const AIOptionDataPage = () => {
       </section>
 
       {/* second  section */}
-      <section className="grid grid-cols-2 gap-4 mt-8">
+      <section className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-8">
         {/* first card */}
         <div className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
           <div className="bg-[#01071C] rounded-lg p-4 h-full ">

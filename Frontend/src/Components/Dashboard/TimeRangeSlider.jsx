@@ -22,7 +22,7 @@ const TimeRangeSlider = () => {
   };
 
   return (
-    <div className="flex gap-4 items-center mt-5 w-full">
+    <div className="flex md:flex-row flex-col gap-4 items-center mt-5 w-full">
       {/* Slider Container */}
       <div className="bg-gradient-to-br from-[#0108B1] to-[#02000E] w-full p-px rounded-lg">
         <div className="w-full p-4 bg-[#01071C] rounded-lg">
@@ -59,7 +59,7 @@ const TimeRangeSlider = () => {
       </div>
 
       {/* Go Button */}
-      <button className="bg-[#0E5FF6] text-white px-6 py-8 rounded-lg">
+      <button className="bg-[#0E5FF6] text-white md:px-6 md:py-8 px-5 py-2 rounded-lg">
         Go
       </button>
     </div>

@@ -18,12 +18,27 @@ import profit from "../../assets/Images/sidebar/profit.svg";
 import smartMoneyAction from "../../assets/Images/sidebar/smartMoneyAction.svg";
 import tradingJournal from "../../assets/Images/sidebar/tradingJournal.svg";
 import updates from "../../assets/Images/sidebar/updates.svg";
+import dashboard from '../../assets/Images/sidebar/dashboard.svg'
+
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleSideBar } from "../../contexts/Redux/Slices/sidebarTogglerSlice";
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+
+  const isOpen = useSelector((state) => state.sidebar.sideBarToggler )
+
+  const dispatch = useDispatch()
+  // const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <aside className="flex h-screen">
+    <aside
+      className={`absolute top-0 left-0 md:static z-20 flex h-screen ${
+        isOpen
+          ? "translate-x-0 sm:translate-x-0"
+          : "-translate-x-full sm:translate-x-0"
+      } `}
+    >
       <div className="w-fit">
         {/* Sidebar */}
         <div
@@ -39,7 +54,7 @@ const Sidebar = () => {
               ) : (
                 <button
                   className="text-white w-fit p-2 mb-4 cursor-pointer"
-                  onClick={() => setIsOpen(!isOpen)}
+                  onClick={() => dispatch(toggleSideBar(!isOpen))}
                 >
                   <Menu size={24} />
                 </button>
@@ -52,69 +67,107 @@ const Sidebar = () => {
             <nav className="flex flex-col items-start space-y-4  mt-8 ">
               <ul className="w-full space-y-5">
                 <NavItem
-                  icon={marketDepth}
-                  label="Market Depth"
+                  icon={dashboard}
+                  label='Dashboard'
                   isOpen={isOpen}
+                  path={'/dashboard'}
+                />
+                <NavItem
+                  icon={marketDepth}
+                  label="AI Market Depth"
+                  isOpen={isOpen}
+                  path={"/dashboard/market-depth"}
                 />
                 <NavItem
                   icon={smartMoneyAction}
                   label="Smart Money Action"
                   isOpen={isOpen}
+                  path={"/dashboard/smart-action"}
                 />
                 <NavItem
                   icon={AiSectorDepth}
-                  label="Sector Depth"
+                  label="AI Sector Depth"
                   isOpen={isOpen}
+                  path={"/dashboard/sector-depth"}
                 />
                 <NavItem
                   icon={AiSwing}
-                  label="Ai Swing Trades"
+                  label="AI Swing Analysis"
                   isOpen={isOpen}
+                  path={"/dashboard/swing-trades"}
                 />
                 <NavItem
                   icon={AiOptionClock}
                   label="Option Clock"
                   isOpen={isOpen}
+                  path={"/dashboard/option-clock"}
                 />
                 <NavItem
                   icon={AiOptionData}
-                  label="Ai Option Data"
+                  label="AI Option Data"
                   isOpen={isOpen}
+                  path={"/dashboard/option-data"}
                 />
-                <NavItem icon={FiiDii} label="FII / DII Data" isOpen={isOpen} />
+                <NavItem
+                  icon={FiiDii}
+                  label="FII / DII Data"
+                  isOpen={isOpen}
+                  path={"/dashboard/fii-dii"}
+                />
                 <NavItem
                   icon={indexDepth}
                   label="Index Depth"
                   isOpen={isOpen}
+                  path={"/dashboard/index-depth"}
                 />
                 <NavItem
                   icon={tradingJournal}
                   label="Trading Journal"
                   isOpen={isOpen}
+                  path={"/dashboard/trading-journal"}
                 />
                 <NavItem
                   icon={learnFromUs}
                   label="Learn From Us"
                   isOpen={isOpen}
+                  path={"/dashboard/learn-from-us"}
                 />
                 <NavItem
                   icon={ourStrategy}
                   label="Our Strategy"
                   isOpen={isOpen}
+                  path={"/dashboard/our-strategy"}
                 />
                 <NavItem
                   icon={financialCalender}
                   label="Financial Calendar"
                   isOpen={isOpen}
+                  path={"/dashboard/calender"}
                 />
-                <NavItem icon={calculator} label="Calculator" isOpen={isOpen} />
+                <NavItem
+                  icon={calculator}
+                  label="Calculator"
+                  isOpen={isOpen}
+                  path={"/dashboard/calculator"}
+                />
                 <NavItem
                   icon={feedback}
                   label="Feedback Form"
                   isOpen={isOpen}
+                  path={"/dashboard/feedback"}
                 />
-                <NavItem icon={profit} label="Profit" isOpen={isOpen} />
-                <NavItem icon={updates} label="Updates" isOpen={isOpen} />
+                <NavItem
+                  icon={profit}
+                  label="Profit"
+                  isOpen={isOpen}
+                  path={"/dashboard/profit"}
+                />
+                <NavItem
+                  icon={updates}
+                  label="Updates"
+                  isOpen={isOpen}
+                  path={"/dashboard/updates"}
+                />
               </ul>
             </nav>
           </div>
@@ -123,13 +176,13 @@ const Sidebar = () => {
 
       {/* Close Button (Fixed) */}
       <div
-        className={`w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 bg-[#000517] ${
+        className={` w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 bg-[#000517] ${
           isOpen ? "block" : "hidden"
         }`}
       >
         <button
           className="text-white p-2 cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => dispatch(toggleSideBar(!isOpen))}
         >
           <X size={24} />
         </button>
@@ -138,30 +191,46 @@ const Sidebar = () => {
   );
 };
 
-const NavItem = ({ icon, label, isOpen }) => (
-  <li className="flex items-center justify-between w-full  px-4 py-2  rounded-md cursor-pointer text-base font-medium space-x-4 hover:bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] transition-all duration-1000 ease-in-out ">
-    <span className="flex items-center space-x-2 ">
-      <img src={icon} alt={label} className="w-auto h-5" />
-      {isOpen && <span>{label}</span>}
-    </span>
+const NavItem = ({ icon, label, isOpen, path }) => (
+  <NavLink
+    to={path}
+    className={({ isActive }) =>
+      ` 
+    cursor-pointer flex
+    ${
+      isActive
+        ? "bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] border-l-2 border-primary"
+        : "hover:bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] text-white"
+    }`
+    }
+    end
+  >
+    <li
+      className={`flex  items-center justify-between w-full  px-4 py-2  rounded-md cursor-pointer text-base font-medium space-x-4 hover:bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] transition-all duration-1000 ease-in-out  `}
+    >
+      <span className="flex items-center space-x-2 ">
+        <img src={icon} alt={label} className="w-auto h-5" />
+        {isOpen && <span>{label}</span>}
+      </span>
 
-    {isOpen && (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="#0256F5" />
-            <stop offset="100%" stopColor="#77A6FF" />
-          </linearGradient>
-        </defs>
-        <RiLockFill size={24} fill="url(#gradient)" />
-      </svg>
-    )}
-  </li>
+      {isOpen && (
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor="#0256F5" />
+              <stop offset="100%" stopColor="#77A6FF" />
+            </linearGradient>
+          </defs>
+          <RiLockFill size={24} fill="url(#gradient)" />
+        </svg>
+      )}
+    </li>
+  </NavLink>
 );
 
 export default Sidebar;

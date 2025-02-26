@@ -6,13 +6,21 @@ import lightThemeIcon from "../../assets/Images/Dashboard/HeaderImg/lightThemeIc
 import darkThemeIcon from "../../assets/Images/Dashboard/HeaderImg/darkThemeIcon.png";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { set } from "date-fns";
 import { setTheme } from "../../contexts/Redux/Slices/themeSlice";
+import logo from '../../assets/Images/logo.svg'
+import hamburger from '../../assets/Images/hamburger.svg'
+import { toggleSideBar } from "../../contexts/Redux/Slices/sidebarTogglerSlice";
+ 
+
 const Header = () => {
   const [hovered, setHovered] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState("dark");
-  var theme = useSelector((state) => state.theme.theme);
-  console.log(theme);
+  
+
+  const isOpen = useSelector((state) => state.sidebar.sideBarToggler);
+
+  console.log('sidebar', isOpen)
+   
 
   const dispatch = useDispatch();
 
@@ -30,17 +38,17 @@ const Header = () => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("dark");
     }
   }, [isDarkMode]);
 
   return (
-    <div className=" dark:bg-[#000517] border border-[#000B34] h-20 w-full mx-auto rounded-[10px] p-3 flex items-center justify-between">
-      <div className="w-1/2">
+    <div className=" dark:bg-[#000517] border border-[#000B34] h-20 w-full mx-auto rounded-[10px] p-3 flex items-center justify-between  ">
+      <div className="w-1/2 sm:block flex items-center sm:gap-0 gap-2">
         <button
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
-          className="relative overflow-hidden bg-gradient-to-b from-[#0256F5] to-[#74A4FE] text-white px-6 py-3 rounded-lg h-12 w-30 flex justify-center items-center"
+          className="relative overflow-hidden bg-gradient-to-b from-[#0256F5] to-[#74A4FE] text-white px-6 py-3 rounded-lg h-12 w-30 sm:flex justify-center items-center  hidden"
         >
           {/* First Text (Visible by Default) */}
           <motion.span
@@ -62,11 +70,20 @@ const Header = () => {
             Go to Website
           </motion.span>
         </button>
+
+        <img src={hamburger} alt="icon" className="w-4 h-4 sm:hidden block" 
+        onClick={() => dispatch(toggleSideBar(!isOpen))}
+        />
+
+
+        <img src={logo} alt="logo" className="w-25 h-20 sm:hidden block" />
+
+
       </div>
 
-      <div className="w-1/2 flex justify-end gap-5 items-center">
+      <div className="w-1/2   flex justify-end gap-5 items-center">
         {/* Search Bar */}
-        <div className="bg-[#000A2D] border border-[#0256F5] px-2 py-2 rounded-lg flex">
+        <div className="bg-[#000A2D] border border-[#0256F5] px-2 py-2 rounded-lg hidden sm:flex ">
           <input
             type="text"
             className="outline-none border-none bg-transparent text-white"

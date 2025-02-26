@@ -119,7 +119,7 @@ const StrategyVideoCard = ({ strategyVideo }) => {
       <div className="bg-[#01071C] relative  border border-transparent rounded-md p-2.5 h-[350px] flex flex-col justify-start">
         <div className="relative bg-[#02000E] w-full h-[60%] flex justify-center items-center">
 
-        <p className="uppercase text-[50px] leading-13  text-center text-[#ED9B2F] px-20 font-bold text-wrap" style={{ textShadow: "rgb(24 9 255) 0px 0px 20px, rgb(24 9 255) 0px 0px 20px" }}>
+        <p className="uppercase lg:text-[50px] md:text-[40px] sm:text-[24px] text-[20px] leading-13  text-center text-[#ED9B2F] px-20 font-bold text-wrap" style={{ textShadow: "rgb(24 9 255) 0px 0px 20px, rgb(24 9 255) 0px 0px 20px" }}>
           {strategyVideo.title}
         </p>
         <BsFillPlayCircleFill className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#0457F5] text-4xl" />

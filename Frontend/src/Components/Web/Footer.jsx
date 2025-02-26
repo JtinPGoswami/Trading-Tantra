@@ -17,7 +17,7 @@ const Footer = () => {
         <div className="lg:space-y-10 space-y-8">
           <img
             src={logo}
-            className="lg:w-96 w-75 h-auto"
+            className="lg:w-60 w-60  h-auto"
             alt="trading tantra logo"
           />
           <div className="flex justify-start gap-3 text-4xl">
@@ -36,21 +36,21 @@ const Footer = () => {
 
           <div className="flex justify-between w-full items-start">
             <ul className="space-y-2">
-              <h3 className="sm:text-2xl text-lg font-bold">Terms Of Use</h3>
+              <h3 className="sm:text-base text-lg font-bold">Terms Of Use</h3>
               <Link to={"/disclaimer"}>
-                <li className="text-lg font-light">Disclaimer</li>
+                <li className="text-sm font-light">Disclaimer</li>
               </Link>
               <Link to={"/refund-policy"}>
-                <li className="text-lg font-light">Refund Policy</li>
+                <li className="text-sm font-light">Refund Policy</li>
               </Link>
               <Link to={"/disclosures"}>
-                <li className="text-lg font-light">Disclosures</li>
+                <li className="text-sm font-light">Disclosures</li>
               </Link>
               <Link to={"/terms-and-condition"}>
-                <li className="text-lg font-light">Terms & Conditions</li>
+                <li className="text-sm font-light">Terms & Conditions</li>
               </Link>
               <Link to={"/privacy-policy"}>
-                <li className="text-lg font-light">Privacy Policy</li>
+                <li className="text-sm font-light">Privacy Policy</li>
               </Link>
             </ul>
             <ul className="space-y-2">

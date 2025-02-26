@@ -33,6 +33,13 @@
 
 }
 
+@media (max-width: 768px) {
+  .blue-blur-circle {
+    width: 300px; 
+    height: 500px;
+  }
+}
+
 
 @keyframes scroll-down {
   0% {
@@ -51,9 +58,9 @@
     transform: translateY(0);
   }
 }
-*{
+/* *{
   cursor:default;
-}
+} */
 .infinite-scroll {
   display: flex;
   flex-direction: column;
