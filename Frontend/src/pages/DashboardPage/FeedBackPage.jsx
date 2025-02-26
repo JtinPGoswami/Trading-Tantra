@@ -10,16 +10,16 @@ const FeedBackPage = () => {
   };
 
   return (
-    <div className="bg-[#01071C] rounded-2xl p-5 space-y-3 w-full md:w-4/5  lg:w-1/2 md:mx-auto mt-10">
+    <div className="dark:bg-db-primary bg-db-primary-light  rounded-2xl p-5 space-y-3 w-full md:w-4/5  lg:w-1/2 md:mx-auto mt-10">
       <h4 className="text-3xl font-medium font-Inter ">Feed Back</h4>
       <div className="w-full mt-10">
         <form className="flex items-center justify-between flex-wrap w-full space-y-4">
-          <div className="flex flex-col items-start text-[#C9CFE5] w-full space-y-2">
+          <div className="flex flex-col items-start dark:text-[#C9CFE5] text-gray-800 w-full space-y-2">
             <label className="font-Inter  text-sm font-light" htmlFor="name">
               Name
             </label>
-            <div className="flex items-center gap-2 placeholder:text-[#C9CFE5] text-white bg-[#151B2D] rounded-lg px-2 w-full py-2">
-              <CiUser className="text-xl" />
+            <div className="flex items-center gap-2 dark:placeholder:text-[#C9CFE5] placeholder:text-gray-800 dark:text-white text-black dark:bg-[#151B2D] border dark:border-none border-black  rounded-lg px-2 w-full py-2">
+              <CiUser className="text-xl dark:text-[#C9CFE5]" />
               <input
                 type="text"
                 placeholder="Jhon"
@@ -28,12 +28,12 @@ const FeedBackPage = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col items-start text-[#C9CFE5] w-full space-y-2">
+          <div className="flex flex-col items-start dark:text-[#C9CFE5] w-full space-y-2">
             <label htmlFor="phone" className="font-Inter  text-sm font-light">
               Whatsapp Number
             </label>
-            <div className="flex items-center gap-2 placeholder:text-[#C9CFE5] text-white bg-[#151B2D] rounded-lg px-2 w-full py-2">
-              <MdOutlinePhone className="text-xl text-[#c9cfe5]" />
+            <div className="flex items-center gap-2 dark:placeholder:text-[#C9CFE5]  dark:bg-[#151B2D] border dark:border-none border-black rounded-lg px-2 w-full py-2">
+              <MdOutlinePhone className="text-xl dark:text-[#c9cfe5]" />
               <input
                 type="text"
                 placeholder="+91 xxxx-xxxx-xx"
@@ -42,14 +42,14 @@ const FeedBackPage = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col items-start text-[#C9CFE5] w-full space-y-2">
+          <div className="flex flex-col items-start dark:text-[#C9CFE5] w-full space-y-2">
             <label
               htmlFor="category"
               className="font-Inter  text-sm font-light"
             >
               Select Category
             </label>
-            <div className="flex items-center gap-2 placeholder:text-[#C9CFE5] text-white bg-[#151B2D] rounded-lg px-2 w-full py-2">
+            <div className="flex items-center gap-2 dark:placeholder:text-[#C9CFE5]  dark:bg-[#151B2D] border dark:border-none border-black rounded-lg px-2 w-full py-2">
               <input
                 type="text"
                 placeholder="Select Category"
@@ -59,7 +59,7 @@ const FeedBackPage = () => {
             </div>
           </div>
 
-          <div className="flex flex-col items-center text-[#C9CFE5] w-full space-y-5 bg-[#151B2D] rounded-lg px-2 py-2">
+          <div className="flex flex-col items-center dark:text-[#C9CFE5] w-full space-y-5 dark:bg-[#151B2D] border dark:border-none border-black rounded-lg px-2 py-2">
             <img className="w-16 h-16" src={folderimg} />
             <p className="text-base font-Inter font-light ">
               Choose Your File to upload
@@ -80,14 +80,14 @@ const FeedBackPage = () => {
             </div>
           </div>
 
-          <div className="flex flex-col items-start text-[#C9CFE5] w-full space-y-2">
+          <div className="flex flex-col items-start dark:text-[#C9CFE5] w-full space-y-2">
             <label
               htmlFor="feedback"
               className="font-Inter  text-sm font-light"
             >
               Feedback
             </label>
-            <div className="flex items-center gap-2 placeholder:text-[#C9CFE5] text-white bg-[#151B2D] rounded-lg px-2 w-full py-2">
+            <div className="flex items-center gap-2 dark:placeholder:text-[#C9CFE5]  dark:bg-[#151B2D] border dark:border-none border-black rounded-lg px-2 w-full py-2">
               <textarea
                 name="feedback"
                 placeholder="Enter Your Feedback Here"

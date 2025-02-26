@@ -93,7 +93,7 @@ const OurStrategy = () => {
 const ImportantVideoCard = ({ impVideo }) => {
   return (
     <div className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md">
-      <div className="bg-[#01071C] relative border border-transparent rounded-md p-2.5 h-[350px]">
+      <div className="dark:bg-db-primary bg-db-primary-light relative border border-transparent rounded-md p-2.5 h-[350px]">
         <div className="flex flex-col items-start space-y-2.5">
           <div className="w-full rounded-md relative">
             <img src={impVideo.img} className="w-full h-auto" alt={impVideo.title} />
@@ -116,8 +116,8 @@ const ImportantVideoCard = ({ impVideo }) => {
 const StrategyVideoCard = ({ strategyVideo }) => {
   return (
     <div className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md">
-      <div className="bg-[#01071C] relative  border border-transparent rounded-md p-2.5 h-[350px] flex flex-col justify-start">
-        <div className="relative bg-[#02000E] w-full h-[60%] flex justify-center items-center">
+      <div className="dark:bg-db-primary bg-db-primary-light relative  border border-transparent rounded-md p-2.5 h-[350px] flex flex-col justify-start">
+        <div className="relative dark:bg-[#02000E] bg-db-secondary-light w-full h-[60%] flex justify-center items-center">
 
         <p className="uppercase lg:text-[50px] md:text-[40px] sm:text-[24px] text-[20px] leading-13  text-center text-[#ED9B2F] px-20 font-bold text-wrap" style={{ textShadow: "rgb(24 9 255) 0px 0px 20px, rgb(24 9 255) 0px 0px 20px" }}>
           {strategyVideo.title}

@@ -30,7 +30,7 @@ const CustomTooltip = ({ active, payload }) => {
 
 const OiClockChartTwo = () => {
   return (
-    <div className="w-full h-[375px] bg-[#000A2D] p-5 rounded-lg shadow-lg">
+    <div className="w-full h-[375px] dark:bg-db-secondary bg-db-secondary-light p-5 rounded-lg shadow-lg">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} barCategoryGap={0} barSize={50}>
           <CartesianGrid strokeDasharray="3 3" stroke="#1B263B" />

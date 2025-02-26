@@ -42,13 +42,13 @@ const Sidebar = () => {
       <div className="w-fit">
         {/* Sidebar */}
         <div
-          className={`bg-[#000517] text-[#D7E3FF] border border-[#000B34] h-full transition-all duration-300 rounded-lg ${
+          className={`dark:bg-[#000517] bg-[#273D8F]   text-[#D7E3FF] border border-[#000B34] h-full transition-all duration-300 rounded-lg ${
             isOpen ? "w-64" : "w-20"
           }`}
         >
           {/* Fixed Header */}
           <div className="border-b-2 border-transparent bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] bg-clip-border">
-            <div className="flex items-center w-full h-fit justify-center bg-[#000517] py-5">
+            <div className="flex items-center w-full h-fit justify-center dark:bg-[#000517] bg-[#273D8F]  py-5">
               {isOpen ? (
                 <img src={logo} alt="logo" />
               ) : (

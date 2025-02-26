@@ -29,56 +29,56 @@ const AIOptionDataPage = () => {
           <span className="text-xl">
             <FcCandleSticks />
           </span>
-          <span className="flex items-center px-2 py-px rounded-full w-fit bg-[#0256F5] text-xs">
+          <span className="flex items-center px-2 py-px rounded-full w-fit text-white bg-[#0256F5] text-xs">
             <GoDotFill />
             Live
           </span>
         </div>
 
         <div className="flex gap-4">
-          <div className="relative border border-[#0E5FF6] w-fit rounded-lg px-4 py-2 text-white">
+          <div className="relative border border-[#0E5FF6] w-fit rounded-lg px-4 py-2 t">
             <label className="text-sm">Index:</label>
             <select id="index" className="bg-transparent focus:outline-none">
-              <option className="bg-[#000A2D]" value="Nifty50">
+              <option className="dark:bg-db-secondary bg-db-secondary-light  text-white" value="Nifty50">
                 Nifty50
               </option>
-              <option className="bg-[#000A2D]" value="BankNifty">
+              <option className="dark:bg-db-secondary bg-db-secondary-light  text-white" value="BankNifty">
                 BankNifty
               </option>
-              <option className="bg-[#000A2D]" value="BankNifty">
+              <option className="dark:bg-db-secondary bg-db-secondary-light  text-white" value="BankNifty">
                 FinNifty
               </option>
-              <option className="bg-[#000A2D]" value="BankNifty">
+              <option className="dark:bg-db-secondary bg-db-secondary-light  text-white" value="BankNifty">
                 Midcap
               </option>
-              <option className="bg-[#000A2D]" value="Sensex">
+              <option className="dark:bg-db-secondary bg-db-secondary-light  text-white" value="Sensex">
                 Sensex
               </option>
             </select>
           </div>
 
-          <div className="relative border border-[#0E5FF6] w-fit rounded-lg px-4 py-2 text-white ">
+          <div className="relative border border-[#0E5FF6] w-fit rounded-lg px-4 py-2 ">
             <label className="text-sm">Time:</label>
             <select id="expiry" className="bg-transparent focus:outline-none">
-              <option className="bg-[#000A2D]" value="Feb-06">
+              <option className="dark:bg-db-secondary bg-db-secondary-light text-white " value="Feb-06">
                 3m
               </option>
-              <option className="bg-[#000A2D]" value="Feb-27">
+              <option className="dark:bg-db-secondary bg-db-secondary-light text-white " value="Feb-27">
                 15m
               </option>
-              <option className="bg-[#000A2D]" value="Feb-27">
+              <option className="dark:bg-db-secondary bg-db-secondary-light text-white " value="Feb-27">
                 30m
               </option>
             </select>
           </div>
 
-          <div className="relative border border-[#0E5FF6] w-fit rounded-lg px-4 py-2 text-white ">
+          <div className="relative border border-[#0E5FF6] w-fit rounded-lg px-4 py-2  ">
             <label className="text-sm">Expiry:</label>
             <select id="expiry" className="bg-transparent focus:outline-none">
-              <option className="bg-[#000A2D]" value="Feb-06">
+              <option className="dark:bg-db-secondary bg-db-secondary-light text-white" value="Feb-06">
                 Feb-06
               </option>
-              <option className="bg-[#000A2D]" value="Feb-27">
+              <option className="dark:bg-db-secondary bg-db-secondary-light text-white" value="Feb-27">
                 Feb-27
               </option>
             </select>
@@ -89,15 +89,15 @@ const AIOptionDataPage = () => {
       {/* second  section */}
       <section className="grid lg:grid-cols-2 grid-cols-1 gap-4 mt-8">
         {/* first card */}
-        <div className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
-          <div className="bg-[#01071C] rounded-lg p-4 h-full ">
+        <div className="dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+          <div className="dark:bg-db-primary bg-db-secondary-light   rounded-lg p-4 h-full ">
             {/* heading */}
             <div className="flex gap-4 items-center ">
-              <h1 className="text-2xl font-medium">Nifty 50</h1>
+              <h1 className="text-2xl font-medium ">Nifty 50</h1>
 
-              <span className="flex gap-1 items-center text-base font-light">How to Use <FaPlayCircle className="text-[#0256F5]" /> </span>
+              <span className="flex gap-1 items-center text-base font-light text-white">How to Use <FaPlayCircle className="text-[#0256F5]" /> </span>
 
-              <span className="flex items-center px-2 py-px rounded-full w-fit h-fit bg-[#0256F5] text-xs">
+              <span className="flex items-center px-2 py-px rounded-full w-fit h-fit bg-[#0256F5] text-xs text-white">
                 <GoDotFill />
                 Live
               </span>
@@ -110,9 +110,9 @@ const AIOptionDataPage = () => {
         </div>
 
         {/* second card */}
-        <div className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
+        <div className="dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
 
-          <div className="bg-[#01071C] rounded-lg p-4 ">
+          <div className="dark:bg-db-primary bg-db-secondary-light   rounded-lg p-4 ">
 
             <div className="grid grid-cols-2 gap-4">
                {
@@ -121,11 +121,11 @@ const AIOptionDataPage = () => {
             </div>
 
             <div className="flex gap-4 items-center mt-8">
-              <h1 className="text-2xl font-medium">Money Flux</h1>
+              <h1 className="text-2xl font-medium ">Money Flux</h1>
 
-              <span className="flex gap-1 items-center text-base font-light">How to Use <FaPlayCircle className="text-[#0256F5]" /> </span>
+              <span className="flex gap-1 items-center text-base font-light ">How to Use <FaPlayCircle className="text-[#0256F5]" /> </span>
 
-              <span className="flex items-center px-2 py-px rounded-full w-fit h-fit bg-[#0256F5] text-xs">
+              <span className="flex items-center px-2 py-px rounded-full w-fit h-fit bg-[#0256F5] text-xs text-white">
                 <GoDotFill />
                 Live
               </span>
@@ -143,7 +143,7 @@ const AIOptionDataPage = () => {
 
       <section className="mt-10 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-lg">
 
-        <div className="w-full h-full bg-[#01071C] rounded-lg p-4">
+        <div className="w-full h-full dark:bg-db-primary bg-db-secondary-light   rounded-lg p-4">
           <OptionDataDonutChart/>
         </div>
 

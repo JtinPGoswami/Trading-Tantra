@@ -46,7 +46,7 @@ const CalculatorsPage = () => {
     <>
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-10 mt-10  ">
         {/* Left Section */}
-        <div className="lg:col-span-2 bg-db-primary border border-[#0256f550] p-5 rounded-md">
+        <div className="lg:col-span-2 dark:bg-db-primary bg-db-secondary-light border border-[#0256f550] p-5 rounded-md">
           {/* Header Section */}
           <div className="flex justify-between items-center">
             {selectedCalculator === "Risk" ? (
@@ -152,8 +152,8 @@ const CalculatorsPage = () => {
               {calculators.map((calc) => (
                 <button
                   key={calc}
-                  className={`p-2.5 rounded-sm hover:bg-primary transition-all ${
-                    selectedCalculator === calc ? "bg-primary" : ""
+                  className={`p-2.5 rounded-sm dark:hover:bg-primary hover:bg-primary-light   transition-all ${
+                    selectedCalculator === calc ? "dark:bg-primary bg-primary-light" : ""
                   }`}
                   onClick={() => handelCalculatorChange(calc)}
                 >
@@ -178,7 +178,7 @@ const CalculatorsPage = () => {
         </div>
 
         {/* Right Section  */}
-        <div className=" flex flex-col items-center px-5 py-12 font-abcRepro  bg-db-primary border border-[#0256f550]  space-y-[45px]">
+        <div className=" flex flex-col items-center px-5 py-12 font-abcRepro  dark:bg-db-primary bg-db-secondary-light border border-[#0256f550]  space-y-[45px]">
           {selectedCalculator === "Risk" ? (
             <RiskCalculatorRight />
           ) : selectedCalculator === "CAGR" ? (
@@ -247,7 +247,7 @@ const CalculatorsPage = () => {
         </div>
       </div>
       <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px my-[30px] rounded-md mr-2">
-        <div className="font-abcRepro bg-db-primary  p-[30px] rounded-md  ">
+        <div className="font-abcRepro dark:bg-db-primary  bg-db-primary-light p-[30px] rounded-md  ">
           <h2 className="text-2xl font-bold mb-5">What is Risk calculator?</h2>
           <div className="space-y-6">
             <p className="text-lg font-light">
@@ -302,7 +302,7 @@ const CalculatorsPage = () => {
         </div>{" "}
       </section>
       <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px my-[30px] rounded-md mr-2">
-        <div className="font-abcRepro bg-db-primary  p-[30px] rounded-md  ">
+        <div className="font-abcRepro dark:bg-db-primary bg-db-primary-light  p-[30px] rounded-md  ">
           <h2 className="text-2xl font-bold mb-[25px]">
             How to use this Calculator?
           </h2>

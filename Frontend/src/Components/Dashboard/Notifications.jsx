@@ -66,15 +66,15 @@ const Notifications = () => {
   }, []);
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-[#01071C] rounded-xl  text-white mt-10">
+    <div className="max-w-lg mx-auto p-6 dark:bg-[#01071C] bg-db-primary-light  rounded-xl   mt-10">
       {/* Header */}
       <div className="flex justify-between items-center pb-4">
         <h2 className="text-base font-semibold">Notifications</h2>
         <div className="flex gap-2 items-center">
-          <button className="text-[11px] text-white cursor-pointer flex items-center gap-x-2">
+          <button className="text-[11px]  cursor-pointer flex items-center gap-x-2">
          <CheckCheck size={15}  /> Mark all as read
           </button>
-          <button className="bg-[#0256F5] text-white px-3 py-2 rounded-full text-[10px]">
+          <button className="bg-[#0256F5] text-white  px-3 py-2 rounded-full text-[10px]">
             View all notifications
           </button>
         </div>
@@ -85,7 +85,7 @@ const Notifications = () => {
         <button
           className={`px-4 py-2 text-sm ${
             activeTab === "all"
-              ? "border-b-2 border-[#0256F5] text-white"
+              ? "border-b-2 border-[#0256F5]"
               : "text-gray-400"
           }`}
           onClick={() => setActiveTab("all")}
@@ -95,7 +95,7 @@ const Notifications = () => {
         <button
           className={`px-4 py-2 text-sm ${
             activeTab === "mentions"
-              ? "border-b-2 border-[#0256F5] text-white"
+              ? "border-b-2 border-[#0256F5] "
               : "text-gray-400"
           }`}
           onClick={() => setActiveTab("mentions")}

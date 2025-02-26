@@ -11,7 +11,7 @@ const pcr = (data[1].value / data[0].value).toFixed(2); // Bears / Bulls
 
 const OiClockChartThree = () => {
   return (
-    <div className="bg-[#000A2D] min-h-[375px] p-6 rounded-lg text-white shadow-lg w-full  ">
+    <div className="dark:bg-db-secondary  bg-db-secondary-light min-h-[375px] p-6 rounded-lg text-white shadow-lg w-full  ">
       
       
       <div className="flex justify-between items-center">

@@ -24,8 +24,8 @@ const TimeRangeSlider = () => {
   return (
     <div className="flex md:flex-row flex-col gap-4 items-center mt-5 w-full">
       {/* Slider Container */}
-      <div className="bg-gradient-to-br from-[#0108B1] to-[#02000E] w-full p-px rounded-lg">
-        <div className="w-full p-4 bg-[#01071C] rounded-lg">
+      <div className="dark:bg-gradient-to-br from-[#0108B1] to-[#02000E] w-full p-px rounded-lg">
+        <div className="w-full p-4 dark:bg-db-primary bg-db-primary-light rounded-lg">
           <Slider
             range
             min={minTime}
@@ -47,10 +47,10 @@ const TimeRangeSlider = () => {
           />
 
           {/* Meter Scale */}
-          <div className="relative mt-4 flex justify-between text-gray-50 text-xs">
+          <div className="relative mt-4 flex justify-between dark:text-gray-50 text-xs">
             {timeLabels.map((time, index) => (
               <div key={index} className="flex flex-col items-center">
-                <div className="w-px h-4 bg-gray-50"></div>
+                <div className="w-px h-4 dark:bg-gray-50 bg-gray-900"></div>
                 <span className="mt-1">{formatTime(time)}</span>
               </div>
             ))}

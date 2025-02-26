@@ -194,15 +194,15 @@ const AiSwingTradesPage = () => {
       </section>
 
       {/* section weekly watch */}
-      <section className="bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
-        <div className="bg-[#01071C] p-4 rounded-2xl">
+      <section className="dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-2xl mt-10">
+        <div className="dark:bg-db-primary bg-db-primary-light p-4 rounded-2xl">
           <div className="flex items-center gap-2">
             <img src={candles} alt="candle" className="w-15 object-contain" />
             <div>
-              <h2 className="text-white text-xl font-semibold flex items-center gap-2">
+              <h2 className=" text-xl font-semibold flex items-center gap-2">
                 Weekly Watch <FcCandleSticks />
               </h2>
-              <p className="text-gray-400 text-sm flex items-center gap-2">
+              <p className="dark:text-gray-400 text-gray-800 text-sm flex items-center gap-2">
                 How to use <FaPlayCircle className="text-[#0256F5]" />{" "}
                 <span className="bg-[#0256F5] text-white px-2 py-1 rounded-full text-xs">
                   Live
@@ -218,18 +218,18 @@ const AiSwingTradesPage = () => {
       </section>
 
       {/* delivery scanner section */}
-      <section className="mt-10 bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-xl">
-  <div className="p-3 bg-[#01071C] rounded-xl">
+      <section className="mt-10 dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-xl">
+  <div className="p-3 dark:bg-db-primary bg-db-primary-light rounded-xl">
     <div className="flex flex-wrap justify-between items-center mb-8">
       <div className="flex gap-2 items-center">
         <img src={topGainers} alt="icon" />
-        <h2 className="text-white text-4xl font-bold mb-4">Delivery Scanner</h2>
+        <h2 className=" text-4xl font-bold mb-4">Delivery Scanner</h2>
       </div>
 
       <div className="flex gap-4 flex-wrap">
         <div className="flex flex-col">
           <label className="text-2xl font-semibold mb-2">Scan Type</label>
-          <select className="text-xs px-2 w-fit py-1 border border-white rounded outline-none bg-[#01071C] text-white">
+          <select className="text-xs px-2 w-fit py-1 border dark:border-white rounded outline-none bg-[#01071C] text-white">
             <option value="">Highest Delivery</option>
             <option value="">Highest Delivery</option>
             <option value="">Highest Delivery</option>
@@ -239,7 +239,7 @@ const AiSwingTradesPage = () => {
 
         <div className="flex flex-col">
           <label className="text-2xl font-semibold mb-2">Segment</label>
-          <select className="text-xs w-fit border px-2 py-1 border-white rounded outline-none bg-[#01071C] text-white">
+          <select className="text-xs w-fit border px-2 py-1 dark:border-white rounded outline-none bg-[#01071C] text-white">
             <option value="">F&O</option>
             <option value="">Highest Delivery</option>
             <option value="">Highest Delivery</option>
@@ -249,9 +249,9 @@ const AiSwingTradesPage = () => {
       </div>
     </div>
 
-    <div className="p-px rounded-lg bg-gradient-to-br from-[#0009B2] to-[#02000E]">
-      <div className="rounded-lg p-4 bg-[#000A2D] overflow-x-auto">
-        <table className="w-full text-white text-left min-w-[600px]">
+    <div className="p-px rounded-lg dark:bg-gradient-to-br from-[#0009B2] to-[#02000E]">
+      <div className="rounded-lg p-4 dark:bg-db-secondary bg-db-secondary-light  overflow-x-auto">
+        <table className="w-full  text-left min-w-[600px]">
           <thead className="relative text-xl">
             <tr>
               <th className="whitespace-nowrap">Name</th>
@@ -294,12 +294,12 @@ const AiSwingTradesPage = () => {
       <section className="mt-12">
         <div >
           <h4 className="text-2xl font-semibold">Highest Delivery:</h4>
-          <p className="text-lg text-[#D6D6D6]">
+          <p className="text-lg dark:text-[#D6D6D6] text-gray-800">
             Stocks which has the highest delivery in last 15 days comes here.
           </p>
 
           <h4 className="text-2xl font-semibold mt-7.5">Delivery Spike:</h4>
-          <p className="text-lg text-[#D6D6D6]">
+          <p className="text-lg dark:text-[#D6D6D6] text-gray-800">
             Stocks which has seen a significant increase in delivery % compared
             to yesterday comes under this section.
           </p>

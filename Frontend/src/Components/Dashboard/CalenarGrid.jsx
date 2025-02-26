@@ -19,7 +19,7 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
   let currentMonth = startMonth;
 
   while (
-    (currentYear < endYear) ||
+    currentYear < endYear ||
     (currentYear === endYear && currentMonth <= endMonth)
   ) {
     monthsToShow.push({ month: currentMonth, year: currentYear });
@@ -36,7 +36,8 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
   }
 
   const getDaysInMonth = (year, month) => new Date(year, month, 0).getDate();
-  const getStartDayIndex = (year, month) => new Date(year, month - 1, 1).getDay();
+  const getStartDayIndex = (year, month) =>
+    new Date(year, month - 1, 1).getDay();
 
   const getColor = (date) => {
     const currentDate = new Date(date);
@@ -65,7 +66,9 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
         currentColumn++;
       }
 
-      const dateString = `${year}-${String(month).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
+      const dateString = `${year}-${String(month).padStart(2, "0")}-${String(
+        i
+      ).padStart(2, "0")}`;
       data.push({
         date: dateString,
         value: 0, // Placeholder for actual data
@@ -79,7 +82,9 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
     return data;
   };
 
-  const monthData = monthsToShow.map(({ month, year }) => generateMonthData(year, month));
+  const monthData = monthsToShow.map(({ month, year }) =>
+    generateMonthData(year, month)
+  );
 
   const handleDateClick = (date) => {
     const selected = new Date(date);
@@ -96,14 +101,14 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
 
   return (
     <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md">
-      <div className="p-5 bg-db-secondary">
+      <div className="p-5 dark:bg-db-secondary bg-db-secondary-light text-white">
         <p className="text-lg font-light inline-block">Tradebook</p>
         <div className="flex flex-col items-center">
           <h2 className="text-center text-lg font-bold text-primary mb-6">
-          Please Select The Range To See The Data
+            Please Select The Range To See The Data
           </h2>
-          <div className="overflow-auto">
-            <div className="grid grid-cols-13 gap-x-5">
+          <div className="overflow-x-auto w-full">
+            <div className="grid grid-cols-13 sm:gap-x-5 gap-x-3 min-w-max">
               <div></div>
               {monthsToShow.map(({ month, year }, index) => (
                 <div
@@ -116,12 +121,14 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
                   })}
                 </div>
               ))}
-              {Array(emptyColumns).fill(null).map((_, index) => (
-                <div
-                  key={`empty-${index}`}
-                  className="text-center font-bold text-xs mb-5 text-white"
-                ></div>
-              ))}
+              {Array(emptyColumns)
+                .fill(null)
+                .map((_, index) => (
+                  <div
+                    key={`empty-${index}`}
+                    className="text-center font-bold text-xs mb-5 text-white"
+                  ></div>
+                ))}
               {daysOfWeek.map((day, rowIndex) => (
                 <>
                   <div
@@ -185,16 +192,20 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
                       </div>
                     );
                   })}
-                  {Array(emptyColumns).fill(null).map((_, index) => (
-                    <div key={`empty-row-${index}`} className="flex gap-1">
-                      {Array(6).fill(null).map((_, i) => (
-                        <div
-                          key={i}
-                          className="w-2 h-2 bg-transparent"
-                        ></div>
-                      ))}
-                    </div>
-                  ))}
+                  {Array(emptyColumns)
+                    .fill(null)
+                    .map((_, index) => (
+                      <div key={`empty-row-${index}`} className="flex gap-1">
+                        {Array(6)
+                          .fill(null)
+                          .map((_, i) => (
+                            <div
+                              key={i}
+                              className="w-2 h-2 bg-transparent"
+                            ></div>
+                          ))}
+                      </div>
+                    ))}
                 </>
               ))}
             </div>

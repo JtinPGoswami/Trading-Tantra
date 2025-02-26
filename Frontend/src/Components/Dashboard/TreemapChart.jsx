@@ -35,7 +35,7 @@ const TreemapChart = () => {
         <Treemap
           data={stockData}
           dataKey="volume"
-          
+          animationDuration={0} 
            
           content={({ root, depth, x, y, width, height, index }) => {
             if (!root || depth === 0 ) return null;
