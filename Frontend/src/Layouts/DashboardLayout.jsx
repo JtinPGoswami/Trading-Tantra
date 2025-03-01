@@ -7,25 +7,23 @@ import Footer from "../Components/Web/Footer";
 import { useSelector } from "react-redux";
 
 const DashboardLayout = () => {
-
   const theme = useSelector((state) => state.theme.theme);
 
-  console.log(theme)
+  console.log(theme);
   useEffect(() => {
-if(theme==="dark"){
-  document.body.style.backgroundColor = "#02000E";
-  document.body.style.color = "#fff";
-}else{
-  document.body.style.backgroundColor = "#E3EBFF";
-  document.body.style.color = "#000";
-}
-
+    if (theme === "dark") {
+      document.body.style.backgroundColor = "#02000E";
+      document.body.style.color = "#fff";
+    } else {
+      document.body.style.backgroundColor = "#E3EBFF";
+      document.body.style.color = "#000";
+    }
   }, [theme]);
 
   return (
     <>
       <div className="flex h-screen w-screen md:gap-5 gap-0 px-2 ">
-        <aside >
+        <aside>
           <Sidebar />
         </aside>
 

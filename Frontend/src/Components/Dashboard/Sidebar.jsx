@@ -42,7 +42,7 @@ const Sidebar = () => {
       <div className="w-fit">
         {/* Sidebar */}
         <div
-          className={`dark:bg-[#000517] bg-[#273D8F]   text-[#D7E3FF] border border-[#000B34] h-full transition-all duration-300 rounded-lg ${
+          className={`dark:bg-[#000517] bg-[#273D8F]   text-[#D7E3FF] border border-[#000B34] h-full transition-all duration-300 rounded-lg overflow-hidden ${
             isOpen ? "w-64" : "w-20"
           }`}
         >
@@ -176,7 +176,7 @@ const Sidebar = () => {
 
       {/* Close Button (Fixed) */}
       <div
-        className={` w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 bg-[#000517] ${
+        className={` w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 dark:bg-[#000517] bg-[#273D8F] ${
           isOpen ? "block" : "hidden"
         }`}
       >
@@ -206,7 +206,7 @@ const NavItem = ({ icon, label, isOpen, path }) => (
     end
   >
     <li
-      className={`flex  items-center justify-between w-full  px-4 py-2  rounded-md cursor-pointer text-base font-medium space-x-4 hover:bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] transition-all duration-1000 ease-in-out  `}
+      className={`flex  items-center justify-between w-full  px-4 py-2  rounded-md cursor-pointer text-base font-medium space-x-4 hover:bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] transition-all duration-300 ease-in-out  `}
     >
       <span className="flex items-center space-x-2 ">
         <img src={icon} alt={label} className="w-auto h-5" />
