@@ -176,7 +176,7 @@ const Sidebar = () => {
 
       {/* Close Button (Fixed) */}
       <div
-        className={` w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 bg-[#000517] ${
+        className={` w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 dark:bg-[#000517] bg-[#273D8F] ${
           isOpen ? "block" : "hidden"
         }`}
       >

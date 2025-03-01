@@ -609,3 +609,7 @@ input[type="reset"] {
   }
 }
       
+
+.tradingview-widget-copyright,.label-dzbd7lyV.top-dzbd7lyV{
+  display: none !important;
+}
