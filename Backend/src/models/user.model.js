@@ -28,6 +28,16 @@ const UserSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+    email: {
+      type: String,
+      unique: true,
+    },
+    otp: {
+      type: String,
+    },
+    otpExpiry: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
