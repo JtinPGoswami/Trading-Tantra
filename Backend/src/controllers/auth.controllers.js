@@ -103,52 +103,6 @@ const logIn = async (req, res) => {
   }
 };
 
-const updatePassword = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-  try {
-    const { oldPassword, newPassword } = req.body;
-
-    const loggedInUser = req.user;
-
-    const user = await User.findOne({ email: loggedInUser.email });
-    if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-    }
-
-    const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
-
-    if (!isPasswordCorrect) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Password does not match" });
-    }
-
-    let hashedPassword;
-    if (newPassword) {
-      const salt = await bcrypt.genSalt(10);
-      hashedPassword = await bcrypt.hash(newPassword, salt);
-    }
-
-    user.password = hashedPassword;
-
-    await user.save();
-
-    res
-      .status(200)
-      .json({ success: true, message: "Password changes successfully" });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal server error in changing the password",
-    });
-  }
-};
-
 //logout
 
 const logout = async (req, res) => {
@@ -219,7 +173,7 @@ const resetPassword = async (req, res) => {
 
     const loggedInUser = req.user;
 
-    console.log('logged', loggedInUser)
+    console.log("logged", loggedInUser);
 
     const user = await User.findOne({ email: loggedInUser.email });
 
@@ -256,20 +210,11 @@ const resetPassword = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Password changed successfully!" });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error in password changing",
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error in password changing",
+    });
   }
 };
 
-export {
-  signUp,
-  logIn,
-  updatePassword,
-  logout,
-  sendOtpForResetPassword,
-  resetPassword,
-};
+export { signUp, logIn, logout, sendOtpForResetPassword, resetPassword };

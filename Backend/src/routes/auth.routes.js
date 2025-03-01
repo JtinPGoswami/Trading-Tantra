@@ -5,12 +5,16 @@ import {
   resetPassword,
   sendOtpForResetPassword,
   signUp,
-  updatePassword,
 } from "../controllers/auth.controllers.js";
+
 import { check } from "express-validator";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import verifyUser from "../middlewares/verifyUser.middleware.js";
+import {
+  editDisplayName,
+  updatePassword,
+} from "../controllers/userUpdate.controller.js";
 const router = express.Router();
 
 router.post(
@@ -65,16 +69,25 @@ router.post(
 );
 
 router.post(
-  "/forgot",[
+  "/forgot",
+  [
     check("otp", "otp must be at least 6 digits").isLength({
       min: 6,
     }),
     check("password", "Password must be at least 6 characters").isLength({
       min: 6,
-    })
+    }),
   ],
   verifyUser,
   resetPassword
+);
+
+//display name change route
+router.post(
+  "/edit-display-name",
+  check("displayName", "Display name is required").not().isEmpty(),
+  verifyUser,
+  editDisplayName
 );
 
 //gooole auth
