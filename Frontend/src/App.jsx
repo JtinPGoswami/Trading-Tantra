@@ -35,6 +35,7 @@ import TradingJournal from "./pages/DashboardPage/TradingJournal";
 import IndexDepthPage from "./pages/DashboardPage/IndexDepthPage";
 import FIIDIIPage from "./pages/DashboardPage/FIIDIIPage";
 import AiSectorDepthPage from "./pages/DashboardPage/AiSectorDepthPage";
+import TestRazorpay from "./pages/DashboardPage/TestRazorpay";
  
 
 const App = () => {
@@ -86,6 +87,7 @@ const App = () => {
           <Route path="calender" element={<FinancialCalendar />} />
           <Route path="our-strategy" element={<OurStrategy />} />
           <Route path="trading-journal" element={<TradingJournal />} />
+          <Route path="testing-razorpay" element={<TestRazorpay />} />
           
         </Route>
       </Routes>
