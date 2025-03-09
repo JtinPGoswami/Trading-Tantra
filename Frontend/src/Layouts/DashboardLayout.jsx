@@ -5,11 +5,30 @@ import Header from "../Components/Dashboard/Header";
 import StockCarouselForDashboard from "../Components/Dashboard/StockCarouselForDashboard";
 import Footer from "../Components/Web/Footer";
 import { useSelector } from "react-redux";
-
+import { TickerTape } from "react-ts-tradingview-widgets";
 const DashboardLayout = () => {
+
+    const TickerTapeSymbol = [
+      { proName: "RELIANCE", description: "RELIANCE" },
+      { proName: "TCS", description: "TCS" },
+      { proName: "INFY", description: "INFOSYS" },
+      { proName: "HDFCBANK", description: "HDFC BANK" },
+      { proName: "ICICIBANK", description: "ICICI BANK" },
+      { proName: "SBIN", description: "SBI" },
+      { proName: "BHARTIARTL", description: "BHARTI AIRTEL" },
+      { proName: "HCLTECH", description: "HCL TECH" },
+      { proName: "LT", description: "L&T" },
+      { proName: "ITC", description: "ITC" },
+      { proName: "KOTAKBANK", description: "KOTAK BANK" },
+      { proName: "ASIANPAINT", description: "ASIAN PAINTS" },
+      { proName: "MARUTI", description: "MARUTI" },
+      { proName: "HINDUNILVR", description: "HINDUSTAN UNILEVER" },
+      { proName: "TITAN", description: "TITAN" },
+      { proName: "ULTRACEMCO", description: "ULTRATECH CEMENT" },
+    ];
   const theme = useSelector((state) => state.theme.theme);
 
-  console.log(theme);
+  console.log(theme, "layout");
   useEffect(() => {
     if (theme === "dark") {
       document.body.style.backgroundColor = "#02000E";
@@ -29,7 +48,7 @@ const DashboardLayout = () => {
 
         <main className="w-full overflow-y-auto overflow-x-hidden scrollbar-hidden transition-all duration-300 ease-linear">
           <Header />
-          <StockCarouselForDashboard />
+          <TickerTape colorTheme={`${theme==="dark"?"dark":"light"}`}   isTransparent={true} symbols={TickerTapeSymbol}></TickerTape>
           <Outlet />
           <Footer />
         </main>

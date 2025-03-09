@@ -44,6 +44,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.5",
     "react-tooltip": "^5.28.0",
+    "react-ts-tradingview-widgets": "^1.2.8",
     "recharts": "^2.15.1",
     "rsuite": "^5.78.0",
     "swiper": "^11.2.4",
