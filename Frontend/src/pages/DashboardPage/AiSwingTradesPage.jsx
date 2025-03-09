@@ -228,8 +228,8 @@ const AiSwingTradesPage = () => {
 
       <div className="flex gap-4 flex-wrap">
         <div className="flex flex-col">
-          <label className="text-2xl font-semibold mb-2">Scan Type</label>
-          <select className="text-xs px-2 w-fit py-1 border dark:border-white rounded outline-none bg-[#01071C] text-white">
+          <label className="text-xl font-semibold mb-2">Scan Type</label>
+          <select className="text-xs px-2 w-fit py-1 border dark:border-white rounded outline-none dark:bg-[#01071C] dark:text-white">
             <option value="">Highest Delivery</option>
             <option value="">Highest Delivery</option>
             <option value="">Highest Delivery</option>
@@ -238,8 +238,8 @@ const AiSwingTradesPage = () => {
         </div>
 
         <div className="flex flex-col">
-          <label className="text-2xl font-semibold mb-2">Segment</label>
-          <select className="text-xs w-fit border px-2 py-1 dark:border-white rounded outline-none bg-[#01071C] text-white">
+          <label className="text-xl font-semibold mb-2">Segment</label>
+          <select className="text-xs w-fit border px-2 py-1 dark:border-white rounded outline-none dark:bg-[#01071C] dark:text-white">
             <option value="">F&O</option>
             <option value="">Highest Delivery</option>
             <option value="">Highest Delivery</option>
@@ -252,7 +252,7 @@ const AiSwingTradesPage = () => {
     <div className="p-px rounded-lg dark:bg-gradient-to-br from-[#0009B2] to-[#02000E]">
       <div className="rounded-lg p-4 dark:bg-db-secondary bg-db-secondary-light  overflow-x-auto">
         <table className="w-full  text-left min-w-[600px]">
-          <thead className="relative text-xl">
+          <thead className="relative text-lg">
             <tr>
               <th className="whitespace-nowrap">Name</th>
               <th className="whitespace-nowrap">Volume</th>
@@ -268,7 +268,7 @@ const AiSwingTradesPage = () => {
               { name: "TVS MOTOR", volume: 1075095, avgDel: 54.53, del: 54.53 },
               { name: "SUPER MEIND", volume: 6077580, avgDel: 51.19, del: 51.19 },
             ].map((stock, index) => (
-              <tr key={index} className="text-xl">
+              <tr key={index} className="text-lg">
                 <td className="pt-3">{stock.name}</td>
                 <td className="pt-3">{stock.volume.toLocaleString()}</td>
                 <td className="pt-3">{stock.avgDel.toFixed(2)}</td>

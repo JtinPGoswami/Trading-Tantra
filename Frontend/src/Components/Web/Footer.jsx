@@ -18,7 +18,7 @@ const theme=useSelector((state)=>state.theme.theme)
       <div className="flex sm:flex-row flex-col gap-y-5 justify-between">
         <div className="lg:space-y-10 space-y-8">
           <img
-            src={logo}
+            src={theme==="dark"?logo:logo_light}
             className="lg:w-60 w-60  h-auto"
             alt="trading tantra logo"
           />
@@ -31,7 +31,7 @@ const theme=useSelector((state)=>state.theme.theme)
         <div className="sm:w-96 w-65 space-y-8 ">
           {/* Conditionally Render Button */}
           <Link to={isDashboardRoute ? "/" : "/dashboard"}>
-            <button className="lg:ml-48 md:ml-40 sm:ml-35 ml-0 px-4 py-2 mb-10 dark:bg-primary bg-primary-light rounded-md font-light lg:text-xl md:text-lg text-base">
+            <button className="lg:ml-48 md:ml-40 sm:ml-35 ml-0 px-4 py-2 mb-10 dark:bg-primary bg-primary-light rounded-md font-normal lg:text-xl md:text-lg text-base">
               {isDashboardRoute ? "Go to Website" : "View Dashboard"}
             </button>
           </Link>
@@ -40,86 +40,86 @@ const theme=useSelector((state)=>state.theme.theme)
             <ul className="space-y-2">
               <h3 className="sm:text-base text-lg font-bold">Terms Of Use</h3>
               <Link to={"/disclaimer"}>
-                <li className="text-sm font-light">Disclaimer</li>
+                <li className="text-sm font-normal">Disclaimer</li>
               </Link>
               <Link to={"/refund-policy"}>
-                <li className="text-sm font-light">Refund Policy</li>
+                <li className="text-sm font-normal">Refund Policy</li>
               </Link>
               <Link to={"/disclosures"}>
-                <li className="text-sm font-light">Disclosures</li>
+                <li className="text-sm font-normal">Disclosures</li>
               </Link>
               <Link to={"/terms-and-condition"}>
-                <li className="text-sm font-light">Terms & Conditions</li>
+                <li className="text-sm font-normal">Terms & Conditions</li>
               </Link>
               <Link to={"/privacy-policy"}>
-                <li className="text-sm font-light">Privacy Policy</li>
+                <li className="text-sm font-normal">Privacy Policy</li>
               </Link>
             </ul>
             <ul className="space-y-2">
               <h3 className="sm:text-2xl text-lg font-bold">Company</h3>
               <Link to={"/"}>
-                <li className="text-lg font-light">Home</li>
+                <li className="text-lg font-normal">Home</li>
               </Link>
               <Link to={"/updates"}>
-                <li className="text-lg font-light">Updates</li>
+                <li className="text-lg font-normal">Updates</li>
               </Link>
               <Link to={"/about-us"}>
-                <li className="text-lg font-light">About Us</li>
+                <li className="text-lg font-normal">About Us</li>
               </Link>
               <Link to={"/contact-us"}>
-                <li className="text-lg font-light">Contact Us</li>
+                <li className="text-lg font-normal">Contact Us</li>
               </Link>
               <Link to={"/faq"}>
-                <li className="text-lg font-light">FAQ</li>
+                <li className="text-lg font-normal">FAQ</li>
               </Link>
             </ul>
           </div>
         </div>
       </div>
-      <div className="w-full mt-10 border-t-2 border-t-[#00124F] border-b-2 border-b-[#00124F] py-10 space-y-5">
-        <p className="font-light text-lg leading-6 tracking-wider">
+      <div className="w-full mt-10 border-t-2 border-t-[#00124F] border-b-2 border-b-[#00124F] py-10 space-y-3">
+        <p className="font-normal text-lg leading-6 tracking-wide">
           TradingTantra is India’s 1st AI stock screener which is made with love
           in INDIA.
         </p>
-        <p className="font-light text-lg leading-6 tracking-widest">
+        <p className="font-normal text-lg leading-6 tracking-widest">
           At TradingTantra we make advanced AI algorithms which provide
           thoroughly filtered stocks on which you can make trades according to
           your analysis.Through our AI algorithms we try to make your trading
           experience smoother and profitable.
         </p>
-        <p className="font-light text-lg leading-6 tracking-widest">
+        <p className="font-normal text-lg leading-6 tracking-widest">
           Our mission is to teach you and make you an independent trader instead
           of providing calls or tips.
         </p>
-        <p className="font-light text-lg leading-6 tracking-widest">
+        <p className="font-normal text-lg leading-6 tracking-widest">
           We see heavy potential in INDIA and Indian Stock Market and
           TradingTantra will provide you an edge above others.
         </p>
-        <p className="font-light text-lg leading-6 tracking-widest">
+        <p className="font-normal text-lg leading-6 tracking-widest">
           Disclaimer: Investing involves risk, and past performance is not
           indicative of future results. Please conduct your own research before
           making investment decisions.
         </p>
-        <p className="font-light text-lg leading-6 tracking-widest">
+        <p className="font-normal text-lg leading-6 tracking-widest">
           With TradingTantra you can do the following types of trading - 
         </p>
         <ul className="space-y-1 mt-10">
-          <li className="font-thin text0base leading-6 tracking-widest">
+          <li className="font-normal text0base leading-6 tracking-widest">
             -Intraday Trading
           </li>
-          <li className="font-thin text0base leading-6 tracking-widest">
+          <li className="font-normal text0base leading-6 tracking-widest">
             -BTST
           </li>
-          <li className="font-thin text0base leading-6 tracking-widest">
+          <li className="font-normal text0base leading-6 tracking-widest">
             -Swing Trading
           </li>
-          <li className="font-thin text0base leading-6 tracking-widest">
+          <li className="font-normal text0base leading-6 tracking-widest">
             -Option Buying
           </li>
-          <li className="font-thin text0base leading-6 tracking-widest">
+          <li className="font-normal text0base leading-6 tracking-widest">
             -Option Selling
           </li>
-          <li className="font-thin text0base leading-6 tracking-widest">
+          <li className="font-normal text0base leading-6 tracking-widest">
             -Scalping Trading
           </li>
         </ul>

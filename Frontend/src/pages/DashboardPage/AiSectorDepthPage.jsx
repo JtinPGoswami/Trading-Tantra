@@ -411,7 +411,7 @@ const AiSectorDepthPage = () => {
             <span className="flex items-center gap-1">
               How to use <FaPlayCircle className="text-[#0256F5]" />
             </span>
-            <span className="flex items-center px-2 py-px rounded-full w-fit text-white bg-[#0256F5] text-xs">
+            <span className="flex items-center px-2 py-px rounded-full w-fit text-white bg-[#0256F5] text-xs">  
               <GoDotFill />
               Live
             </span>

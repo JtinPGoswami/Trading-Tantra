@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/WebPage/HomePage";
 import UpdatesPage from "./pages/WebPage/UpdatesPage";
 import ContactUsPage from "./pages/WebPage/ContactUsPage";
@@ -12,7 +12,6 @@ import PrivacyPolicyPage from "./pages/WebPage/PrivacyPolicyPage";
 import FAQPage from "./pages/WebPage/FAQPage";
 import RenewPlanPage from "./pages/WebPage/RenewPlanPage";
 import BuyPlanPage from "./pages/WebPage/BuyPlanPage";
-import ScrollToTop from "./Components/Web/ScrollTop";
 import WebLayout from "./Layouts/WebLayout";
 import DashboardLayout from "./Layouts/DashboardLayout";
 import Homepage from "./pages/DashboardPage/Homepage";
@@ -37,13 +36,15 @@ import IndexDepthPage from "./pages/DashboardPage/IndexDepthPage";
 import FIIDIIPage from "./pages/DashboardPage/FIIDIIPage";
 import AiSectorDepthPage from "./pages/DashboardPage/AiSectorDepthPage";
  
- 
 
 const App = () => {
+ 
+
   return (
+    <>
     <div>
-      <ScrollToTop />
       <RiskProvider>
+   <ScrollToTop />
         <Routes>
           <Route path="/" element={<WebLayout />}>
             <Route index element={<HomePage />} />
@@ -89,8 +90,20 @@ const App = () => {
         </Route>
       </Routes>
       </RiskProvider>
-    </div>
+    </div> </>
   );
 };
+
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 
 export default App;

@@ -53,7 +53,7 @@ const StockCard = ({ title, stocks, img, price }) => {
               <table className="w-full ">
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10  ">
-                  <tr className="text-gray-300 ">
+                  <tr className="dark:text-gray-300 text-gray-800 ">
                     <th className="flex justify-start items-center py-2">
                       Symbol <MdOutlineKeyboardArrowDown />
                     </th>

@@ -61,7 +61,7 @@ const Header = () => {
   }, [profileDropDown]); // Dependency on profileDropDown to add/remove listener dynamically
 
   return (
-    <div className="dark:bg-[#000517] border bg-[#273D8F] border-[#000B34] h-20 w-full mx-auto rounded-[10px] p-3 flex items-center justify-between">
+    <div className="bg-[#000517] border mt-2.5  border-[#000B34] h-20 w-full mx-auto rounded-[10px] p-3 flex items-center justify-between">
       <div className="w-1/2 flex items-center gap-2">
         <button
           onMouseEnter={() => setHovered(true)}

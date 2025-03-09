@@ -17,11 +17,13 @@
   --color-db-primary: #01071c;
   --color-db-secondary: #000a2d;
   --color-primary-light: #6183e4;
-  --color-db-primary-light: #BACEFF;
-  --color-db-secondary-light: #B2B2FF;
+  /* --color-db-primary-light: #BACEFF;
+  --color-db-secondary-light: #B2B2FF; */
+  --color-db-primary-light: #F1F5F9;
+  --color-db-secondary-light: #F8FAFC;
   --color-light-b: #273d8f;
   --color-light-b2: #86A7FF;
-
+    --color-bg-slate:#000a2d
 
   --font-abcRepro: "ABC Repro";
   --font-Inter: "Inter";

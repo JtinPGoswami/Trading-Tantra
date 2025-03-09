@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   BarChart,
   Bar,
@@ -29,18 +30,19 @@ const data = [
 ];
 
 const AISectorChart = () => {
+  const theme = useSelector((state) => state.theme.theme);
   return (
-    <div className="p-4 dark:bg-db-secondary bg-db-secondary-light text-white rounded-lg shadow-md w-full">
+    <div className="p-4 dark:bg-db-secondary bg-db-secondary-light  rounded-lg shadow-md w-full">
     
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-          <XAxis dataKey="name" stroke="#fff" />
-          <YAxis stroke="#fff" />
+          <XAxis dataKey="name" stroke={theme==="dark"?"#fff":"#000"} />
+          <YAxis stroke={theme==="dark"?"#fff":"#000"} />
           <Tooltip cursor={{ fill: "rgba(255,255,255,0.1)" }}
-           contentStyle={{ backgroundColor: "#000A2D", borderRadius: "5px", borderColor: "#fff" }} 
+           contentStyle={{ backgroundColor: "#000A2D", borderRadius: "5px", borderColor: theme==="dark"?"#fff":"#000" }} 
            itemStyle={{ color: "#fff" }} 
           />
-          <ReferenceLine y={0} stroke="#fff" strokeWidth={2} />
+          <ReferenceLine y={0} stroke={theme==="dark"?"#fff":"#000"} strokeWidth={2} />
           <Bar dataKey="value" barSize={30} radius={[5, 5, 0, 0]}>
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.value >= 0 ? "#0256F5" : "#95025A"} />

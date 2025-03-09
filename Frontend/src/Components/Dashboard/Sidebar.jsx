@@ -33,7 +33,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`absolute top-0 left-0 md:static z-50 flex h-screen ${
+      className={`absolute top-0 left-0 md:static z-50 flex h-screen  ${
         isOpen
           ? "translate-x-0 sm:translate-x-0"
           : "-translate-x-full sm:translate-x-0"
@@ -42,13 +42,13 @@ const Sidebar = () => {
       <div className="w-fit">
         {/* Sidebar */}
         <div
-          className={`dark:bg-[#000517] bg-[#273D8F]   text-[#D7E3FF] border border-[#000B34] h-full transition-all duration-300 rounded-lg overflow-hidden ${
+          className={`bg-[#000517]    text-[#D7E3FF] border border-[#000B34] h-full transition-all duration-300 rounded-lg overflow-hidden ${
             isOpen ? "w-64" : "w-20"
           }`}
         >
           {/* Fixed Header */}
           <div className="border-b-2 border-transparent bg-gradient-to-r from-[#000517] via-[#011459] to-[#000517] bg-clip-border">
-            <div className="flex items-center w-full h-fit justify-center dark:bg-[#000517] bg-[#273D8F]  py-5">
+            <div className="flex items-center w-full h-fit justify-center bg-[#000517]   py-5">
               {isOpen ? (
                 <img src={logo} alt="logo" />
               ) : (
@@ -176,7 +176,7 @@ const Sidebar = () => {
 
       {/* Close Button (Fixed) */}
       <div
-        className={` w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 dark:bg-[#000517] bg-[#273D8F] ${
+        className={` w-fit h-fit border flex items-center rounded-lg justify-center border-[#000B34] ml-1 bg-[#000517]  ${
           isOpen ? "block" : "hidden"
         }`}
       >
