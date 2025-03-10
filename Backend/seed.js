@@ -1,30 +1,54 @@
 import mongoose from "mongoose";
-import connectDB from "./src/config/db.js"
+import connectDB from "./src/config/db.js";
 import { stocksData } from "./src/f&o.js";
 import StocksDetail from "./src/models/stocksDetail.model.js";
+import { dummyData } from "./dummy.js";
+import MarketDetailData from "./src/models/marketData.model.js";
 
+// const seedDB = async () => {
+//     await connectDB();
+
+//     try {
+//         // Trim all string values in stocksData
+//         const cleanedStocksData = stocksData.map(stock => {
+//             return Object.fromEntries(
+//                 Object.entries(stock).map(([key, value]) =>
+//                     [key, typeof value === 'string' ? value.trim() : value]
+//                 )
+//             );
+//         });
+
+//         await StocksDetail.insertMany(cleanedStocksData);
+//         console.log('Database seeded successfully with trimmed data');
+
+//     } catch (error) {
+//         console.log('Error in seeding:', error.message);
+//     } finally {
+//         mongoose.connection.close();
+//     }
+// };
 
 const seedDB = async () => {
-    await connectDB();
+  await connectDB();
 
-    try {
-        // Trim all string values in stocksData
-        const cleanedStocksData = stocksData.map(stock => {
-            return Object.fromEntries(
-                Object.entries(stock).map(([key, value]) => 
-                    [key, typeof value === 'string' ? value.trim() : value]
-                )
-            );
-        });
+  try {
+    // Trim all string values in stocksData
+    const cleanedStocksData = dummyData.map((stock) => {
+      return Object.fromEntries(
+        Object.entries(stock).map(([key, value]) => [
+          key,
+          typeof value === "string" ? value.trim() : value,
+        ])
+      );
+    });
 
-        await StocksDetail.insertMany(cleanedStocksData);
-        console.log('Database seeded successfully with trimmed data');
-        
-    } catch (error) {
-        console.log('Error in seeding:', error.message);
-    } finally {
-        mongoose.connection.close();
-    }
+    await MarketDetailData.insertMany(cleanedStocksData);
+    console.log("Database seeded successfully with trimmed data");
+  } catch (error) {
+    console.log("Error in seeding:", error.message);
+  } finally {
+    mongoose.connection.close();
+  }
 };
 
 seedDB();
