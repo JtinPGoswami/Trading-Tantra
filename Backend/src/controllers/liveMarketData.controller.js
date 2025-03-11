@@ -32,7 +32,12 @@ const splitIntoBatches = (array, batchSize) => {
   return batches;
 };
 
-// Save market data using Promise.all()
+const calculateTurnover = (avgPrice, volume) => {
+  const turnover = Number(avgPrice * volume).toFixed(2);
+  // console.log("turnover", turnover, "avgPrice", avgPrice, "volume", volume);
+  return turnover;
+};
+
 const saveMarketData = async () => {
   if (marketDataBuffer.size === 0) return;
 
@@ -41,9 +46,14 @@ const saveMarketData = async () => {
   const savePromises = Array.from(marketDataBuffer.entries()).map(
     async ([securityId, marketData]) => {
       try {
+        const turnover = calculateTurnover(
+          marketData[0].avgTradePrice,
+          marketData[0].volume
+        );
+        console.log("turnover", turnover);
         await MarketDetailData.findOneAndUpdate(
           { date: todayDate, securityId: securityId },
-          { $set: { data: marketData } },
+          { $set: { data: marketData, turnover } },
           { upsert: true, new: true }
         );
       } catch (error) {
@@ -140,5 +150,5 @@ async function startWebSocket() {
   // Save market data every 10 seconds (adjust as needed)
   setInterval(saveMarketData, 10000);
 }
-connectDB();
-startWebSocket();
+
+export default startWebSocket;

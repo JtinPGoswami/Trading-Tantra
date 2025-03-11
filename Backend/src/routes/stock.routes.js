@@ -1,11 +1,16 @@
-import express from 'express'
-import { fetchAndStoreFNOData, getStocks } from '../controllers/stock.contollers.js'
-import verifyUser from '../middlewares/verifyUser.middleware.js'
+import express from "express";
+import {
+  getStocks,
+  getStocksData,
+  getTopGainersAndLosers,
+} from "../controllers/stock.contollers.js";
+import verifyUser from "../middlewares/verifyUser.middleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
+router.get("/get-stocks", verifyUser, getStocks);
+// router.get('/get-fno-stocks', fetchAndStoreFNOData );
+router.get("/get-turnover", getStocksData);
+router.get("/get-top-gainers-and-losers", getTopGainersAndLosers);
 
-router.get('/get-stocks', verifyUser, getStocks )
-router.get('/get-fno-stocks', fetchAndStoreFNOData );
-
-export default router
+export default router;

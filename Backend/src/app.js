@@ -1,4 +1,3 @@
-import axios from "axios";
 import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
@@ -11,8 +10,8 @@ import "./config/passport.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import subscriptionPlanRoutes from "./routes/subscriptionPlan.routes.js";
 import stocksRoutes from "./routes/stock.routes.js";
-import { getOhlcData } from "./controllers/stock.contollers.js";
 import startWebSocket from "./controllers/liveMarketData.controller.js";
+import { getStocksData } from "./controllers/stock.contollers.js";
 
 dotenv.config();
 
@@ -32,14 +31,15 @@ app.use(
   })
 );
 
-
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// startWebSocket();
+
 app.use("/api/auth", authRoutes);
-app.use("/api/payment", paymentRoutes);
-app.use("/api", subscriptionPlanRoutes);
+// app.use("/api/payment", paymentRoutes);
+// app.use("/api", subscriptionPlanRoutes);
 app.use("/api", stocksRoutes);
 
 // getOhlcData();
@@ -128,6 +128,7 @@ app.use("/api", stocksRoutes);
 
 const PORT = process.env.PORT || 3000;
 
+// startWebSocket();
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
