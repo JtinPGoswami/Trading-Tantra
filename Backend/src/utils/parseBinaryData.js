@@ -5,7 +5,7 @@ function parseBinaryData(buffer) {
     throw new Error("Invalid data format, expected a Buffer.");
   }
 
-  console.log("Received buffer length:", buffer.length);
+  // console.log("Received buffer length:", buffer.length);
 
   if (buffer.length < 162) {
     throw new Error("Buffer too small, expected at least 162 bytes.");

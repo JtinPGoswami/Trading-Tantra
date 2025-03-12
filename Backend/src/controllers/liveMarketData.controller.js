@@ -50,7 +50,7 @@ const saveMarketData = async () => {
           marketData[0].avgTradePrice,
           marketData[0].volume
         );
-        console.log("turnover", turnover);
+        // console.log("turnover", turnover);
         await MarketDetailData.findOneAndUpdate(
           { date: todayDate, securityId: securityId },
           { $set: { data: marketData, turnover } },
@@ -77,7 +77,7 @@ async function startWebSocket() {
 
   await fetchSecurityIds();
 
-  console.log("Fetched Security IDs:", securityIdList);
+  // console.log("Fetched Security IDs:", securityIdList);
 
   if (securityIdList.length === 0) {
     console.error("❌ No security IDs found. WebSocket will not start.");
@@ -114,7 +114,7 @@ async function startWebSocket() {
   });
 
   ws.on("message", async (data) => {
-    console.log("🔹 Raw Binary Data Received");
+    // console.log("🔹 Raw Binary Data Received");
 
     try {
       const marketData = parseBinaryData(data);
@@ -127,7 +127,7 @@ async function startWebSocket() {
           marketDataBuffer.set(securityId, []);
         }
         marketDataBuffer.get(securityId).push(marketData); // Append data instead of replacing
-        console.log(`📈 Data buffered for Security ID: ${securityId}`);
+        // console.log(`📈 Data buffered for Security ID: ${securityId}`);
       } else {
         console.warn(
           "⚠️ No valid market data received or Security ID missing."
@@ -144,7 +144,7 @@ async function startWebSocket() {
 
   ws.on("close", () => {
     console.log("❌ WebSocket Disconnected. Reconnecting...");
-    setTimeout(startWebSocket, 2000);
+    setTimeout(startWebSocket, 20000);
   });
 
   // Save market data every 10 seconds (adjust as needed)
