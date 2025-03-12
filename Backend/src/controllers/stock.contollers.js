@@ -206,4 +206,133 @@ const getTopGainersAndLosers = async (req, res) => {
   }
 };
 
-export { getStocks, getStocksData, getTopGainersAndLosers };
+const getDayHighBreak = async (req, res) => {
+  try {
+    const todayDate = new Date().toISOString().split("T")[0];
+    const todayData = await MarketDetailData.find({ date: todayDate });
+    const stocksDetail = await StocksDetail.find();
+
+    if (todayData.length === 0 || !stocksDetail) {
+      return res
+        .status(404)
+        .json({ message: "Not enough data to calculate day high break" });
+    }
+
+    let filteredData = todayData.map((data) => ({
+      latestPrice: parseFloat(data.data.latestTradedPrice[0].toFixed(2)),
+      dayHigh: parseFloat(data.data.dayHigh[0].toFixed(2)),
+      securityId: data.securityId,
+    }));
+
+    const dayHighBreak = filteredData
+      .map((data) => {
+        const changePrice = data.dayHigh * 0.005;
+        const latestPrice = data.latestPrice;
+        const dayHigh = data.dayHigh;
+
+        if (latestPrice >= dayHigh - changePrice) {
+          const stock = stocksDetail.find(
+            (stock) => stock.SECURITY_ID === data.securityId
+          );
+
+          if (stock) {
+            const {
+              _id,
+              createdAt,
+              updatedAt,
+              SECURITY_ID,
+              __v,
+              ...filteredStock
+            } = stock.toObject();
+
+            const percentageDifference = (
+              ((latestPrice - dayHigh) / dayHigh) *
+              100
+            ).toFixed(2);
+
+            return { ...data, stock: filteredStock, percentageDifference };
+          }
+        }
+        return null;
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.percentageDifference - a.percentageDifference);
+
+    console.log("dayHighBreak : ", dayHighBreak);
+    res.status(200).json({ dayHighBreak });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+const getDayLowBreak = async (req, res) => {
+  try {
+    const todayDate = new Date().toISOString().split("T")[0];
+    const todayData = await MarketDetailData.find({ date: todayDate });
+    const stocksDetail = await StocksDetail.find();
+
+    if (todayData.length === 0 || !stocksDetail) {
+      return res
+        .status(404)
+        .json({ message: "Not enough data to calculate day low break" });
+    }
+
+    let filteredData = todayData.map((data) => ({
+      latestPrice: parseFloat(data.data.latestTradedPrice[0].toFixed(2)),
+      dayLow: parseFloat(data.data.dayLow[0].toFixed(2)),
+      securityId: data.securityId,
+    }));
+
+    const dayLowBreak = filteredData
+      .map((data) => {
+        const changePrice = data.dayLow * 0.005; // 0.5% of dayLow
+        const latestPrice = data.latestPrice;
+        const dayLow = data.dayLow;
+
+        if (latestPrice <= dayLow + changePrice) {
+          const stock = stocksDetail.find(
+            (stock) => stock.SECURITY_ID === data.securityId
+          );
+
+          if (stock) {
+            const {
+              _id,
+              createdAt,
+              updatedAt,
+              SECURITY_ID,
+              __v,
+              ...filteredStock
+            } = stock.toObject();
+
+            const percentageDifference = (
+              ((latestPrice - dayLow) / dayLow) *
+              100
+            ).toFixed(2);
+
+            // This check is redundant now, but you can keep it for clarity
+            if (percentageDifference <= 0.5) {
+              return { ...data, stock: filteredStock, percentageDifference };
+            }
+          }
+        }
+        return null;
+      })
+      .filter(Boolean)
+      .sort((a, b) => a.percentageDifference - b.percentageDifference);
+
+    console.log("dayLowBreak : ", dayLowBreak);
+    res.status(200).json({ dayLowBreak });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+export {
+  getStocks,
+  getStocksData,
+  getTopGainersAndLosers,
+  getDayHighBreak,
+  getDayLowBreak,
+};
