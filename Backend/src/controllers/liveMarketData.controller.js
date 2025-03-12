@@ -216,14 +216,14 @@ const saveMarketData = async () => {
       );
 
       try {
-        const filter = { date: todayDate, securityId: securityId };
-        const update = { $set: { data: marketData, turnover } };
-        const options = { upsert: true, new: true };
+        // const filter = { date: todayDate, securityId: securityId };
+        // const update = { $set: { data: marketData, turnover } };
+        // const options = { upsert: true, new: true };
 
-        const result = await MarketDetailData.findOneAndUpdate(
-          filter,
-          update,
-          options
+        await MarketDetailData.findOneAndUpdate(
+          { date: todayDate, securityId: securityId },
+          { $set: { data: marketData, turnover } },
+          { upsert: true, new: true }
         );
 
         successCount++;

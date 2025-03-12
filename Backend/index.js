@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 // import parseBinaryData from "./src/utils/parseBinaryData.js";
 import connectDB from "./src/config/db.js";
 import startWebSocket from "./src/controllers/liveMarketData.controller.js";
+import MarketDetailData from "./src/models/marketData.model.js";
 
 dotenv.config();
 
@@ -63,7 +64,3 @@ startWebSocket();
 
 // // Start WebSocket connection
 // startWebSocket();
-
-
-
-

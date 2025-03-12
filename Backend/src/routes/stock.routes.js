@@ -5,6 +5,7 @@ import {
   getStocks,
   getStocksData,
   getTopGainersAndLosers,
+  previousDaysVolume,
 } from "../controllers/stock.contollers.js";
 import verifyUser from "../middlewares/verifyUser.middleware.js";
 
@@ -16,5 +17,6 @@ router.get("/get-turnover", getStocksData);
 router.get("/get-top-gainers-and-losers", getTopGainersAndLosers);
 router.get("/get-day-high-break", getDayHighBreak);
 router.get("/get-day-low-break", getDayLowBreak);
+router.get("/previous-volume", previousDaysVolume);
 
 export default router;

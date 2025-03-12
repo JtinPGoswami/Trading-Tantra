@@ -329,10 +329,73 @@ const getDayLowBreak = async (req, res) => {
   }
 };
 
+const previousDaysVolume = async (req, res) => {
+  try {
+    const todayDate = new Date().toISOString().split("T")[0];
+    const todayData = await MarketDetailData.find({ date: todayDate });
+    const previousData = await MarketDetailData.find({
+      date: { $lt: todayDate },
+    });
+    const stocksDetail = await StocksDetail.find();
+
+    if (!todayData || !previousData) {
+      return res.status(404).json({ success: false, message: "no data found" });
+    }
+
+    // Build a lookup map for previous volumes by securityId.
+    // Each key will have an array of volumes from the last 10 days.
+    let previousVolumesMap = {};
+
+    previousData.forEach((data) => {
+      const securityId = data.securityId;
+      const volume = data.data.volume;
+
+      if (!previousVolumesMap[securityId]) {
+        previousVolumesMap[securityId] = [];
+      }
+      previousVolumesMap[securityId].push(volume);
+    });
+
+    // Combine today's data with previous volumes.
+    // For each stock in todayData (190 entries), we create an object that contains:
+    // - securityId
+    // - todayVolume (from today's data)
+    // - volumeHistory (array of previous volumes for that stock)
+    const combinedData = todayData.map((data) => {
+      const securityId = data.securityId;
+      const todayVolume = data.data.volume;
+      const volumeHistory = previousVolumesMap[securityId] || [];
+      let add = 0;
+      volumeHistory.map((volume) => {
+        add = add + volume[0];
+      });
+      const avragePreviousVolume = add / volumeHistory.length;
+      const xElement = todayVolume / avragePreviousVolume;
+      const stock = stocksDetail.find(
+        (stock) => stock.SECURITY_ID === data.securityId
+      );
+
+      return {
+        securityId,
+        todayVolume,
+        volumeHistory,
+        stock,
+        avragePreviousVolume,
+        xElement,
+      };
+    });
+    res.status(200).json({ success: true, combinedData });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 export {
   getStocks,
   getStocksData,
   getTopGainersAndLosers,
   getDayHighBreak,
   getDayLowBreak,
+  previousDaysVolume,
 };
