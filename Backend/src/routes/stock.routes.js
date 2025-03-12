@@ -1,5 +1,7 @@
 import express from "express";
 import {
+  getDayHighBreak,
+  getDayLowBreak,
   getStocks,
   getStocksData,
   getTopGainersAndLosers,
@@ -13,6 +15,8 @@ router.get("/get-stocks", verifyUser, getStocks);
 // router.get('/get-fno-stocks', fetchAndStoreFNOData );
 router.get("/get-turnover", getStocksData);
 router.get("/get-top-gainers-and-losers", getTopGainersAndLosers);
+router.get("/get-day-high-break", getDayHighBreak);
+router.get("/get-day-low-break", getDayLowBreak);
 
 router.get('/live-feed',startWebSocket)
 
