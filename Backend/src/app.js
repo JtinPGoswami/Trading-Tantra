@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// startWebSocket();
+
 
 app.use("/api/auth", authRoutes);
 // app.use("/api/payment", paymentRoutes);
@@ -133,6 +133,7 @@ connectDB()
   .then(() => {
     app.listen(PORT, () => {
       console.log("Server started on port ", PORT);
+      // startWebSocket();
     });
   })
   .catch((error) => {

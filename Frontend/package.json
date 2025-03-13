@@ -14,7 +14,7 @@
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.0.6",
     "apexcharts": "^4.5.0",
-    "axios": "^1.8.1",
+    "axios": "^1.8.3",
     "chart.js": "^4.4.7",
     "chartjs-plugin-datalabels": "^2.2.0",
     "clsx": "^2.1.1",
