@@ -17,7 +17,7 @@ const useFetchData = () => {
       let response;
 
       if (method == "GET") {
-        response = await  axios.get(url);
+        response = await  axios.get(`http://localhost:3000/api/${url}`);
       } else if (method == "POST") {
         response = await axios({
           method: "POST",

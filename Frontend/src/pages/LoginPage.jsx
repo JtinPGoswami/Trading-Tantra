@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import useFetchData from "../utils/useFetchData";
 
 
 const LoginPage = () => {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const {data,error,loading,fetchData} = useFetchData();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,7 +17,19 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  };
+
+    // console.log(formData)
+
+    fetchData('auth/login','POST',formData)
+   
+
+if(data.success){
+  localStorage.setItem('token',data.token)
+  navigate('/dashboard')
+
+
+}
+};
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">

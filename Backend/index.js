@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 // import parseBinaryData from "./src/utils/parseBinaryData.js";
 import connectDB from "./src/config/db.js";
 import startWebSocket from "./src/controllers/liveMarketData.controller.js";
+import MarketDetailData from "./src/models/marketData.model.js";
 
 dotenv.config();
 
@@ -12,6 +13,21 @@ dotenv.config();
 // const WS_URL = `wss://api-feed.dhan.co?version=2&token=${ACCESS_TOKEN}&clientId=${CLIENT_ID}&authType=2`;
 
 connectDB();
+
+// const deleteData = async () => {
+//     try{
+//         await MarketDetailData.deleteMany({date:'2025-03-13'});
+//         console.log("deleted");
+
+
+//     }catch(err){
+//             console.log(err.message);
+//     }
+    
+// }
+
+// deleteData();
+
 startWebSocket();
 // function startWebSocket() {
 //   const ws = new WebSocket(WS_URL, {

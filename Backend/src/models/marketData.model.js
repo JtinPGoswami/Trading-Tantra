@@ -5,7 +5,6 @@ const MarketDataSchema = new mongoose.Schema(
     securityId: String,
     turnover: {
       type: String,
-      default: "100",
     },
     data: {
       responseCode: Number,
