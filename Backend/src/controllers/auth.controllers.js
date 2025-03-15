@@ -67,6 +67,7 @@ const logIn = async (req, res) => {
         .status(404)
         .json({ success: false, message: "User not Exist, please sign up" });
     }
+    // console.log('here.....👍')
     if (user.password) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {

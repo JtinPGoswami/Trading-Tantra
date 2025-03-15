@@ -14,7 +14,7 @@
     "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.0.6",
     "apexcharts": "^4.5.0",
-    "axios": "^1.8.1",
+    "axios": "^1.8.3",
     "chart.js": "^4.4.7",
     "chartjs-plugin-datalabels": "^2.2.0",
     "clsx": "^2.1.1",
@@ -47,6 +47,7 @@
     "react-ts-tradingview-widgets": "^1.2.8",
     "recharts": "^2.15.1",
     "rsuite": "^5.78.0",
+    "socket.io-client": "^4.8.1",
     "swiper": "^11.2.4",
     "tailwindcss": "^4.0.6"
   },

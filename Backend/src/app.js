@@ -6,16 +6,19 @@ import passport from "passport";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
+import http, { get } from "http";
 import "./config/passport.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import subscriptionPlanRoutes from "./routes/subscriptionPlan.routes.js";
 import stocksRoutes from "./routes/stock.routes.js";
 import startWebSocket from "./controllers/liveMarketData.controller.js";
 import { getStocksData } from "./controllers/stock.contollers.js";
+import { getSocketInstance, initializeServer } from "./config/socket.js";
 
 dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
 
 app.use(express.json());
 app.use(morgan("dev"));
@@ -24,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(passport.initialize());
-
+initializeServer(server);
 app.use(
   cors({
     origin: "*",
@@ -34,8 +37,6 @@ app.use(
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
-// startWebSocket();
 
 app.use("/api/auth", authRoutes);
 // app.use("/api/payment", paymentRoutes);
@@ -125,16 +126,34 @@ app.use("/api", stocksRoutes);
 // }
 
 // fetchFOInstruments();
-  
+
+async function getTurnover() {
+  try {
+    const response = await getStocksData();
+    getSocketInstance().emit("turnOver", response);
+    console.log('start.....👍')
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setTimeout(getTurnover, 20000);
+  }
+}
+
+getTurnover();
+
 const PORT = process.env.PORT || 3000;
 
 // startWebSocket();
 connectDB()
   .then(() => {
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log("Server started on port ", PORT);
+
+      // startWebSocket();
     });
   })
   .catch((error) => {
     console.log("Failed to connect ", error);
   });
+
+export { app, server };

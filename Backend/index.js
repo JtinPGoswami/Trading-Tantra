@@ -13,6 +13,21 @@ dotenv.config();
 // const WS_URL = `wss://api-feed.dhan.co?version=2&token=${ACCESS_TOKEN}&clientId=${CLIENT_ID}&authType=2`;
 
 connectDB();
+
+// const deleteData = async () => {
+//     try{
+//         await MarketDetailData.deleteMany({date:'2025-03-13'});
+//         console.log("deleted");
+
+
+//     }catch(err){
+//             console.log(err.message);
+//     }
+    
+// }
+
+// deleteData();
+
 startWebSocket();
 // function startWebSocket() {
 //   const ws = new WebSocket(WS_URL, {

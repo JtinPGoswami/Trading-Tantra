@@ -131,7 +131,7 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
                 ))}
               {daysOfWeek.map((day, rowIndex) => (
                 <>
-                  <div
+                  <div style={{back}}
                     key={day}
                     className={`font-bold text-[10px] ${
                       ["Tue", "Thu", "Sat"].includes(day)
