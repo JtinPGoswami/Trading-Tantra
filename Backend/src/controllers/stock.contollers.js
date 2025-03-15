@@ -363,7 +363,7 @@ const previousDaysVolume = async (req, res) => {
     // - volumeHistory (array of previous volumes for that stock)
     const combinedData = todayData.map((data) => {
       const securityId = data.securityId;
-      const todayVolume = data.data.volume;
+      const todayVolume = data.data.volume[0];
       const volumeHistory = previousVolumesMap[securityId] || [];
       let add = 0;
       volumeHistory.map((volume) => {
