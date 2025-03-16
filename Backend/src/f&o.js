@@ -1,1332 +1,1730 @@
- export const stocksData = [
-  {
-    "SECURITY_ID": "100",
-    "ISIN": "INE885A01032",
-    "UNDERLYING_SYMBOL": "ARE&M",
-    "SYMBOL_NAME": "AMARA RAJA ENERGY MOB LTD",
-    "DISPLAY_NAME": "Amara Raja Energy & Mobility"
+export const stocksData=[
+  {
+      "SECURITY_ID":"7",
+      "UNDERLYING_SYMBOL":"AARTIIND",
+      "DISPLAY_NAME":"Aarti Industries",
+      "SYMBOL_NAME":"AARTI INDUSTRIES LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "10099",
-    "ISIN": "INE102D01028",
-    "UNDERLYING_SYMBOL": "GODREJCP",
-    "SYMBOL_NAME": "GODREJ CONSUMER PRODUCTS",
-    "DISPLAY_NAME": "Godrej Consumer Products"
+  {
+      "SECURITY_ID":"13",
+      "UNDERLYING_SYMBOL":"ABB",
+      "DISPLAY_NAME":"ABB",
+      "SYMBOL_NAME":"ABB INDIA LIMITED",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1023",
-    "ISIN": "INE171A01029",
-    "UNDERLYING_SYMBOL": "FEDERALBNK",
-    "SYMBOL_NAME": "FEDERAL BANK LTD",
-    "DISPLAY_NAME": "Federal Bank"
+  {
+      "SECURITY_ID":"21614",
+      "UNDERLYING_SYMBOL":"ABCAPITAL",
+      "DISPLAY_NAME":"Aditya Birla Capital",
+      "SYMBOL_NAME":"ADITYA BIRLA CAPITAL LTD.",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "10243",
-    "ISIN": "INE398R01022",
-    "UNDERLYING_SYMBOL": "SYNGENE",
-    "SYMBOL_NAME": "SYNGENE INTERNATIONAL LTD",
-    "DISPLAY_NAME": "Syngene International"
+  {
+      "SECURITY_ID":"30108",
+      "UNDERLYING_SYMBOL":"ABFRL",
+      "DISPLAY_NAME":"Aditya Birla Fashion",
+      "SYMBOL_NAME":"ADITYA BIRLA FASHION & RT",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "10440",
-    "ISIN": "INE326A01037",
-    "UNDERLYING_SYMBOL": "LUPIN",
-    "SYMBOL_NAME": "LUPIN LIMITED",
-    "DISPLAY_NAME": "Lupin"
+  {
+      "SECURITY_ID":"22",
+      "UNDERLYING_SYMBOL":"ACC",
+      "DISPLAY_NAME":"ACC",
+      "SYMBOL_NAME":"ACC LIMITED",
+      "SECTOR":["CEMENT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "10447",
-    "ISIN": "INE854D01024",
-    "UNDERLYING_SYMBOL": "UNITDSPR",
-    "SYMBOL_NAME": "UNITED SPIRITS LIMITED",
-    "DISPLAY_NAME": "United Spirits"
+  {
+      "SECURITY_ID":"10217",
+      "UNDERLYING_SYMBOL":"ADANIENSOL",
+      "DISPLAY_NAME":"Adani Energy Solutions",
+      "SYMBOL_NAME":"ADANI ENERGY SOLUTION LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "10599",
-    "ISIN": "INE844O01030",
-    "UNDERLYING_SYMBOL": "GUJGASLTD",
-    "SYMBOL_NAME": "GUJARAT GAS LIMITED",
-    "DISPLAY_NAME": "Gujarat Gas"
+  {
+      "SECURITY_ID":"25",
+      "UNDERLYING_SYMBOL":"ADANIENT",
+      "DISPLAY_NAME":"Adani Enterprises",
+      "SYMBOL_NAME":"ADANI ENTERPRISES LIMITED",
+      "SECTOR":["METAL"],
+      "INDEX":["NIFTY 50 "]
   },
-  {
-    "SECURITY_ID": "10604",
-    "ISIN": "INE397D01024",
-    "UNDERLYING_SYMBOL": "BHARTIARTL",
-    "SYMBOL_NAME": "BHARTI AIRTEL LIMITED",
-    "DISPLAY_NAME": "Bharti Airtel"
+  {
+      "SECURITY_ID":"3563",
+      "UNDERLYING_SYMBOL":"ADANIGREEN",
+      "DISPLAY_NAME":"Adani Green Energy",
+      "SYMBOL_NAME":"ADANI GREEN ENERGY LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "10666",
-    "ISIN": "INE160A01022",
-    "UNDERLYING_SYMBOL": "PNB",
-    "SYMBOL_NAME": "PUNJAB NATIONAL BANK",
-    "DISPLAY_NAME": "Punjab National Bank"
+  {
+      "SECURITY_ID":"15083",
+      "UNDERLYING_SYMBOL":"ADANIPORTS",
+      "DISPLAY_NAME":"Adani Ports & SEZ",
+      "SYMBOL_NAME":"ADANI PORT & SEZ LTD",
+      "SECTOR":null,
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "10726",
-    "ISIN": "INE933S01016",
-    "UNDERLYING_SYMBOL": "INDIAMART",
-    "SYMBOL_NAME": "INDIAMART INTERMESH LTD",
-    "DISPLAY_NAME": "IndiaMART InterMesh"
+  {
+      "SECURITY_ID":"11703",
+      "UNDERLYING_SYMBOL":"ALKEM",
+      "DISPLAY_NAME":"Alkem Laboratories",
+      "SYMBOL_NAME":"ALKEM LABORATORIES LTD.",
+      "SECTOR":["PHARMA"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "10738",
-    "ISIN": "INE881D01027",
-    "UNDERLYING_SYMBOL": "OFSS",
-    "SYMBOL_NAME": "ORACLE FIN SERV SOFT LTD.",
-    "DISPLAY_NAME": "Oracle Financial Services Software"
+  {
+      "SECURITY_ID":"1270",
+      "UNDERLYING_SYMBOL":"AMBUJACEM",
+      "DISPLAY_NAME":"Ambuja Cements",
+      "SYMBOL_NAME":"AMBUJA CEMENTS LTD",
+      "SECTOR":["CEMENT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "10794",
-    "ISIN": "INE476A01022",
-    "UNDERLYING_SYMBOL": "CANBK",
-    "SYMBOL_NAME": "CANARA BANK",
-    "DISPLAY_NAME": "Canara Bank"
+  {
+      "SECURITY_ID":"324",
+      "UNDERLYING_SYMBOL":"ANGELONE",
+      "DISPLAY_NAME":"Angel One",
+      "SYMBOL_NAME":"ANGEL ONE LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1080",
-    "ISIN": "IN1920200392",
-    "UNDERLYING_SYMBOL": "647KA30",
-    "SYMBOL_NAME": "SDL KA 6.47% 2030",
-    "DISPLAY_NAME": "SDL KA 6.47% 2030"
+  {
+      "SECURITY_ID":"25780",
+      "UNDERLYING_SYMBOL":"APLAPOLLO",
+      "DISPLAY_NAME":"APL Apollo Tubes",
+      "SYMBOL_NAME":"APL APOLLO TUBES LTD",
+      "SECTOR":["METAL"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "10940",
-    "ISIN": "INE361B01024",
-    "UNDERLYING_SYMBOL": "DIVISLAB",
-    "SYMBOL_NAME": "DIVI S LABORATORIES LTD",
-    "DISPLAY_NAME": "Divis Laboratories"
+  {
+      "SECURITY_ID":"157",
+      "UNDERLYING_SYMBOL":"APOLLOHOSP",
+      "DISPLAY_NAME":"Apollo Hospitals",
+      "SYMBOL_NAME":"APOLLO HOSPITALS ENTER. L",
+      "SECTOR":null,
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "10999",
-    "ISIN": "INE585B01010",
-    "UNDERLYING_SYMBOL": "MARUTI",
-    "SYMBOL_NAME": "MARUTI SUZUKI INDIA LTD.",
-    "DISPLAY_NAME": "Maruti Suzuki"
+  {
+      "SECURITY_ID":"163",
+      "UNDERLYING_SYMBOL":"APOLLOTYRE",
+      "DISPLAY_NAME":"Apollo Tyres",
+      "SYMBOL_NAME":"APOLLO TYRES LTD",
+      "SECTOR":["AUTO"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "11184",
-    "ISIN": "INE092T01019",
-    "UNDERLYING_SYMBOL": "IDFCFIRSTB",
-    "SYMBOL_NAME": "IDFC FIRST BANK LIMITED",
-    "DISPLAY_NAME": "IDFC First Bank"
+  {
+      "SECURITY_ID":"212",
+      "UNDERLYING_SYMBOL":"ASHOKLEY",
+      "DISPLAY_NAME":"Ashok Leyland",
+      "SYMBOL_NAME":"ASHOK LEYLAND LTD",
+      "SECTOR":null,
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "11195",
-    "ISIN": "INE646L01027",
-    "UNDERLYING_SYMBOL": "INDIGO",
-    "SYMBOL_NAME": "INTERGLOBE AVIATION LTD",
-    "DISPLAY_NAME": "Interglobe Aviation"
+  {
+      "SECURITY_ID":"236",
+      "UNDERLYING_SYMBOL":"ASIANPAINT",
+      "DISPLAY_NAME":"Asian Paints",
+      "SYMBOL_NAME":"ASIAN PAINTS LIMITED",
+      "SECTOR":null,
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "11262",
-    "ISIN": "INE203G01027",
-    "UNDERLYING_SYMBOL": "IGL",
-    "SYMBOL_NAME": "INDRAPRASTHA GAS LTD",
-    "DISPLAY_NAME": "Indraprastha Gas"
+  {
+      "SECURITY_ID":"14418",
+      "UNDERLYING_SYMBOL":"ASTRAL",
+      "DISPLAY_NAME":"Astral",
+      "SYMBOL_NAME":"ASTRAL LIMITED",
+      "SECTOR":null,
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "11287",
-    "ISIN": "INE628A01036",
-    "UNDERLYING_SYMBOL": "UPL",
-    "SYMBOL_NAME": "UPL LIMITED",
-    "DISPLAY_NAME": "UPL"
+  {
+      "SECURITY_ID":"6066",
+      "UNDERLYING_SYMBOL":"ATGL",
+      "DISPLAY_NAME":"Adani Total Gas",
+      "SYMBOL_NAME":"ADANI TOTAL GAS LIMITED",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "11351",
-    "ISIN": "INE347G01014",
-    "UNDERLYING_SYMBOL": "PETRONET",
-    "SYMBOL_NAME": "PETRONET LNG LIMITED",
-    "DISPLAY_NAME": "Petronet LNG"
+  {
+      "SECURITY_ID":"21238",
+      "UNDERLYING_SYMBOL":"AUBANK",
+      "DISPLAY_NAME":"AU Small Finance Bank",
+      "SYMBOL_NAME":"AU SMALL FINANCE BANK LTD",
+      "SECTOR":["BANK"],
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "11373",
-    "ISIN": "INE376G01013",
-    "UNDERLYING_SYMBOL": "BIOCON",
-    "SYMBOL_NAME": "BIOCON LIMITED.",
-    "DISPLAY_NAME": "Biocon"
+  {
+      "SECURITY_ID":"275",
+      "UNDERLYING_SYMBOL":"AUROPHARMA",
+      "DISPLAY_NAME":"Aurobindo Pharma",
+      "SYMBOL_NAME":"AUROBINDO PHARMA LTD",
+      "SECTOR":["PHARMA"],
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "11483",
-    "ISIN": "INE018A01030",
-    "UNDERLYING_SYMBOL": "LT",
-    "SYMBOL_NAME": "LARSEN & TOUBRO LTD.",
-    "DISPLAY_NAME": "Larsen & Toubro"
+  {
+      "SECURITY_ID":"5900",
+      "UNDERLYING_SYMBOL":"AXISBANK",
+      "DISPLAY_NAME":"Axis Bank",
+      "SYMBOL_NAME":"AXIS BANK LIMITED",
+      "SECTOR":["BANK","FIN SERV","PVT BANK"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "11532",
-    "ISIN": "INE481G01011",
-    "UNDERLYING_SYMBOL": "ULTRACEMCO",
-    "SYMBOL_NAME": "ULTRATECH CEMENT LIMITED",
-    "DISPLAY_NAME": "UltraTech Cement"
+  {
+      "SECURITY_ID":"16669",
+      "UNDERLYING_SYMBOL":"BAJAJ-AUTO",
+      "DISPLAY_NAME":"Bajaj Auto",
+      "SYMBOL_NAME":"BAJAJ AUTO LIMITED",
+      "SECTOR":["AUTO"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "11536",
-    "ISIN": "INE467B01029",
-    "UNDERLYING_SYMBOL": "TCS",
-    "SYMBOL_NAME": "TATA CONSULTANCY SERV LT",
-    "DISPLAY_NAME": "Tata Consultancy Services"
+  {
+      "SECURITY_ID":"16675",
+      "UNDERLYING_SYMBOL":"BAJAJFINSV",
+      "DISPLAY_NAME":"Bajaj Finserv",
+      "SYMBOL_NAME":"BAJAJ FINSERV LTD.",
+      "SECTOR":["FIN SERV"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "11543",
-    "ISIN": "INE591G01017",
-    "UNDERLYING_SYMBOL": "COFORGE",
-    "SYMBOL_NAME": "COFORGE LIMITED",
-    "DISPLAY_NAME": "Coforge"
+  {
+      "SECURITY_ID":"317",
+      "UNDERLYING_SYMBOL":"BAJFINANCE",
+      "DISPLAY_NAME":"Bajaj Finance",
+      "SYMBOL_NAME":"BAJAJ FINANCE LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "11630",
-    "ISIN": "INE733E01010",
-    "UNDERLYING_SYMBOL": "NTPC",
-    "SYMBOL_NAME": "NTPC LTD",
-    "DISPLAY_NAME": "NTPC"
+  {
+      "SECURITY_ID":"335",
+      "UNDERLYING_SYMBOL":"BALKRISIND",
+      "DISPLAY_NAME":"Balkrishna Industries",
+      "SYMBOL_NAME":"BALKRISHNA IND. LTD",
+      "SECTOR":["AUTO"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "11654",
-    "ISIN": "INE600L01024",
-    "UNDERLYING_SYMBOL": "LALPATHLAB",
-    "SYMBOL_NAME": "DR. LAL PATH LABS LTD.",
-    "DISPLAY_NAME": "Dr. Lal Path Labs"
+  {
+      "SECURITY_ID":"2263",
+      "UNDERLYING_SYMBOL":"BANDHANBNK",
+      "DISPLAY_NAME":"Bandhan Bank",
+      "SYMBOL_NAME":"BANDHAN BANK LIMITED",
+      "SECTOR":["PVT BANK"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "11703",
-    "ISIN": "INE540L01014",
-    "UNDERLYING_SYMBOL": "ALKEM",
-    "SYMBOL_NAME": "ALKEM LABORATORIES LTD.",
-    "DISPLAY_NAME": "Alkem Laboratories"
+  {
+      "SECURITY_ID":"4668",
+      "UNDERLYING_SYMBOL":"BANKBARODA",
+      "DISPLAY_NAME":"Bank of Baroda",
+      "SYMBOL_NAME":"BANK OF BARODA",
+      "SECTOR":["BANK","PSU BANK"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "11723",
-    "ISIN": "INE019A01038",
-    "UNDERLYING_SYMBOL": "JSWSTEEL",
-    "SYMBOL_NAME": "JSW STEEL LIMITED",
-    "DISPLAY_NAME": "JSW Steel"
+  {
+      "SECURITY_ID":"4745",
+      "UNDERLYING_SYMBOL":"BANKINDIA",
+      "DISPLAY_NAME":"Bank of India",
+      "SYMBOL_NAME":"BANK OF INDIA",
+      "SECTOR":["BANK","PSU BANK"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1174",
-    "ISIN": "INE113A01013",
-    "UNDERLYING_SYMBOL": "GNFC",
-    "SYMBOL_NAME": "GUJ NAR VAL FER & CHEM L",
-    "DISPLAY_NAME": "GNFC"
+  {
+      "SECURITY_ID":"383",
+      "UNDERLYING_SYMBOL":"BEL",
+      "DISPLAY_NAME":"Bharat Electronics",
+      "SYMBOL_NAME":"BHARAT ELECTRONICS LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "11872",
-    "ISIN": "INE101D01020",
-    "UNDERLYING_SYMBOL": "GRANULES",
-    "SYMBOL_NAME": "GRANULES INDIA LIMITED",
-    "DISPLAY_NAME": "Granules"
+  {
+      "SECURITY_ID":"404",
+      "UNDERLYING_SYMBOL":"BERGEPAINT",
+      "DISPLAY_NAME":"Berger Paints",
+      "SYMBOL_NAME":"BERGER PAINTS (I) LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1232",
-    "ISIN": "INE047A01021",
-    "UNDERLYING_SYMBOL": "GRASIM",
-    "SYMBOL_NAME": "GRASIM INDUSTRIES LTD",
-    "DISPLAY_NAME": "Grasim Industries"
+  {
+      "SECURITY_ID":"422",
+      "UNDERLYING_SYMBOL":"BHARATFORG",
+      "DISPLAY_NAME":"Bharat Forge",
+      "SYMBOL_NAME":"BHARAT FORGE LTD",
+      "SECTOR":["AUTO"],
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "1270",
-    "ISIN": "INE079A01024",
-    "UNDERLYING_SYMBOL": "AMBUJACEM",
-    "SYMBOL_NAME": "AMBUJA CEMENTS LTD",
-    "DISPLAY_NAME": "Ambuja Cements"
+  {
+      "SECURITY_ID":"10604",
+      "UNDERLYING_SYMBOL":"BHARTIARTL",
+      "DISPLAY_NAME":"Bharti Airtel",
+      "SYMBOL_NAME":"BHARTI AIRTEL LIMITED",
+      "SECTOR":null,
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "13",
-    "ISIN": "INE117A01022",
-    "UNDERLYING_SYMBOL": "ABB",
-    "SYMBOL_NAME": "ABB INDIA LIMITED",
-    "DISPLAY_NAME": "ABB"
+  {
+      "SECURITY_ID":"438",
+      "UNDERLYING_SYMBOL":"BHEL",
+      "DISPLAY_NAME":"Bharat Heavy Electricals",
+      "SYMBOL_NAME":"BHEL",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "13147",
-    "ISIN": "INE191H01014",
-    "UNDERLYING_SYMBOL": "PVRINOX",
-    "SYMBOL_NAME": "PVR INOX LIMITED",
-    "DISPLAY_NAME": "PVR Inox"
+  {
+      "SECURITY_ID":"11373",
+      "UNDERLYING_SYMBOL":"BIOCON",
+      "DISPLAY_NAME":"Biocon",
+      "SYMBOL_NAME":"BIOCON LIMITED.",
+      "SECTOR":["PHARMA"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "13197",
-    "ISIN": "INE246F01010",
-    "UNDERLYING_SYMBOL": "GSPL",
-    "SYMBOL_NAME": "GUJARAT STATE PETRO LTD",
-    "DISPLAY_NAME": "Gujarat State Petronet"
+  {
+      "SECURITY_ID":"2181",
+      "UNDERLYING_SYMBOL":"BOSCHLTD",
+      "DISPLAY_NAME":"Bosch",
+      "SYMBOL_NAME":"BOSCH LIMITED",
+      "SECTOR":["AUTO"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "13270",
-    "ISIN": "INE823G01014",
-    "UNDERLYING_SYMBOL": "JKCEMENT",
-    "SYMBOL_NAME": "JK CEMENT LIMITED",
-    "DISPLAY_NAME": "JK Cement"
+  {
+      "SECURITY_ID":"526",
+      "UNDERLYING_SYMBOL":"BPCL",
+      "DISPLAY_NAME":"Bharat Petroleum",
+      "SYMBOL_NAME":"BHARAT PETROLEUM CORP  LT",
+      "SECTOR":["ENEGRY"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "13285",
-    "ISIN": "INE774D01024",
-    "UNDERLYING_SYMBOL": "M&MFIN",
-    "SYMBOL_NAME": "M&M FIN. SERVICES LTD",
-    "DISPLAY_NAME": "M&M Financial Services"
+  {
+      "SECURITY_ID":"547",
+      "UNDERLYING_SYMBOL":"BRITANNIA",
+      "DISPLAY_NAME":"Britannia Industries",
+      "SYMBOL_NAME":"BRITANNIA INDUSTRIES LTD",
+      "SECTOR":["FMCG"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "1333",
-    "ISIN": "INE040A01034",
-    "UNDERLYING_SYMBOL": "HDFCBANK",
-    "SYMBOL_NAME": "HDFC BANK LTD",
-    "DISPLAY_NAME": "HDFC Bank"
+  {
+      "SECURITY_ID":"19585",
+      "UNDERLYING_SYMBOL":"BSE",
+      "DISPLAY_NAME":"BSE",
+      "SYMBOL_NAME":"BSE LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "13404",
-    "ISIN": "INE424H01027",
-    "UNDERLYING_SYMBOL": "SUNTV",
-    "SYMBOL_NAME": "SUN TV NETWORK LIMITED",
-    "DISPLAY_NAME": "Sun TV Network"
+  {
+      "SECURITY_ID":"6994",
+      "UNDERLYING_SYMBOL":"BSOFT",
+      "DISPLAY_NAME":"Birlasoft",
+      "SYMBOL_NAME":"BIRLASOFT LIMITED",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1348",
-    "ISIN": "INE158A01026",
-    "UNDERLYING_SYMBOL": "HEROMOTOCO",
-    "SYMBOL_NAME": "HERO MOTOCORP LIMITED",
-    "DISPLAY_NAME": "Hero Motocorp"
+  {
+      "SECURITY_ID":"342",
+      "UNDERLYING_SYMBOL":"CAMS",
+      "DISPLAY_NAME":"Computer Age Management Services",
+      "SYMBOL_NAME":"COMPUTER AGE MNGT SER LTD",
+      "SECTOR":["IT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "13538",
-    "ISIN": "INE669C01036",
-    "UNDERLYING_SYMBOL": "TECHM",
-    "SYMBOL_NAME": "TECH MAHINDRA LIMITED",
-    "DISPLAY_NAME": "Tech Mahindra"
+  {
+      "SECURITY_ID":"10794",
+      "UNDERLYING_SYMBOL":"CANBK",
+      "DISPLAY_NAME":"Canara Bank",
+      "SYMBOL_NAME":"CANARA BANK",
+      "SECTOR":["BANK","PSU BANK"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "13611",
-    "ISIN": "INE335Y01020",
-    "UNDERLYING_SYMBOL": "IRCTC",
-    "SYMBOL_NAME": "INDIAN RAIL TOUR CORP LTD",
-    "DISPLAY_NAME": "IRCTC"
+  {
+      "SECURITY_ID":"21174",
+      "UNDERLYING_SYMBOL":"CDSL",
+      "DISPLAY_NAME":"CDSL",
+      "SYMBOL_NAME":"CENTRAL DEPO SER (I) LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1363",
-    "ISIN": "INE038A01020",
-    "UNDERLYING_SYMBOL": "HINDALCO",
-    "SYMBOL_NAME": "HINDALCO  INDUSTRIES  LTD",
-    "DISPLAY_NAME": "Hindalco Industries"
+  {
+      "SECURITY_ID":"628",
+      "UNDERLYING_SYMBOL":"CESC",
+      "DISPLAY_NAME":"CESC",
+      "SYMBOL_NAME":"CESC LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "13751",
-    "ISIN": "INE663F01024",
-    "UNDERLYING_SYMBOL": "NAUKRI",
-    "SYMBOL_NAME": "INFO EDGE (I) LTD",
-    "DISPLAY_NAME": "Info Edge"
+  {
+      "SECURITY_ID":"760",
+      "UNDERLYING_SYMBOL":"CGPOWER",
+      "DISPLAY_NAME":"CG Power & Industrial Solutions",
+      "SYMBOL_NAME":"CG POWER AND IND SOL LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "13786",
-    "ISIN": "INE813H01021",
-    "UNDERLYING_SYMBOL": "TORNTPOWER",
-    "SYMBOL_NAME": "TORRENT POWER LTD",
-    "DISPLAY_NAME": "Torrent Power"
+  {
+      "SECURITY_ID":"637",
+      "UNDERLYING_SYMBOL":"CHAMBLFERT",
+      "DISPLAY_NAME":"Chambal Fertilisers & Chemicals",
+      "SYMBOL_NAME":"CHAMBAL FERTILIZERS LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1394",
-    "ISIN": "INE030A01027",
-    "UNDERLYING_SYMBOL": "HINDUNILVR",
-    "SYMBOL_NAME": "HINDUSTAN UNILEVER LTD.",
-    "DISPLAY_NAME": "Hindustan Unilever"
+  {
+      "SECURITY_ID":"19257",
+      "UNDERLYING_SYMBOL":"CHOLAFIN",
+      "DISPLAY_NAME":"CHOLAMANDALAM IN & FIN CO",
+      "SYMBOL_NAME":"CHOLAMANDALAM IN & FIN CO",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1406",
-    "ISIN": "INE094A01015",
-    "UNDERLYING_SYMBOL": "HINDPETRO",
-    "SYMBOL_NAME": "HINDUSTAN PETROLEUM CORP",
-    "DISPLAY_NAME": "Hindustan Petroleum"
+  {
+      "SECURITY_ID":"694",
+      "UNDERLYING_SYMBOL":"CIPLA",
+      "DISPLAY_NAME":"Cipla",
+      "SYMBOL_NAME":"CIPLA LTD",
+      "SECTOR":["PHARMA"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "14299",
-    "ISIN": "INE134E01011",
-    "UNDERLYING_SYMBOL": "PFC",
-    "SYMBOL_NAME": "POWER FIN CORP LTD.",
-    "DISPLAY_NAME": "Power Finance Corporation"
+  {
+      "SECURITY_ID":"20374",
+      "UNDERLYING_SYMBOL":"COALINDIA",
+      "DISPLAY_NAME":"Coal India",
+      "SYMBOL_NAME":"COAL INDIA LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "14304",
-    "ISIN": "INE684F01012",
-    "UNDERLYING_SYMBOL": "FSL",
-    "SYMBOL_NAME": "FIRSTSOURCE SOLU. LTD.",
-    "DISPLAY_NAME": "Firstsource Solutions"
+  {
+      "SECURITY_ID":"11543",
+      "UNDERLYING_SYMBOL":"COFORGE",
+      "DISPLAY_NAME":"Coforge",
+      "SYMBOL_NAME":"COFORGE LIMITED",
+      "SECTOR":["IT"],
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "14366",
-    "ISIN": "INE669E01016",
-    "UNDERLYING_SYMBOL": "IDEA",
-    "SYMBOL_NAME": "VODAFONE IDEA LIMITED",
-    "DISPLAY_NAME": "Vodafone Idea"
+  {
+      "SECURITY_ID":"15141",
+      "UNDERLYING_SYMBOL":"COLPAL",
+      "DISPLAY_NAME":"Colgate Palmolive",
+      "SYMBOL_NAME":"COLGATE PALMOLIVE LTD.",
+      "SECTOR":["FMCG"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "14413",
-    "ISIN": "INE761H01022",
-    "UNDERLYING_SYMBOL": "PAGEIND",
-    "SYMBOL_NAME": "PAGE INDUSTRIES LTD",
-    "DISPLAY_NAME": "Page Industries"
+  {
+      "SECURITY_ID":"4749",
+      "UNDERLYING_SYMBOL":"CONCOR",
+      "DISPLAY_NAME":"Container Corporation of India",
+      "SYMBOL_NAME":"CONTAINER CORP OF IND LTD",
+      "SECTOR":null,
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "14418",
-    "ISIN": "INE006I01046",
-    "UNDERLYING_SYMBOL": "ASTRAL",
-    "SYMBOL_NAME": "ASTRAL LIMITED",
-    "DISPLAY_NAME": "Astral"
+  {
+      "SECURITY_ID":"17094",
+      "UNDERLYING_SYMBOL":"CROMPTON",
+      "DISPLAY_NAME":"Crompton Greaves",
+      "SYMBOL_NAME":"CROMPT GREA CON ELEC LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "14672",
-    "ISIN": "INE048G01026",
-    "UNDERLYING_SYMBOL": "NAVINFLUOR",
-    "SYMBOL_NAME": "NAVIN FLUORINE INT. LTD",
-    "DISPLAY_NAME": "Navin Fluorine International"
+  {
+      "SECURITY_ID":"1901",
+      "UNDERLYING_SYMBOL":"CUMMINSIND",
+      "DISPLAY_NAME":"Cummins",
+      "SYMBOL_NAME":"CUMMINS INDIA LTD",
+      "SECTOR":null,
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "14732",
-    "ISIN": "INE271C01023",
-    "UNDERLYING_SYMBOL": "DLF",
-    "SYMBOL_NAME": "DLF LIMITED",
-    "DISPLAY_NAME": "DLF"
+  {
+      "SECURITY_ID":"5748",
+      "UNDERLYING_SYMBOL":"CYIENT",
+      "DISPLAY_NAME":"Cyient",
+      "SYMBOL_NAME":"CYIENT LIMITED",
+      "SECTOR":["IT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "14977",
-    "ISIN": "INE752E01010",
-    "UNDERLYING_SYMBOL": "POWERGRID",
-    "SYMBOL_NAME": "POWER GRID CORP. LTD.",
-    "DISPLAY_NAME": "Power Grid Corporation of India"
+  {
+      "SECURITY_ID":"772",
+      "UNDERLYING_SYMBOL":"DABUR",
+      "DISPLAY_NAME":"Dabur",
+      "SYMBOL_NAME":"DABUR INDIA LTD",
+      "SECTOR":["FMCG"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "15044",
-    "ISIN": "INE124G01033",
-    "UNDERLYING_SYMBOL": "DELTACORP",
-    "SYMBOL_NAME": "DELTA CORP LIMITED",
-    "DISPLAY_NAME": "Delta Corp"
+  {
+      "SECURITY_ID":"8075",
+      "UNDERLYING_SYMBOL":"DALBHARAT",
+      "DISPLAY_NAME":"Dalmia Bharat",
+      "SYMBOL_NAME":"DALMIA BHARAT LIMITED",
+      "SECTOR":["CEMENT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "15083",
-    "ISIN": "INE742F01042",
-    "UNDERLYING_SYMBOL": "ADANIPORTS",
-    "SYMBOL_NAME": "ADANI PORT & SEZ LTD",
-    "DISPLAY_NAME": "Adani Ports & SEZ"
+  {
+      "SECURITY_ID":"19943",
+      "UNDERLYING_SYMBOL":"DEEPAKNTR",
+      "DISPLAY_NAME":"Deepak Nitrite",
+      "SYMBOL_NAME":"DEEPAK NITRITE LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1512",
-    "ISIN": "INE053A01029",
-    "UNDERLYING_SYMBOL": "INDHOTEL",
-    "SYMBOL_NAME": "THE INDIAN HOTELS CO. LTD",
-    "DISPLAY_NAME": "Indian Hotels Company"
+  {
+      "SECURITY_ID":"9599",
+      "UNDERLYING_SYMBOL":"DELHIVERY",
+      "DISPLAY_NAME":"Delhivery",
+      "SYMBOL_NAME":"DELHIVERY LIMITED",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "15141",
-    "ISIN": "INE259A01022",
-    "UNDERLYING_SYMBOL": "COLPAL",
-    "SYMBOL_NAME": "COLGATE PALMOLIVE LTD.",
-    "DISPLAY_NAME": "Colgate Palmolive"
+  {
+      "SECURITY_ID":"10940",
+      "UNDERLYING_SYMBOL":"DIVISLAB",
+      "DISPLAY_NAME":"Divis Laboratories",
+      "SYMBOL_NAME":"DIVI S LABORATORIES LTD",
+      "SECTOR":["PHARMA"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "1515",
-    "ISIN": "INE383A01012",
-    "UNDERLYING_SYMBOL": "INDIACEM",
-    "SYMBOL_NAME": "THE INDIA CEMENTS LIMITED",
-    "DISPLAY_NAME": "India Cements"
+  {
+      "SECURITY_ID":"21690",
+      "UNDERLYING_SYMBOL":"DIXON",
+      "DISPLAY_NAME":"Dixon Technologies",
+      "SYMBOL_NAME":"DIXON TECHNO (INDIA) LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "15332",
-    "ISIN": "INE584A01023",
-    "UNDERLYING_SYMBOL": "NMDC",
-    "SYMBOL_NAME": "NMDC LTD.",
-    "DISPLAY_NAME": "NMDC"
+  {
+      "SECURITY_ID":"14732",
+      "UNDERLYING_SYMBOL":"DLF",
+      "DISPLAY_NAME":"DLF",
+      "SYMBOL_NAME":"DLF LIMITED",
+      "SECTOR":["REALTY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "15337",
-    "ISIN": "INE855B01025",
-    "UNDERLYING_SYMBOL": "RAIN",
-    "SYMBOL_NAME": "RAIN INDUSTRIES LIMITED",
-    "DISPLAY_NAME": "Rain Industries"
+  {
+      "SECURITY_ID":"19913",
+      "UNDERLYING_SYMBOL":"DMART",
+      "DISPLAY_NAME":"Avenue Supermarts DMart",
+      "SYMBOL_NAME":"AVENUE SUPERMARTS LIMITED",
+      "SECTOR":["FMCG"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "15355",
-    "ISIN": "INE020B01018",
-    "UNDERLYING_SYMBOL": "RECLTD",
-    "SYMBOL_NAME": "REC LIMITED",
-    "DISPLAY_NAME": "Rural Electrification Corporation"
+  {
+      "SECURITY_ID":"881",
+      "UNDERLYING_SYMBOL":"DRREDDY",
+      "DISPLAY_NAME":"Dr Reddys Laboratories",
+      "SYMBOL_NAME":"DR. REDDY S LABORATORIES",
+      "SECTOR":["PHARMA"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "157",
-    "ISIN": "INE437A01024",
-    "UNDERLYING_SYMBOL": "APOLLOHOSP",
-    "SYMBOL_NAME": "APOLLO HOSPITALS ENTER. L",
-    "DISPLAY_NAME": "Apollo Hospitals"
+  {
+      "SECURITY_ID":"910",
+      "UNDERLYING_SYMBOL":"EICHERMOT",
+      "DISPLAY_NAME":"Eicher Motors",
+      "SYMBOL_NAME":"EICHER MOTORS LTD",
+      "SECTOR":["auto"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "1594",
-    "ISIN": "INE009A01021",
-    "UNDERLYING_SYMBOL": "INFY",
-    "SYMBOL_NAME": "INFOSYS LIMITED",
-    "DISPLAY_NAME": "Infosys"
+  {
+      "SECURITY_ID":"958",
+      "UNDERLYING_SYMBOL":"ESCORTS",
+      "DISPLAY_NAME":"Escorts Kubota",
+      "SYMBOL_NAME":"ESCORTS KUBOTA LIMITED",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1624",
-    "ISIN": "INE242A01010",
-    "UNDERLYING_SYMBOL": "IOC",
-    "SYMBOL_NAME": "INDIAN OIL CORP LTD",
-    "DISPLAY_NAME": "Indian Oil Corporation"
+  {
+      "SECURITY_ID":"676",
+      "UNDERLYING_SYMBOL":"EXIDEIND",
+      "DISPLAY_NAME":"Exide Industries",
+      "SYMBOL_NAME":"EXIDE INDUSTRIES LTD",
+      "SECTOR":["auto"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "163",
-    "ISIN": "INE438A01022",
-    "UNDERLYING_SYMBOL": "APOLLOTYRE",
-    "SYMBOL_NAME": "APOLLO TYRES LTD",
-    "DISPLAY_NAME": "Apollo Tyres"
+  {
+      "SECURITY_ID":"1023",
+      "UNDERLYING_SYMBOL":"FEDERALBNK",
+      "DISPLAY_NAME":"Federal Bank",
+      "SYMBOL_NAME":"FEDERAL BANK LTD",
+      "SECTOR":["BANK","PVT BANK"],
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "1633",
-    "ISIN": "INE571A01038",
-    "UNDERLYING_SYMBOL": "IPCALAB",
-    "SYMBOL_NAME": "IPCA LABORATORIES LTD",
-    "DISPLAY_NAME": "IPCA Laboratories"
+  {
+      "SECURITY_ID":"4717",
+      "UNDERLYING_SYMBOL":"GAIL",
+      "DISPLAY_NAME":"GAIL",
+      "SYMBOL_NAME":"GAIL (INDIA) LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1660",
-    "ISIN": "INE154A01025",
-    "UNDERLYING_SYMBOL": "ITC",
-    "SYMBOL_NAME": "ITC LTD",
-    "DISPLAY_NAME": "ITC"
+  {
+      "SECURITY_ID":"7406",
+      "UNDERLYING_SYMBOL":"GLENMARK",
+      "DISPLAY_NAME":"Glenmark Pharmaceuticals",
+      "SYMBOL_NAME":"GLENMARK PHARMACEUTICALS",
+      "SECTOR":["PHARMA"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "16669",
-    "ISIN": "INE917I01010",
-    "UNDERLYING_SYMBOL": "BAJAJ-AUTO",
-    "SYMBOL_NAME": "BAJAJ AUTO LIMITED",
-    "DISPLAY_NAME": "Bajaj Auto"
+  {
+      "SECURITY_ID":"13528",
+      "UNDERLYING_SYMBOL":"GMRAIRPORT",
+      "DISPLAY_NAME":"GMR Airports",
+      "SYMBOL_NAME":"GMR AIRPORTS LIMITED",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "16675",
-    "ISIN": "INE918I01026",
-    "UNDERLYING_SYMBOL": "BAJAJFINSV",
-    "SYMBOL_NAME": "BAJAJ FINSERV LTD.",
-    "DISPLAY_NAME": "Bajaj Finserv"
+  {
+      "SECURITY_ID":"10099",
+      "UNDERLYING_SYMBOL":"GODREJCP",
+      "DISPLAY_NAME":"Godrej Consumer Products",
+      "SYMBOL_NAME":"GODREJ CONSUMER PRODUCTS",
+      "SECTOR":["FMCG"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "16713",
-    "ISIN": "INE686F01025",
-    "UNDERLYING_SYMBOL": "UBL",
-    "SYMBOL_NAME": "UNITED BREWERIES LTD",
-    "DISPLAY_NAME": "United Breweries"
+  {
+      "SECURITY_ID":"17875",
+      "UNDERLYING_SYMBOL":"GODREJPROP",
+      "DISPLAY_NAME":"Godrej Properties",
+      "SYMBOL_NAME":"GODREJ PROPERTIES LTD",
+      "SECTOR":["REALTY"],
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "17094",
-    "ISIN": "INE299U01018",
-    "UNDERLYING_SYMBOL": "CROMPTON",
-    "SYMBOL_NAME": "CROMPT GREA CON ELEC LTD",
-    "DISPLAY_NAME": "Crompton Greaves"
+  {
+      "SECURITY_ID":"11872",
+      "UNDERLYING_SYMBOL":"GRANULES",
+      "DISPLAY_NAME":"Granules",
+      "SYMBOL_NAME":"GRANULES INDIA LIMITED",
+      "SECTOR":["PHARMA"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "17534",
-    "ISIN": "INE002S01010",
-    "UNDERLYING_SYMBOL": "MGL",
-    "SYMBOL_NAME": "MAHANAGAR GAS LTD.",
-    "DISPLAY_NAME": "Mahanagar Gas"
+  {
+      "SECURITY_ID":"1232",
+      "UNDERLYING_SYMBOL":"GRASIM",
+      "DISPLAY_NAME":"Grasim Industries",
+      "SYMBOL_NAME":"GRASIM INDUSTRIES LTD",
+      "SECTOR":null,
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "17818",
-    "ISIN": "INE214T01019",
-    "UNDERLYING_SYMBOL": "LTIM",
-    "SYMBOL_NAME": "LTIMINDTREE LIMITED",
-    "DISPLAY_NAME": "LTI Mindtree"
+  {
+      "SECURITY_ID":"2303",
+      "UNDERLYING_SYMBOL":"HAL",
+      "DISPLAY_NAME":"Hindustan Aeronautics",
+      "SYMBOL_NAME":"HINDUSTAN AERONAUTICS LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "17875",
-    "ISIN": "INE484J01027",
-    "UNDERLYING_SYMBOL": "GODREJPROP",
-    "SYMBOL_NAME": "GODREJ PROPERTIES LTD",
-    "DISPLAY_NAME": "Godrej Properties"
+  {
+      "SECURITY_ID":"9819",
+      "UNDERLYING_SYMBOL":"HAVELLS",
+      "DISPLAY_NAME":"Havells",
+      "SYMBOL_NAME":"HAVELLS INDIA LIMITED",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "17903",
-    "ISIN": "INE358A01014",
-    "UNDERLYING_SYMBOL": "ABBOTINDIA",
-    "SYMBOL_NAME": "ABBOTT INDIA LIMITED",
-    "DISPLAY_NAME": "Abbott"
+  {
+      "SECURITY_ID":"7229",
+      "UNDERLYING_SYMBOL":"HCLTECH",
+      "DISPLAY_NAME":"HCL Technologies",
+      "SYMBOL_NAME":"HCL TECHNOLOGIES LTD",
+      "SECTOR":["IT"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "17939",
-    "ISIN": "INE531E01026",
-    "UNDERLYING_SYMBOL": "HINDCOPPER",
-    "SYMBOL_NAME": "HINDUSTAN COPPER LTD",
-    "DISPLAY_NAME": "Hindustan Copper"
+  {
+      "SECURITY_ID":"4244",
+      "UNDERLYING_SYMBOL":"HDFCAMC",
+      "DISPLAY_NAME":"HDFC AMC",
+      "SYMBOL_NAME":"HDFC AMC LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "17963",
-    "ISIN": "INE239A01024",
-    "UNDERLYING_SYMBOL": "NESTLEIND",
-    "SYMBOL_NAME": "NESTLE INDIA LIMITED",
-    "DISPLAY_NAME": "Nestle"
+  {
+      "SECURITY_ID":"1333",
+      "UNDERLYING_SYMBOL":"HDFCBANK",
+      "DISPLAY_NAME":"HDFC Bank",
+      "SYMBOL_NAME":"HDFC BANK LTD",
+      "SECTOR":["BANK","FIN SERV","PVT BANK"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "17971",
-    "ISIN": "INE018E01016",
-    "UNDERLYING_SYMBOL": "SBICARD",
-    "SYMBOL_NAME": "SBI CARDS & PAY SER LTD",
-    "DISPLAY_NAME": "SBI Cards"
+  {
+      "SECURITY_ID":"467",
+      "UNDERLYING_SYMBOL":"HDFCLIFE",
+      "DISPLAY_NAME":"HDFC Life Insurance",
+      "SYMBOL_NAME":"HDFC LIFE INS CO LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":["NIFTY 50 "]
   },
-  {
-    "SECURITY_ID": "18011",
-    "ISIN": "INE716A01013",
-    "UNDERLYING_SYMBOL": "WHIRLPOOL",
-    "SYMBOL_NAME": "WHIRLPOOL OF INDIA LTD",
-    "DISPLAY_NAME": "Whirlpool"
+  {
+      "SECURITY_ID":"1348",
+      "UNDERLYING_SYMBOL":"HEROMOTOCO",
+      "DISPLAY_NAME":"Hero Motocorp",
+      "SYMBOL_NAME":"HERO MOTOCORP LIMITED",
+      "SECTOR":["auto"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "18096",
-    "ISIN": "INE797F01020",
-    "UNDERLYING_SYMBOL": "JUBLFOOD",
-    "SYMBOL_NAME": "JUBILANT FOODWORKS LTD",
-    "DISPLAY_NAME": "Jubilant FoodWorks"
+  {
+      "SECURITY_ID":"21951",
+      "UNDERLYING_SYMBOL":"HFCL",
+      "DISPLAY_NAME":"HFCL",
+      "SYMBOL_NAME":"HFCL LIMITED",
+      "SECTOR":["IT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "18365",
-    "ISIN": "INE262H01021",
-    "UNDERLYING_SYMBOL": "PERSISTENT",
-    "SYMBOL_NAME": "PERSISTENT SYSTEMS LTD",
-    "DISPLAY_NAME": "Persistent Systems"
+  {
+      "SECURITY_ID":"1363",
+      "UNDERLYING_SYMBOL":"HINDALCO",
+      "DISPLAY_NAME":"Hindalco Industries",
+      "SYMBOL_NAME":"HINDALCO  INDUSTRIES  LTD",
+      "SECTOR":["METAL"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "18391",
-    "ISIN": "INE976G01028",
-    "UNDERLYING_SYMBOL": "RBLBANK",
-    "SYMBOL_NAME": "RBL BANK LIMITED",
-    "DISPLAY_NAME": "RBL Bank"
+  {
+      "SECURITY_ID":"17939",
+      "UNDERLYING_SYMBOL":"HINDCOPPER",
+      "DISPLAY_NAME":"Hindustan Copper",
+      "SYMBOL_NAME":"HINDUSTAN COPPER LTD",
+      "SECTOR":["METAL"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "18564",
-    "ISIN": "INE010V01017",
-    "UNDERLYING_SYMBOL": "LTTS",
-    "SYMBOL_NAME": "L&T TECHNOLOGY SER. LTD.",
-    "DISPLAY_NAME": "L&T Technology Services"
+  {
+      "SECURITY_ID":"1406",
+      "UNDERLYING_SYMBOL":"HINDPETRO",
+      "DISPLAY_NAME":"Hindustan Petroleum",
+      "SYMBOL_NAME":"HINDUSTAN PETROLEUM CORP",
+      "SECTOR":null,
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "18652",
-    "ISIN": "INE726G01019",
-    "UNDERLYING_SYMBOL": "ICICIPRULI",
-    "SYMBOL_NAME": "ICICI PRU LIFE INS CO LTD",
-    "DISPLAY_NAME": "ICICI Prudential Life Insurance"
+  {
+      "SECURITY_ID":"1394",
+      "UNDERLYING_SYMBOL":"HINDUNILVR",
+      "DISPLAY_NAME":"Hindustan Unilever",
+      "SYMBOL_NAME":"HINDUSTAN UNILEVER LTD.",
+      "SECTOR":["FMCG"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "1901",
-    "ISIN": "INE298A01020",
-    "UNDERLYING_SYMBOL": "CUMMINSIND",
-    "SYMBOL_NAME": "CUMMINS INDIA LTD",
-    "DISPLAY_NAME": "Cummins"
+  {
+      "SECURITY_ID":"20825",
+      "UNDERLYING_SYMBOL":"HUDCO",
+      "DISPLAY_NAME":"HUDCO",
+      "SYMBOL_NAME":"HSG & URBAN DEV CORPN LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "19061",
-    "ISIN": "INE522D01027",
-    "UNDERLYING_SYMBOL": "MANAPPURAM",
-    "SYMBOL_NAME": "MANAPPURAM FINANCE LTD",
-    "DISPLAY_NAME": "Manappuram Finance"
+  {
+      "SECURITY_ID":"4963",
+      "UNDERLYING_SYMBOL":"ICICIBANK",
+      "DISPLAY_NAME":"ICICI Bank",
+      "SYMBOL_NAME":"ICICI BANK LTD.",
+      "SECTOR":["BANK","FIN SERV","PVT BANK"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "1922",
-    "ISIN": "INE237A01028",
-    "UNDERLYING_SYMBOL": "KOTAKBANK",
-    "SYMBOL_NAME": "KOTAK MAHINDRA BANK LTD",
-    "DISPLAY_NAME": "Kotak Bank"
+  {
+      "SECURITY_ID":"21770",
+      "UNDERLYING_SYMBOL":"ICICIGI",
+      "DISPLAY_NAME":"ICICI Lombard General Insurance",
+      "SYMBOL_NAME":"ICICI LOMBARD GIC LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "19234",
-    "ISIN": "INE947Q01028",
-    "UNDERLYING_SYMBOL": "LAURUSLABS",
-    "SYMBOL_NAME": "LAURUS LABS LIMITED",
-    "DISPLAY_NAME": "Laurus Labs"
+  {
+      "SECURITY_ID":"18652",
+      "UNDERLYING_SYMBOL":"ICICIPRULI",
+      "DISPLAY_NAME":"ICICI Prudential Life Insurance",
+      "SYMBOL_NAME":"ICICI PRU LIFE INS CO LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "1964",
-    "ISIN": "INE849A01020",
-    "UNDERLYING_SYMBOL": "TRENT",
-    "SYMBOL_NAME": "TRENT LTD",
-    "DISPLAY_NAME": "Trent"
+  {
+      "SECURITY_ID":"14366",
+      "UNDERLYING_SYMBOL":"IDEA",
+      "DISPLAY_NAME":"Vodafone Idea",
+      "SYMBOL_NAME":"VODAFONE IDEA LIMITED",
+      "SECTOR":null,
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "19943",
-    "ISIN": "INE288B01029",
-    "UNDERLYING_SYMBOL": "DEEPAKNTR",
-    "SYMBOL_NAME": "DEEPAK NITRITE LTD",
-    "DISPLAY_NAME": "Deepak Nitrite"
+  {
+      "SECURITY_ID":"11184",
+      "UNDERLYING_SYMBOL":"IDFCFIRSTB",
+      "DISPLAY_NAME":"IDFC First Bank",
+      "SYMBOL_NAME":"IDFC FIRST BANK LIMITED",
+      "SECTOR":["PVT BANK"],
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "1997",
-    "ISIN": "INE115A01026",
-    "UNDERLYING_SYMBOL": "LICHSGFIN",
-    "SYMBOL_NAME": "LIC HOUSING FINANCE LTD",
-    "DISPLAY_NAME": "LIC Housing Finance"
+  {
+      "SECURITY_ID":"220",
+      "UNDERLYING_SYMBOL":"IEX",
+      "DISPLAY_NAME":"Indian Energy Exchange",
+      "SYMBOL_NAME":"INDIAN ENERGY EXC LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "20242",
-    "ISIN": "INE093I01010",
-    "UNDERLYING_SYMBOL": "OBEROIRLTY",
-    "SYMBOL_NAME": "OBEROI REALTY LIMITED",
-    "DISPLAY_NAME": "Oberoi Realty"
+  {
+      "SECURITY_ID":"11262",
+      "UNDERLYING_SYMBOL":"IGL",
+      "DISPLAY_NAME":"Indraprastha Gas",
+      "SYMBOL_NAME":"INDRAPRASTHA GAS LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "2031",
-    "ISIN": "INE101A01026",
-    "UNDERLYING_SYMBOL": "M&M",
-    "SYMBOL_NAME": "MAHINDRA & MAHINDRA LTD",
-    "DISPLAY_NAME": "Mahindra & Mahindra"
+  {
+      "SECURITY_ID":"11809",
+      "UNDERLYING_SYMBOL":"IIFL",
+      "DISPLAY_NAME":"IIFL Finance",
+      "SYMBOL_NAME":"IIFL FINANCE LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "20374",
-    "ISIN": "INE522F01014",
-    "UNDERLYING_SYMBOL": "COALINDIA",
-    "SYMBOL_NAME": "COAL INDIA LTD",
-    "DISPLAY_NAME": "Coal India"
+  {
+      "SECURITY_ID":"1512",
+      "UNDERLYING_SYMBOL":"INDHOTEL",
+      "DISPLAY_NAME":"Indian Hotels Company",
+      "SYMBOL_NAME":"THE INDIAN HOTELS CO. LTD",
+      "SECTOR":null,
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "2043",
-    "ISIN": "INE331A01037",
-    "UNDERLYING_SYMBOL": "RAMCOCEM",
-    "SYMBOL_NAME": "THE RAMCO CEMENTS LIMITED",
-    "DISPLAY_NAME": "Ramco Cements"
+  {
+      "SECURITY_ID":"14309",
+      "UNDERLYING_SYMBOL":"INDIANB",
+      "DISPLAY_NAME":"Indian Bank",
+      "SYMBOL_NAME":"INDIAN BANK",
+      "SECTOR":["BANK","PSU BANK"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "212",
-    "ISIN": "INE208A01029",
-    "UNDERLYING_SYMBOL": "ASHOKLEY",
-    "SYMBOL_NAME": "ASHOK LEYLAND LTD",
-    "DISPLAY_NAME": "Ashok Leyland"
+  {
+      "SECURITY_ID":"11195",
+      "UNDERLYING_SYMBOL":"INDIGO",
+      "DISPLAY_NAME":"Interglobe Aviation",
+      "SYMBOL_NAME":"INTERGLOBE AVIATION LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "21238",
-    "ISIN": "INE949L01017",
-    "UNDERLYING_SYMBOL": "AUBANK",
-    "SYMBOL_NAME": "AU SMALL FINANCE BANK LTD",
-    "DISPLAY_NAME": "AU Small Finance Bank"
+  {
+      "SECURITY_ID":"5258",
+      "UNDERLYING_SYMBOL":"INDUSINDBK",
+      "DISPLAY_NAME":"Indusind Bank",
+      "SYMBOL_NAME":"INDUSIND BANK LIMITED",
+      "SECTOR":["BANK","PVT BANK"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "2142",
-    "ISIN": "INE180A01020",
-    "UNDERLYING_SYMBOL": "MFSL",
-    "SYMBOL_NAME": "MAX FINANCIAL SERV LTD",
-    "DISPLAY_NAME": "Max Financial Services"
+  {
+      "SECURITY_ID":"29135",
+      "UNDERLYING_SYMBOL":"INDUSTOWER",
+      "DISPLAY_NAME":"Indus Towers",
+      "SYMBOL_NAME":"INDUS TOWERS LIMITED",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "21614",
-    "ISIN": "INE674K01013",
-    "UNDERLYING_SYMBOL": "ABCAPITAL",
-    "SYMBOL_NAME": "ADITYA BIRLA CAPITAL LTD.",
-    "DISPLAY_NAME": "Aditya Birla Capital"
+  {
+      "SECURITY_ID":"1594",
+      "UNDERLYING_SYMBOL":"INFY",
+      "DISPLAY_NAME":"Infosys",
+      "SYMBOL_NAME":"INFOSYS LIMITED",
+      "SECTOR":["IT"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "21690",
-    "ISIN": "INE935N01020",
-    "UNDERLYING_SYMBOL": "DIXON",
-    "SYMBOL_NAME": "DIXON TECHNO (INDIA) LTD",
-    "DISPLAY_NAME": "Dixon Technologies"
+  {
+      "SECURITY_ID":"1624",
+      "UNDERLYING_SYMBOL":"IOC",
+      "DISPLAY_NAME":"Indian Oil Corporation",
+      "SYMBOL_NAME":"INDIAN OIL CORP LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "21770",
-    "ISIN": "INE765G01017",
-    "UNDERLYING_SYMBOL": "ICICIGI",
-    "SYMBOL_NAME": "ICICI LOMBARD GIC LIMITED",
-    "DISPLAY_NAME": "ICICI Lombard General Insurance"
+  {
+      "SECURITY_ID":"15313",
+      "UNDERLYING_SYMBOL":"IRB",
+      "DISPLAY_NAME":"IRB Infrastructure Developers",
+      "SYMBOL_NAME":"IRB INFRA DEV LTD.",
+      "SECTOR":["REALTY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "21808",
-    "ISIN": "INE123W01016",
-    "UNDERLYING_SYMBOL": "SBILIFE",
-    "SYMBOL_NAME": "SBI LIFE INSURANCE CO LTD",
-    "DISPLAY_NAME": "SBI Life Insurance"
+  {
+      "SECURITY_ID":"13611",
+      "UNDERLYING_SYMBOL":"IRCTC",
+      "DISPLAY_NAME":"IRCTC",
+      "SYMBOL_NAME":"INDIAN RAIL TOUR CORP LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "2181",
-    "ISIN": "INE323A01026",
-    "UNDERLYING_SYMBOL": "BOSCHLTD",
-    "SYMBOL_NAME": "BOSCH LIMITED",
-    "DISPLAY_NAME": "Bosch"
+  {
+      "SECURITY_ID":"20261",
+      "UNDERLYING_SYMBOL":"IREDA",
+      "DISPLAY_NAME":"IREDA",
+      "SYMBOL_NAME":"INDIAN RENEWABLE ENERGY",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "22",
-    "ISIN": "INE012A01025",
-    "UNDERLYING_SYMBOL": "ACC",
-    "SYMBOL_NAME": "ACC LIMITED",
-    "DISPLAY_NAME": "ACC"
+  {
+      "SECURITY_ID":"2029",
+      "UNDERLYING_SYMBOL":"IRFC",
+      "DISPLAY_NAME":"IRFC",
+      "SYMBOL_NAME":"INDIAN RAILWAY FIN CORP L",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "220",
-    "ISIN": "INE022Q01020",
-    "UNDERLYING_SYMBOL": "IEX",
-    "SYMBOL_NAME": "INDIAN ENERGY EXC LTD",
-    "DISPLAY_NAME": "Indian Energy Exchange"
+  {
+      "SECURITY_ID":"1660",
+      "UNDERLYING_SYMBOL":"ITC",
+      "DISPLAY_NAME":"ITC",
+      "SYMBOL_NAME":"ITC LTD",
+      "SECTOR":["FMCG"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "2263",
-    "ISIN": "INE545U01014",
-    "UNDERLYING_SYMBOL": "BANDHANBNK",
-    "SYMBOL_NAME": "BANDHAN BANK LIMITED",
-    "DISPLAY_NAME": "Bandhan Bank"
+  {
+      "SECURITY_ID":"6733",
+      "UNDERLYING_SYMBOL":"JINDALSTEL",
+      "DISPLAY_NAME":"Jindal Steel",
+      "SYMBOL_NAME":"JINDAL STEEL & POWER LTD",
+      "SECTOR":["METAL"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "2277",
-    "ISIN": "INE883A01011",
-    "UNDERLYING_SYMBOL": "MRF",
-    "SYMBOL_NAME": "MRF LTD",
-    "DISPLAY_NAME": "MRF"
+  {
+      "SECURITY_ID":"18143",
+      "UNDERLYING_SYMBOL":"JIOFIN",
+      "DISPLAY_NAME":"Jio Financial Services",
+      "SYMBOL_NAME":"JIO FIN SERVICES LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "2303",
-    "ISIN": "INE066F01020",
-    "UNDERLYING_SYMBOL": "HAL",
-    "SYMBOL_NAME": "HINDUSTAN AERONAUTICS LTD",
-    "DISPLAY_NAME": "Hindustan Aeronautics"
+  {
+      "SECURITY_ID":"13270",
+      "UNDERLYING_SYMBOL":"JKCEMENT",
+      "DISPLAY_NAME":"JK Cement",
+      "SYMBOL_NAME":"JK CEMENT LIMITED",
+      "SECTOR":["CEMENT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "236",
-    "ISIN": "INE021A01026",
-    "UNDERLYING_SYMBOL": "ASIANPAINT",
-    "SYMBOL_NAME": "ASIAN PAINTS LIMITED",
-    "DISPLAY_NAME": "Asian Paints"
+  {
+      "SECURITY_ID":"11236",
+      "UNDERLYING_SYMBOL":"JSL",
+      "DISPLAY_NAME":"Jindal Stainless",
+      "SYMBOL_NAME":"JINDAL STAINLESS LIMITED",
+      "SECTOR":["METAL"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "23650",
-    "ISIN": "INE414G01012",
-    "UNDERLYING_SYMBOL": "MUTHOOTFIN",
-    "SYMBOL_NAME": "MUTHOOT FINANCE LIMITED",
-    "DISPLAY_NAME": "Muthoot Finance"
+  {
+      "SECURITY_ID":"17869",
+      "UNDERLYING_SYMBOL":"JSWENERGY",
+      "DISPLAY_NAME":"JSW Energy",
+      "SYMBOL_NAME":"JSW ENERGY LIMITED",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "2412",
-    "ISIN": "INE140A01024",
-    "UNDERLYING_SYMBOL": "PEL",
-    "SYMBOL_NAME": "PIRAMAL ENTERPRISES LTD",
-    "DISPLAY_NAME": "Piramal Enterprises"
+  {
+      "SECURITY_ID":"11723",
+      "UNDERLYING_SYMBOL":"JSWSTEEL",
+      "DISPLAY_NAME":"JSW Steel",
+      "SYMBOL_NAME":"JSW STEEL LIMITED",
+      "SECTOR":["METAL"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "24184",
-    "ISIN": "INE603J01030",
-    "UNDERLYING_SYMBOL": "PIIND",
-    "SYMBOL_NAME": "PI INDUSTRIES LTD",
-    "DISPLAY_NAME": "PI Industries"
+  {
+      "SECURITY_ID":"18096",
+      "UNDERLYING_SYMBOL":"JUBLFOOD",
+      "DISPLAY_NAME":"Jubilant FoodWorks",
+      "SYMBOL_NAME":"JUBILANT FOODWORKS LTD",
+      "SECTOR":null,
+      "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "2475",
-    "ISIN": "INE213A01029",
-    "UNDERLYING_SYMBOL": "ONGC",
-    "SYMBOL_NAME": "OIL AND NATURAL GAS CORP.",
-    "DISPLAY_NAME": "Oil & Natural Gas Corporation"
+  {
+      "SECURITY_ID":"2955",
+      "UNDERLYING_SYMBOL":"KALYANKJIL",
+      "DISPLAY_NAME":"Kalyan Jewellers",
+      "SYMBOL_NAME":"KALYAN JEWELLERS IND LTD",
+      "SECTOR":["FMCG"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "24948",
-    "ISIN": "INE498L01015",
-    "UNDERLYING_SYMBOL": "LTF",
-    "SYMBOL_NAME": "L&T FINANCE LIMITED",
-    "DISPLAY_NAME": "L&T Finance"
+  {
+      "SECURITY_ID":"13310",
+      "UNDERLYING_SYMBOL":"KEI",
+      "DISPLAY_NAME":"KEI Industries",
+      "SYMBOL_NAME":"KEI INDUSTRIES LTD.",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "25",
-    "ISIN": "INE423A01024",
-    "UNDERLYING_SYMBOL": "ADANIENT",
-    "SYMBOL_NAME": "ADANI ENTERPRISES LIMITED",
-    "DISPLAY_NAME": "Adani Enterprises"
+  {
+      "SECURITY_ID":"1922",
+      "UNDERLYING_SYMBOL":"KOTAKBANK",
+      "DISPLAY_NAME":"Kotak Bank",
+      "SYMBOL_NAME":"KOTAK MAHINDRA BANK LTD",
+      "SECTOR":["BANK","FIN SERV","PVT BANK"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "263",
-    "ISIN": "INE100A01010",
-    "UNDERLYING_SYMBOL": "ATUL",
-    "SYMBOL_NAME": "ATUL LTD",
-    "DISPLAY_NAME": "ATUL"
+  {
+      "SECURITY_ID":"9683",
+      "UNDERLYING_SYMBOL":"KPITTECH",
+      "DISPLAY_NAME":"KPIT Technologies",
+      "SYMBOL_NAME":"KPIT TECHNOLOGIES LIMITED",
+      "SECTOR":["IT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "2664",
-    "ISIN": "INE318A01026",
-    "UNDERLYING_SYMBOL": "PIDILITIND",
-    "SYMBOL_NAME": "PIDILITE INDUSTRIES LTD",
-    "DISPLAY_NAME": "Pidilite Industries"
+  {
+      "SECURITY_ID":"19234",
+      "UNDERLYING_SYMBOL":"LAURUSLABS",
+      "DISPLAY_NAME":"Laurus Labs",
+      "SYMBOL_NAME":"LAURUS LABS LIMITED",
+      "SECTOR":["PHARMA"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "2739",
-    "ISIN": "INE010A01011",
-    "UNDERLYING_SYMBOL": "PRSMJOHNSN",
-    "SYMBOL_NAME": "PRISM JOHNSON LIMITED",
-    "DISPLAY_NAME": "Prism Johnson"
+  {
+      "SECURITY_ID":"1997",
+      "UNDERLYING_SYMBOL":"LICHSGFIN",
+      "DISPLAY_NAME":"LIC Housing Finance",
+      "SYMBOL_NAME":"LIC HOUSING FINANCE LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "275",
-    "ISIN": "INE406A01037",
-    "UNDERLYING_SYMBOL": "AUROPHARMA",
-    "SYMBOL_NAME": "AUROBINDO PHARMA LTD",
-    "DISPLAY_NAME": "Aurobindo Pharma"
+  {
+      "SECURITY_ID":"9480",
+      "UNDERLYING_SYMBOL":"LICI",
+      "DISPLAY_NAME":"LIC of India",
+      "SYMBOL_NAME":"LIFE INSURA CORP OF INDIA",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "2885",
-    "ISIN": "INE002A01018",
-    "UNDERLYING_SYMBOL": "RELIANCE",
-    "SYMBOL_NAME": "RELIANCE INDUSTRIES LTD",
-    "DISPLAY_NAME": "Reliance Industries"
+  {
+      "SECURITY_ID":"3220",
+      "UNDERLYING_SYMBOL":"LODHA",
+      "DISPLAY_NAME":"Macrotech Developers",
+      "SYMBOL_NAME":"MACROTECH DEVELOPERS LTD",
+      "SECTOR":["REALTY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "29135",
-    "ISIN": "INE121J01017",
-    "UNDERLYING_SYMBOL": "INDUSTOWER",
-    "SYMBOL_NAME": "INDUS TOWERS LIMITED",
-    "DISPLAY_NAME": "Indus Towers"
+  {
+      "SECURITY_ID":"11483",
+      "UNDERLYING_SYMBOL":"LT",
+      "DISPLAY_NAME":"Larsen & Toubro",
+      "SYMBOL_NAME":"LARSEN & TOUBRO LTD.",
+      "SECTOR":null,
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "2963",
-    "ISIN": "INE114A01011",
-    "UNDERLYING_SYMBOL": "SAIL",
-    "SYMBOL_NAME": "STEEL AUTHORITY OF INDIA",
-    "DISPLAY_NAME": "Steel Authority of India"
+  {
+      "SECURITY_ID":"24948",
+      "UNDERLYING_SYMBOL":"LTF",
+      "DISPLAY_NAME":"L&T Finance",
+      "SYMBOL_NAME":"L&T FINANCE LIMITED",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "30108",
-    "ISIN": "INE647O01011",
-    "UNDERLYING_SYMBOL": "ABFRL",
-    "SYMBOL_NAME": "ADITYA BIRLA FASHION & RT",
-    "DISPLAY_NAME": "Aditya Birla Fashion"
+  {
+      "SECURITY_ID":"17818",
+      "UNDERLYING_SYMBOL":"LTIM",
+      "DISPLAY_NAME":"LTI Mindtree",
+      "SYMBOL_NAME":"LTIMINDTREE LIMITED",
+      "SECTOR":["IT"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "3045",
-    "ISIN": "INE062A01020",
-    "UNDERLYING_SYMBOL": "SBIN",
-    "SYMBOL_NAME": "STATE BANK OF INDIA",
-    "DISPLAY_NAME": "State Bank of India"
+  {
+      "SECURITY_ID":"18564",
+      "UNDERLYING_SYMBOL":"LTTS",
+      "DISPLAY_NAME":"L&T Technology Services",
+      "SYMBOL_NAME":"L&T TECHNOLOGY SER. LTD.",
+      "SECTOR":["IT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3063",
-    "ISIN": "INE205A01025",
-    "UNDERLYING_SYMBOL": "VEDL",
-    "SYMBOL_NAME": "VEDANTA LIMITED",
-    "DISPLAY_NAME": "Vedanta"
+  {
+      "SECURITY_ID":"10440",
+      "UNDERLYING_SYMBOL":"LUPIN",
+      "DISPLAY_NAME":"Lupin",
+      "SYMBOL_NAME":"LUPIN LIMITED",
+      "SECTOR":["PHARMA"],
+        "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "3103",
-    "ISIN": "INE070A01015",
-    "UNDERLYING_SYMBOL": "SHREECEM",
-    "SYMBOL_NAME": "SHREE CEMENT LIMITED",
-    "DISPLAY_NAME": "Shree Cement"
+  {
+      "SECURITY_ID":"2031",
+      "UNDERLYING_SYMBOL":"M&M",
+      "DISPLAY_NAME":"Mahindra & Mahindra",
+      "SYMBOL_NAME":"MAHINDRA & MAHINDRA LTD",
+      "SECTOR":["auto"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "31181",
-    "ISIN": "INE745G01035",
-    "UNDERLYING_SYMBOL": "MCX",
-    "SYMBOL_NAME": "MULTI COMMODITY EXCHANGE",
-    "DISPLAY_NAME": "MCX"
+  {
+      "SECURITY_ID":"13285",
+      "UNDERLYING_SYMBOL":"M&MFIN",
+      "DISPLAY_NAME":"M&M Financial Services",
+      "SYMBOL_NAME":"M&M FIN. SERVICES LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3150",
-    "ISIN": "INE003A01024",
-    "UNDERLYING_SYMBOL": "SIEMENS",
-    "SYMBOL_NAME": "SIEMENS LTD",
-    "DISPLAY_NAME": "Siemens"
+  {
+      "SECURITY_ID":"19061",
+      "UNDERLYING_SYMBOL":"MANAPPURAM",
+      "DISPLAY_NAME":"Manappuram Finance",
+      "SYMBOL_NAME":"MANAPPURAM FINANCE LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "317",
-    "ISIN": "INE296A01024",
-    "UNDERLYING_SYMBOL": "BAJFINANCE",
-    "SYMBOL_NAME": "BAJAJ FINANCE LIMITED",
-    "DISPLAY_NAME": "Bajaj Finance"
+  {
+      "SECURITY_ID":"4067",
+      "UNDERLYING_SYMBOL":"MARICO",
+      "DISPLAY_NAME":"Marico",
+      "SYMBOL_NAME":"MARICO LIMITED",
+      "SECTOR":["FMCG"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3273",
-    "ISIN": "INE647A01010",
-    "UNDERLYING_SYMBOL": "SRF",
-    "SYMBOL_NAME": "SRF LTD",
-    "DISPLAY_NAME": "SRF"
+  {
+      "SECURITY_ID":"10999",
+      "UNDERLYING_SYMBOL":"MARUTI",
+      "DISPLAY_NAME":"Maruti Suzuki",
+      "SYMBOL_NAME":"MARUTI SUZUKI INDIA LTD.",
+      "SECTOR":["auto"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "335",
-    "ISIN": "INE787D01026",
-    "UNDERLYING_SYMBOL": "BALKRISIND",
-    "SYMBOL_NAME": "BALKRISHNA IND. LTD",
-    "DISPLAY_NAME": "Balkrishna Industries"
+  {
+      "SECURITY_ID":"22377",
+      "UNDERLYING_SYMBOL":"MAXHEALTH",
+      "DISPLAY_NAME":"Max Healthcare Institute",
+      "SYMBOL_NAME":"MAX HEALTHCARE INS LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3351",
-    "ISIN": "INE044A01036",
-    "UNDERLYING_SYMBOL": "SUNPHARMA",
-    "SYMBOL_NAME": "SUN PHARMACEUTICAL IND L",
-    "DISPLAY_NAME": "Sun Pharmaceutical"
+  {
+      "SECURITY_ID":"31181",
+      "UNDERLYING_SYMBOL":"MCX",
+      "DISPLAY_NAME":"MCX",
+      "SYMBOL_NAME":"MULTI COMMODITY EXCHANGE",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3405",
-    "ISIN": "INE092A01019",
-    "UNDERLYING_SYMBOL": "TATACHEM",
-    "SYMBOL_NAME": "TATA CHEMICALS LTD",
-    "DISPLAY_NAME": "Tata Chemicals"
+  {
+      "SECURITY_ID":"2142",
+      "UNDERLYING_SYMBOL":"MFSL",
+      "DISPLAY_NAME":"Max Financial Services",
+      "SYMBOL_NAME":"MAX FINANCIAL SERV LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "341",
-    "ISIN": "INE119A01028",
-    "UNDERLYING_SYMBOL": "BALRAMCHIN",
-    "SYMBOL_NAME": "BALRAMPUR CHINI MILLS LTD",
-    "DISPLAY_NAME": "Balrampur Chini Mills"
+  {
+      "SECURITY_ID":"17534",
+      "UNDERLYING_SYMBOL":"MGL",
+      "DISPLAY_NAME":"Mahanagar Gas",
+      "SYMBOL_NAME":"MAHANAGAR GAS LTD.",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3417",
-    "ISIN": "INE671A01010",
-    "UNDERLYING_SYMBOL": "HONAUT",
-    "SYMBOL_NAME": "HONEYWELL AUTOMATION IND",
-    "DISPLAY_NAME": "Honeywell Automation"
+  {
+      "SECURITY_ID":"25510",
+      "UNDERLYING_SYMBOL":"MOTHERSON",
+      "DISPLAY_NAME":"SAMVARDHANA MOTHERSON INT",
+      "SYMBOL_NAME":"SAMVARDHANA MOTHERSON INT",
+      "SECTOR":["auto"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3426",
-    "ISIN": "INE245A01021",
-    "UNDERLYING_SYMBOL": "TATAPOWER",
-    "SYMBOL_NAME": "TATA POWER CO LTD",
-    "DISPLAY_NAME": "Tata Power"
+  {
+      "SECURITY_ID":"4503",
+      "UNDERLYING_SYMBOL":"MPHASIS",
+      "DISPLAY_NAME":"Mphasis",
+      "SYMBOL_NAME":"MPHASIS LIMITED",
+      "SECTOR":["IT"],
+        "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "3432",
-    "ISIN": "INE192A01025",
-    "UNDERLYING_SYMBOL": "TATACONSUM",
-    "SYMBOL_NAME": "TATA CONSUMER PRODUCT LTD",
-    "DISPLAY_NAME": "Tata Consumer Products"
+  {
+      "SECURITY_ID":"2277",
+      "UNDERLYING_SYMBOL":"MRF",
+      "DISPLAY_NAME":"MRF",
+      "SYMBOL_NAME":"MRF LTD",
+      "SECTOR":["auto"],
+        "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "3456",
-    "ISIN": "INE155A01022",
-    "UNDERLYING_SYMBOL": "TATAMOTORS",
-    "SYMBOL_NAME": "TATA MOTORS LIMITED",
-    "DISPLAY_NAME": "Tata Motors"
+  {
+      "SECURITY_ID":"23650",
+      "UNDERLYING_SYMBOL":"MUTHOOTFIN",
+      "DISPLAY_NAME":"Muthoot Finance",
+      "SYMBOL_NAME":"MUTHOOT FINANCE LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3499",
-    "ISIN": "INE081A01020",
-    "UNDERLYING_SYMBOL": "TATASTEEL",
-    "SYMBOL_NAME": "TATA STEEL LIMITED",
-    "DISPLAY_NAME": "Tata Steel"
+  {
+      "SECURITY_ID":"6364",
+      "UNDERLYING_SYMBOL":"NATIONALUM",
+      "DISPLAY_NAME":"NALCO",
+      "SYMBOL_NAME":"NATIONAL ALUMINIUM CO LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3506",
-    "ISIN": "INE280A01028",
-    "UNDERLYING_SYMBOL": "TITAN",
-    "SYMBOL_NAME": "TITAN COMPANY LIMITED",
-    "DISPLAY_NAME": "Titan"
+  {
+      "SECURITY_ID":"13751",
+      "UNDERLYING_SYMBOL":"NAUKRI",
+      "DISPLAY_NAME":"Info Edge",
+      "SYMBOL_NAME":"INFO EDGE (I) LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3518",
-    "ISIN": "INE685A01028",
-    "UNDERLYING_SYMBOL": "TORNTPHARM",
-    "SYMBOL_NAME": "TORRENT PHARMACEUTICALS L",
-    "DISPLAY_NAME": "Torrent Pharmaceuticals"
+  {
+      "SECURITY_ID":"31415",
+      "UNDERLYING_SYMBOL":"NBCC",
+      "DISPLAY_NAME":"NBCC",
+      "SYMBOL_NAME":"NBCC (INDIA) LIMITED",
+      "SECTOR":["REALTY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "371",
-    "ISIN": "INE176A01028",
-    "UNDERLYING_SYMBOL": "BATAINDIA",
-    "SYMBOL_NAME": "BATA INDIA LTD",
-    "DISPLAY_NAME": "Bata"
+  {
+      "SECURITY_ID":"2319",
+      "UNDERLYING_SYMBOL":"NCC",
+      "DISPLAY_NAME":"Nagarjuna Construction Company",
+      "SYMBOL_NAME":"NCC LIMITED",
+      "SECTOR":["REALTY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3718",
-    "ISIN": "INE226A01021",
-    "UNDERLYING_SYMBOL": "VOLTAS",
-    "SYMBOL_NAME": "VOLTAS LTD",
-    "DISPLAY_NAME": "Voltas"
+  {
+      "SECURITY_ID":"17963",
+      "UNDERLYING_SYMBOL":"NESTLEIND",
+      "DISPLAY_NAME":"Nestle",
+      "SYMBOL_NAME":"NESTLE INDIA LIMITED",
+      "SECTOR":["FMCG"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "3721",
-    "ISIN": "INE151A01013",
-    "UNDERLYING_SYMBOL": "TATACOMM",
-    "SYMBOL_NAME": "TATA COMMUNICATIONS LTD",
-    "DISPLAY_NAME": "Tata Communications"
+  {
+      "SECURITY_ID":"17400",
+      "UNDERLYING_SYMBOL":"NHPC",
+      "DISPLAY_NAME":"NHPC",
+      "SYMBOL_NAME":"NHPC LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3787",
-    "ISIN": "INE075A01022",
-    "UNDERLYING_SYMBOL": "WIPRO",
-    "SYMBOL_NAME": "WIPRO LTD",
-    "DISPLAY_NAME": "Wipro"
+  {
+      "SECURITY_ID":"15332",
+      "UNDERLYING_SYMBOL":"NMDC",
+      "DISPLAY_NAME":"NMDC",
+      "SYMBOL_NAME":"NMDC LTD.",
+      "SECTOR":["METAL"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "3812",
-    "ISIN": "INE256A01028",
-    "UNDERLYING_SYMBOL": "ZEEL",
-    "SYMBOL_NAME": "ZEE ENTERTAINMENT ENT LTD",
-    "DISPLAY_NAME": "Zee Entertainment"
+  {
+      "SECURITY_ID":"11630",
+      "UNDERLYING_SYMBOL":"NTPC",
+      "DISPLAY_NAME":"NTPC",
+      "SYMBOL_NAME":"NTPC LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "383",
-    "ISIN": "INE263A01024",
-    "UNDERLYING_SYMBOL": "BEL",
-    "SYMBOL_NAME": "BHARAT ELECTRONICS LTD",
-    "DISPLAY_NAME": "Bharat Electronics"
+  {
+      "SECURITY_ID":"6545",
+      "UNDERLYING_SYMBOL":"NYKAA",
+      "DISPLAY_NAME":"Nykaa",
+      "SYMBOL_NAME":"FSN E COMMERCE VENTURES",
+      "SECTOR":["FMCG"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "404",
-    "ISIN": "INE463A01038",
-    "UNDERLYING_SYMBOL": "BERGEPAINT",
-    "SYMBOL_NAME": "BERGER PAINTS (I) LTD",
-    "DISPLAY_NAME": "Berger Paints"
+  {
+      "SECURITY_ID":"20242",
+      "UNDERLYING_SYMBOL":"OBEROIRLTY",
+      "DISPLAY_NAME":"Oberoi Realty",
+      "SYMBOL_NAME":"OBEROI REALTY LIMITED",
+      "SECTOR":["REALTY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "4067",
-    "ISIN": "INE196A01026",
-    "UNDERLYING_SYMBOL": "MARICO",
-    "SYMBOL_NAME": "MARICO LIMITED",
-    "DISPLAY_NAME": "Marico"
+  {
+      "SECURITY_ID":"10738",
+      "UNDERLYING_SYMBOL":"OFSS",
+      "DISPLAY_NAME":"Oracle Financial Services Software",
+      "SYMBOL_NAME":"ORACLE FIN SERV SOFT LTD.",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "4204",
-    "ISIN": "INE775A01035",
-    "UNDERLYING_SYMBOL": "MOTHERSON",
-    "SYMBOL_NAME": "SAMVRDHNA MTHRSN INTL LTD",
-    "DISPLAY_NAME": "Samvardhana Motherson International"
+  {
+      "SECURITY_ID":"17438",
+      "UNDERLYING_SYMBOL":"OIL",
+      "DISPLAY_NAME":"Oil India",
+      "SYMBOL_NAME":"OIL INDIA LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "422",
-    "ISIN": "INE465A01025",
-    "UNDERLYING_SYMBOL": "BHARATFORG",
-    "SYMBOL_NAME": "BHARAT FORGE LTD",
-    "DISPLAY_NAME": "Bharat Forge"
+  {
+      "SECURITY_ID":"2475",
+      "UNDERLYING_SYMBOL":"ONGC",
+      "DISPLAY_NAME":"Oil & Natural Gas Corporation",
+      "SYMBOL_NAME":"OIL AND NATURAL GAS CORP.",
+      "SECTOR":["ENEGRY"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "4244",
-    "ISIN": "INE127D01025",
-    "UNDERLYING_SYMBOL": "HDFCAMC",
-    "SYMBOL_NAME": "HDFC AMC LIMITED",
-    "DISPLAY_NAME": "HDFC AMC"
+  {
+      "SECURITY_ID":"14413",
+      "UNDERLYING_SYMBOL":"PAGEIND",
+      "DISPLAY_NAME":"Page Industries",
+      "SYMBOL_NAME":"PAGE INDUSTRIES LTD",
+      "SECTOR":null,
+        "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "438",
-    "ISIN": "INE257A01026",
-    "UNDERLYING_SYMBOL": "BHEL",
-    "SYMBOL_NAME": "BHEL",
-    "DISPLAY_NAME": "Bharat Heavy Electricals"
+  {
+      "SECURITY_ID":"17029",
+      "UNDERLYING_SYMBOL":"PATANJALI",
+      "DISPLAY_NAME":"Patanjali Foods",
+      "SYMBOL_NAME":"PATANJALI FOODS LIMITED",
+      "SECTOR":["FMCG"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "4503",
-    "ISIN": "INE356A01018",
-    "UNDERLYING_SYMBOL": "MPHASIS",
-    "SYMBOL_NAME": "MPHASIS LIMITED",
-    "DISPLAY_NAME": "Mphasis"
+  {
+      "SECURITY_ID":"6705",
+      "UNDERLYING_SYMBOL":"PAYTM",
+      "DISPLAY_NAME":"One97 Communications",
+      "SYMBOL_NAME":"ONE 97 COMMUNICATIONS LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "4668",
-    "ISIN": "INE028A01039",
-    "UNDERLYING_SYMBOL": "BANKBARODA",
-    "SYMBOL_NAME": "BANK OF BARODA",
-    "DISPLAY_NAME": "Bank of Baroda"
+  {
+      "SECURITY_ID":"2412",
+      "UNDERLYING_SYMBOL":"PEL",
+      "DISPLAY_NAME":"Piramal Enterprises",
+      "SYMBOL_NAME":"PIRAMAL ENTERPRISES LTD",
+      "SECTOR":["PHARMA"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "467",
-    "ISIN": "INE795G01014",
-    "UNDERLYING_SYMBOL": "HDFCLIFE",
-    "SYMBOL_NAME": "HDFC LIFE INS CO LTD",
-    "DISPLAY_NAME": "HDFC Life Insurance"
+  {
+      "SECURITY_ID":"18365",
+      "UNDERLYING_SYMBOL":"PERSISTENT",
+      "DISPLAY_NAME":"Persistent Systems",
+      "SYMBOL_NAME":"PERSISTENT SYSTEMS LTD",
+      "SECTOR":["IT"],
+        "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "4717",
-    "ISIN": "INE129A01019",
-    "UNDERLYING_SYMBOL": "GAIL",
-    "SYMBOL_NAME": "GAIL (INDIA) LTD",
-    "DISPLAY_NAME": "GAIL"
+  {
+      "SECURITY_ID":"11351",
+      "UNDERLYING_SYMBOL":"PETRONET",
+      "DISPLAY_NAME":"Petronet LNG",
+      "SYMBOL_NAME":"PETRONET LNG LIMITED",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "4749",
-    "ISIN": "INE111A01025",
-    "UNDERLYING_SYMBOL": "CONCOR",
-    "SYMBOL_NAME": "CONTAINER CORP OF IND LTD",
-    "DISPLAY_NAME": "Container Corporation of India"
+  {
+      "SECURITY_ID":"14299",
+      "UNDERLYING_SYMBOL":"PFC",
+      "DISPLAY_NAME":"Power Finance Corporation",
+      "SYMBOL_NAME":"POWER FIN CORP LTD.",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "4963",
-    "ISIN": "INE090A01021",
-    "UNDERLYING_SYMBOL": "ICICIBANK",
-    "SYMBOL_NAME": "ICICI BANK LTD.",
-    "DISPLAY_NAME": "ICICI Bank"
+  {
+      "SECURITY_ID":"14552",
+      "UNDERLYING_SYMBOL":"PHOENIXLTD",
+      "DISPLAY_NAME":"Phoenix Mills",
+      "SYMBOL_NAME":"THE PHOENIX MILLS LTD",
+      "SECTOR":["REALTY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "5258",
-    "ISIN": "INE095A01012",
-    "UNDERLYING_SYMBOL": "INDUSINDBK",
-    "SYMBOL_NAME": "INDUSIND BANK LIMITED",
-    "DISPLAY_NAME": "Indusind Bank"
+  {
+      "SECURITY_ID":"2664",
+      "UNDERLYING_SYMBOL":"PIDILITIND",
+      "DISPLAY_NAME":"Pidilite Industries",
+      "SYMBOL_NAME":"PIDILITE INDUSTRIES LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "526",
-    "ISIN": "INE029A01011",
-    "UNDERLYING_SYMBOL": "BPCL",
-    "SYMBOL_NAME": "BHARAT PETROLEUM CORP  LT",
-    "DISPLAY_NAME": "Bharat Petroleum"
+  {
+      "SECURITY_ID":"24184",
+      "UNDERLYING_SYMBOL":"PIIND",
+      "DISPLAY_NAME":"PI Industries",
+      "SYMBOL_NAME":"PI INDUSTRIES LTD",
+      "SECTOR":null,
+        "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "547",
-    "ISIN": "INE216A01030",
-    "UNDERLYING_SYMBOL": "BRITANNIA",
-    "SYMBOL_NAME": "BRITANNIA INDUSTRIES LTD",
-    "DISPLAY_NAME": "Britannia Industries"
+  {
+      "SECURITY_ID":"10666",
+      "UNDERLYING_SYMBOL":"PNB",
+      "DISPLAY_NAME":"Punjab National Bank",
+      "SYMBOL_NAME":"PUNJAB NATIONAL BANK",
+      "SECTOR":["BANK","PSU BANK"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "5701",
-    "ISIN": "INE491A01021",
-    "UNDERLYING_SYMBOL": "CUB",
-    "SYMBOL_NAME": "CITY UNION BANK LTD",
-    "DISPLAY_NAME": "City Union Bank"
+  {
+      "SECURITY_ID":"6656",
+      "UNDERLYING_SYMBOL":"POLICYBZR",
+      "DISPLAY_NAME":"PB FinTech",
+      "SYMBOL_NAME":"PB FINTECH LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "583",
-    "ISIN": "INE477A01020",
-    "UNDERLYING_SYMBOL": "CANFINHOME",
-    "SYMBOL_NAME": "CAN FIN HOMES LTD",
-    "DISPLAY_NAME": "Can Fin Homes"
+  {
+      "SECURITY_ID":"9590",
+      "UNDERLYING_SYMBOL":"POLYCAB",
+      "DISPLAY_NAME":"Polycab",
+      "SYMBOL_NAME":"POLYCAB INDIA LIMITED",
+      "SECTOR":null,
+        "INDEX":["NIFTY MID "]
   },
-  {
-    "SECURITY_ID": "5900",
-    "ISIN": "INE238A01034",
-    "UNDERLYING_SYMBOL": "AXISBANK",
-    "SYMBOL_NAME": "AXIS BANK LIMITED",
-    "DISPLAY_NAME": "Axis Bank"
+  {
+      "SECURITY_ID":"11403",
+      "UNDERLYING_SYMBOL":"POONAWALLA",
+      "DISPLAY_NAME":"Poonawalla Fincorp",
+      "SYMBOL_NAME":"POONAWALLA FINCORP LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "5926",
-    "ISIN": "INE306R01017",
-    "UNDERLYING_SYMBOL": "INTELLECT",
-    "SYMBOL_NAME": "INTELLECT DESIGN ARENA",
-    "DISPLAY_NAME": "Intellect Design Arena"
+  {
+      "SECURITY_ID":"14977",
+      "UNDERLYING_SYMBOL":"POWERGRID",
+      "DISPLAY_NAME":"Power Grid Corporation of India",
+      "SYMBOL_NAME":"POWER GRID CORP. LTD.",
+      "SECTOR":["ENEGRY"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "6364",
-    "ISIN": "INE139A01034",
-    "UNDERLYING_SYMBOL": "NATIONALUM",
-    "SYMBOL_NAME": "NATIONAL ALUMINIUM CO LTD",
-    "DISPLAY_NAME": "NALCO"
+  {
+      "SECURITY_ID":"20302",
+      "UNDERLYING_SYMBOL":"PRESTIGE",
+      "DISPLAY_NAME":"Prestige Estate",
+      "SYMBOL_NAME":"PRESTIGE ESTATE LTD",
+      "SECTOR":["REALTY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "637",
-    "ISIN": "INE085A01013",
-    "UNDERLYING_SYMBOL": "CHAMBLFERT",
-    "SYMBOL_NAME": "CHAMBAL FERTILIZERS LTD",
-    "DISPLAY_NAME": "Chambal Fertilisers & Chemicals"
+  {
+      "SECURITY_ID":"2043",
+      "UNDERLYING_SYMBOL":"RAMCOCEM",
+      "DISPLAY_NAME":"Ramco Cements",
+      "SYMBOL_NAME":"THE RAMCO CEMENTS LIMITED",
+      "SECTOR":["CEMENT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "6733",
-    "ISIN": "INE749A01030",
-    "UNDERLYING_SYMBOL": "JINDALSTEL",
-    "SYMBOL_NAME": "JINDAL STEEL & POWER LTD",
-    "DISPLAY_NAME": "Jindal Steel"
+  {
+      "SECURITY_ID":"18391",
+      "UNDERLYING_SYMBOL":"RBLBANK",
+      "DISPLAY_NAME":"RBL Bank",
+      "SYMBOL_NAME":"RBL BANK LIMITED",
+      "SECTOR":["PVT BANK"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "676",
-    "ISIN": "INE302A01020",
-    "UNDERLYING_SYMBOL": "EXIDEIND",
-    "SYMBOL_NAME": "EXIDE INDUSTRIES LTD",
-    "DISPLAY_NAME": "Exide Industries"
+  {
+      "SECURITY_ID":"15355",
+      "UNDERLYING_SYMBOL":"RECLTD",
+      "DISPLAY_NAME":"Rural Electrification Corporation",
+      "SYMBOL_NAME":"REC LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "685",
-    "ISIN": "INE121A01024",
-    "UNDERLYING_SYMBOL": "CHOLAFIN",
-    "SYMBOL_NAME": "CHOLAMANDALAM IN & FIN CO",
-    "DISPLAY_NAME": "Cholamandalam Investment"
+  {
+      "SECURITY_ID":"2885",
+      "UNDERLYING_SYMBOL":"RELIANCE",
+      "DISPLAY_NAME":"Reliance Industries",
+      "SYMBOL_NAME":"RELIANCE INDUSTRIES LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "694",
-    "ISIN": "INE059A01026",
-    "UNDERLYING_SYMBOL": "CIPLA",
-    "SYMBOL_NAME": "CIPLA LTD",
-    "DISPLAY_NAME": "Cipla"
+  {
+      "SECURITY_ID":"2963",
+      "UNDERLYING_SYMBOL":"SAIL",
+      "DISPLAY_NAME":"Steel Authority of India",
+      "SYMBOL_NAME":"STEEL AUTHORITY OF INDIA",
+      "SECTOR":["METAL"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "6994",
-    "ISIN": "INE836A01035",
-    "UNDERLYING_SYMBOL": "BSOFT",
-    "SYMBOL_NAME": "BIRLASOFT LIMITED",
-    "DISPLAY_NAME": "Birlasoft"
+  {
+      "SECURITY_ID":"17971",
+      "UNDERLYING_SYMBOL":"SBICARD",
+      "DISPLAY_NAME":"SBI Cards",
+      "SYMBOL_NAME":"SBI CARDS & PAY SER LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "7",
-    "ISIN": "INE769A01020",
-    "UNDERLYING_SYMBOL": "AARTIIND",
-    "SYMBOL_NAME": "AARTI INDUSTRIES LTD",
-    "DISPLAY_NAME": "Aarti Industries"
+  {
+      "SECURITY_ID":"21808",
+      "UNDERLYING_SYMBOL":"SBILIFE",
+      "DISPLAY_NAME":"SBI Life Insurance",
+      "SYMBOL_NAME":"SBI LIFE INSURANCE CO LTD",
+      "SECTOR":["FIN SERV"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "7229",
-    "ISIN": "INE860A01027",
-    "UNDERLYING_SYMBOL": "HCLTECH",
-    "SYMBOL_NAME": "HCL TECHNOLOGIES LTD",
-    "DISPLAY_NAME": "HCL Technologies"
+  {
+      "SECURITY_ID":"3045",
+      "UNDERLYING_SYMBOL":"SBIN",
+      "DISPLAY_NAME":"State Bank of India",
+      "SYMBOL_NAME":"STATE BANK OF INDIA",
+      "SECTOR":["BANK","FIN SERV","PSU BANK"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "739",
-    "ISIN": "INE169A01031",
-    "UNDERLYING_SYMBOL": "COROMANDEL",
-    "SYMBOL_NAME": "COROMANDEL INTERNTL. LTD",
-    "DISPLAY_NAME": "Coromandel International"
+  {
+      "SECURITY_ID":"3103",
+      "UNDERLYING_SYMBOL":"SHREECEM",
+      "DISPLAY_NAME":"Shree Cement",
+      "SYMBOL_NAME":"SHREE CEMENT LIMITED",
+      "SECTOR":["CEMENT"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "7406",
-    "ISIN": "INE935A01035",
-    "UNDERLYING_SYMBOL": "GLENMARK",
-    "SYMBOL_NAME": "GLENMARK PHARMACEUTICALS",
-    "DISPLAY_NAME": "Glenmark Pharmaceuticals"
+  {
+      "SECURITY_ID":"4306",
+      "UNDERLYING_SYMBOL":"SHRIRAMFIN",
+      "DISPLAY_NAME":"Shriram Finance",
+      "SYMBOL_NAME":"SHRIRAM FINANCE LIMITED",
+      "SECTOR":["FIN SERV"],
+      "INDEX":["NIFTY 50"]
   },
-  {
-    "SECURITY_ID": "772",
-    "ISIN": "INE016A01026",
-    "UNDERLYING_SYMBOL": "DABUR",
-    "SYMBOL_NAME": "DABUR INDIA LTD",
-    "DISPLAY_NAME": "Dabur"
+  {
+      "SECURITY_ID":"3150",
+      "UNDERLYING_SYMBOL":"SIEMENS",
+      "DISPLAY_NAME":"Siemens",
+      "SYMBOL_NAME":"SIEMENS LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "7929",
-    "ISIN": "INE010B01027",
-    "UNDERLYING_SYMBOL": "ZYDUSLIFE",
-    "SYMBOL_NAME": "ZYDUS LIFESCIENCES LTD",
-    "DISPLAY_NAME": "Zydus Life Science"
+  {
+      "SECURITY_ID":"18883",
+      "UNDERLYING_SYMBOL":"SJVN",
+      "DISPLAY_NAME":"SJVN",
+      "SYMBOL_NAME":"SJVN LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "8075",
-    "ISIN": "INE00R701025",
-    "UNDERLYING_SYMBOL": "DALBHARAT",
-    "SYMBOL_NAME": "DALMIA BHARAT LIMITED",
-    "DISPLAY_NAME": "Dalmia Bharat"
+  {
+      "SECURITY_ID":"13332",
+      "UNDERLYING_SYMBOL":"SOLARINDS",
+      "DISPLAY_NAME":"Solar Industries",
+      "SYMBOL_NAME":"SOLAR INDUSTRIES (I) LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "8479",
-    "ISIN": "INE494B01023",
-    "UNDERLYING_SYMBOL": "TVSMOTOR",
-    "SYMBOL_NAME": "TVS MOTOR COMPANY  LTD",
-    "DISPLAY_NAME": "TVS Motors"
+  {
+      "SECURITY_ID":"4684",
+      "UNDERLYING_SYMBOL":"SONACOMS",
+      "DISPLAY_NAME":"Sona BLW Precision Forgings",
+      "SYMBOL_NAME":"SONA BLW PRECISION FRGS L",
+      "SECTOR":["auto"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "881",
-    "ISIN": "INE089A01031",
-    "UNDERLYING_SYMBOL": "DRREDDY",
-    "SYMBOL_NAME": "DR. REDDY S LABORATORIES",
-    "DISPLAY_NAME": "Dr Reddys Laboratories"
+  {
+      "SECURITY_ID":"3273",
+      "UNDERLYING_SYMBOL":"SRF",
+      "DISPLAY_NAME":"SRF",
+      "SYMBOL_NAME":"SRF LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "910",
-    "ISIN": "INE066A01021",
-    "UNDERLYING_SYMBOL": "EICHERMOT",
-    "SYMBOL_NAME": "EICHER MOTORS LTD",
-    "DISPLAY_NAME": "Eicher Motors"
+  {
+      "SECURITY_ID":"3351",
+      "UNDERLYING_SYMBOL":"SUNPHARMA",
+      "DISPLAY_NAME":"Sun Pharmaceutical",
+      "SYMBOL_NAME":"SUN PHARMACEUTICAL IND L",
+      "SECTOR":["PHARMA"],
+      "INDEX":["NIFTY 50","SENSEX"]
   },
-  {
-    "SECURITY_ID": "958",
-    "ISIN": "INE042A01014",
-    "UNDERLYING_SYMBOL": "ESCORTS",
-    "SYMBOL_NAME": "ESCORTS KUBOTA LIMITED",
-    "DISPLAY_NAME": "Escorts Kubota"
+  {
+      "SECURITY_ID":"3363",
+      "UNDERLYING_SYMBOL":"SUPREMEIND",
+      "DISPLAY_NAME":"Supreme Industries",
+      "SYMBOL_NAME":"SUPREME INDUSTRIES LTD",
+      "SECTOR":["FMCG"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "9581",
-    "ISIN": "INE112L01020",
-    "UNDERLYING_SYMBOL": "METROPOLIS",
-    "SYMBOL_NAME": "METROPOLIS HEALTHCARE LTD",
-    "DISPLAY_NAME": "Metropolis Healthcare"
+  {
+      "SECURITY_ID":"10243",
+      "UNDERLYING_SYMBOL":"SYNGENE",
+      "DISPLAY_NAME":"Syngene International",
+      "SYMBOL_NAME":"SYNGENE INTERNATIONAL LTD",
+      "SECTOR":["PHARMA"],
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "9590",
-    "ISIN": "INE455K01017",
-    "UNDERLYING_SYMBOL": "POLYCAB",
-    "SYMBOL_NAME": "POLYCAB INDIA LIMITED",
-    "DISPLAY_NAME": "Polycab"
+  {
+      "SECURITY_ID":"3405",
+      "UNDERLYING_SYMBOL":"TATACHEM",
+      "DISPLAY_NAME":"Tata Chemicals",
+      "SYMBOL_NAME":"TATA CHEMICALS LTD",
+      "SECTOR":null,
+      "INDEX":null
   },
-  {
-    "SECURITY_ID": "9819",
-    "ISIN": "INE176B01034",
-    "UNDERLYING_SYMBOL": "HAVELLS",
-    "SYMBOL_NAME": "HAVELLS INDIA LIMITED",
-    "DISPLAY_NAME": "Havells"
+  {
+      "SECURITY_ID":"3721",
+      "UNDERLYING_SYMBOL":"TATACOMM",
+      "DISPLAY_NAME":"Tata Communications",
+      "SYMBOL_NAME":"TATA COMMUNICATIONS LTD",
+      "SECTOR":null,
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"3432",
+      "UNDERLYING_SYMBOL":"TATACONSUM",
+      "DISPLAY_NAME":"Tata Consumer Products",
+      "SYMBOL_NAME":"TATA CONSUMER PRODUCT LTD",
+      "SECTOR":["FMCG"],
+      "INDEX":["NIFTY 50"]
+  },
+  {
+      "SECURITY_ID":"3411",
+      "UNDERLYING_SYMBOL":"TATAELXSI",
+      "DISPLAY_NAME":"Tata Elxsi",
+      "SYMBOL_NAME":"TATA ELXSI LIMITED",
+      "SECTOR":["IT"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"3456",
+      "UNDERLYING_SYMBOL":"TATAMOTORS",
+      "DISPLAY_NAME":"Tata Motors",
+      "SYMBOL_NAME":"TATA MOTORS LIMITED",
+      "SECTOR":["auto"],
+      "INDEX":["NIFTY 50","SENSEX"]
+  },
+  {
+      "SECURITY_ID":"3426",
+      "UNDERLYING_SYMBOL":"TATAPOWER",
+      "DISPLAY_NAME":"Tata Power",
+      "SYMBOL_NAME":"TATA POWER CO LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"3499",
+      "UNDERLYING_SYMBOL":"TATASTEEL",
+      "DISPLAY_NAME":"Tata Steel",
+      "SYMBOL_NAME":"TATA STEEL LIMITED",
+      "SECTOR":["METAL"],
+      "INDEX":["NIFTY 50","SENSEX"]
+  },
+  {
+      "SECURITY_ID":"20293",
+      "UNDERLYING_SYMBOL":"TATATECH",
+      "DISPLAY_NAME":"Tata Technologies",
+      "SYMBOL_NAME":"TATA TECHNOLOGIES LIMITED",
+      "SECTOR":["IT"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"11536",
+      "UNDERLYING_SYMBOL":"TCS",
+      "DISPLAY_NAME":"Tata Consultancy Services",
+      "SYMBOL_NAME":"TATA CONSULTANCY SERV LT",
+      "SECTOR":["IT"],
+      "INDEX":["NIFTY 50","SENSEX"]
+  },
+  {
+      "SECURITY_ID":"13538",
+      "UNDERLYING_SYMBOL":"TECHM",
+      "DISPLAY_NAME":"Tech Mahindra",
+      "SYMBOL_NAME":"TECH MAHINDRA LIMITED",
+      "SECTOR":["IT"],
+      "INDEX":["NIFTY 50","SENSEX"]
+  },
+  {
+      "SECURITY_ID":"312",
+      "UNDERLYING_SYMBOL":"TIINDIA",
+      "DISPLAY_NAME":"Tube Investment",
+      "SYMBOL_NAME":"TUBE INVEST OF INDIA LTD",
+      "SECTOR":["auto"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"15414",
+      "UNDERLYING_SYMBOL":"TITAGARH",
+      "DISPLAY_NAME":"Titagarh Rail Systems",
+      "SYMBOL_NAME":"TITAGARH RAIL SYSTEMS LTD",
+      "SECTOR":["auto"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"3506",
+      "UNDERLYING_SYMBOL":"TITAN",
+      "DISPLAY_NAME":"Titan",
+      "SYMBOL_NAME":"TITAN COMPANY LIMITED",
+      "SECTOR":null,
+      "INDEX":["NIFTY 50","SENSEX"]
+  },
+  {
+      "SECURITY_ID":"3518",
+      "UNDERLYING_SYMBOL":"TORNTPHARM",
+      "DISPLAY_NAME":"Torrent Pharmaceuticals",
+      "SYMBOL_NAME":"TORRENT PHARMACEUTICALS L",
+      "SECTOR":["PHARMA"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"13786",
+      "UNDERLYING_SYMBOL":"TORNTPOWER",
+      "DISPLAY_NAME":"Torrent Power",
+      "SYMBOL_NAME":"TORRENT POWER LTD",
+      "SECTOR":["ENEGRY"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"1964",
+      "UNDERLYING_SYMBOL":"TRENT",
+      "DISPLAY_NAME":"Trent",
+      "SYMBOL_NAME":"TRENT LTD",
+      "SECTOR":null,
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"8479",
+      "UNDERLYING_SYMBOL":"TVSMOTOR",
+      "DISPLAY_NAME":"TVS Motors",
+      "SYMBOL_NAME":"TVS MOTOR COMPANY  LTD",
+      "SECTOR":["auto"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"11532",
+      "UNDERLYING_SYMBOL":"ULTRACEMCO",
+      "DISPLAY_NAME":"UltraTech Cement",
+      "SYMBOL_NAME":"ULTRATECH CEMENT LIMITED",
+      "SECTOR":["CEMENT"],
+      "INDEX":["NIFTY 50","SENSEX"]
+  },
+  {
+      "SECURITY_ID":"10753",
+      "UNDERLYING_SYMBOL":"UNIONBANK",
+      "DISPLAY_NAME":"Union Bank of India",
+      "SYMBOL_NAME":"UNION BANK OF INDIA",
+      "SECTOR":["BANK","PSU BANK"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"10447",
+      "UNDERLYING_SYMBOL":"UNITDSPR",
+      "DISPLAY_NAME":"United Spirits",
+      "SYMBOL_NAME":"UNITED SPIRITS LIMITED",
+      "SECTOR":["FMCG"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"11287",
+      "UNDERLYING_SYMBOL":"UPL",
+      "DISPLAY_NAME":"UPL",
+      "SYMBOL_NAME":"UPL LIMITED",
+      "SECTOR":null,
+        "INDEX":["NIFTY MID "]
+  },
+  {
+      "SECURITY_ID":"18921",
+      "UNDERLYING_SYMBOL":"VBL",
+      "DISPLAY_NAME":"Varun Beverages",
+      "SYMBOL_NAME":"VARUN BEVERAGES LIMITED",
+      "SECTOR":["FMCG"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"3063",
+      "UNDERLYING_SYMBOL":"VEDL",
+      "DISPLAY_NAME":"Vedanta",
+      "SYMBOL_NAME":"VEDANTA LIMITED",
+      "SECTOR":["METAL"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"3718",
+      "UNDERLYING_SYMBOL":"VOLTAS",
+      "DISPLAY_NAME":"Voltas",
+      "SYMBOL_NAME":"VOLTAS LTD",
+      "SECTOR":null,
+        "INDEX":["NIFTY MID "]
+  },
+  {
+      "SECURITY_ID":"3787",
+      "UNDERLYING_SYMBOL":"WIPRO",
+      "DISPLAY_NAME":"Wipro",
+      "SYMBOL_NAME":"WIPRO LTD",
+      "SECTOR":["IT"],
+      "INDEX":["NIFTY 50 "]
+  },
+  {
+      "SECURITY_ID":"11915",
+      "UNDERLYING_SYMBOL":"YESBANK",
+      "DISPLAY_NAME":"Yes Bank",
+      "SYMBOL_NAME":"YES BANK LIMITED",
+      "SECTOR":null,
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"5097",
+      "UNDERLYING_SYMBOL":"ZOMATO",
+      "DISPLAY_NAME":"Zomato",
+      "SYMBOL_NAME":"ZOMATO LIMITED",
+      "SECTOR":["FMCG"],
+      "INDEX":null
+  },
+  {
+      "SECURITY_ID":"7929",
+      "UNDERLYING_SYMBOL":"ZYDUSLIFE",
+      "DISPLAY_NAME":"Zydus Life Science",
+      "SYMBOL_NAME":"ZYDUS LIFESCIENCES LTD",
+      "SECTOR":["PHARMA"],
+      "INDEX":null
   }
 ]

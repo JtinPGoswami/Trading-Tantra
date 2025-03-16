@@ -6,6 +6,7 @@ const MarketDataSchema = new mongoose.Schema(
     turnover: {
       type: String,
     },
+    xelement: Number,
     data: {
       responseCode: Number,
       latestTradedPrice: Number,
