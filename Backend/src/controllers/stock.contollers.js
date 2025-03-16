@@ -837,26 +837,102 @@ const getDayLowBreak = async (req, res) => {
   }
 };
 
+
+
+// not give previous data if not avail
+// const previousDaysVolume = async (req, res) => {
+//   try {
+//     const todayDate = new Date().toISOString().split("T")[0];
+//     const todayData = await MarketDetailData.find({ date: todayDate });
+//     const previousData = await MarketDetailData.find({
+//       date: { $lt: todayDate },
+//     });
+//     const stocksDetail = await StocksDetail.find();
+
+//     if (!todayData || !previousData) {
+//       return res.status(404).json({ success: false, message: "no data found" });
+//     }
+
+//     // Build a lookup map for previous volumes by securityId.
+//     // Each key will have an array of volumes from the last 10 days.
+//     let previousVolumesMap = {};
+
+//     previousData.forEach((data) => {
+//       const securityId = data.securityId;
+//       const volume = data.data.volume;
+
+//       if (!previousVolumesMap[securityId]) {
+//         previousVolumesMap[securityId] = [];
+//       }
+//       previousVolumesMap[securityId].push(volume);
+//     });
+
+//     // Combine today's data with previous volumes.
+//     // For each stock in todayData (190 entries), we create an object that contains:
+//     // - securityId
+//     // - todayVolume (from today's data)
+//     // - volumeHistory (array of previous volumes for that stock)
+//     const combinedData = todayData.map((data) => {
+//       const securityId = data.securityId;
+//       const todayVolume = data.data.volume[0];
+//       const volumeHistory = previousVolumesMap[securityId] || [];
+//       let add = 0;
+//       volumeHistory.map((volume) => {
+//         add = add + volume[0];
+//       });
+//       const avragePreviousVolume = add / volumeHistory.length;
+//       const xElement = todayVolume / avragePreviousVolume;
+//       const stock = stocksDetail.find(
+//         (stock) => stock.SECURITY_ID === data.securityId
+//       );
+
+//       return {
+//         securityId,
+//         todayVolume,
+//         volumeHistory,
+//         stock,
+//         avragePreviousVolume,
+//         xElement,
+//       };
+//     });
+//     res.status(200).json({ success: true, combinedData });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error", error });
+//   }
+// };
+
+
+// give the previous data if today data not avail
 const previousDaysVolume = async (req, res) => {
   try {
-    const todayDate = new Date().toISOString().split("T")[0];
-    const todayData = await MarketDetailData.find({ date: todayDate });
-    const previousData = await MarketDetailData.find({
-      date: { $lt: todayDate },
-    });
-    const stocksDetail = await StocksDetail.find();
+    // Get the most recent available stock data
+    const latestEntry = await MarketDetailData.findOne({}, { date: 1 }).sort({ date: -1 });
 
-    if (!todayData || !previousData) {
-      return res.status(404).json({ success: false, message: "no data found" });
+    if (!latestEntry) {
+      return res.status(404).json({ success: false, message: "No stock data available" });
     }
 
-    // Build a lookup map for previous volumes by securityId.
-    // Each key will have an array of volumes from the last 10 days.
+    const latestDate = latestEntry.date;
+
+    // Fetch today's data (latest available)
+    const todayData = await MarketDetailData.find({ date: latestDate });
+
+    // Fetch all previous stock data (before latest date)
+    const previousData = await MarketDetailData.find({ date: { $lt: latestDate } });
+
+    if (!previousData.length) {
+      return res.status(404).json({ success: false, message: "No previous stock data available" });
+    }
+
+    const stocksDetail = await StocksDetail.find();
+
+    // Build a lookup map for previous volumes by securityId
     let previousVolumesMap = {};
 
     previousData.forEach((data) => {
       const securityId = data.securityId;
-      const volume = data.data.volume;
+      const volume = data.data?.volume?.[0] || 0;
 
       if (!previousVolumesMap[securityId]) {
         previousVolumesMap[securityId] = [];
@@ -864,40 +940,40 @@ const previousDaysVolume = async (req, res) => {
       previousVolumesMap[securityId].push(volume);
     });
 
-    // Combine today's data with previous volumes.
-    // For each stock in todayData (190 entries), we create an object that contains:
-    // - securityId
-    // - todayVolume (from today's data)
-    // - volumeHistory (array of previous volumes for that stock)
+    // Combine today's data with all previous volumes
     const combinedData = todayData.map((data) => {
       const securityId = data.securityId;
-      const todayVolume = data.data.volume[0];
+      const todayVolume = data.data?.volume?.[0] || 0;
       const volumeHistory = previousVolumesMap[securityId] || [];
-      let add = 0;
-      volumeHistory.map((volume) => {
-        add = add + volume[0];
-      });
-      const avragePreviousVolume = add / volumeHistory.length;
-      const xElement = todayVolume / avragePreviousVolume;
-      const stock = stocksDetail.find(
-        (stock) => stock.SECURITY_ID === data.securityId
-      );
+// console.log('volumeHistory',volumeHistory,'securityId',securityId)
+      // Calculate total and average of all previous volumes
+      const totalPreviousVolume = volumeHistory.reduce((sum, vol) => sum + vol, 0);
+      const averagePreviousVolume = volumeHistory.length > 0 ? totalPreviousVolume / volumeHistory.length : 0;
+
+      // Calculate xElement (today's volume divided by average previous volume)
+      const xElement = averagePreviousVolume > 0 ? todayVolume / averagePreviousVolume : 0;
+
+      const stock = stocksDetail.find((stock) => stock.SECURITY_ID === securityId);
 
       return {
         securityId,
         todayVolume,
         volumeHistory,
         stock,
-        avragePreviousVolume,
+        totalPreviousVolume,
+        averagePreviousVolume,
         xElement,
       };
     });
+
     res.status(200).json({ success: true, combinedData });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+
 
 export {
   getStocks,
