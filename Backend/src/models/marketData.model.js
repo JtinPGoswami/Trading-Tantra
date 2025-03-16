@@ -7,6 +7,7 @@ const MarketDataSchema = new mongoose.Schema(
       type: String,
       default: "100",
     },
+    xelement: Number,
     data: {
       responseCode: Number,
       latestTradedPrice: Number,

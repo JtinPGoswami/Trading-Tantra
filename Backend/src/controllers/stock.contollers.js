@@ -356,11 +356,7 @@ const previousDaysVolume = async (req, res) => {
       previousVolumesMap[securityId].push(volume);
     });
 
-    // Combine today's data with previous volumes.
-    // For each stock in todayData (190 entries), we create an object that contains:
-    // - securityId
-    // - todayVolume (from today's data)
-    // - volumeHistory (array of previous volumes for that stock)
+   
     const combinedData = todayData.map((data) => {
       const securityId = data.securityId;
       const todayVolume = data.data.volume;
