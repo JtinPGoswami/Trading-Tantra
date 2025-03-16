@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import StockCard from "../../Components/Dashboard/StockCard";
 import meter from "../../assets/Images/Dashboard/marketdepthpage/meter.png";
-import boost from "../../assets/Images/Dashboard/marketdepthpage/boost.png";
+
 import dayHigh from "../../assets/Images/Dashboard/marketdepthpage/dayHigh.png";
 
 
@@ -12,6 +12,7 @@ import {
   fetchStockData,
   usefetchDayHighData,
   usefetchDayLowData,
+  usefetchPreviousVolume,
 } from "../../hooks/fetchStocksData";
 import {
   TopGainers,
@@ -20,6 +21,7 @@ import {
 
 import { io } from "socket.io-client";
 import { DayHigh, DayLow } from "../../Components/Dashboard/Cards/DayHighandLow";
+import { PreviousVolume } from "../../Components/Dashboard/Cards/PreviousVolume";
 
 const socket = io("http://localhost:3000");
 
@@ -286,6 +288,8 @@ const MarketDepthPage = () => {
 
   const { DlData, DlLoading,  DlError, fetchDayLow } = usefetchDayLowData()
 
+  const { PVData, PvLoading,  PvError, fetchPreviousVolume } = usefetchPreviousVolume();
+
   const [loading, setloading] = useState(null);
 
   useEffect(() => {
@@ -293,6 +297,7 @@ const MarketDepthPage = () => {
       fetchDayHigh();
       topGainersAndLosers();
       fetchDayLow();
+      fetchPreviousVolume();
       socket.on("turnOver", (data) => {
         // console.log("live Data", data);
         setdata(data?.data);
@@ -317,7 +322,7 @@ const MarketDepthPage = () => {
   //   return;
   // }
 
-  // console.log("day low data", DlData);
+  console.log("pv data", PVData);
 
   return (
     <section>
@@ -325,6 +330,8 @@ const MarketDepthPage = () => {
 
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 w-full mt-10">
         <HighPowerStock data={turnOverData} loading={loading} />
+
+        <PreviousVolume data={PVData?.data?.combinedData} loading={PvLoading} error={PvError} />
 
         <DayHigh data={DhData?.data?.dayHighBreak} loading={DhLoading} error={DhError} />
         <DayLow data={DlData?.data?.dayLowBreak} loading={DhLoading} error={DhError} />

@@ -94,6 +94,36 @@ export const usefetchDayLowData = () => {
     return { DlData, DlLoading,  DlError, fetchDayLow };
       
 }
+export const usefetchPreviousVolume = () => {
+
+    const [PVData, setPvData] = useState([]);
+    const [PvLoading, setPvLoading] = useState(null);
+    const [PvError, setPvError] = useState("");
+
+
+   const  fetchPreviousVolume = async () => {
+      
+        try {
+          setPvLoading(true);
+      
+          const response = await axios.get(`${serverUri}/previous-volume`);
+      
+          setPvData(response);
+        } catch (error) {
+          console.log("eeror to get top gaineres and loosers", error);
+          setPvError(error);
+        } finally {
+          setPvLoading(false)
+        }
+      
+    };
+
+   
+
+
+    return { PVData, PvLoading,  PvError, fetchPreviousVolume };
+      
+}
 
 
 
