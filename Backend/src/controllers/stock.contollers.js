@@ -455,7 +455,7 @@ const getTopGainersAndLosers = async (req, res) => {
     }
 
     const latestDate = latestEntry.date;
-    console.log("Latest available date:", latestDate);
+    // console.log("Latest available date:", latestDate);
 
     // Step 2: Fetch all data for the latest available date
     const latestData = await MarketDetailData.find({ date: latestDate });
@@ -466,7 +466,7 @@ const getTopGainersAndLosers = async (req, res) => {
         .json({ message: "No stock data available for the latest date" });
     }
 
-    console.log("Total entries found for latest date:", latestData.length);
+    // console.log("Total entries found for latest date:", latestData.length);
 
     // Step 3: Find the most recent previous available date
     const previousDayEntry = await MarketDetailData.findOne(
@@ -481,7 +481,7 @@ const getTopGainersAndLosers = async (req, res) => {
     }
 
     const previousDayDate = previousDayEntry.date;
-    console.log("Previous available date:", previousDayDate);
+    // console.log("Previous available date:", previousDayDate);
 
     // Fetch previous day's stock data
     const yesterdayData = await MarketDetailData.find({
@@ -681,6 +681,7 @@ const getDayHighBreak = async (req, res) => {
       todayOpen: parseFloat(data.data.dayOpen?.[0].toFixed(2)),
       xElement: data.xelement,
     }));
+    // console.log("today data", todayData);
     const dayHighBreak = filteredData
       .map((data) => {
         const dayHigh = data.dayHigh;

@@ -166,7 +166,7 @@ const WS_URL = `wss://api-feed.dhan.co?version=2&token=${ACCESS_TOKEN}&clientId=
 let securityIdList = [];
 const securityIdMap = new Map();
 let marketDataBuffer = new Map();
-const batchSize = 190;
+const batchSize = 216;
 let isProcessingSave = false;
 let batchCount = 0; // Track how many batches have been processed
 
@@ -305,7 +305,7 @@ async function startWebSocket() {
 
         marketDataBuffer.get(securityId).push(marketData);
 
-        // Process data in batches of exactly 190
+        // Process data in batches of exactly 216
         if (marketDataBuffer.size === batchSize) {
           batchCount++;
           console.log(

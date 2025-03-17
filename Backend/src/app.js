@@ -14,6 +14,9 @@ import stocksRoutes from "./routes/stock.routes.js";
 import startWebSocket from "./controllers/liveMarketData.controller.js";
 import { getStocksData } from "./controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./config/socket.js";
+import { fetchHistoricalData } from "./utils/fetchData.js";
+import StocksDetail from "./models/stocksDetail.model.js";
+import { stocksData } from "./f&o.js";
 
 dotenv.config();
 
@@ -73,23 +76,35 @@ app.use("/api", stocksRoutes);
 // };
 
 // getHistoricalData();
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// const getData = async () => {
-//   const securityId = "3045";
-//   const fromDate = "2023-03-31";
-//   const toDate = "2024-04-01";
 
-//   try {
-//     const data = await fetchHistoricalData(securityId, fromDate, toDate);
-//     if (!data) throw new Error("No historical data received");
+const getData = async () => {
 
-//     const turnover = calculateTurnover(data);
-//     console.log(`Total Turnover of SBIN (NSE) from ${fromDate} to ${toDate}: ₹${turnover.toFixed(2)}`);
-//   } catch (error) {
-//     console.error("Error in getData:", error.message);
-//   }
-// };
-// getData();
+  const stocks = stocksData
+  // console.log('stock',stocks)
+  const securityIds = stocks.map((stock) => stock.SECURITY_ID);
+  const fromDate = "2025-03-01";
+  const toDate = "2025-03-17";
+
+console.log('security is', securityIds)
+ 
+    try {
+      for (let i = 0; i < securityIds.length; i++) {
+       const data = await fetchHistoricalData(securityIds[i],fromDate,toDate );
+       console.log(`data for security id ${securityIds[i]}`,data?.open)
+        await delay(500); // Adjust delay (1000ms = 1 sec) based on API rate limits
+    }
+
+  
+    //   const turnover = calculateTurnover(data);
+    //   console.log(`Total Turnover of SBIN (NSE) from ${fromDate} to ${toDate}: ₹${turnover.toFixed(2)}`);
+    } catch (error) {
+      console.error("Error in getData:", error.message);
+    }
+
+  }
+getData();
 
 // const API_URL = 'https://api.dhan.co/market/instruments?segment=FO';
 

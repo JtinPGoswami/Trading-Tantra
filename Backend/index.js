@@ -5,6 +5,8 @@ import connectDB from "./src/config/db.js";
 import startWebSocket from "./src/controllers/liveMarketData.controller.js";
 import MarketDetailData from "./src/models/marketData.model.js";
 
+import cron from "node-cron";
+
 dotenv.config();
 
 // const ACCESS_TOKEN = process.env.DHAN_ACCESS_TOKEN;
@@ -12,23 +14,30 @@ dotenv.config();
 
 // const WS_URL = `wss://api-feed.dhan.co?version=2&token=${ACCESS_TOKEN}&clientId=${CLIENT_ID}&authType=2`;
 
-connectDB();
 
-// const deleteData = async () => {
-//     try{
-//         await MarketDetailData.deleteMany({date:'2025-03-13'});
-//         console.log("deleted");
+const runTasks = async () => {
+  try {
+    console.log("Running scheduled task...");
+    await connectDB(); // Connect to the database
+    startWebSocket(); // Start WebSocket
+  } catch (error) {
+    console.error("Error in scheduled task:", error);
+  }
+};
+
+// Schedule the job to run every 2 minutes
+cron.schedule("*/2 * * * *", () => {
+  console.log("Cron job running...");
+  runTasks();
+});
+
+console.log("Cron job scheduled to run every 2 minutes.");
 
 
-//     }catch(err){
-//             console.log(err.message);
-//     }
-    
-// }
 
-// deleteData();
+// connectDB();
+ 
 
-startWebSocket();
 // function startWebSocket() {
 //   const ws = new WebSocket(WS_URL, {
 //     perMessageDeflate: false,
