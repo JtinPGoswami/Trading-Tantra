@@ -6,6 +6,7 @@ import {
   getStocksData,
   getTopGainersAndLosers,
   previousDaysVolume,
+  sectorStockData,
 } from "../controllers/stock.contollers.js";
 import verifyUser from "../middlewares/verifyUser.middleware.js";
 import startWebSocket from "../controllers/liveMarketData.controller.js";
@@ -19,7 +20,8 @@ router.get("/get-top-gainers-and-losers", getTopGainersAndLosers);
 router.get("/get-day-high-break", getDayHighBreak);
 router.get("/get-day-low-break", getDayLowBreak);
 router.get("/previous-volume", previousDaysVolume);
+router.get("/sector-data", sectorStockData);
 
-router.get('/live-feed',startWebSocket)
+router.get("/live-feed", startWebSocket);
 
 export default router;
