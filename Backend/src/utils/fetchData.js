@@ -84,30 +84,31 @@ export const fetchData = async (url, method, requestData = null) => {
     // };
 
 
-    // export const fetchHistoricalData = async (securityId, fromDate, toDate) => {
-    //   try {
-    //     const response = await axios({
-    //       method: "POST",
-    //       url: `${baseUri}/charts/historical`,
-    //       headers: {
-    //         "access-token": accessToken,
-    //         "Content-Type": "application/json",
-    //       },
-    //       data: {
-    //         securityId,
-    //         exchangeSegment: "NSE_EQ",
-    //         instrument: "EQUITY",
-    //         expiryCode: 0,
-    //         fromDate,
-    //         toDate,
-    //       },
-    //     });
-    //     return response.data;
-    //   } catch (error) {
-    //     console.error("API Error:", error.response?.data || error.message);
-    //     return null;
-    //   }
-    // };
+    export const fetchHistoricalData = async (securityId, fromDate, toDate) => {
+      try {
+        const response = await axios({
+          method: "POST",
+          url: `${baseUri}/charts/historical`,
+          headers: {
+            "access-token": accessToken,
+            "Content-Type": "application/json",
+          },
+          data:     {
+            securityId,
+            exchangeSegment:"NSE_EQ",
+            instrument: "EQUITY",
+            expiryCode: 0,
+            fromDate: "2025-03-01",
+            toDate: "2025-03-17"
+        }
+    
+        });
+        return response.data;
+      } catch (error) {
+        console.error("API Error:", error.response?.data || error.message);
+        return null;
+      }
+    };
 
     export const calculateTurnover = (historicalData) => {
       if (!historicalData || typeof historicalData !== "object") {
