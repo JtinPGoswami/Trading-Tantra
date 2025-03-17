@@ -5,7 +5,7 @@ import { FcCandleSticks } from "react-icons/fc";
 import meter from "../../../assets/Images/Dashboard/marketdepthpage/meter.png";
 import Loader from "../../Loader";
 
-const HighPowerStock = ({ data, loading}) => {
+const HighPowerStock = ({ data, loading }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc"); // Ascending by default
 
@@ -27,10 +27,9 @@ const HighPowerStock = ({ data, loading}) => {
     setSortOrder(newOrder);
 
     console.log(sortedData);
-
   };
 
-  console.log(loading)
+  console.log(loading);
 
   return (
     <div className="relative w-full h-[360px] bg-gradient-to-tr from-[#0009B2] to-[#02000E] rounded-lg p-px overflow-hidden">
@@ -79,20 +78,20 @@ const HighPowerStock = ({ data, loading}) => {
                       className="text-right py-2 cursor-pointer"
                       onClick={handleSort}
                     >
-                     <span className="flex justify-center items-center">
-                      T.O.{" "}
-                     <MdOutlineKeyboardArrowDown
-                        className={sortOrder === "asc" ? "rotate-180" : ""}
-                      />
-                     </span>
+                      <span className="flex justify-center items-center">
+                        T.O.{" "}
+                        <MdOutlineKeyboardArrowDown
+                          className={sortOrder === "asc" ? "rotate-180" : ""}
+                        />
+                      </span>
                     </th>
                   </tr>
                   <tr className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#000A2D] via-[#002ED0] to-[#000A2D]" />
                 </thead>
 
                 {/* Scrollable Table Body */}
-                  {loading && <Loader />}
-                  {/* {error && <p>{error}</p>} */}
+                {loading && <Loader />}
+                {/* {error && <p>{error}</p>} */}
                 <tbody>
                   {sortedData.length > 0 ? (
                     sortedData.map((stock, index) => (
@@ -108,13 +107,15 @@ const HighPowerStock = ({ data, loading}) => {
                             {stock?.changePercentage}
                           </span>
                         </td>
-                        <td className="text-right text-xs">{stock?.turnover}</td>
+                        <td className="text-right text-xs">
+                          {(stock?.turnover / 1e7).toFixed(2) + " Cr"}
+                        </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
                       <td colSpan="4" className="text-center py-4">
-                       {!loading  ? 'No data availabel':''}
+                        {!loading ? "No data availabel" : ""}
                       </td>
                     </tr>
                   )}

@@ -113,12 +113,18 @@ const DayHigh = ({ data, loading, error }) => {
                           <FcCandleSticks />
                         </td>
                         <td className="text-center">
-                          <span className="bg-blue-600 px-2 py-1 text-xs rounded-full">
-                            {stock?.percentageDifference}
+                          <span
+                            className={`${
+                              stock?.percentageChange >= 0
+                                ? "bg-green-600"
+                                : "bg-red-600"
+                            } px-2 py-1 text-xs rounded-full`}
+                          >
+                            {stock?.percentageChange}
                           </span>
                         </td>
                         <td className="text-right text-xs">
-                          {stock?.xElement?.toFixed(2)}
+                          {stock?.percentageDifference}
                         </td>
                       </tr>
                     ))
@@ -241,12 +247,18 @@ const DayLow = ({ data, loading, error }) => {
                           <FcCandleSticks />
                         </td>
                         <td className="text-center">
-                          <span className="bg-blue-600 px-2 py-1 text-xs rounded-full">
-                            {stock?.percentageDifference}
+                          <span
+                            className={`${
+                              stock?.percentageChange >= 0
+                                ? "bg-green-600"
+                                : "bg-red-600"
+                            } px-2 py-1 text-xs rounded-full`}
+                          >
+                            {stock?.percentageChange}
                           </span>
                         </td>
                         <td className="text-right text-xs">
-                          {stock?.xElement?.toFixed(2)}
+                          {stock?.percentageDifference}
                         </td>
                       </tr>
                     ))
