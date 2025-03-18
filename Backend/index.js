@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 // import WebSocket from "ws";
 // import parseBinaryData from "./src/utils/parseBinaryData.js";
 import connectDB from "./src/config/db.js";
-import startWebSocket from "./src/controllers/liveMarketData.controller.js";
+import { startWebSocket } from "./src/controllers/liveMarketData.controller.js";
 import MarketDetailData from "./src/models/marketData.model.js";
 
 import cron from "node-cron";
@@ -13,7 +13,6 @@ dotenv.config();
 // const CLIENT_ID = process.env.DHAN_CLIENT_ID;
 
 // const WS_URL = `wss://api-feed.dhan.co?version=2&token=${ACCESS_TOKEN}&clientId=${CLIENT_ID}&authType=2`;
-
 
 const runTasks = async () => {
   try {
@@ -33,10 +32,7 @@ cron.schedule("*/2 * * * *", () => {
 
 console.log("Cron job scheduled to run every 2 minutes.");
 
-
-
 // connectDB();
- 
 
 // function startWebSocket() {
 //   const ws = new WebSocket(WS_URL, {
