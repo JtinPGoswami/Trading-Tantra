@@ -158,11 +158,16 @@ import connectDB from "../config/db.js";
 import StocksDetail from "../models/stocksDetail.model.js";
 import parseBinaryData from "../utils/parseBinaryData.js";
 import { stocksData } from "../f&o.js";
-import { fetchHistoricalData } from "../utils/fetchData.js";
+import {
+  fetchHistoricalData,
+  fetchHistoricalDataforTenMin,
+} from "../utils/fetchData.js";
 import fiveMinMomentumSignal from "../models/fiveMInMomentumSignal.model.js";
 import DailyMomentumSignal from "../models/dailyMomentumSignal.model.js";
 import MarketDetailData from "../models/marketData.model.js";
 import MomentumStockFiveMin from "../models/momentumStockFiveMin.model.js";
+import MomentumStockTenMin from "../models/momentumStockTenMin.model.js";
+
 const ACCESS_TOKEN = process.env.DHAN_ACCESS_TOKEN;
 const CLIENT_ID = process.env.DHAN_CLIENT_ID;
 const WS_URL = `wss://api-feed.dhan.co?version=2&token=${ACCESS_TOKEN}&clientId=${CLIENT_ID}&authType=2`;
@@ -368,6 +373,47 @@ const getData = async () => {
   try {
     for (let i = 0; i < securityIds.length; i++) {
       const data = await fetchHistoricalData(securityIds[i], i);
+
+      data.open = data.open.slice(-5);
+      data.high = data.high.slice(-5);
+      data.low = data.low.slice(-5);
+      data.close = data.close.slice(-5);
+      data.volume = data.volume.slice(-5);
+      data.timestamp = data.timestamp.slice(-5);
+      data.securityId = data.securityId || securityIds[i];
+      fiveMinCandelMap.set(securityIds[i], data);
+
+      await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
+    }
+    return fiveMinCandelMap;
+    //   const turnover = calculateTurnover(data);
+    //   console.log(`Total Turnover of SBIN (NSE) from ${fromDate} to ${toDate}: ₹${turnover.toFixed(2)}`);
+  } catch (error) {
+    console.error("Error in getData:", error.message);
+  }
+};
+const getDataForTenMin = async () => {
+  const stocks = await StocksDetail.find();
+  console.log("stock", stocks);
+  const securityIds = stocks.map((stock) =>
+    stock.SECURITY_ID.trim().toString()
+  );
+
+  // const today = new Date();
+  // const formattedFromDate = new Date(today); // Today's date
+
+  // const formattedToDate = new Date(today);
+  // formattedToDate.setDate(formattedToDate.getDate() + 1); // Tomorrow's date
+
+  // const fromDate = formattedFromDate.toISOString().split("T")[0];
+  // const toDate = formattedToDate.toISOString().split("T")[0];
+
+  const fromDate = "2025-03-11";
+  const toDate = "2025-03-12";
+  const fiveMinCandelMap = new Map();
+  try {
+    for (let i = 0; i < securityIds.length; i++) {
+      const data = await fetchHistoricalDataforTenMin(securityIds[i]);
 
       data.open = data.open.slice(-5);
       data.high = data.high.slice(-5);
@@ -773,6 +819,7 @@ const AIIntradayReversalFiveMin = async (req, res) => {
   }
 };
 // AIMomentumCatcherFiveMins
+
 const AIMomentumCatcherFiveMins = async (req, res) => {
   try {
     const stocks = await StocksDetail.find();
@@ -835,8 +882,8 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
     yesterdayData.forEach((entry) => {
       yesterdayMap.set(entry.securityId, entry.data?.dayClose?.[0] || 0);
     });
-
-    const data = await getData();
+    const TF = "5";
+    const data = await getData(TF);
     const dataArray = Array.from(data.values());
 
     if (dataArray.length === 0) {
@@ -916,10 +963,155 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
     };
   }
 };
+const AIMomentumCatcherTenMins = async (req, res) => {
+  try {
+    const stocks = await StocksDetail.find();
+    if (!stocks || stocks.length === 0) {
+      return { message: "No stocks data found" };
+    }
+
+    const stockmap = new Map();
+    stocks.forEach((entry) => {
+      stockmap.set(entry.SECURITY_ID, {
+        INDEX: entry.INDEX || [],
+        SECTOR: entry.SECTOR || [],
+        UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
+        SYMBOL_NAME: entry.SYMBOL_NAME,
+      });
+    });
+
+    const latestEntry = await MarketDetailData.findOne()
+      .sort({ date: -1 })
+      .select("date");
+
+    if (!latestEntry) {
+      return res.status(404).json({ message: "No stock data available" });
+    }
+
+    const latestDate = latestEntry.date;
+    const latestData = await MarketDetailData.find({ date: latestDate });
+
+    if (latestData.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No stock data available for the latest date" });
+    }
+
+    const previousDayEntry = await MarketDetailData.findOne(
+      { date: { $lt: latestDate } },
+      { date: 1 }
+    ).sort({ date: -1 });
+
+    if (!previousDayEntry) {
+      return res
+        .status(404)
+        .json({ message: "No previous stock data available" });
+    }
+
+    const previousDayDate = previousDayEntry.date;
+    const yesterdayData = await MarketDetailData.find({
+      date: previousDayDate,
+    });
+
+    const latestDataMap = new Map();
+    latestData.forEach((entry) => {
+      latestDataMap.set(
+        entry.securityId,
+        entry.data?.latestTradedPrice?.[0] || 0
+      );
+    });
+
+    const yesterdayMap = new Map();
+    yesterdayData.forEach((entry) => {
+      yesterdayMap.set(entry.securityId, entry.data?.dayClose?.[0] || 0);
+    });
+
+    const TF = "10";
+    const data = await getData(TF);
+    const dataArray = Array.from(data.values());
+
+    if (dataArray.length === 0) {
+      return { message: "No data found" };
+    }
+
+    const momentumStocks = dataArray
+      .map((entry) => {
+        const twocandelHigh = entry.high.slice(-2);
+        const twocandelLow = entry.low.slice(-2);
+        const [preHigh, crrHigh] = twocandelHigh;
+        const [preLow, crrLow] = twocandelLow;
+
+        const preHighLowDiff = preHigh - preLow;
+        const currentDiff = crrHigh - crrLow;
+        const hasMomentum = currentDiff >= preHighLowDiff * 1.5;
+
+        const lastClose = entry.close.slice(-1)[0];
+        const lastOpen = entry.open.slice(-1)[0];
+        const isBullish = lastClose > lastOpen;
+        const isBearish = lastClose < lastOpen;
+
+        if (hasMomentum && (isBullish || isBearish)) {
+          const stockDetails = stockmap.get(entry.securityId) || {};
+          const dayClose = yesterdayMap.get(entry.securityId);
+          const latestTradedPrice = latestDataMap.get(entry.securityId);
+
+          const percentageChange =
+            dayClose && !isNaN(dayClose) && !isNaN(latestTradedPrice)
+              ? ((latestTradedPrice - dayClose) / dayClose) * 100
+              : 0;
+
+          return {
+            securityId: entry.securityId,
+            symbol_name: stockDetails.SYMBOL_NAME || "Unknown",
+            symbol: stockDetails.UNDERLYING_SYMBOL || "Unknown",
+            currentHigh: crrHigh,
+            currentLow: crrLow,
+            previousHigh: preHigh,
+            previousLow: preLow,
+            momentumType: isBullish ? "Bullish" : "Bearish",
+            priceChange: currentDiff,
+            percentageChange: percentageChange,
+            sector: stockDetails.SECTOR,
+            index: stockDetails.INDEX,
+          };
+        }
+        return null;
+      })
+      .filter((stock) => stock !== null);
+
+    momentumStocks.sort(
+      (a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange)
+    );
+
+    console.log("momentumStocks", momentumStocks);
+
+    // Save or update in MongoDB
+    for (const stock of momentumStocks) {
+      await MomentumStockTenMin.findOneAndUpdate(
+        { securityId: stock.securityId }, // Find by securityId
+        { $set: stock }, // Update existing data
+        { upsert: true, new: true } // Insert if not found
+      );
+    }
+
+    return {
+      message: "Momentum stocks found and saved",
+      count: momentumStocks.length,
+      data: momentumStocks,
+    };
+  } catch (error) {
+    console.error("Error in AIMomentumCatcherFiveMins:", error);
+    return {
+      message: "Internal server error",
+      error: error.message,
+    };
+  }
+};
 
 export {
   startWebSocket,
   getData,
   AIIntradayReversalFiveMin,
   AIMomentumCatcherFiveMins,
+  AIMomentumCatcherTenMins,
 };

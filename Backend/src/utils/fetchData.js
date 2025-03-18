@@ -79,9 +79,9 @@ export const fetchData = async (url, method, requestData = null) => {
 // return totalTurnover;
 // };
 
-export const fetchHistoricalData = async (securityId, i) => {
+export const fetchHistoricalData = async (securityId) => {
   try {
-    console.log("securityid", i + 1);
+    console.log("securityid", securityId);
     const response = await axios({
       method: "POST",
       url: `${baseUri}/charts/intraday`,
@@ -98,6 +98,34 @@ export const fetchHistoricalData = async (securityId, i) => {
         toDate: "2025-03-18",
       },
     });
+    console.log("10 min data", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("API Error:", error.response?.data || error.message);
+    return null;
+  }
+};
+
+export const fetchHistoricalDataforTenMin = async (securityId, i) => {
+  try {
+    console.log("securityid", securityId);
+    const response = await axios({
+      method: "POST",
+      url: `${baseUri}/charts/intraday`,
+      headers: {
+        "access-token": accessToken,
+        "Content-Type": "application/json",
+      },
+      data: {
+        securityId,
+        exchangeSegment: "NSE_EQ",
+        instrument: "EQUITY",
+        interval: "10",
+        fromDate: "2025-03-17",
+        toDate: "2025-03-18",
+      },
+    });
+    console.log("10 min data", response.data);
     return response.data;
   } catch (error) {
     console.error("API Error:", error.response?.data || error.message);
