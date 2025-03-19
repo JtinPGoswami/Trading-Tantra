@@ -84,22 +84,22 @@ export const fetchData = async (url, method, requestData = null) => {
     // };
 
 
-    export const fetchHistoricalData = async (securityId, fromDate, toDate) => {
+    export const fetchHistoricalData = async (securityId, formatedFromDate, formatedToDate) => {
       try {
         const response = await axios({
           method: "POST",
-          url: `${baseUri}/charts/historical`,
+          url: `${baseUri}/charts/intraday`,
           headers: {
             "access-token": accessToken,
             "Content-Type": "application/json",
           },
-          data:     {
+          data:{
             securityId,
             exchangeSegment:"NSE_EQ",
             instrument: "EQUITY",
-            expiryCode: 0,
-            fromDate: "2025-03-01",
-            toDate: "2025-03-17"
+            interval: 1,
+            fromDate,
+            toDate,
         }
     
         });

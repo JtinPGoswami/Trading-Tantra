@@ -315,8 +315,8 @@ async function startWebSocket() {
           isProcessingSave = true;
           await saveMarketData();
 
-          console.log(`🕒 Waiting 5 seconds before the next cycle...`);
-          await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds
+          console.log(`🕒 Waiting 20 seconds before the next cycle...`);
+          await new Promise((resolve) => setTimeout(resolve, 20000)); // Wait 5 seconds
 
           console.log(`✅ Ready for the next batch cycle.`);
         }

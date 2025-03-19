@@ -14,29 +14,27 @@ dotenv.config();
 
 // const WS_URL = `wss://api-feed.dhan.co?version=2&token=${ACCESS_TOKEN}&clientId=${CLIENT_ID}&authType=2`;
 
-
 const runTasks = async () => {
   try {
     console.log("Running scheduled task...");
     await connectDB(); // Connect to the database
-    startWebSocket(); // Start WebSocket
+    await startWebSocket(); // Start WebSocket
   } catch (error) {
     console.error("Error in scheduled task:", error);
   }
 };
 
 // Schedule the job to run every 2 minutes
-cron.schedule("*/2 * * * *", () => {
+cron.schedule("*/2 * * * *", async () => {
   console.log("Cron job running...");
-  runTasks();
+  await runTasks();
+  console.log("⏳ Waiting 20 seconds before next execution...");
+  await new Promise((resolve) => setTimeout(resolve, 20000));
 });
 
 console.log("Cron job scheduled to run every 2 minutes.");
 
-
-
 // connectDB();
- 
 
 // function startWebSocket() {
 //   const ws = new WebSocket(WS_URL, {
