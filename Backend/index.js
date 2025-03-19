@@ -2,8 +2,7 @@ import dotenv from "dotenv";
 // import WebSocket from "ws";
 // import parseBinaryData from "./src/utils/parseBinaryData.js";
 import connectDB from "./src/config/db.js";
-import startWebSocket from "./src/controllers/liveMarketData.controller.js";
-import MarketDetailData from "./src/models/marketData.model.js";
+import { startWebSocket } from "./src/controllers/liveMarketData.controller.js";
 
 import cron from "node-cron";
 

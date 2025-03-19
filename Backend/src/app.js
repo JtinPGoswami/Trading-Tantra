@@ -11,7 +11,14 @@ import "./config/passport.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import subscriptionPlanRoutes from "./routes/subscriptionPlan.routes.js";
 import stocksRoutes from "./routes/stock.routes.js";
-import startWebSocket from "./controllers/liveMarketData.controller.js";
+import {
+  startWebSocket,
+  getData,
+  AIIntradayReversalFiveMins,
+  AIMomentumCatcherFiveMins,
+  AIMomentumCatcherTenMins,
+  AIIntradayReversalDaily,
+} from "./controllers/liveMarketData.controller.js";
 import { getStocksData } from "./controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./config/socket.js";
 import { fetchHistoricalData } from "./utils/fetchData.js";
@@ -29,8 +36,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-app.use(passport.initialize());
-initializeServer(server);
+// app.use(passport.initialize());
+// initializeServer(server);
 app.use(
   cors({
     origin: "*",
@@ -76,35 +83,33 @@ app.use("/api", stocksRoutes);
 // };
 
 // getHistoricalData();
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// const getData = async () => {
 
-const getData = async () => {
+//   const stocks = stocksData
+//   // console.log('stock',stocks)
+//   const securityIds = stocks.map((stock) => stock.SECURITY_ID);
+//   const fromDate = "2025-03-01";
+//   const toDate = "2025-03-17";
 
-  const stocks = stocksData
-  // console.log('stock',stocks)
-  const securityIds = stocks.map((stock) => stock.SECURITY_ID);
-  const fromDate = "2025-03-01";
-  const toDate = "2025-03-17";
+// console.log('security is', securityIds)
 
-console.log('security is', securityIds)
- 
-    try {
-      for (let i = 0; i < securityIds.length; i++) {
-       const data = await fetchHistoricalData(securityIds[i],fromDate,toDate );
-       console.log(`data for security id ${securityIds[i]}`,data?.open)
-        await delay(500); // Adjust delay (1000ms = 1 sec) based on API rate limits
-    }
+//     try {
+//       for (let i = 0; i < securityIds.length; i++) {
+//        const data = await fetchHistoricalData(securityIds[i],fromDate,toDate );
+//        console.log(`data for security id ${securityIds[i]}`,data?.open)
+//         await delay(500); // Adjust delay (1000ms = 1 sec) based on API rate limits
+//     }
 
-  
-    //   const turnover = calculateTurnover(data);
-    //   console.log(`Total Turnover of SBIN (NSE) from ${fromDate} to ${toDate}: ₹${turnover.toFixed(2)}`);
-    } catch (error) {
-      console.error("Error in getData:", error.message);
-    }
+//     //   const turnover = calculateTurnover(data);
+//     //   console.log(`Total Turnover of SBIN (NSE) from ${fromDate} to ${toDate}: ₹${turnover.toFixed(2)}`);
+//     } catch (error) {
+//       console.error("Error in getData:", error.message);
+//     }
 
-  }
-getData();
+//   }
+// getData();
 
 // const API_URL = 'https://api.dhan.co/market/instruments?segment=FO';
 
@@ -142,19 +147,19 @@ getData();
 
 // fetchFOInstruments();
 
-async function getTurnover() {
-  try {
-    const response = await getStocksData();
-    getSocketInstance().emit("turnOver", response);
-    console.log('start.....👍')
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setTimeout(getTurnover, 20000);
-  }
-}
+// async function getTurnover() {
+//   try {
+//     const response = await getStocksData();
+//     getSocketInstance().emit("turnOver", response);
+//     console.log("start.....👍");
+//   } catch (error) {
+//     console.log(error);
+//   } finally {
+//     setTimeout(getTurnover, 20000);
+//   }
+// }
 
-getTurnover();
+// getTurnover();
 
 const PORT = process.env.PORT || 3000;
 
@@ -164,7 +169,10 @@ connectDB()
     server.listen(PORT, () => {
       console.log("Server started on port ", PORT);
 
-      // startWebSocket();
+      // AIIntradayReversalFiveMins();
+      // AIMomentumCatcherFiveMins();
+      // AIMomentumCatcherTenMins();
+      // AIIntradayReversalDaily();
     });
   })
   .catch((error) => {

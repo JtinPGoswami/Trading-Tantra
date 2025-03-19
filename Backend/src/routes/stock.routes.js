@@ -9,10 +9,13 @@ import {
   sectorStockData,
 } from "../controllers/stock.contollers.js";
 import verifyUser from "../middlewares/verifyUser.middleware.js";
-import startWebSocket from "../controllers/liveMarketData.controller.js";
-
+import {
+  AIIntradayReversalDaily,
+  AIIntradayReversalFiveMins,
+  DailyRangeBreakout,
+  startWebSocket,
+} from "../controllers/liveMarketData.controller.js";
 const router = express.Router();
-
 router.get("/get-stocks", verifyUser, getStocks);
 // router.get('/get-fno-stocks', fetchAndStoreFNOData );
 router.get("/get-turnover", getStocksData);
@@ -23,5 +26,8 @@ router.get("/previous-volume", previousDaysVolume);
 router.get("/sector-data", sectorStockData);
 
 router.get("/live-feed", startWebSocket);
+router.get("/five-candel", AIIntradayReversalFiveMins);
+router.get("/daily-candel", AIIntradayReversalDaily);
+router.get("/daily-range-breakout", DailyRangeBreakout);
 
 export default router;

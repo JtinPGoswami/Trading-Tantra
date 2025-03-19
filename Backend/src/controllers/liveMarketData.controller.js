@@ -154,10 +154,21 @@
 // export default startWebSocket;
 
 import WebSocket from "ws";
-import MarketDetailData from "../models/marketData.model.js";
 import connectDB from "../config/db.js";
 import StocksDetail from "../models/stocksDetail.model.js";
 import parseBinaryData from "../utils/parseBinaryData.js";
+import { stocksData } from "../f&o.js";
+import {
+  fetchDailyHistoricalData,
+  fetchHistoricalData,
+  fetchHistoricalDataforTenMin,
+} from "../utils/fetchData.js";
+import fiveMinMomentumSignal from "../models/fiveMInMomentumSignal.model.js";
+import DailyMomentumSignal from "../models/dailyMomentumSignal.model.js";
+import MarketDetailData from "../models/marketData.model.js";
+import MomentumStockFiveMin from "../models/momentumStockFiveMin.model.js";
+import MomentumStockTenMin from "../models/momentumStockTenMin.model.js";
+import DailyRangeBreakouts from "../models/dailyRangeBreakout.model.js";
 
 const ACCESS_TOKEN = process.env.DHAN_ACCESS_TOKEN;
 const CLIENT_ID = process.env.DHAN_CLIENT_ID;
@@ -340,5 +351,1306 @@ async function startWebSocket() {
     setTimeout(startWebSocket, 2000);
   });
 }
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export default startWebSocket;
+const getData = async (fromDate, toDate) => {
+  const stocks = await StocksDetail.find();
+  console.log("stock", stocks);
+  const securityIds = stocks.map((stock) =>
+    stock.SECURITY_ID.trim().toString()
+  );
+
+  // const today = new Date();
+  // const formattedFromDate = new Date(today); // Today's date
+
+  // const formattedToDate = new Date(today);
+  // formattedToDate.setDate(formattedToDate.getDate() + 1); // Tomorrow's date
+
+  // const fromDate = formattedFromDate.toISOString().split("T")[0];
+  // const toDate = formattedToDate.toISOString().split("T")[0];
+
+  const fiveMinCandelMap = new Map();
+  try {
+    for (let i = 0; i < securityIds.length; i++) {
+      const data = await fetchHistoricalData(
+        securityIds[i],
+        fromDate,
+        toDate,
+        i
+      );
+
+      data.open = data.open.slice(-5);
+      data.high = data.high.slice(-5);
+      data.low = data.low.slice(-5);
+      data.close = data.close.slice(-5);
+      data.volume = data.volume.slice(-5);
+      data.timestamp = data.timestamp.slice(-5);
+      data.securityId = data.securityId || securityIds[i];
+      fiveMinCandelMap.set(securityIds[i], data);
+
+      await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
+    }
+    return fiveMinCandelMap;
+    //   const turnover = calculateTurnover(data);
+    //   console.log(`Total Turnover of SBIN (NSE) from ${fromDate} to ${toDate}: ₹${turnover.toFixed(2)}`);
+  } catch (error) {
+    console.error("Error in getData:", error.message);
+  }
+};
+
+const getDailyData = async (fromDate, toDate) => {
+  const stocks = await StocksDetail.find();
+  console.log("stock", stocks);
+  const securityIds = stocks.map((stock) =>
+    stock.SECURITY_ID.trim().toString()
+  );
+
+  const fiveMinCandelMap = new Map();
+  try {
+    for (let i = 0; i < securityIds.length; i++) {
+      const data = await fetchDailyHistoricalData(
+        securityIds[i],
+        fromDate,
+        toDate,
+        i
+      );
+
+      data.open = data.open.slice(-4);
+      data.high = data.high.slice(-4);
+      data.low = data.low.slice(-4);
+      data.close = data.close.slice(-4);
+      data.volume = data.volume.slice(-4);
+      data.timestamp = data.timestamp.slice(-4);
+      data.securityId = data.securityId || securityIds[i];
+      fiveMinCandelMap.set(securityIds[i], data);
+
+      await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
+    }
+    return fiveMinCandelMap;
+    //   const turnover = calculateTurnover(data);
+    //   console.log(`Total Turnover of SBIN (NSE) from ${fromDate} to ${toDate}: ₹${turnover.toFixed(2)}`);
+  } catch (error) {
+    console.error("Error in getData:", error.message);
+  }
+};
+const getDataForTenMin = async (fromDate, toDate) => {
+  const stocks = await StocksDetail.find();
+  console.log("stock", stocks);
+  const securityIds = stocks.map((stock) =>
+    stock.SECURITY_ID.trim().toString()
+  );
+
+  // const today = new Date();
+  // const formattedFromDate = new Date(today); // Today's date
+
+  // const formattedToDate = new Date(today);
+  // formattedToDate.setDate(formattedToDate.getDate() + 1); // Tomorrow's date
+
+  // const fromDate = formattedFromDate.toISOString().split("T")[0];
+  // const toDate = formattedToDate.toISOString().split("T")[0];
+
+  const fiveMinCandelMap = new Map();
+  try {
+    for (let i = 0; i < securityIds.length; i++) {
+      const data = await fetchHistoricalDataforTenMin(
+        securityIds[i],
+        fromDate,
+        toDate,
+        i
+      );
+
+      data.open = data.open.slice(-5);
+      data.high = data.high.slice(-5);
+      data.low = data.low.slice(-5);
+      data.close = data.close.slice(-5);
+      data.volume = data.volume.slice(-5);
+      data.timestamp = data.timestamp.slice(-5);
+      data.securityId = data.securityId || securityIds[i];
+      fiveMinCandelMap.set(securityIds[i], data);
+
+      await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
+    }
+    return fiveMinCandelMap;
+    //   const turnover = calculateTurnover(data);
+    //   console.log(`Total Turnover of SBIN (NSE) from ${fromDate} to ${toDate}: ₹${turnover.toFixed(2)}`);
+  } catch (error) {
+    console.error("Error in getData:", error.message);
+  }
+};
+// const  AIIntradayReversalFiveMin = async (req, res) => {
+//   try {
+//     const data = await getData();
+//     if (!data) {
+//       return res.status(400).json({ message: "No data found" });
+//     }
+
+// const stocks = StocksDetail.find();
+// if (!stocks) {
+//   return res.status(400).json({ message: "No stocks data found" });
+// }
+// const stockmap = new Map();
+// stocks.forEach((entry) => {
+//   stockmap.set(entry.SECURITY_ID, {
+//     INDEX: entry.INDEX || [],
+//     SECTOR: entry.SECTOR || [],
+//     UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
+//     SYMBOL_NAME: entry.SYMBOL_NAME,
+//   });
+// });
+
+//    const res = data.map((item) => {
+//       const bulls=[];
+//       const bear=[];
+//       const lastFourCandelHigh = item.high.slice(0, 4);
+//       const lastFourCandelLow = item.low.slice(0, 4);
+//       const maxHigh = Math.max(...lastFourCandelHigh);
+//       const maxLow = Math.max(...lastFourCandelLow);
+//       const leatestCandelHigh = item.high.slice(-1);
+//       const leatestCandelLow = item.low.slice(-1);
+//       const securityId = item.securityId;
+//       const stock = stockmap.get(securityId);
+
+// if(leatestCandelHigh>maxHigh){
+// bulls.push({
+//   securityId: securityId,
+//   stockSymbol: stock.UNDERLYING_SYMBOL || "N/A",
+//   stockName: stock.SYMBOL_NAME || "N/A",
+//   lastTradePrice: leatestCandelHigh
+// });
+// }
+// if(leatestCandelLow<maxLow){
+// bear.push({
+//   securityId: securityId,
+//   stockSymbol: stock.UNDERLYING_SYMBOL || "N/A",
+//   stockName: stock.SYMBOL_NAME || "N/A",
+//   lastTradePrice: leatestCandelHigh
+// });
+// }
+// if(leatestCandelLow<maxLow){
+// bear.push({
+//   securityId: securityId,
+//   stockSymbol: stock.UNDERLYING_SYMBOL || "N/A",
+//   stockName: stock.SYMBOL_NAME || "N/A",
+//   lastTradePrice: leatestCandelLow,
+//   previousClosePrice: maxLow,
+//   percentageChange: ((leatestCandelLow[0] - maxLow) / maxLow) * 100,
+// });
+// }
+
+// }
+
+//       console.log("maxHigh", maxHigh, "maxLow", maxLow);
+
+//     })
+
+//   } catch (error) {
+//     console.error("Error in  AIIntradayReversalFiveMin:", error.message);
+//   }
+// };
+
+//  AIIntradayReversalFiveMin();
+
+// const  AIIntradayReversalFiveMin = async (req, res) => {
+//   try {
+//     const data = await getData();
+
+//     if (!data || !(data instanceof Map)) {
+//       console.error("Invalid data format received from getData:", data);
+//       return { message: "Invalid data format" };
+//     }
+
+//     // Convert Map to an array
+//     const dataArray = Array.from(data.values());
+
+//     if (dataArray.length === 0) {
+//       return { message: "No data found" };
+//     }
+
+//     const stocks = await StocksDetail.find();
+//     if (!stocks || stocks.length === 0) {
+//       return { message: "No stocks data found" };
+//     }
+
+//     // Create a map for stock details
+//     const stockmap = new Map();
+//     stocks.forEach((entry) => {
+//       stockmap.set(entry.SECURITY_ID, {
+//         INDEX: entry.INDEX || [],
+//         SECTOR: entry.SECTOR || [],
+//         UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
+//         SYMBOL_NAME: entry.SYMBOL_NAME,
+//       });
+//     });
+
+//     // Process data to detect momentum signals
+//     const results = dataArray.map((item) => {
+//       const momentumSignals = [];
+//       const securityId = item.securityId;
+//       const stock = stockmap.get(securityId);
+
+//       // Validate structure before processing
+//       if (
+//         !item.high ||
+//         !item.low ||
+//         item.high.length < 5 ||
+//         item.low.length < 5
+//       ) {
+//         console.warn(`Skipping ${securityId} due to insufficient data`);
+//         return [];
+//       }
+
+//       // Get last 5 candles (4 previous + latest)
+//       const lastFiveHigh = item.high.slice(-5);
+//       const lastFiveLow = item.low.slice(-5);
+
+//       // Extract latest candle
+//       const latestHigh = lastFiveHigh[4];
+//       const latestLow = lastFiveLow[4];
+
+//       // Get previous 4 candles
+//       const prevFourHigh = lastFiveHigh.slice(0, 4);
+//       const prevFourLow = lastFiveLow.slice(0, 4);
+
+//       // Calculate percentage changes for previous 4 candles
+//       const percentageChanges = prevFourLow
+//         .map((low, i) =>
+//           i > 0 ? ((low - prevFourLow[i - 1]) / prevFourLow[i - 1]) * 100 : 0
+//         )
+//         .slice(1); // Ignore first undefined entry
+
+//       // Check bearish momentum loss (4 negative candles followed by positive)
+//       const allBearish = percentageChanges.every((change) => change < 0);
+//       const decreasingMomentum = percentageChanges.every(
+//         (change, i) =>
+//           i === 0 || Math.abs(change) < Math.abs(percentageChanges[i - 1])
+//       );
+//       const latestPositive = latestHigh > lastFiveHigh[3];
+
+//       if (allBearish && decreasingMomentum && latestPositive) {
+//         momentumSignals.push({
+//           type: "Bullish Reversal",
+//           securityId,
+//           stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
+//           stockName: stock?.SYMBOL_NAME || "N/A",
+//           lastTradePrice: latestHigh,
+//           previousClosePrice: lastFiveLow[3],
+//           percentageChange:
+//             ((latestHigh - lastFiveLow[3]) / lastFiveLow[3]) * 100,
+//         });
+//       }
+
+//       // Check bullish momentum loss (4 positive candles followed by negative)
+//       const allBullish = percentageChanges.every((change) => change > 0);
+//       const decreasingBullMomentum = percentageChanges.every(
+//         (change, i) => i === 0 || change < percentageChanges[i - 1]
+//       );
+//       const latestNegative = latestLow < lastFiveLow[3];
+
+//       if (allBullish && decreasingBullMomentum && latestNegative) {
+//         momentumSignals.push({
+//           type: "Bearish Reversal",
+//           securityId,
+//           stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
+//           stockName: stock?.SYMBOL_NAME || "N/A",
+//           lastTradePrice: latestLow,
+//           previousClosePrice: lastFiveHigh[3],
+//           percentageChange:
+//             ((latestLow - lastFiveHigh[3]) / lastFiveHigh[3]) * 100,
+//         });
+//       }
+
+//       return momentumSignals;
+//     });
+
+//     // Flatten the results array and filter out empty entries
+//     const finalResults = results.flat().filter((signal) => signal.length !== 0);
+
+//     console.log("finalResults", finalResults);
+//   } catch (error) {
+//     console.error("Error in  AIIntradayReversalFiveMin:", error);
+//     console.log("erreo", error.message);
+//   }
+// };
+// AIIntradayReversalFiveMin
+const AIIntradayReversalFiveMins = async (req, res) => {
+  try {
+    const latestEntry = await MarketDetailData.findOne()
+      .sort({ date: -1 })
+      .select("date");
+
+    if (!latestEntry) {
+      return res.status(404).json({ message: "No stock data available" });
+    }
+
+    const latestDate = latestEntry.date;
+
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    const data = await getData(latestDate, tomorrowFormatted);
+
+    // Check if data is valid and a Map
+    if (!data || !(data instanceof Map)) {
+      console.error("Invalid data format received from getData:", data);
+      return res.status(400).json({ message: "Invalid data format" });
+    }
+
+    // Convert Map to an array
+    const dataArray = Array.from(data.values());
+
+    if (dataArray.length === 0) {
+      return res.status(404).json({ message: "No data found" });
+    }
+
+    // Fetch stock details
+    const stocks = await StocksDetail.find();
+    if (!stocks || stocks.length === 0) {
+      return res.status(404).json({ message: "No stocks data found" });
+    }
+
+    // Create a map for stock details
+    const stockmap = new Map();
+    stocks.forEach((entry) => {
+      stockmap.set(entry.SECURITY_ID, {
+        INDEX: entry.INDEX || [],
+        SECTOR: entry.SECTOR || [],
+        UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
+        SYMBOL_NAME: entry.SYMBOL_NAME,
+      });
+    });
+
+    // Process data to detect momentum signals
+    const results = dataArray.map((item) => {
+      const momentumSignals = [];
+      const securityId = item.securityId;
+      const stock = stockmap.get(securityId);
+
+      // Validate candle data structure
+      if (
+        !item.high ||
+        !item.low ||
+        item.high.length < 5 ||
+        item.low.length < 5
+      ) {
+        console.warn(`Skipping ${securityId} due to insufficient data`);
+        return [];
+      }
+
+      // Get last 5 candles (4 previous + latest)
+      const lastFiveHigh = item.high.slice(-5);
+      const lastFiveLow = item.low.slice(-5);
+
+      // Extract latest candle
+      const latestHigh = lastFiveHigh[4];
+      const latestLow = lastFiveLow[4];
+
+      // Get previous 4 candles
+      const prevFourHigh = lastFiveHigh.slice(0, 4);
+      const prevFourLow = lastFiveLow.slice(0, 4);
+
+      // Calculate percentage changes for previous 4 candles
+      const percentageChanges = prevFourLow
+        .map((low, i) =>
+          i > 0 ? ((low - prevFourLow[i - 1]) / prevFourLow[i - 1]) * 100 : 0
+        )
+        .slice(1); // [change from 0->1, 1->2, 2->3]
+
+      // Check bearish momentum loss (4 negative candles followed by positive)
+      const allBearish = percentageChanges.every((change) => change < 0);
+      const decreasingMomentum = percentageChanges.every(
+        (change, i) =>
+          i === 0 || Math.abs(change) < Math.abs(percentageChanges[i - 1])
+      );
+      const latestPositive = latestHigh > lastFiveHigh[3];
+
+      // Debug logging for Bullish Reversal
+      console.log(`${securityId} Bullish Check:`, {
+        percentageChanges,
+        allBearish,
+        decreasingMomentum,
+        latestPositive,
+        lastFiveHigh,
+        lastFiveLow,
+      });
+
+      if (allBearish && decreasingMomentum && latestPositive) {
+        momentumSignals.push({
+          type: "Bullish Reversal",
+          securityId,
+          stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
+          stockName: stock?.SYMBOL_NAME || "N/A",
+          lastTradePrice: latestHigh,
+          previousClosePrice: lastFiveLow[3],
+          percentageChange:
+            ((latestHigh - lastFiveLow[3]) / lastFiveLow[3]) * 100,
+        });
+      }
+
+      // Check bullish momentum loss (4 positive candles followed by negative)
+      const allBullish = percentageChanges.every((change) => change > 0);
+      const decreasingBullMomentum = percentageChanges.every(
+        (change, i) => i === 0 || change < percentageChanges[i - 1]
+      );
+      const latestNegative = latestLow < lastFiveLow[3];
+
+      // Debug logging for Bearish Reversal
+      console.log(`${securityId} Bearish Check:`, {
+        percentageChanges,
+        allBullish,
+        decreasingBullMomentum,
+        latestNegative,
+        lastFiveHigh,
+        lastFiveLow,
+      });
+
+      if (allBullish && decreasingBullMomentum && latestNegative) {
+        momentumSignals.push({
+          type: "Bearish Reversal",
+          securityId,
+          stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
+          stockName: stock?.SYMBOL_NAME || "N/A",
+          lastTradePrice: latestLow,
+          previousClosePrice: lastFiveHigh[3],
+          percentageChange:
+            ((latestLow - lastFiveHigh[3]) / lastFiveHigh[3]) * 100,
+        });
+      }
+
+      return momentumSignals;
+    });
+
+    // Flatten the results array and filter out empty entries
+    const finalResults = results.flat().filter((signal) => signal.length !== 0);
+
+    // Log final results for debugging
+    console.log("Final Results:", finalResults);
+
+    // Save or update finalResults in the database
+    if (finalResults.length > 0) {
+      const savePromises = finalResults.map(async (signal) => {
+        try {
+          await fiveMinMomentumSignal.findOneAndUpdate(
+            { securityId: signal.securityId }, // Find by securityId
+            {
+              $set: {
+                type: signal.type,
+                stockSymbol: signal.stockSymbol,
+                stockName: signal.stockName,
+                lastTradePrice: signal.lastTradePrice,
+                previousClosePrice: signal.previousClosePrice,
+                percentageChange: signal.percentageChange,
+                timestamp: new Date(
+                  new Date().getTime() + 5.5 * 60 * 60 * 1000
+                ), // IST timestamp
+              },
+            },
+            { upsert: true, new: true } // Upsert: insert if not found, update if found; return updated doc
+          );
+        } catch (dbError) {
+          console.error(`Error saving/updating ${signal.securityId}:`, dbError);
+        }
+      });
+
+      await Promise.all(savePromises);
+      console.log("Momentum signals processed successfully");
+    }
+    const fullData = await fiveMinMomentumSignal.find();
+    // Send response
+    if (fullData.length === 0) {
+      return res.status(200).json({
+        message: "No momentum signals detected",
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
+      message: "Momentum analysis complete",
+      data: fullData,
+    });
+  } catch (error) {
+    console.error("Error in  AIIntradayReversalFiveMin:", error);
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+// AIMomentumCatcherFiveMins
+
+// const AIIntradayReversalDaily = async (req, res) => {
+//   try {
+//     const allData = await MarketDetailData.find().sort({ date: -1 }); // Newest first
+
+//     if (!allData || allData.length === 0) {
+//       return res.status(404).json({ success: false, message: "No data found" });
+//     }
+
+//     const dataByDay = {};
+//     allData.forEach((entry) => {
+//       const day = new Date(entry.date).toISOString().split("T")[0]; // YYYY-MM-DD
+//       if (!dataByDay[day]) {
+//         dataByDay[day] = [];
+//       }
+//       dataByDay[day].push(entry);
+//     });
+
+//     // Get the latest 5 days with data
+//     const days = Object.keys(dataByDay).sort().reverse(); // Sort descending (newest first)
+//     const latestFiveDays = days.slice(0, 2); // Take the top 5
+
+//     // Collect all entries from those 5 days
+//     const result = [];
+//     latestFiveDays.forEach((day) => {
+//       result.push(...dataByDay[day]);
+//     });
+
+//     if (result.length === 0) {
+//       return res.status(404).json({ success: false, message: "No data found" });
+//     }
+
+//   const sotcksData= new Map()
+
+//     result.map((item) => {
+// stocksData.set(item.securityId,{
+//   securityId:item.securityId,
+
+// })
+//     });
+//   } catch (error) {
+//     console.log("error in ai", error);
+//   }
+// };
+
+const AIIntradayReversalDaily = async (req, res) => {
+  try {
+    const latestEntry = await MarketDetailData.findOne()
+      .sort({ date: -1 })
+      .select("date");
+
+    if (!latestEntry) {
+      return res.status(404).json({ message: "No stock data available" });
+    }
+
+    const latestDate = latestEntry.date;
+
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const previousFiveDaysDate = new Date(latestDate);
+    previousFiveDaysDate.setDate(previousFiveDaysDate.getDate() - 30);
+
+    const previousFiveDaysDateFormatted = previousFiveDaysDate
+      .toISOString()
+      .split("T")[0];
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    const data = await getDailyData(
+      previousFiveDaysDateFormatted,
+      tomorrowFormatted
+    );
+
+    if (!data || !(data instanceof Map)) {
+      console.error("Invalid data format received from getData:", data);
+      return res.status(400).json({ message: "Invalid data format" });
+    }
+
+    // Convert Map to an array
+    const dataArray = Array.from(data.values());
+
+    if (dataArray.length === 0) {
+      return res.status(404).json({ message: "No data found" });
+    }
+
+    // Fetch stock details
+    const stocks = await StocksDetail.find();
+    if (!stocks || stocks.length === 0) {
+      return res.status(404).json({ message: "No stocks data found" });
+    }
+
+    // Create a map for stock details
+    const stockmap = new Map();
+    stocks.forEach((entry) => {
+      stockmap.set(entry.SECURITY_ID, {
+        INDEX: entry.INDEX || [],
+        SECTOR: entry.SECTOR || [],
+        UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
+        SYMBOL_NAME: entry.SYMBOL_NAME,
+      });
+    });
+
+    const latestData = await MarketDetailData.find({ date: latestDate });
+
+    if (latestData.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No stock data available for the latest date" });
+    }
+    const latestDataMap = new Map();
+    latestData.forEach((entry) => {
+      latestDataMap.set(entry.securityId, {
+        latestTradedPrice: entry.data?.latestTradedPrice?.[0] || 0,
+        dayopen: entry.data?.dayOpen?.[0],
+        dayClose: entry.data?.dayClose?.[0],
+        dayHigh: entry.data?.dayHigh?.[0],
+        dayLow: entry.data?.dayLow?.[0],
+      });
+    });
+
+    const results = dataArray.map((item) => {
+      const momentumSignals = [];
+      const securityId = item.securityId;
+      const stock = stockmap.get(securityId);
+      const todayData = latestDataMap.get(securityId);
+      // Validate candle data structure
+      if (
+        !item.high ||
+        !item.low ||
+        item.high.length < 4 ||
+        item.low.length < 4
+      ) {
+        console.warn(`Skipping ${securityId} due to insufficient data`);
+        return [];
+      }
+
+      const lastFourHigh = item.high.slice(-4);
+      const lastFourLow = item.low.slice(-4);
+
+      // Extract latest candle
+      const latestHigh = todayData?.dayHigh;
+      const latestLow = todayData?.dayLow;
+
+      // Get previous 4 candles
+      const prevFourHigh = lastFourHigh;
+      const prevFourLow = lastFourLow;
+
+      // Calculate percentage changes for previous 4 candles
+      const percentageChanges = prevFourLow
+        .map((low, i) =>
+          i > 0 ? ((low - prevFourLow[i - 1]) / prevFourLow[i - 1]) * 100 : 0
+        )
+        .slice(1); // [change from 0->1, 1->2, 2->3]
+
+      // Check bearish momentum loss (4 negative candles followed by positive)
+      const allBearish = percentageChanges.every((change) => change < 0);
+      const decreasingMomentum = percentageChanges.every(
+        (change, i) =>
+          i === 0 || Math.abs(change) < Math.abs(percentageChanges[i - 1])
+      );
+      const latestPositive = latestHigh > lastFourHigh[3];
+
+      // Debug logging for Bullish Reversal
+      console.log(`${securityId} Bullish Check:`, {
+        percentageChanges,
+        allBearish,
+        decreasingMomentum,
+        latestPositive,
+        lastFourHigh,
+        lastFourLow,
+      });
+
+      if (allBearish && decreasingMomentum && latestPositive) {
+        momentumSignals.push({
+          type: "Bullish Reversal",
+          securityId,
+          stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
+          stockName: stock?.SYMBOL_NAME || "N/A",
+          lastTradePrice: latestHigh,
+          previousClosePrice: lastFourLow[3],
+          percentageChange:
+            ((latestHigh - lastFourLow[3]) / lastFourLow[3]) * 100,
+        });
+      }
+
+      // Check bullish momentum loss (4 positive candles followed by negative)
+      const allBullish = percentageChanges.every((change) => change > 0);
+      const decreasingBullMomentum = percentageChanges.every(
+        (change, i) => i === 0 || change < percentageChanges[i - 1]
+      );
+      const latestNegative = latestLow < lastFourLow[3];
+
+      // Debug logging for Bearish Reversal
+      console.log(`${securityId} Bearish Check:`, {
+        percentageChanges,
+        allBullish,
+        decreasingBullMomentum,
+        latestNegative,
+        lastFourHigh,
+        lastFourLow,
+      });
+
+      if (allBullish && decreasingBullMomentum && latestNegative) {
+        momentumSignals.push({
+          type: "Bearish Reversal",
+          securityId,
+          stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
+          stockName: stock?.SYMBOL_NAME || "N/A",
+          lastTradePrice: latestLow,
+          previousClosePrice: lastFourHigh[3],
+          percentageChange:
+            ((latestLow - lastFourHigh[3]) / lastFourHigh[3]) * 100,
+        });
+      }
+
+      return momentumSignals;
+    });
+
+    // Flatten the results array and filter out empty entries
+    const finalResults = results.flat().filter((signal) => signal.length !== 0);
+
+    // Log final results for debugging
+    console.log("Final Results:", finalResults);
+
+    // Save or update finalResults in the database
+    if (finalResults.length > 0) {
+      const savePromises = finalResults.map(async (signal) => {
+        try {
+          await DailyMomentumSignal.findOneAndUpdate(
+            { securityId: signal.securityId }, // Find by securityId
+            {
+              $set: {
+                type: signal.type,
+                stockSymbol: signal.stockSymbol,
+                stockName: signal.stockName,
+                lastTradePrice: signal.lastTradePrice,
+                previousClosePrice: signal.previousClosePrice,
+                percentageChange: signal.percentageChange,
+                timestamp: new Date(
+                  new Date().getTime() + 5.5 * 60 * 60 * 1000
+                ), // IST timestamp
+              },
+            },
+            { upsert: true, new: true } // Upsert: insert if not found, update if found; return updated doc
+          );
+        } catch (dbError) {
+          console.error(`Error saving/updating ${signal.securityId}:`, dbError);
+        }
+      });
+
+      await Promise.all(savePromises);
+      console.log("Momentum signals processed successfully");
+    }
+    const fullData = await DailyMomentumSignal.find();
+    // Send response
+    if (fullData.length === 0) {
+      return res.status(200).json({
+        message: "No momentum signals detected",
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
+      message: "Momentum analysis complete",
+      data: fullData,
+    });
+  } catch (error) {
+    console.error("Error in  AIIntradayReversalFiveMin:", error);
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+const AIMomentumCatcherFiveMins = async (req, res) => {
+  try {
+    const stocks = await StocksDetail.find();
+    if (!stocks || stocks.length === 0) {
+      return { message: "No stocks data found" };
+    }
+
+    const stockmap = new Map();
+    stocks.forEach((entry) => {
+      stockmap.set(entry.SECURITY_ID, {
+        INDEX: entry.INDEX || [],
+        SECTOR: entry.SECTOR || [],
+        UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
+        SYMBOL_NAME: entry.SYMBOL_NAME,
+      });
+    });
+
+    const latestEntry = await MarketDetailData.findOne()
+      .sort({ date: -1 })
+      .select("date");
+
+    if (!latestEntry) {
+      return res.status(404).json({ message: "No stock data available" });
+    }
+
+    const latestDate = latestEntry.date;
+    const latestData = await MarketDetailData.find({ date: latestDate });
+
+    if (latestData.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No stock data available for the latest date" });
+    }
+
+    const previousDayEntry = await MarketDetailData.findOne(
+      { date: { $lt: latestDate } },
+      { date: 1 }
+    ).sort({ date: -1 });
+
+    if (!previousDayEntry) {
+      return res
+        .status(404)
+        .json({ message: "No previous stock data available" });
+    }
+
+    const previousDayDate = previousDayEntry.date;
+    const yesterdayData = await MarketDetailData.find({
+      date: previousDayDate,
+    });
+
+    const latestDataMap = new Map();
+    latestData.forEach((entry) => {
+      latestDataMap.set(
+        entry.securityId,
+        entry.data?.latestTradedPrice?.[0] || 0
+      );
+    });
+
+    const yesterdayMap = new Map();
+    yesterdayData.forEach((entry) => {
+      yesterdayMap.set(entry.securityId, entry.data?.dayClose?.[0] || 0);
+    });
+
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    const data = await getData(latestDate, tomorrowFormatted);
+    const dataArray = Array.from(data.values());
+
+    if (dataArray.length === 0) {
+      return { message: "No data found" };
+    }
+
+    const momentumStocks = dataArray
+      .map((entry) => {
+        const twocandelHigh = entry.high.slice(-2);
+        const twocandelLow = entry.low.slice(-2);
+        const [preHigh, crrHigh] = twocandelHigh;
+        const [preLow, crrLow] = twocandelLow;
+
+        const preHighLowDiff = preHigh - preLow;
+        const currentDiff = crrHigh - crrLow;
+        const hasMomentum = currentDiff >= preHighLowDiff * 1.5;
+
+        const lastClose = entry.close.slice(-1)[0];
+        const lastOpen = entry.open.slice(-1)[0];
+        const isBullish = lastClose > lastOpen;
+        const isBearish = lastClose < lastOpen;
+
+        if (hasMomentum && (isBullish || isBearish)) {
+          const stockDetails = stockmap.get(entry.securityId) || {};
+          const dayClose = yesterdayMap.get(entry.securityId);
+          const latestTradedPrice = latestDataMap.get(entry.securityId);
+
+          const percentageChange =
+            dayClose && !isNaN(dayClose) && !isNaN(latestTradedPrice)
+              ? ((latestTradedPrice - dayClose) / dayClose) * 100
+              : 0;
+
+          return {
+            securityId: entry.securityId,
+            symbol_name: stockDetails.SYMBOL_NAME || "Unknown",
+            symbol: stockDetails.UNDERLYING_SYMBOL || "Unknown",
+            currentHigh: crrHigh,
+            currentLow: crrLow,
+            previousHigh: preHigh,
+            previousLow: preLow,
+            momentumType: isBullish ? "Bullish" : "Bearish",
+            priceChange: currentDiff,
+            percentageChange: percentageChange,
+            sector: stockDetails.SECTOR,
+            index: stockDetails.INDEX,
+          };
+        }
+        return null;
+      })
+      .filter((stock) => stock !== null);
+
+    momentumStocks.sort(
+      (a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange)
+    );
+
+    console.log("momentumStocks", momentumStocks);
+
+    // Save or update in MongoDB
+    for (const stock of momentumStocks) {
+      await MomentumStockFiveMin.findOneAndUpdate(
+        { securityId: stock.securityId }, // Find by securityId
+        { $set: stock }, // Update existing data
+        { upsert: true, new: true } // Insert if not found
+      );
+    }
+
+    return {
+      message: "Momentum stocks found and saved",
+      count: momentumStocks.length,
+      data: momentumStocks,
+    };
+  } catch (error) {
+    console.error("Error in AIMomentumCatcherFiveMins:", error);
+    return {
+      message: "Internal server error",
+      error: error.message,
+    };
+  }
+};
+
+const AIMomentumCatcherTenMins = async (req, res) => {
+  try {
+    const stocks = await StocksDetail.find();
+    if (!stocks || stocks.length === 0) {
+      return { message: "No stocks data found" };
+    }
+
+    const stockmap = new Map();
+    stocks.forEach((entry) => {
+      stockmap.set(entry.SECURITY_ID, {
+        INDEX: entry.INDEX || [],
+        SECTOR: entry.SECTOR || [],
+        UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
+        SYMBOL_NAME: entry.SYMBOL_NAME,
+      });
+    });
+
+    const latestEntry = await MarketDetailData.findOne()
+      .sort({ date: -1 })
+      .select("date");
+
+    if (!latestEntry) {
+      return res.status(404).json({ message: "No stock data available" });
+    }
+
+    const latestDate = latestEntry.date;
+
+    console.log("Latest available date:", latestDate);
+
+    const latestData = await MarketDetailData.find({ date: latestDate });
+
+    if (latestData.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No stock data available for the latest date" });
+    }
+
+    const previousDayEntry = await MarketDetailData.findOne(
+      { date: { $lt: latestDate } },
+      { date: 1 }
+    ).sort({ date: -1 });
+
+    if (!previousDayEntry) {
+      return res
+        .status(404)
+        .json({ message: "No previous stock data available" });
+    }
+
+    const previousDayDate = previousDayEntry.date;
+    const yesterdayData = await MarketDetailData.find({
+      date: previousDayDate,
+    });
+
+    const latestDataMap = new Map();
+    latestData.forEach((entry) => {
+      latestDataMap.set(
+        entry.securityId,
+        entry.data?.latestTradedPrice?.[0] || 0
+      );
+    });
+
+    const yesterdayMap = new Map();
+    yesterdayData.forEach((entry) => {
+      yesterdayMap.set(entry.securityId, entry.data?.dayClose?.[0] || 0);
+    });
+
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    console.log("Tomorrow's date (formatted):", tomorrowFormatted);
+
+    const data = await getDataForTenMin(latestDate, tomorrowFormatted);
+    const dataArray = Array.from(data.values());
+
+    if (dataArray.length === 0) {
+      return { message: "No data found" };
+    }
+
+    const momentumStocks = dataArray
+      .map((entry) => {
+        const twocandelHigh = entry.high.slice(-2);
+        const twocandelLow = entry.low.slice(-2);
+        const [preHigh, crrHigh] = twocandelHigh;
+        const [preLow, crrLow] = twocandelLow;
+
+        const preHighLowDiff = preHigh - preLow;
+        const currentDiff = crrHigh - crrLow;
+        const hasMomentum = currentDiff >= preHighLowDiff * 1.5;
+
+        const lastClose = entry.close.slice(-1)[0];
+        const lastOpen = entry.open.slice(-1)[0];
+        const isBullish = lastClose > lastOpen;
+        const isBearish = lastClose < lastOpen;
+
+        if (hasMomentum && (isBullish || isBearish)) {
+          const stockDetails = stockmap.get(entry.securityId) || {};
+          const dayClose = yesterdayMap.get(entry.securityId);
+          const latestTradedPrice = latestDataMap.get(entry.securityId);
+
+          const percentageChange =
+            dayClose && !isNaN(dayClose) && !isNaN(latestTradedPrice)
+              ? ((latestTradedPrice - dayClose) / dayClose) * 100
+              : 0;
+
+          return {
+            securityId: entry.securityId,
+            symbol_name: stockDetails.SYMBOL_NAME || "Unknown",
+            symbol: stockDetails.UNDERLYING_SYMBOL || "Unknown",
+            currentHigh: crrHigh,
+            currentLow: crrLow,
+            previousHigh: preHigh,
+            previousLow: preLow,
+            momentumType: isBullish ? "Bullish" : "Bearish",
+            priceChange: currentDiff,
+            percentageChange: percentageChange,
+            sector: stockDetails.SECTOR,
+            index: stockDetails.INDEX,
+          };
+        }
+        return null;
+      })
+      .filter((stock) => stock !== null);
+
+    momentumStocks.sort(
+      (a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange)
+    );
+
+    console.log("momentumStocks", momentumStocks);
+
+    // Save or update in MongoDB
+    for (const stock of momentumStocks) {
+      await MomentumStockTenMin.findOneAndUpdate(
+        { securityId: stock.securityId }, // Find by securityId
+        { $set: stock }, // Update existing data
+        { upsert: true, new: true } // Insert if not found
+      );
+    }
+
+    return {
+      message: "Momentum stocks found and saved",
+      count: momentumStocks.length,
+      data: momentumStocks,
+    };
+  } catch (error) {
+    console.error("Error in AIMomentumCatcherFiveMins:", error);
+    return {
+      message: "Internal server error",
+      error: error.message,
+    };
+  }
+};
+
+const DailyRangeBreakout = async (req, res) => {
+  try {
+    // Find the latest date in the database
+    const latestEntry = await MarketDetailData.findOne()
+      .sort({ date: -1 })
+      .select("date");
+
+    if (!latestEntry) {
+      return res.status(404).json({ message: "No stock data available" });
+    }
+
+    const latestDate = latestEntry.date;
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const previousFiveDaysDate = new Date(latestDate);
+    previousFiveDaysDate.setDate(previousFiveDaysDate.getDate() - 30); // Fetch 30 days to ensure enough data
+
+    const previousFiveDaysDateFormatted = previousFiveDaysDate
+      .toISOString()
+      .split("T")[0];
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    // Fetch daily data (assuming getDailyData returns a Map of aggregated daily data per stock)
+    const data = await getDailyData(
+      previousFiveDaysDateFormatted,
+      tomorrowFormatted
+    );
+
+    if (!data || !(data instanceof Map)) {
+      console.error("Invalid data format received from getDailyData:", data);
+      return res.status(400).json({ message: "Invalid data format" });
+    }
+
+    const dataArray = Array.from(data.values());
+    if (dataArray.length === 0) {
+      return res.status(404).json({ message: "No data found" });
+    }
+
+    // Fetch stock details
+    const stocks = await StocksDetail.find();
+    if (!stocks || stocks.length === 0) {
+      return res.status(404).json({ message: "No stocks data found" });
+    }
+
+    const stockMap = new Map();
+    stocks.forEach((entry) => {
+      stockMap.set(entry.SECURITY_ID, {
+        UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL || "N/A",
+        SYMBOL_NAME: entry.SYMBOL_NAME || "N/A",
+      });
+    });
+
+    // Fetch today's data from MarketDetailData
+    const latestData = await MarketDetailData.find({ date: latestDate });
+    if (latestData.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No stock data available for the latest date" });
+    }
+
+    const latestDataMap = new Map();
+    latestData.forEach((entry) => {
+      latestDataMap.set(entry.securityId, {
+        latestTradedPrice: entry.data?.latestTradedPrice?.[0],
+        dayOpen: entry.data?.dayOpen ?? 0,
+        dayClose: entry.data?.dayClose ?? 0,
+        dayHigh: entry.data?.dayHigh ?? 0,
+        dayLow: entry.data?.dayLow ?? 0,
+      });
+    });
+
+    // Process data for range breakout
+    const results = dataArray.map((item) => {
+      const breakoutStocks = [];
+      const securityId = item.securityId;
+      const stock = stockMap.get(securityId);
+      const todayData = latestDataMap.get(securityId);
+
+      // Validate candle data (need at least 5 days: 1st + 3 range + today)
+      if (
+        !item.high ||
+        !item.low ||
+        item.high.length < 4 ||
+        item.low.length < 4 ||
+        !todayData
+      ) {
+        console.warn(`Skipping ${securityId} due to insufficient data`);
+        return [];
+      }
+
+      const firstDayCandleHigh = item.high[0];
+      const firstDayCandleLow = item.low[0];
+
+      // Check if the next 3 days (indices 1, 2, 3) are within the range
+      const inRange =
+        item.high.slice(1, 4).every((high) => high <= firstDayCandleHigh) &&
+        item.low.slice(1, 4).every((low) => low >= firstDayCandleLow);
+
+      if (inRange) {
+        // Check for breakout today (index 4 or todayData)
+        const todayHigh = todayData.dayHigh;
+        const todayLow = todayData.dayLow;
+        const todayClose = todayData.dayClose;
+        const todayOpen = todayData.dayOpen;
+        const latestTradedPrice = todayData.latestTradedPrice?.[0];
+        const preClose = item.close.slice(-1);
+        // Breakout conditions
+        const breakoutAbove = todayHigh > firstDayCandleHigh;
+        const breakoutBelow = todayLow < firstDayCandleLow;
+
+        if (breakoutAbove || breakoutBelow) {
+          const percentageChange = latestTradedPrice
+            ? ((latestTradedPrice - preClose) / preClose) * 100
+            : 0;
+
+          breakoutStocks.push({
+            type: breakoutAbove ? "Breakout Bullish" : "Breakout Bearish",
+            securityId,
+            stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
+            stockName: stock?.SYMBOL_NAME || "N/A",
+            lastTradePrice: latestTradedPrice,
+            previousClosePrice: item.dayClose?.[3] || 0, // Last day before today
+            percentageChange,
+            rangeHigh: firstDayCandleHigh,
+            rangeLow: firstDayCandleLow,
+            todayHigh,
+            todayLow,
+          });
+        }
+      }
+
+      return breakoutStocks;
+    });
+
+    // Flatten and filter results
+    const finalResults = results.flat().filter((signal) => signal.length !== 0);
+
+    // Log for debugging
+    console.log("Final Results:", finalResults);
+
+    // Save or update results in the database
+    if (finalResults.length > 0) {
+      const savePromises = finalResults.map(async (signal) => {
+        try {
+          await DailyRangeBreakouts.findOneAndUpdate(
+            { securityId: signal.securityId },
+            {
+              $set: {
+                type: signal.type,
+                stockSymbol: signal.stockSymbol,
+                stockName: signal.stockName,
+                lastTradePrice: signal.lastTradePrice,
+                previousClosePrice: signal.previousClosePrice,
+                percentageChange: signal.percentageChange,
+                timestamp: new Date(
+                  new Date().getTime() + 5.5 * 60 * 60 * 1000
+                ), // IST
+              },
+            },
+            { upsert: true, new: true }
+          );
+        } catch (dbError) {
+          console.error(`Error saving/updating ${signal.securityId}:`, dbError);
+        }
+      });
+
+      await Promise.all(savePromises);
+      console.log("Breakout signals processed successfully");
+    }
+
+    const fullData = await DailyRangeBreakouts.find();
+    if (fullData.length === 0) {
+      return res.status(200).json({
+        message: "No breakout signals detected",
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
+      message: "Breakout analysis complete",
+      data: fullData,
+    });
+  } catch (error) {
+    console.error("Error in DailyRangeBreakout:", error);
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+export {
+  startWebSocket,
+  getData,
+  AIIntradayReversalFiveMins,
+  AIMomentumCatcherFiveMins,
+  AIMomentumCatcherTenMins,
+  AIIntradayReversalDaily,
+  DailyRangeBreakout,
+};
