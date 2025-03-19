@@ -12,6 +12,7 @@ import verifyUser from "../middlewares/verifyUser.middleware.js";
 import {
   AIIntradayReversalDaily,
   AIIntradayReversalFiveMins,
+  DailyRangeBreakout,
   startWebSocket,
 } from "../controllers/liveMarketData.controller.js";
 const router = express.Router();
@@ -27,5 +28,6 @@ router.get("/sector-data", sectorStockData);
 router.get("/live-feed", startWebSocket);
 router.get("/five-candel", AIIntradayReversalFiveMins);
 router.get("/daily-candel", AIIntradayReversalDaily);
+router.get("/daily-range-breakout", DailyRangeBreakout);
 
 export default router;

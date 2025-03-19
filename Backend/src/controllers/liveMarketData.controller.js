@@ -168,6 +168,7 @@ import DailyMomentumSignal from "../models/dailyMomentumSignal.model.js";
 import MarketDetailData from "../models/marketData.model.js";
 import MomentumStockFiveMin from "../models/momentumStockFiveMin.model.js";
 import MomentumStockTenMin from "../models/momentumStockTenMin.model.js";
+import DailyRangeBreakouts from "../models/dailyRangeBreakout.model.js";
 
 const ACCESS_TOKEN = process.env.DHAN_ACCESS_TOKEN;
 const CLIENT_ID = process.env.DHAN_CLIENT_ID;
@@ -1453,6 +1454,197 @@ const AIMomentumCatcherTenMins = async (req, res) => {
   }
 };
 
+const DailyRangeBreakout = async (req, res) => {
+  try {
+    // Find the latest date in the database
+    const latestEntry = await MarketDetailData.findOne()
+      .sort({ date: -1 })
+      .select("date");
+
+    if (!latestEntry) {
+      return res.status(404).json({ message: "No stock data available" });
+    }
+
+    const latestDate = latestEntry.date;
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const previousFiveDaysDate = new Date(latestDate);
+    previousFiveDaysDate.setDate(previousFiveDaysDate.getDate() - 30); // Fetch 30 days to ensure enough data
+
+    const previousFiveDaysDateFormatted = previousFiveDaysDate
+      .toISOString()
+      .split("T")[0];
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    // Fetch daily data (assuming getDailyData returns a Map of aggregated daily data per stock)
+    const data = await getDailyData(
+      previousFiveDaysDateFormatted,
+      tomorrowFormatted
+    );
+
+    if (!data || !(data instanceof Map)) {
+      console.error("Invalid data format received from getDailyData:", data);
+      return res.status(400).json({ message: "Invalid data format" });
+    }
+
+    const dataArray = Array.from(data.values());
+    if (dataArray.length === 0) {
+      return res.status(404).json({ message: "No data found" });
+    }
+
+    // Fetch stock details
+    const stocks = await StocksDetail.find();
+    if (!stocks || stocks.length === 0) {
+      return res.status(404).json({ message: "No stocks data found" });
+    }
+
+    const stockMap = new Map();
+    stocks.forEach((entry) => {
+      stockMap.set(entry.SECURITY_ID, {
+        UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL || "N/A",
+        SYMBOL_NAME: entry.SYMBOL_NAME || "N/A",
+      });
+    });
+
+    // Fetch today's data from MarketDetailData
+    const latestData = await MarketDetailData.find({ date: latestDate });
+    if (latestData.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No stock data available for the latest date" });
+    }
+
+    const latestDataMap = new Map();
+    latestData.forEach((entry) => {
+      latestDataMap.set(entry.securityId, {
+        latestTradedPrice: entry.data?.latestTradedPrice?.[0],
+        dayOpen: entry.data?.dayOpen ?? 0,
+        dayClose: entry.data?.dayClose ?? 0,
+        dayHigh: entry.data?.dayHigh ?? 0,
+        dayLow: entry.data?.dayLow ?? 0,
+      });
+    });
+
+    // Process data for range breakout
+    const results = dataArray.map((item) => {
+      const breakoutStocks = [];
+      const securityId = item.securityId;
+      const stock = stockMap.get(securityId);
+      const todayData = latestDataMap.get(securityId);
+
+      // Validate candle data (need at least 5 days: 1st + 3 range + today)
+      if (
+        !item.high ||
+        !item.low ||
+        item.high.length < 4 ||
+        item.low.length < 4 ||
+        !todayData
+      ) {
+        console.warn(`Skipping ${securityId} due to insufficient data`);
+        return [];
+      }
+
+      const firstDayCandleHigh = item.high[0];
+      const firstDayCandleLow = item.low[0];
+
+      // Check if the next 3 days (indices 1, 2, 3) are within the range
+      const inRange =
+        item.high.slice(1, 4).every((high) => high <= firstDayCandleHigh) &&
+        item.low.slice(1, 4).every((low) => low >= firstDayCandleLow);
+
+      if (inRange) {
+        // Check for breakout today (index 4 or todayData)
+        const todayHigh = todayData.dayHigh;
+        const todayLow = todayData.dayLow;
+        const todayClose = todayData.dayClose;
+        const todayOpen = todayData.dayOpen;
+        const latestTradedPrice = todayData.latestTradedPrice?.[0];
+        const preClose = item.close.slice(-1);
+        // Breakout conditions
+        const breakoutAbove = todayHigh > firstDayCandleHigh;
+        const breakoutBelow = todayLow < firstDayCandleLow;
+
+        if (breakoutAbove || breakoutBelow) {
+          const percentageChange = latestTradedPrice
+            ? ((latestTradedPrice - preClose) / preClose) * 100
+            : 0;
+
+          breakoutStocks.push({
+            type: breakoutAbove ? "Breakout Bullish" : "Breakout Bearish",
+            securityId,
+            stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
+            stockName: stock?.SYMBOL_NAME || "N/A",
+            lastTradePrice: latestTradedPrice,
+            previousClosePrice: item.dayClose?.[3] || 0, // Last day before today
+            percentageChange,
+            rangeHigh: firstDayCandleHigh,
+            rangeLow: firstDayCandleLow,
+            todayHigh,
+            todayLow,
+          });
+        }
+      }
+
+      return breakoutStocks;
+    });
+
+    // Flatten and filter results
+    const finalResults = results.flat().filter((signal) => signal.length !== 0);
+
+    // Log for debugging
+    console.log("Final Results:", finalResults);
+
+    // Save or update results in the database
+    if (finalResults.length > 0) {
+      const savePromises = finalResults.map(async (signal) => {
+        try {
+          await DailyRangeBreakouts.findOneAndUpdate(
+            { securityId: signal.securityId },
+            {
+              $set: {
+                type: signal.type,
+                stockSymbol: signal.stockSymbol,
+                stockName: signal.stockName,
+                lastTradePrice: signal.lastTradePrice,
+                previousClosePrice: signal.previousClosePrice,
+                percentageChange: signal.percentageChange,
+                timestamp: new Date(
+                  new Date().getTime() + 5.5 * 60 * 60 * 1000
+                ), // IST
+              },
+            },
+            { upsert: true, new: true }
+          );
+        } catch (dbError) {
+          console.error(`Error saving/updating ${signal.securityId}:`, dbError);
+        }
+      });
+
+      await Promise.all(savePromises);
+      console.log("Breakout signals processed successfully");
+    }
+
+    const fullData = await DailyRangeBreakouts.find();
+    if (fullData.length === 0) {
+      return res.status(200).json({
+        message: "No breakout signals detected",
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
+      message: "Breakout analysis complete",
+      data: fullData,
+    });
+  } catch (error) {
+    console.error("Error in DailyRangeBreakout:", error);
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
 export {
   startWebSocket,
   getData,
@@ -1460,4 +1652,5 @@ export {
   AIMomentumCatcherFiveMins,
   AIMomentumCatcherTenMins,
   AIIntradayReversalDaily,
+  DailyRangeBreakout,
 };
