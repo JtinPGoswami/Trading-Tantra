@@ -10,7 +10,8 @@ import {
 } from "../controllers/stock.contollers.js";
 import verifyUser from "../middlewares/verifyUser.middleware.js";
 import {
-  AIIntradayReversalFiveMin,
+  AIIntradayReversalDaily,
+  AIIntradayReversalFiveMins,
   startWebSocket,
 } from "../controllers/liveMarketData.controller.js";
 const router = express.Router();
@@ -24,6 +25,7 @@ router.get("/previous-volume", previousDaysVolume);
 router.get("/sector-data", sectorStockData);
 
 router.get("/live-feed", startWebSocket);
-router.get("/five-candel", AIIntradayReversalFiveMin);
+router.get("/five-candel", AIIntradayReversalFiveMins);
+router.get("/daily-candel", AIIntradayReversalDaily);
 
 export default router;

@@ -14,9 +14,10 @@ import stocksRoutes from "./routes/stock.routes.js";
 import {
   startWebSocket,
   getData,
-  AIIntradayReversalFiveMin,
+  AIIntradayReversalFiveMins,
   AIMomentumCatcherFiveMins,
   AIMomentumCatcherTenMins,
+  AIIntradayReversalDaily,
 } from "./controllers/liveMarketData.controller.js";
 import { getStocksData } from "./controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./config/socket.js";
@@ -167,8 +168,11 @@ connectDB()
   .then(() => {
     server.listen(PORT, () => {
       console.log("Server started on port ", PORT);
+
+      // AIIntradayReversalFiveMins();
       // AIMomentumCatcherFiveMins();
-      AIMomentumCatcherTenMins();
+      // AIMomentumCatcherTenMins();
+      // AIIntradayReversalDaily();
     });
   })
   .catch((error) => {

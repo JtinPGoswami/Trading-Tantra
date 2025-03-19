@@ -79,9 +79,8 @@ export const fetchData = async (url, method, requestData = null) => {
 // return totalTurnover;
 // };
 
-export const fetchHistoricalData = async (securityId) => {
+export const fetchHistoricalData = async (securityId, fromDate, toDate, i) => {
   try {
-    console.log("securityid", securityId);
     const response = await axios({
       method: "POST",
       url: `${baseUri}/charts/intraday`,
@@ -94,11 +93,41 @@ export const fetchHistoricalData = async (securityId) => {
         exchangeSegment: "NSE_EQ",
         instrument: "EQUITY",
         interval: "5",
-        fromDate: "2025-03-17",
-        toDate: "2025-03-18",
+        fromDate: fromDate,
+        toDate: toDate,
       },
     });
-    console.log("10 min data", response.data);
+    console.log(" data for ", i + 1);
+    return response.data;
+  } catch (error) {
+    console.error("API Error:", error.response?.data || error.message);
+    return null;
+  }
+};
+export const fetchDailyHistoricalData = async (
+  securityId,
+  fromDate,
+  toDate,
+  i
+) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `${baseUri}/charts/historical`,
+      headers: {
+        "access-token": accessToken,
+        "Content-Type": "application/json",
+      },
+      data: {
+        securityId,
+        exchangeSegment: "NSE_EQ",
+        instrument: "EQUITY",
+        expiryCode: 0,
+        fromDate: fromDate,
+        toDate: toDate,
+      },
+    });
+    console.log(" data for ", i + 1);
     return response.data;
   } catch (error) {
     console.error("API Error:", error.response?.data || error.message);
@@ -106,9 +135,13 @@ export const fetchHistoricalData = async (securityId) => {
   }
 };
 
-export const fetchHistoricalDataforTenMin = async (securityId, i) => {
+export const fetchHistoricalDataforTenMin = async (
+  securityId,
+  fromDate,
+  toDate,
+  i
+) => {
   try {
-    console.log("securityid", securityId);
     const response = await axios({
       method: "POST",
       url: `${baseUri}/charts/intraday`,
@@ -121,11 +154,11 @@ export const fetchHistoricalDataforTenMin = async (securityId, i) => {
         exchangeSegment: "NSE_EQ",
         instrument: "EQUITY",
         interval: "10",
-        fromDate: "2025-03-17",
-        toDate: "2025-03-18",
+        fromDate: fromDate,
+        toDate: toDate,
       },
     });
-    console.log("10 min data", response.data);
+    console.log(" data for", i + 1);
     return response.data;
   } catch (error) {
     console.error("API Error:", error.response?.data || error.message);
