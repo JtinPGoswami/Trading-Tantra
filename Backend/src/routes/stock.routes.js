@@ -15,6 +15,12 @@ import {
   DailyRangeBreakout,
   startWebSocket,
 } from "../controllers/liveMarketData.controller.js";
+import {
+  AIContraction,
+  dailyCandleReversal,
+  fiveDayRangeBreakers,
+  tenDayRangeBreakers,
+} from "../controllers/swingAnalysis.controllers.js";
 const router = express.Router();
 router.get("/get-stocks", verifyUser, getStocks);
 // router.get('/get-fno-stocks', fetchAndStoreFNOData );
@@ -29,5 +35,10 @@ router.get("/live-feed", startWebSocket);
 router.get("/five-candel", AIIntradayReversalFiveMins);
 router.get("/daily-candel", AIIntradayReversalDaily);
 router.get("/daily-range-breakout", DailyRangeBreakout);
+
+router.get("/five-day-break", fiveDayRangeBreakers);
+router.get("/ten-day-break", tenDayRangeBreakers);
+router.get("/daily-candel-revarsal", dailyCandleReversal);
+router.get("/ai-contraction", AIContraction);
 
 export default router;
