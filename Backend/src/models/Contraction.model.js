@@ -17,6 +17,6 @@ const ContractionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const ContractionModel = mongoose.model("AIContraction", aiContractionSchema);
+const ContractionModel = mongoose.model("AIContraction", ContractionSchema);
 
 export default ContractionModel;
