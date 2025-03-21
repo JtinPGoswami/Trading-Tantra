@@ -18,6 +18,8 @@ import {
   AIMomentumCatcherFiveMins,
   AIMomentumCatcherTenMins,
   AIIntradayReversalDaily,
+  DayHighLowReversal,
+  twoDayHLBreak,
 } from "./controllers/liveMarketData.controller.js";
 import { getStocksData } from "./controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./config/socket.js";
@@ -36,8 +38,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser());
 
-// app.use(passport.initialize());
-// initializeServer(server);
+app.use(passport.initialize());
+initializeServer(server);
 app.use(
   cors({
     origin: "*",
@@ -147,19 +149,19 @@ app.use("/api", stocksRoutes);
 
 // fetchFOInstruments();
 
-// async function getTurnover() {
-//   try {
-//     const response = await getStocksData();
-//     getSocketInstance().emit("turnOver", response);
-//     console.log("start.....👍");
-//   } catch (error) {
-//     console.log(error);
-//   } finally {
-//     setTimeout(getTurnover, 20000);
-//   }
-// }
+async function getTurnover() {
+  try {
+    const response = await getStocksData();
+    getSocketInstance().emit("turnOver", response);
+    console.log("start.....👍");
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setTimeout(getTurnover, 20000);
+  }
+}
 
-// getTurnover();
+getTurnover();
 
 const PORT = process.env.PORT || 3000;
 
@@ -173,6 +175,8 @@ connectDB()
       // AIMomentumCatcherFiveMins();
       // AIMomentumCatcherTenMins();
       // AIIntradayReversalDaily();
+      // DayHighLowReversal();
+      // twoDayHLBreak()
     });
   })
   .catch((error) => {

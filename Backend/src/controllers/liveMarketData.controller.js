@@ -169,6 +169,8 @@ import MarketDetailData from "../models/marketData.model.js";
 import MomentumStockFiveMin from "../models/momentumStockFiveMin.model.js";
 import MomentumStockTenMin from "../models/momentumStockTenMin.model.js";
 import DailyRangeBreakouts from "../models/dailyRangeBreakout.model.js";
+import { getDayHighBreak, getDayLowBreak } from "../utils/DayHighLow.js";
+import HighLowReversal from "../models/highLowReversal.model.js";
 
 const ACCESS_TOKEN = process.env.DHAN_ACCESS_TOKEN;
 const CLIENT_ID = process.env.DHAN_CLIENT_ID;
@@ -326,8 +328,8 @@ async function startWebSocket() {
           isProcessingSave = true;
           await saveMarketData();
 
-          console.log(`🕒 Waiting 5 seconds before the next cycle...`);
-          await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait 5 seconds
+          console.log(`🕒 Waiting 20 seconds before the next cycle...`);
+          await new Promise((resolve) => setTimeout(resolve, 20000)); // Wait 5 seconds
 
           console.log(`✅ Ready for the next batch cycle.`);
         }
@@ -355,7 +357,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const getData = async (fromDate, toDate) => {
   const stocks = await StocksDetail.find();
-  console.log("stock", stocks);
+  // console.log("stock", stocks);
   const securityIds = stocks.map((stock) =>
     stock.SECURITY_ID.trim().toString()
   );
@@ -1286,11 +1288,11 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
       );
     }
 
-    return {
+    return res.json({
       message: "Momentum stocks found and saved",
       count: momentumStocks.length,
       data: momentumStocks,
-    };
+    })
   } catch (error) {
     console.error("Error in AIMomentumCatcherFiveMins:", error);
     return {
@@ -1371,7 +1373,7 @@ const AIMomentumCatcherTenMins = async (req, res) => {
 
     const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
 
-    console.log("Tomorrow's date (formatted):", tomorrowFormatted);
+    // console.log("Tomorrow's date (formatted):", tomorrowFormatted);
 
     const data = await getDataForTenMin(latestDate, tomorrowFormatted);
     const dataArray = Array.from(data.values());
@@ -1429,7 +1431,7 @@ const AIMomentumCatcherTenMins = async (req, res) => {
       (a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange)
     );
 
-    console.log("momentumStocks", momentumStocks);
+    // console.log("momentumStocks", momentumStocks);
 
     // Save or update in MongoDB
     for (const stock of momentumStocks) {
@@ -1440,11 +1442,11 @@ const AIMomentumCatcherTenMins = async (req, res) => {
       );
     }
 
-    return {
+    return res.json({
       message: "Momentum stocks found and saved",
       count: momentumStocks.length,
       data: momentumStocks,
-    };
+    });
   } catch (error) {
     console.error("Error in AIMomentumCatcherFiveMins:", error);
     return {
@@ -1585,7 +1587,7 @@ const DailyRangeBreakout = async (req, res) => {
         }
       }
 
-      return breakoutStocks;
+      return res.json({breakoutStocks});
     });
 
     // Flatten and filter results
@@ -1645,6 +1647,341 @@ const DailyRangeBreakout = async (req, res) => {
   }
 };
 
+const DayHighLowReversal = async (req, res) => {
+  try {
+    const dayHighData = await getDayHighBreak();
+    const dayLowData = await getDayLowBreak();
+
+    if (!dayHighData && !dayLowData) {
+      return res.status(404).json({
+        success: false,
+        message: "No data found for day high and low",
+      });
+    }
+
+    const latestEntry = await MarketDetailData.findOne()
+      .sort({ date: -1 })
+      .select("date");
+
+    if (!latestEntry) {
+      return res.status(404).json({ message: "No stock data available" });
+    }
+
+    const latestDate = latestEntry.date;
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    const data = await getData(latestDate, tomorrowFormatted);
+    const dataArray = Array.from(data.values());
+
+    if (dataArray.length === 0) {
+      return { message: "No data found" };
+    }
+
+    const dayHighBreakMap = new Map();
+    const dayLowBreakMap = new Map();
+
+    dayHighData?.dayHighBreak?.forEach((item) => {
+      dayHighBreakMap.set(item.securityId, item);
+    });
+
+    dayLowData?.dayLowBreak?.forEach((item) => {
+      dayLowBreakMap.set(item.securityId, item);
+    });
+
+    let highLowReversal = [];
+
+    dataArray.forEach((item) => {
+      const securityId = item.securityId;
+      const High = item.high?.slice(-1);
+      const Low = item.low?.slice(-1);
+      const Open = item.open?.slice(-1);
+      const Close = item.close?.slice(-1);
+
+      const dayHighBreak = dayHighBreakMap.get(securityId);
+      const dayLowBreak = dayLowBreakMap.get(securityId);
+
+      const changePriceForHigh = dayHighBreak?.dayHigh * 0.01;
+      const changePriceForLow = dayLowBreak?.dayLow * 0.01;
+
+      let stockData = {
+        securityId,
+        stockSymbol: "N/A",
+        stockName: "N/A",
+        high: High,
+        low: Low,
+        open: Open,
+        close: Close,
+        type: "",
+        percentageChange: "",
+        timestamp: new Date(new Date().getTime() + 5.5 * 60 * 60 * 1000),
+      };
+
+      if (dayHighBreak) {
+        stockData.stockSymbol = dayHighBreak?.stock?.UNDERLYING_SYMBOL;
+        stockData.stockName = dayHighBreak?.stock?.SYMBOL_NAME;
+      } else if (dayLowBreak) {
+        stockData.stockSymbol = dayLowBreak?.stock?.UNDERLYING_SYMBOL;
+        stockData.stockName = dayLowBreak?.stock?.SYMBOL_NAME;
+      }
+
+      if (
+        dayHighBreak &&
+        Close <= dayHighBreak.dayHigh &&
+        Open > Close &&
+        Close > dayHighBreak.dayHigh - changePriceForHigh
+      ) {
+        stockData.type = "Bearish";
+        stockData.dayHigh = dayHighBreak.dayHigh;
+        stockData.percentageChange = dayHighBreak.percentageChange;
+      }
+
+      if (
+        dayLowBreak &&
+        Low <= dayLowBreak.dayLow &&
+        Open < Close &&
+        Close < dayLowBreak.dayLow + changePriceForLow
+      ) {
+        stockData.type = "Bullish";
+        stockData.dayLow = dayLowBreak.dayLow;
+        stockData.percentageChange = dayLowBreak.percentageChange;
+      }
+
+      if (stockData.type) {
+        highLowReversal.push(stockData);
+      }
+    });
+
+    if (highLowReversal.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No reversal data found.",
+      });
+    }
+
+    // **Bulk upsert to save or update data**
+    const bulkOps = highLowReversal.map((item) => ({
+      updateOne: {
+        filter: { securityId: item.securityId },
+        update: { $set: item },
+        upsert: true,
+      },
+    }));
+
+    await HighLowReversal.bulkWrite(bulkOps);
+
+    const highLowReversalData = await HighLowReversal.find();
+
+    if (!highLowReversalData) {
+      return res.status(404).json({
+        success: false,
+        message: "No data found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "High-Low Reversal data updated successfully.",
+      data: highLowReversalData,
+    });
+  } catch (error) {
+    console.log("Error in DayHighLowReversal:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+const twoDayHLBreak = async (req, res) => {
+  try {
+    // Step 1: Find the last two unique trading days
+    const uniqueTradingDays = await MarketDetailData.aggregate([
+      { $group: { _id: "$date" } }, // Group by date to get unique trading days
+      { $sort: { _id: -1 } }, // Sort by date in descending order (latest first)
+      { $limit: 3 }, // Get the latest three unique dates
+    ]);
+
+    if (!uniqueTradingDays || uniqueTradingDays.length < 3) {
+      return res
+        .status(404)
+        .json({ message: "Not enough historical data found" });
+    }
+
+    const latestDate = uniqueTradingDays[0]._id;
+
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    console.log("Latest available date:", latestDate);
+    console.log("Tomorrow's date:", tomorrowFormatted);
+
+    const fiveMinCandelData = await getData(latestDate, tomorrowFormatted);
+
+    if (!fiveMinCandelData || !(fiveMinCandelData instanceof Map)) {
+      console.error("Invalid data format received from getDailyData:", data);
+      return res.status(400).json({ message: "Invalid data format" });
+    }
+
+    const dataArray = Array.from(fiveMinCandelData.values());
+    if (dataArray.length === 0) {
+      return { message: "No data found" };
+    }
+
+    const firstPrevTargetDate = uniqueTradingDays[1]._id;
+    const secondPrevTargetDate = uniqueTradingDays[2]._id;
+
+    const firstPrevStockData = await MarketDetailData.find({
+      date: firstPrevTargetDate,
+    });
+    if (!firstPrevStockData || firstPrevStockData.length === 0) {
+      return { message: "No stock data found for the selected dates" };
+    }
+    const secondPrevStockData = await MarketDetailData.find({
+      date: secondPrevTargetDate,
+    });
+
+    if (!secondPrevStockData || secondPrevStockData.length === 0) {
+      return { message: "No stock data found for the selected dates" };
+    }
+
+    // console.log("firstPrevStockData", firstPrevStockData);
+    // console.log("secondPrevStockData", secondPrevStockData);
+
+    const firstPrevStockDataMap = new Map();
+
+    firstPrevStockData.forEach((item) => {
+      // const stockData = item.data;
+      // console.log(stockData)
+
+      firstPrevStockDataMap.set(item.securityId, {
+        securityId: item.securityId,
+        dayOpen: item.data?.dayOpen?.[0],
+        dayClose: item.data?.dayClose?.[0],
+        dayHigh: item.data?.dayHigh?.[0],
+        dayLow: item.data?.dayLow?.[0],
+        date: item.date,
+      });
+    });
+    const secondPrevStockDataMap = new Map();
+
+    secondPrevStockData.forEach((item) => {
+      secondPrevStockDataMap.set(item.securityId, {
+        securityId: item.securityId,
+        dayOpen: item.data?.dayOpen?.[0],
+        dayClose: item.data?.dayClose?.[0],
+        dayHigh: item.data?.dayHigh?.[0],
+        dayLow: item.data?.dayLow?.[0],
+        date: item.date,
+      });
+    });
+
+    const stockDetails = await StocksDetail.find();
+
+    if (!stockDetails) {
+      return res.status(404).json({
+        success: false,
+        message: "No stocks info found",
+      });
+    }
+
+    const stockDetailsMap = new Map();
+
+    stockDetails.forEach((item) => {
+      stockDetailsMap.set(item.SECURITY_ID, {
+        symbolName: item.SYMBOL_NAME,
+        underlyingSymbol: item.UNDERLYING_SYMBOL,
+      });
+    });
+
+     let responseData = [];
+
+    // the main logic
+     dataArray.map((item) => {
+      const securityId = item.securityId;
+      const firstPrevDayData = firstPrevStockDataMap.get(securityId);
+      const secondPrevDayData = secondPrevStockDataMap.get(securityId);
+      const stocksDetail = stockDetailsMap.get(securityId);
+      const fiveMinHigh = item?.high?.slice(-1);
+      const fiveMinLow = item?.low?.slice(-1);
+      const fiveMinOpen = item?.open?.slice(-1);
+      const fiveMinClose = item?.close?.slice(-1);
+      const firstPrevDayHigh = firstPrevDayData?.dayHigh;
+      const firstPrevDayLow = firstPrevDayData?.dayLow;
+      const secondPrevDayHigh = secondPrevDayData?.dayHigh;
+      const secondPrevDayLow = secondPrevDayData?.dayLow;
+
+      if (
+        (firstPrevDayHigh <= secondPrevDayHigh + secondPrevDayHigh * 0.01 &&
+          firstPrevDayHigh >= secondPrevDayHigh) ||
+        (secondPrevDayHigh <= firstPrevDayHigh + firstPrevDayHigh * 0.01 &&
+          secondPrevDayHigh >= firstPrevDayHigh)
+      ) {
+
+        const maxHigh = Math.max(firstPrevDayHigh,secondPrevDayHigh)
+        
+        if(fiveMinHigh > maxHigh){
+          responseData.push({
+            securityId,
+            ...stocksDetail,
+            fiveMinHigh,
+            type:"Bullish",
+            maxHigh,
+
+
+          })
+
+        }
+
+
+
+      }
+
+
+      if (
+        (firstPrevDayLow >= secondPrevDayLow - secondPrevDayLow * 0.01 &&
+          firstPrevDayLow <= secondPrevDayLow) ||
+        (secondPrevDayLow >= firstPrevDayLow - firstPrevDayLow * 0.01 &&
+          secondPrevDayLow <= firstPrevDayLow)
+      ) {
+
+        const minLow = Math.min(firstPrevDayLow,secondPrevDayLow)
+        
+        if(fiveMinLow < minLow){
+          responseData.push({
+            securityId,
+            ...stocksDetail,
+            fiveMinHigh,
+            type:"Bearish",
+            minLow,
+
+
+          })
+
+        }
+
+
+
+      }
+
+
+
+
+
+    });
+
+    res.status(200).json({
+      message: "Two Day High Low Break analysis complete",
+      responseData,
+    });
+  } catch (error) {
+    console.log("Error fetching stock data:", error.message);
+  }
+};
+
 export {
   startWebSocket,
   getData,
@@ -1653,4 +1990,6 @@ export {
   AIMomentumCatcherTenMins,
   AIIntradayReversalDaily,
   DailyRangeBreakout,
+  DayHighLowReversal,
+  twoDayHLBreak,
 };
