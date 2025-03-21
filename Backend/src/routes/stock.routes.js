@@ -12,9 +12,14 @@ import verifyUser from "../middlewares/verifyUser.middleware.js";
 import {
   AIIntradayReversalDaily,
   AIIntradayReversalFiveMins,
+  AIMomentumCatcherFiveMins,
+  AIMomentumCatcherTenMins,
   DailyRangeBreakout,
+  DayHighLowReversal,
   startWebSocket,
+  twoDayHLBreak,
 } from "../controllers/liveMarketData.controller.js";
+import fiveMinMomentumSignal from "../models/fiveMInMomentumSignal.model.js";
 const router = express.Router();
 router.get("/get-stocks", verifyUser, getStocks);
 // router.get('/get-fno-stocks', fetchAndStoreFNOData );
@@ -29,5 +34,9 @@ router.get("/live-feed", startWebSocket);
 router.get("/five-candel", AIIntradayReversalFiveMins);
 router.get("/daily-candel", AIIntradayReversalDaily);
 router.get("/daily-range-breakout", DailyRangeBreakout);
+router.get('/high-low-reversal',DayHighLowReversal);
+router.get("/two-day-hl-break", twoDayHLBreak);
+router.get('/five-min-momentum',AIMomentumCatcherFiveMins)
+router.get('/tem-min-momentum',AIMomentumCatcherTenMins)
 
 export default router;
