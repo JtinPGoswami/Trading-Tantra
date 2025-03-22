@@ -633,6 +633,7 @@ const AIContraction = async (req, res) => {
       }
     );
 
+    console.log(resData);
     if (!resData) {
       return res.status(404).json({ message: "No data found" });
     }

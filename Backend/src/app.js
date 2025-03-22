@@ -6,27 +6,15 @@ import passport from "passport";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
-import http, { get } from "http";
+import http from "http";
 import "./config/passport.js";
-import paymentRoutes from "./routes/payment.routes.js";
-import subscriptionPlanRoutes from "./routes/subscriptionPlan.routes.js";
+
 import stocksRoutes from "./routes/stock.routes.js";
-import {
-  startWebSocket,
-  getData,
-  AIIntradayReversalFiveMins,
-  AIMomentumCatcherFiveMins,
-  AIMomentumCatcherTenMins,
-  AIIntradayReversalDaily,
-  DayHighLowReversal,
-  twoDayHLBreak,
-} from "./controllers/liveMarketData.controller.js";
+
 import { getStocksData } from "./controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./config/socket.js";
-import { fetchHistoricalData } from "./utils/fetchData.js";
-import StocksDetail from "./models/stocksDetail.model.js";
-import { stocksData } from "./f&o.js";
-
+import holidayJob from "./jobs/holiday.job.js";
+import scheduleMarketJob from "./jobs/liveMarket.job.js";
 dotenv.config();
 
 const app = express();
@@ -165,18 +153,10 @@ getTurnover();
 
 const PORT = process.env.PORT || 3000;
 
-// startWebSocket();
 connectDB()
   .then(() => {
     server.listen(PORT, () => {
       console.log("Server started on port ", PORT);
-
-      // AIIntradayReversalFiveMins();
-      // AIMomentumCatcherFiveMins();
-      // AIMomentumCatcherTenMins();
-      // AIIntradayReversalDaily();
-      // DayHighLowReversal();
-      // twoDayHLBreak()
     });
   })
   .catch((error) => {
