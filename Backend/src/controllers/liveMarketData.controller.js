@@ -30,7 +30,7 @@ let batchCount = 0; // Track how many batches have been processed
 
 const fetchSecurityIds = async () => {
   try {
-    const stocks = await StocksDetail.find();
+    const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
     securityIdList = stocks.map((stock) => stock.SECURITY_ID);
   } catch (error) {
     console.error("❌ Error fetching security IDs:", error);
@@ -197,7 +197,7 @@ async function startWebSocket() {
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const getData = async (fromDate, toDate) => {
-  const stocks = await StocksDetail.find();
+  const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
   // console.log("stock", stocks);
   const securityIds = stocks.map((stock) =>
     stock.SECURITY_ID.trim().toString()
@@ -272,7 +272,7 @@ const getDailyData = async (fromDate, toDate) => {
   }
 };
 const getDataForTenMin = async (fromDate, toDate) => {
-  const stocks = await StocksDetail.find();
+  const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
   console.log("stock", stocks);
   const securityIds = stocks.map((stock) =>
     stock.SECURITY_ID.trim().toString()
@@ -326,7 +326,6 @@ const AIIntradayReversalFiveMins = async (req, res) => {
 
     // Check if data is valid and a Map
     if (!data || !(data instanceof Map)) {
-      console.error("Invalid data format received from getData:", data);
       return res.status(400).json({ message: "Invalid data format" });
     }
 
@@ -338,7 +337,10 @@ const AIIntradayReversalFiveMins = async (req, res) => {
     }
 
     // Fetch stock details
-    const stocks = await StocksDetail.find();
+    const stocks = await StocksDetail.find(
+      {},
+      { SYMBOL_NAME: 1, UNDERLYING_SYMBOL: 1, SECURITY_ID: 1, _id: 0 }
+    );
     if (!stocks || stocks.length === 0) {
       return res.status(404).json({ message: "No stocks data found" });
     }
@@ -347,8 +349,6 @@ const AIIntradayReversalFiveMins = async (req, res) => {
     const stockmap = new Map();
     stocks.forEach((entry) => {
       stockmap.set(entry.SECURITY_ID, {
-        INDEX: entry.INDEX || [],
-        SECTOR: entry.SECTOR || [],
         UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
         SYMBOL_NAME: entry.SYMBOL_NAME,
       });
@@ -399,14 +399,6 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       const latestPositive = latestHigh > lastFiveHigh[3];
 
       // Debug logging for Bullish Reversal
-      console.log(`${securityId} Bullish Check:`, {
-        percentageChanges,
-        allBearish,
-        decreasingMomentum,
-        latestPositive,
-        lastFiveHigh,
-        lastFiveLow,
-      });
 
       if (allBearish && decreasingMomentum && latestPositive) {
         momentumSignals.push({
@@ -428,16 +420,6 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       );
       const latestNegative = latestLow < lastFiveLow[3];
 
-      // Debug logging for Bearish Reversal
-      console.log(`${securityId} Bearish Check:`, {
-        percentageChanges,
-        allBullish,
-        decreasingBullMomentum,
-        latestNegative,
-        lastFiveHigh,
-        lastFiveLow,
-      });
-
       if (allBullish && decreasingBullMomentum && latestNegative) {
         momentumSignals.push({
           type: "Bearish Reversal",
@@ -457,10 +439,6 @@ const AIIntradayReversalFiveMins = async (req, res) => {
     // Flatten the results array and filter out empty entries
     const finalResults = results.flat().filter((signal) => signal.length !== 0);
 
-    // Log final results for debugging
-    console.log("Final Results:", finalResults);
-
-    // Save or update finalResults in the database
     if (finalResults.length > 0) {
       const savePromises = finalResults.map(async (signal) => {
         try {
@@ -487,9 +465,20 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       });
 
       await Promise.all(savePromises);
-      console.log("Momentum signals processed successfully");
     }
-    const fullData = await fiveMinMomentumSignal.find();
+    const fullData = await fiveMinMomentumSignal
+      .find(
+        {},
+        {
+          _id: 0,
+          __v: 0,
+          lastTradePrice: 0,
+          previousClosePrice: 0,
+          updatedAt: 0,
+        }
+      )
+      .sort({ timestamp: -1 })
+      .lean();
     // Send response
     if (fullData.length === 0) {
       return res.status(200).json({
@@ -503,7 +492,6 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       data: fullData,
     });
   } catch (error) {
-    console.error("Error in  AIIntradayReversalFiveMin:", error);
     return res.status(500).json({
       message: "Internal server error",
       error: error.message,
@@ -539,7 +527,6 @@ const AIIntradayReversalDaily = async (req, res) => {
     );
 
     if (!data || !(data instanceof Map)) {
-      console.error("Invalid data format received from getData:", data);
       return res.status(400).json({ message: "Invalid data format" });
     }
 
@@ -551,7 +538,10 @@ const AIIntradayReversalDaily = async (req, res) => {
     }
 
     // Fetch stock details
-    const stocks = await StocksDetail.find();
+    const stocks = await StocksDetail.find(
+      {},
+      { SECURITY_ID: 1, SYMBOL_NAME: 1, UNDERLYING_SYMBOL: 1, _id: 0 }
+    );
     if (!stocks || stocks.length === 0) {
       return res.status(404).json({ message: "No stocks data found" });
     }
@@ -560,8 +550,6 @@ const AIIntradayReversalDaily = async (req, res) => {
     const stockmap = new Map();
     stocks.forEach((entry) => {
       stockmap.set(entry.SECURITY_ID, {
-        INDEX: entry.INDEX || [],
-        SECTOR: entry.SECTOR || [],
         UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
         SYMBOL_NAME: entry.SYMBOL_NAME,
       });
@@ -609,7 +597,7 @@ const AIIntradayReversalDaily = async (req, res) => {
       const latestLow = todayData?.dayLow;
 
       // Get previous 4 candles
-      const prevFourHigh = lastFourHigh;
+      // const prevFourHigh = lastFourHigh;
       const prevFourLow = lastFourLow;
 
       // Calculate percentage changes for previous 4 candles
@@ -628,14 +616,6 @@ const AIIntradayReversalDaily = async (req, res) => {
       const latestPositive = latestHigh > lastFourHigh[3];
 
       // Debug logging for Bullish Reversal
-      console.log(`${securityId} Bullish Check:`, {
-        percentageChanges,
-        allBearish,
-        decreasingMomentum,
-        latestPositive,
-        lastFourHigh,
-        lastFourLow,
-      });
 
       if (allBearish && decreasingMomentum && latestPositive) {
         momentumSignals.push({
@@ -658,14 +638,6 @@ const AIIntradayReversalDaily = async (req, res) => {
       const latestNegative = latestLow < lastFourLow[3];
 
       // Debug logging for Bearish Reversal
-      console.log(`${securityId} Bearish Check:`, {
-        percentageChanges,
-        allBullish,
-        decreasingBullMomentum,
-        latestNegative,
-        lastFourHigh,
-        lastFourLow,
-      });
 
       if (allBullish && decreasingBullMomentum && latestNegative) {
         momentumSignals.push({
@@ -687,7 +659,6 @@ const AIIntradayReversalDaily = async (req, res) => {
     const finalResults = results.flat().filter((signal) => signal.length !== 0);
 
     // Log final results for debugging
-    console.log("Final Results:", finalResults);
 
     // Save or update finalResults in the database
     if (finalResults.length > 0) {
@@ -716,9 +687,17 @@ const AIIntradayReversalDaily = async (req, res) => {
       });
 
       await Promise.all(savePromises);
-      console.log("Momentum signals processed successfully");
     }
-    const fullData = await DailyMomentumSignal.find();
+    const fullData = await DailyMomentumSignal.find(
+      {},
+      {
+        _id: 0,
+        __v: 0,
+        lastTradePrice: 0,
+        previousClosePrice: 0,
+        updatedAt: 0,
+      }
+    );
     // Send response
     if (fullData.length === 0) {
       return res.status(200).json({
@@ -732,7 +711,6 @@ const AIIntradayReversalDaily = async (req, res) => {
       data: fullData,
     });
   } catch (error) {
-    console.error("Error in  AIIntradayReversalFiveMin:", error);
     return res.status(500).json({
       message: "Internal server error",
       error: error.message,
@@ -741,7 +719,10 @@ const AIIntradayReversalDaily = async (req, res) => {
 };
 const AIMomentumCatcherFiveMins = async (req, res) => {
   try {
-    const stocks = await StocksDetail.find();
+    const stocks = await StocksDetail.find(
+      {},
+      { SECURITY_ID: 1, SYMBOL_NAME: 1, UNDERLYING_SYMBOL: 1, _id: 0 }
+    );
     if (!stocks || stocks.length === 0) {
       return { message: "No stocks data found" };
     }
@@ -749,8 +730,6 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
     const stockmap = new Map();
     stocks.forEach((entry) => {
       stockmap.set(entry.SECURITY_ID, {
-        INDEX: entry.INDEX || [],
-        SECTOR: entry.SECTOR || [],
         UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
         SYMBOL_NAME: entry.SYMBOL_NAME,
       });
@@ -851,8 +830,6 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
             momentumType: isBullish ? "Bullish" : "Bearish",
             priceChange: currentDiff,
             percentageChange: percentageChange,
-            sector: stockDetails.SECTOR,
-            index: stockDetails.INDEX,
           };
         }
         return null;
@@ -890,7 +867,10 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
 
 const AIMomentumCatcherTenMins = async (req, res) => {
   try {
-    const stocks = await StocksDetail.find();
+    const stocks = await StocksDetail.find(
+      {},
+      { SECURITY_ID: 1, SYMBOL_NAME: 1, UNDERLYING_SYMBOL: 1, _id: 0 }
+    );
     if (!stocks || stocks.length === 0) {
       return { message: "No stocks data found" };
     }
@@ -898,8 +878,6 @@ const AIMomentumCatcherTenMins = async (req, res) => {
     const stockmap = new Map();
     stocks.forEach((entry) => {
       stockmap.set(entry.SECURITY_ID, {
-        INDEX: entry.INDEX || [],
-        SECTOR: entry.SECTOR || [],
         UNDERLYING_SYMBOL: entry.UNDERLYING_SYMBOL,
         SYMBOL_NAME: entry.SYMBOL_NAME,
       });
@@ -1005,8 +983,6 @@ const AIMomentumCatcherTenMins = async (req, res) => {
             momentumType: isBullish ? "Bullish" : "Bearish",
             priceChange: currentDiff,
             percentageChange: percentageChange,
-            sector: stockDetails.SECTOR,
-            index: stockDetails.INDEX,
           };
         }
         return null;
@@ -1044,44 +1020,83 @@ const AIMomentumCatcherTenMins = async (req, res) => {
 
 const DailyRangeBreakout = async (req, res) => {
   try {
-    // Find the latest date in the database
-    const latestEntry = await MarketDetailData.findOne()
-      .sort({ date: -1 })
-      .select("date");
+    // Step 1: Get the 5 most recent unique trading days
+    const uniqueTradingDays = await MarketDetailData.aggregate([
+      { $group: { _id: "$date" } },
+      { $sort: { _id: -1 } },
+      { $limit: 5 }, // 5 days: today + 4 previous
+    ]);
 
-    if (!latestEntry) {
-      return res.status(404).json({ message: "No stock data available" });
+    if (uniqueTradingDays.length < 5) {
+      return res
+        .status(404)
+        .json({ message: "Not enough historical data found" });
     }
 
-    const latestDate = latestEntry.date;
-    const tomorrow = new Date(latestDate);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const previousFiveDaysDate = new Date(latestDate);
-    previousFiveDaysDate.setDate(previousFiveDaysDate.getDate() - 30); // Fetch 30 days to ensure enough data
+    const targetDates = uniqueTradingDays.map(
+      (day) => new Date(day._id).toISOString().split("T")[0]
+    ); // Ensure Date objects
 
-    const previousFiveDaysDateFormatted = previousFiveDaysDate
-      .toISOString()
-      .split("T")[0];
-    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+    const latestDate = targetDates[0]; // Most recent day
+    const previousFormatted = targetDates[1]; // Previous day
 
-    // Fetch daily data (assuming getDailyData returns a Map of aggregated daily data per stock)
-    const data = await getDailyData(
-      previousFiveDaysDateFormatted,
-      tomorrowFormatted
+    // Step 2: Fetch all data for these 5 days in one query
+    const historicalData = await MarketDetailData.find(
+      { date: { $in: targetDates } },
+      {
+        securityId: 1,
+        "data.dayOpen": 1,
+        "data.dayClose": 1,
+        "data.dayHigh": 1,
+        "data.dayLow": 1,
+        "data.latestTradedPrice": 1,
+        date: 1,
+        _id: 0,
+      }
+    ).lean();
+
+    if (!historicalData || historicalData.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No data found for the target dates" });
+    }
+
+    // Step 3: Group data by date (normalize dates to strings for comparison)
+    const groupedData = targetDates.reduce((acc, date) => {
+      const dateStr = date; // Compare by YYYY-MM-DD
+      acc[dateStr] = historicalData.filter((entry) => {
+        const entryDateStr = new Date(entry.date).toISOString().split("T")[0];
+        return entryDateStr === dateStr;
+      });
+      return acc;
+    }, {});
+
+    // Step 4: Prepare latest day and previous day data
+    const latestDataMap = new Map();
+    const prevDayCloseMap = new Map();
+
+    const latestDateStr = latestDate;
+    groupedData[latestDateStr].forEach((entry) => {
+      latestDataMap.set(entry.securityId, {
+        latestTradedPrice: entry.data?.[0]?.latestTradedPrice ?? 0,
+        dayOpen: entry.data?.[0]?.dayOpen ?? 0,
+        dayClose: entry.data?.[0]?.dayClose ?? 0,
+        dayHigh: entry.data?.[0]?.dayHigh ?? 0,
+        dayLow: entry.data?.[0]?.dayLow ?? 0,
+      });
+    });
+
+    groupedData[previousFormatted].forEach((entry) => {
+      prevDayCloseMap.set(entry.securityId, {
+        dayClose: entry.data?.[0]?.dayClose ?? 0,
+      });
+    });
+
+    // Step 5: Fetch stock details
+    const stocks = await StocksDetail.find(
+      {},
+      { SECURITY_ID: 1, SYMBOL_NAME: 1, UNDERLYING_SYMBOL: 1, _id: 0 }
     );
-
-    if (!data || !(data instanceof Map)) {
-      console.error("Invalid data format received from getDailyData:", data);
-      return res.status(400).json({ message: "Invalid data format" });
-    }
-
-    const dataArray = Array.from(data.values());
-    if (dataArray.length === 0) {
-      return res.status(404).json({ message: "No data found" });
-    }
-
-    // Fetch stock details
-    const stocks = await StocksDetail.find();
     if (!stocks || stocks.length === 0) {
       return res.status(404).json({ message: "No stocks data found" });
     }
@@ -1094,61 +1109,67 @@ const DailyRangeBreakout = async (req, res) => {
       });
     });
 
-    // Fetch today's data from MarketDetailData
-    const latestData = await MarketDetailData.find({ date: latestDate });
-    if (latestData.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No stock data available for the latest date" });
-    }
+    // Step 6: Process data for range breakout
+    let breakoutStocks = [];
+    const securityIds = [
+      ...new Set(historicalData.map((item) => item.securityId)),
+    ];
 
-    const latestDataMap = new Map();
-    latestData.forEach((entry) => {
-      latestDataMap.set(entry.securityId, {
-        latestTradedPrice: entry.data?.latestTradedPrice?.[0],
-        dayOpen: entry.data?.dayOpen ?? 0,
-        dayClose: entry.data?.dayClose ?? 0,
-        dayHigh: entry.data?.dayHigh ?? 0,
-        dayLow: entry.data?.dayLow ?? 0,
+    for (const securityId of securityIds) {
+      const stockData = targetDates.map((date) => {
+        const dateStr = date;
+        return groupedData[dateStr].find(
+          (entry) => entry.securityId === securityId
+        );
       });
-    });
 
-    // Process data for range breakout
-    const results = dataArray.map((item) => {
-      const breakoutStocks = [];
-      const securityId = item.securityId;
-      const stock = stockMap.get(securityId);
-      const todayData = latestDataMap.get(securityId);
-
-      // Validate candle data (need at least 5 days: 1st + 3 range + today)
-      if (
-        !item.high ||
-        !item.low ||
-        item.high.length < 4 ||
-        item.low.length < 4 ||
-        !todayData
-      ) {
+      // Ensure we have 5 days of data
+      if (stockData.length < 5 || stockData.some((day) => !day)) {
         console.warn(`Skipping ${securityId} due to insufficient data`);
-        return [];
+        continue;
       }
 
-      const firstDayCandleHigh = item.high[0];
-      const firstDayCandleLow = item.low[0];
+      const todayData = latestDataMap.get(securityId);
+      const preCloseData = prevDayCloseMap.get(securityId);
 
-      // Check if the next 3 days (indices 1, 2, 3) are within the range
+      if (!todayData || !preCloseData) {
+        console.warn(
+          `Skipping ${securityId} due to missing today or previous data`
+        );
+        continue;
+      }
+
+      // Extract high/low for each day (reverse order: oldest to newest)
+      const highs = stockData
+        .map((day) => day.data?.[0]?.dayHigh ?? 0)
+        .reverse();
+      const lows = stockData.map((day) => day.data?.[0]?.dayLow ?? 0).reverse();
+
+      const firstDayCandleHigh = highs[0];
+      const firstDayCandleLow = lows[0];
+
+      if (securityId === "3045") {
+        console.log(
+          "firstDayCandleHigh",
+          firstDayCandleHigh,
+          "firstDayCandleLow",
+          firstDayCandleLow
+        );
+      }
+
+      // Check if next 3 days are within the first day's range
       const inRange =
-        item.high.slice(1, 4).every((high) => high <= firstDayCandleHigh) &&
-        item.low.slice(1, 4).every((low) => low >= firstDayCandleLow);
+        highs.slice(1, 4).every((high) => high <= firstDayCandleHigh) &&
+        lows.slice(1, 4).every((low) => low >= firstDayCandleLow);
 
       if (inRange) {
-        // Check for breakout today (index 4 or todayData)
         const todayHigh = todayData.dayHigh;
         const todayLow = todayData.dayLow;
         const todayClose = todayData.dayClose;
         const todayOpen = todayData.dayOpen;
-        const latestTradedPrice = todayData.latestTradedPrice?.[0];
-        const preClose = item.close.slice(-1);
-        // Breakout conditions
+        const latestTradedPrice = todayData.latestTradedPrice;
+        const preClose = preCloseData.dayClose;
+
         const breakoutAbove = todayHigh > firstDayCandleHigh;
         const breakoutBelow = todayLow < firstDayCandleLow;
 
@@ -1160,10 +1181,10 @@ const DailyRangeBreakout = async (req, res) => {
           breakoutStocks.push({
             type: breakoutAbove ? "Breakout Bullish" : "Breakout Bearish",
             securityId,
-            stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
-            stockName: stock?.SYMBOL_NAME || "N/A",
+            stockSymbol: stockMap.get(securityId)?.UNDERLYING_SYMBOL || "N/A",
+            stockName: stockMap.get(securityId)?.SYMBOL_NAME || "N/A",
             lastTradePrice: latestTradedPrice,
-            previousClosePrice: item.dayClose?.[3] || 0, // Last day before today
+            previousClosePrice: preClose,
             percentageChange,
             rangeHigh: firstDayCandleHigh,
             rangeLow: firstDayCandleLow,
@@ -1172,19 +1193,13 @@ const DailyRangeBreakout = async (req, res) => {
           });
         }
       }
+    }
 
-      return res.json({ breakoutStocks });
-    });
+    console.log(breakoutStocks, "breakoutStocks");
 
-    // Flatten and filter results
-    const finalResults = results.flat().filter((signal) => signal.length !== 0);
-
-    // Log for debugging
-    console.log("Final Results:", finalResults);
-
-    // Save or update results in the database
-    if (finalResults.length > 0) {
-      const savePromises = finalResults.map(async (signal) => {
+    // Step 7: Save or update results
+    if (breakoutStocks.length > 0) {
+      const savePromises = breakoutStocks.map(async (signal) => {
         try {
           await DailyRangeBreakouts.findOneAndUpdate(
             { securityId: signal.securityId },
@@ -1193,8 +1208,6 @@ const DailyRangeBreakout = async (req, res) => {
                 type: signal.type,
                 stockSymbol: signal.stockSymbol,
                 stockName: signal.stockName,
-                lastTradePrice: signal.lastTradePrice,
-                previousClosePrice: signal.previousClosePrice,
                 percentageChange: signal.percentageChange,
                 timestamp: new Date(
                   new Date().getTime() + 5.5 * 60 * 60 * 1000
@@ -1212,7 +1225,19 @@ const DailyRangeBreakout = async (req, res) => {
       console.log("Breakout signals processed successfully");
     }
 
-    const fullData = await DailyRangeBreakouts.find();
+    const fullData = await DailyRangeBreakouts.find(
+      {},
+      {
+        _id: 0,
+        __v: 0,
+        updatedAt: 0,
+        createdAt: 0,
+        lastTradePrice: 0,
+        previousClosePrice: 0,
+      }
+    )
+      .sort({ timestamp: -1 })
+      .lean();
     if (fullData.length === 0) {
       return res.status(200).json({
         message: "No breakout signals detected",
@@ -1383,7 +1408,6 @@ const DayHighLowReversal = async (req, res) => {
 
 const twoDayHLBreak = async (req, res) => {
   try {
-    // Step 1: Find the last two unique trading days
     const uniqueTradingDays = await MarketDetailData.aggregate([
       { $group: { _id: "$date" } }, // Group by date to get unique trading days
       { $sort: { _id: -1 } }, // Sort by date in descending order (latest first)
@@ -1402,13 +1426,9 @@ const twoDayHLBreak = async (req, res) => {
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
 
-    console.log("Latest available date:", latestDate);
-    console.log("Tomorrow's date:", tomorrowFormatted);
-
     const fiveMinCandelData = await getData(latestDate, tomorrowFormatted);
 
     if (!fiveMinCandelData || !(fiveMinCandelData instanceof Map)) {
-      console.error("Invalid data format received from getDailyData:", data);
       return res.status(400).json({ message: "Invalid data format" });
     }
 
@@ -1420,29 +1440,46 @@ const twoDayHLBreak = async (req, res) => {
     const firstPrevTargetDate = uniqueTradingDays[1]._id;
     const secondPrevTargetDate = uniqueTradingDays[2]._id;
 
-    const firstPrevStockData = await MarketDetailData.find({
-      date: firstPrevTargetDate,
-    });
+    const firstPrevStockData = await MarketDetailData.find(
+      {
+        date: firstPrevTargetDate,
+      },
+      {
+        securityId: 1,
+        "data.dayOpen": 1,
+        date: 1,
+        "data.dayClose": 1,
+        "data.dayHigh": 1,
+        "data.dayLow": 1,
+        "data.latestTradedPrice": 1,
+        _id: 0,
+      }
+    );
     if (!firstPrevStockData || firstPrevStockData.length === 0) {
       return { message: "No stock data found for the selected dates" };
     }
-    const secondPrevStockData = await MarketDetailData.find({
-      date: secondPrevTargetDate,
-    });
+    const secondPrevStockData = await MarketDetailData.find(
+      {
+        date: secondPrevTargetDate,
+      },
+      {
+        securityId: 1,
+        "data.dayOpen": 1,
+        date: 1,
+        "data.dayClose": 1,
+        "data.dayHigh": 1,
+        "data.dayLow": 1,
+        _id: 0,
+      }
+    );
 
     if (!secondPrevStockData || secondPrevStockData.length === 0) {
       return { message: "No stock data found for the selected dates" };
     }
 
-    // console.log("firstPrevStockData", firstPrevStockData);
-    // console.log("secondPrevStockData", secondPrevStockData);
-
     const firstPrevStockDataMap = new Map();
 
     firstPrevStockData.forEach((item) => {
-      // const stockData = item.data;
-      // console.log(stockData)
-
       firstPrevStockDataMap.set(item.securityId, {
         securityId: item.securityId,
         dayOpen: item.data?.dayOpen?.[0],
@@ -1450,6 +1487,7 @@ const twoDayHLBreak = async (req, res) => {
         dayHigh: item.data?.dayHigh?.[0],
         dayLow: item.data?.dayLow?.[0],
         date: item.date,
+        latestTradedPrice: item.data?.latestTradedPrice?.[0],
       });
     });
     const secondPrevStockDataMap = new Map();
@@ -1465,7 +1503,10 @@ const twoDayHLBreak = async (req, res) => {
       });
     });
 
-    const stockDetails = await StocksDetail.find();
+    const stockDetails = await StocksDetail.find(
+      {},
+      { SECURITY_ID: 1, SYMBOL_NAME: 1, UNDERLYING_SYMBOL: 1 }
+    );
 
     if (!stockDetails) {
       return res.status(404).json({
@@ -1499,7 +1540,11 @@ const twoDayHLBreak = async (req, res) => {
       const firstPrevDayLow = firstPrevDayData?.dayLow;
       const secondPrevDayHigh = secondPrevDayData?.dayHigh;
       const secondPrevDayLow = secondPrevDayData?.dayLow;
+      const secondPrevDayClose = secondPrevDayData?.dayClose;
+      const latestTradedPrice = firstPrevDayData?.latestTradedPrice;
 
+      const percentageChange =
+        ((latestTradedPrice - secondPrevDayClose) / secondPrevDayClose) * 100;
       if (
         (firstPrevDayHigh <= secondPrevDayHigh + secondPrevDayHigh * 0.01 &&
           firstPrevDayHigh >= secondPrevDayHigh) ||
@@ -1515,6 +1560,7 @@ const twoDayHLBreak = async (req, res) => {
             fiveMinHigh,
             type: "Bullish",
             maxHigh,
+            percentageChange,
           });
         }
       }
@@ -1534,6 +1580,7 @@ const twoDayHLBreak = async (req, res) => {
             fiveMinHigh,
             type: "Bearish",
             minLow,
+            percentageChange,
           });
         }
       }
@@ -1544,7 +1591,7 @@ const twoDayHLBreak = async (req, res) => {
       responseData,
     });
   } catch (error) {
-    console.log("Error fetching stock data:", error.message);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

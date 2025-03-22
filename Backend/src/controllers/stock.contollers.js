@@ -88,7 +88,6 @@ const getStocksData = async () => {
 
     // Step 6: Compute stock data with changes
     const response = stocksData.map((stock) => {
-      console.log(stock.data?.[0].latestTradedPrice, "ndwgiuwgdiwg");
       const stockDetail = stockDetailsMap.get(stock.securityId) || {};
       const previousStock = previousDayMap.get(stock.securityId);
       const dayClose = previousStock?.data?.[0].dayClose;
@@ -483,12 +482,9 @@ const getDayLowBreak = async (req, res) => {
   }
 };
 
- 
-
 // give the previous data if today data not avail
 const previousDaysVolume = async (req, res) => {
   try {
-    // Get the most recent available stock data date
     const latestEntry = await MarketDetailData.findOne({}, { date: 1 }).sort({
       date: -1,
     });
@@ -502,12 +498,32 @@ const previousDaysVolume = async (req, res) => {
     const latestDate = latestEntry.date;
 
     // Fetch today's data (latest available)
-    const todayData = await MarketDetailData.find({ date: latestDate });
+    const todayData = await MarketDetailData.find(
+      { date: latestDate },
+      {
+        securityId: 1,
+        "data.latestTradedPrice": 1,
+        "data.dayOpen": 1,
+        "data.volume": 1,
+        _id: 0,
+      }
+    );
 
     // Fetch all previous stock data (before latest date)
-    const previousData = await MarketDetailData.find({
-      date: { $lt: latestDate },
-    });
+    const previousData = await MarketDetailData.find(
+      {
+        date: { $lt: latestDate },
+      },
+      {
+        securityId: 1,
+        "data.latestTradedPrice": 1,
+        "data.dayOpen": 1,
+        "data.dayClose": 1,
+        "data.volume": 1,
+        date: 1,
+        _id: 0,
+      }
+    ).sort({ date: -1 });
 
     if (!previousData.length) {
       return res
@@ -516,7 +532,25 @@ const previousDaysVolume = async (req, res) => {
     }
 
     // Fetch stock details once
-    const stocksDetail = await StocksDetail.find();
+    const stocksDetail = await StocksDetail.find(
+      {},
+      {
+        SECURITY_ID: 1,
+        UNDERLYING_SYMBOL: 1,
+        SYMBOL_NAME: 1,
+        DISPLAY_NAME: 1,
+        _id: 0,
+      }
+    );
+
+    const stocksDetailsMap = new Map();
+    stocksDetail.forEach((stock) => {
+      stocksDetailsMap.set(stock.SECURITY_ID, {
+        UNDERLYING_SYMBOL: stock.UNDERLYING_SYMBOL,
+        SYMBOL_NAME: stock.SYMBOL_NAME,
+        DISPLAY_NAME: stock.DISPLAY_NAME,
+      });
+    });
 
     // Build a lookup map for previous volumes by securityId
     let previousVolumesMap = {};
@@ -528,14 +562,21 @@ const previousDaysVolume = async (req, res) => {
       previousVolumesMap[securityId].push(volume);
     });
 
+    const previousDayClose = previousData[0].data.dayClose;
+    if (!previousDayClose) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No previous date close price" });
+    }
     let bulkUpdates = [];
     const combinedData = todayData.map(({ securityId, data }) => {
       const todayVolume = data?.volume?.[0] || 0;
       const volumeHistory = previousVolumesMap[securityId] || [];
       const todayopen = data?.dayOpen;
       const latestTradedPrice = data?.latestTradedPrice;
+      const stock = stocksDetailsMap.get(securityId);
       const percentageChange = todayopen
-        ? ((latestTradedPrice - todayopen) / todayopen) * 100
+        ? ((latestTradedPrice - previousDayClose) / previousDayClose) * 100
         : 0;
       const totalPreviousVolume = volumeHistory.reduce(
         (sum, vol) => sum + vol,
@@ -544,7 +585,7 @@ const previousDaysVolume = async (req, res) => {
       const averagePreviousVolume = volumeHistory.length
         ? totalPreviousVolume / volumeHistory.length
         : 0;
-      // Calculate xElement (today's volume divided by average previous volume)
+
       const xElement =
         averagePreviousVolume > 0 ? todayVolume / averagePreviousVolume : 0;
 
@@ -555,14 +596,9 @@ const previousDaysVolume = async (req, res) => {
         },
       });
 
-      const stock = stocksDetail.find(
-        (stock) => stock.SECURITY_ID === securityId
-      );
-
       return {
         securityId,
         todayVolume,
-        volumeHistory,
         stock,
         totalPreviousVolume,
         averagePreviousVolume,
@@ -579,12 +615,9 @@ const previousDaysVolume = async (req, res) => {
     res.status(200).json({ success: true, combinedData });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error", error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-
-
 
 const sectorStockData = async (req, res) => {
   try {

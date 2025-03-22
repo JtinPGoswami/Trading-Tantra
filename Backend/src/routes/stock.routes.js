@@ -33,18 +33,17 @@ router.get("/get-day-low-break", getDayLowBreak);
 router.get("/previous-volume", previousDaysVolume);
 router.get("/sector-data", sectorStockData);
 
-router.get("/live-feed", startWebSocket);
-router.get("/five-candel", AIIntradayReversalFiveMins);
-router.get("/daily-candel", AIIntradayReversalDaily);
+router.get("/five-min-intraday-reversal-candle", AIIntradayReversalFiveMins);
+router.get("/daily-intraday-reversal-candle", AIIntradayReversalDaily);
 router.get("/daily-range-breakout", DailyRangeBreakout);
-router.get("/high-low-reversal", DayHighLowReversal);
+router.get("/day-high-low-reversal", DayHighLowReversal);
 router.get("/two-day-hl-break", twoDayHLBreak);
 router.get("/five-min-momentum", AIMomentumCatcherFiveMins);
-router.get("/tem-min-momentum", AIMomentumCatcherTenMins);
+router.get("/ten-min-momentum", AIMomentumCatcherTenMins);
 
-router.get("/five-day-break", fiveDayRangeBreakers);
-router.get("/ten-day-break", tenDayRangeBreakers);
-router.get("/daily-candel-revarsal", dailyCandleReversal);
+router.get("/five-day-range-break", fiveDayRangeBreakers);
+router.get("/ten-day-range-break", tenDayRangeBreakers);
+router.get("/daily-candel-reversal", dailyCandleReversal);
 router.get("/ai-contraction", AIContraction);
 
 export default router;
