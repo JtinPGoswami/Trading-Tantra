@@ -1,6 +1,8 @@
-
-
 // ------------------------ TMP CODE FOR LIVE MARKET FEED ------------------------
+
+import connectDB from "./src/config/db.js";
+import MarketDetailData from "./src/models/marketData.model.js";
+import StocksDetail from "./src/models/stocksDetail.model.js";
 
 // import WebSocket from "ws";
 // import parseBinaryData from "../utils/parseBinaryData.js";
