@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   BarChart,
@@ -11,31 +11,36 @@ import {
   Cell
 } from "recharts";
 
-const data = [
-  { name: "Reliance", value: 1.8 },
-  { name: "TCS", value: 1.5 },
-  { name: "Infosys", value: 1.3 },
-  { name: "HDFC", value: 1.2 },
-  { name: "ICICI ", value: 1.1 },
-  { name: "SBI", value: 1.0 },
-  { name: "Tata Motors", value: 0.9 },
-  { name: "Bajaj Finance", value: 0.8 },
-  { name: "Axis Bank", value: 0.6 },
-  { name: "HUL", value: 0.5 },
-  { name: "ITC", value: 0.3 },
-  { name: "L&T", value: -0.2 },
-  { name: "Adani", value: -0.5 },
-  { name: "Power Grid", value: -0.8 },
-  { name: "PNB", value: -1.0 }
-];
+ 
 
-const AISectorChart = () => {
+const AISectorChart = ({data}) => {
   const theme = useSelector((state) => state.theme.theme);
+
+const [sectorWisePercentageChange, setSectorWisePercentageChange] = useState([]);
+
+useEffect(() => {
+  const updatedData = Object.entries(data)
+    .filter(([sector]) => sector !== "Uncategorized")
+    .map(([sector, values]) => {
+      let totalPercentage = values.reduce((sum, element) => sum + element.percentageChange, 0);
+      const averagePercentageChange = totalPercentage / values.length;
+      return { name: sector, value: averagePercentageChange };
+    });
+
+  setSectorWisePercentageChange(updatedData); // Set state once with the entire array
+
+}, [data]); // Runs when `data` changes
+
+
+    console.log('sectorWise dtaa',sectorWisePercentageChange)
+
+ 
+  
   return (
     <div className="p-4 dark:bg-db-secondary bg-db-secondary-light  rounded-lg shadow-md w-full">
     
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+        <BarChart data={sectorWisePercentageChange} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <XAxis dataKey="name" stroke={theme==="dark"?"#fff":"#000"} />
           <YAxis stroke={theme==="dark"?"#fff":"#000"} />
           <Tooltip cursor={{ fill: "rgba(255,255,255,0.1)" }}
@@ -44,7 +49,7 @@ const AISectorChart = () => {
           />
           <ReferenceLine y={0} stroke={theme==="dark"?"#fff":"#000"} strokeWidth={2} />
           <Bar dataKey="value" barSize={30} radius={[5, 5, 0, 0]}>
-            {data.map((entry, index) => (
+            {sectorWisePercentageChange?.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.value >= 0 ? "#0256F5" : "#95025A"} />
             ))}
           </Bar>

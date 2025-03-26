@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TreemapChart from "./TreemapChart";
 
-const TreeGrpahsGrid = () => {
+const TreeGrpahsGrid = ({ data }) => {
   const graphTitles = [
     { title: "Energy", class: "div19" },
     { title: "Auto", class: "div20" },
@@ -21,52 +21,50 @@ const TreeGrpahsGrid = () => {
     { title: "Fin Service", class: "div34" },
   ];
 
+  const [sectorWiseData, setSectorWiseData] = useState([]);
+
+  useEffect(() => {
+    setSectorWiseData(data.sectorWiseData);
+  }, [data]);
+
+  console.log("sec....", sectorWiseData);
+
   return (
     <>
-    <div className="lg:block hidden">
-
-    
-      <div className="parent  ">
-        {graphTitles.map((graphTitle, index) => (
-          <div
-            key={index}
-            className={`${graphTitle.class} w-full h-full  mt-10 dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-md flex`}
-          >
-            <div className=" w-full  flex flex-col dark:bg-db-primary bg-db-secondary-light rounded-md overflow-hidden ">
-              <h1 className="text-base px-2.5  ">
-                {" "}
-                {graphTitle.title}{" "}
-              </h1>
-              <div className="flex-grow w-full">
-                <TreemapChart />
+      <div className="lg:block hidden">
+        <div className="parent  ">
+          {Object.entries(sectorWiseData || {}).map(
+            ([sector, values], index) => (
+              <div
+                key={index}
+                className={`${graphTitles[index % graphTitles.length]?.class} w-full h-full mt-10 dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-md flex`}
+              >
+                <div className="w-full flex flex-col dark:bg-db-primary bg-db-secondary-light rounded-md overflow-hidden">
+                  <h1 className="text-base px-2.5">{sector}</h1>
+                  <div className="flex-grow w-full">
+                    <TreemapChart data={values} />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
-
-       
-      </div>{" "}
-</div>
-      <div className="lg:hidden  flex flex-col   ">
+            )
+          )}
+        </div>{" "}
+      </div>
+      {/* <div className="lg:hidden  flex flex-col   ">
         {graphTitles.map((graphTitle, index) => (
           <div
             key={index}
             className={` w-full sm:h-[400px] h-[300px]  mt-10 dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-md flex`}
           >
             <div className=" w-full  flex flex-col dark:bg-db-primary bg-db-secondary-light rounded-md overflow-hidden ">
-              <h1 className="text-base px-2.5 ">
-                {" "}
-                {graphTitle.title}{" "}
-              </h1>
+              <h1 className="text-base px-2.5 "> {graphTitle.title} </h1>
               <div className="flex-grow w-full">
-                <TreemapChart />
+                <TreemapChart data={sectorWiseData} />
               </div>
             </div>
           </div>
         ))}
-
-       
-      </div>
+      </div> */}
     </>
   );
 };

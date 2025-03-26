@@ -26,20 +26,27 @@ const getColor = (change) => {
   return "rgba(169, 169, 169, 0.8)"; // Dark gray for neutral
 };
 
-const TreemapChart = () => {
+const TreemapChart = ({data}) => {
   const [tooltip, setTooltip] = useState(null);
+  
+
+  const transformedData = data.map((item) => ({
+    name: item.UNDERLYING_SYMBOL, // Assigning stock name from `securityId`
+    volume: item.xelement, // Assigning volume from `xelement`
+    change: item.percentageChange ?? 0, // Handling `null` values in `percentageChange`
+  }));
 
   return (
     <div className="w-full h-full bg-[#01071C] rounded-lg relative">
       <ResponsiveContainer width="100%" height="100%">
         <Treemap
-          data={stockData}
+          data={transformedData}
           dataKey="volume"
           animationDuration={0} 
            
           content={({ root, depth, x, y, width, height, index }) => {
             if (!root || depth === 0 ) return null;
-            const stock = stockData[index];
+            const stock = transformedData[index];
             if(!stock) return null;
 
             return (
