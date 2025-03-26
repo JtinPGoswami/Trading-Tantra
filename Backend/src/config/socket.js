@@ -1,5 +1,4 @@
 import {Server} from "socket.io";
-import { getStocksData } from "../controllers/stock.contollers.js";
 
 let io ;
 const initializeServer = (server) => {
