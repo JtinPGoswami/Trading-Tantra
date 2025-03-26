@@ -11,10 +11,18 @@ import "./config/passport.js";
 
 import stocksRoutes from "./routes/stock.routes.js";
 
-import { getStocksData } from "./controllers/stock.contollers.js";
+import {
+  getDayLowBreak,
+  getDayHighBreak,
+  getStocksData,
+  getTopGainersAndLosers,
+  previousDaysVolume,
+  sectorStockData,
+} from "./controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./config/socket.js";
 import holidayJob from "./jobs/holiday.job.js";
 import scheduleMarketJob from "./jobs/liveMarket.job.js";
+import { send } from "process";
 dotenv.config();
 
 const app = express();
@@ -43,113 +51,81 @@ app.use("/api/auth", authRoutes);
 // app.use("/api", subscriptionPlanRoutes);
 app.use("/api", stocksRoutes);
 
-// getOhlcData();
-
-// const getHistoricalData = async () => {
-
-//   // const stockList = await StocksDetail.find();
-
-//   // let securityId = stockList.map((stock) => stock.SECURITY_ID);
-
-//   const requestBody = {
-
-//       // "NSE_EQ":[100,1099,1023,10243,10440,10447,10599,10604,10666,10726],
-
-//     securityId: ['100','1099'],
-//     exchangeSegment: "NSE_EQ",
-//     instrument: "EQUITY",
-//     expiryCode: 0,
-//     fromDate: "2025-03-07",
-//     toDate: "2025-03-08",
-//   };
-//   const response = await fetchData("/charts/historical", "POST",requestBody);
-
-//   console.log("Final Response for OHLC:", response.data);
-
-//   // const averagePrice =  (  response.data.open[0] + response.data.high[0] + response.data.low[0] + response.data.close[0]) / 4;
-//   //   const turnover = averagePrice * response.data.volume[0];
-//   //   console.log('turnover',turnover)
-
-// };
-
-// getHistoricalData();
-// const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// const getData = async () => {
-
-//   const stocks = stocksData
-//   // console.log('stock',stocks)
-//   const securityIds = stocks.map((stock) => stock.SECURITY_ID);
-//   const fromDate = "2025-03-01";
-//   const toDate = "2025-03-17";
-
-// console.log('security is', securityIds)
-
-//     try {
-//       for (let i = 0; i < securityIds.length; i++) {
-//        const data = await fetchHistoricalData(securityIds[i],fromDate,toDate );
-//        console.log(`data for security id ${securityIds[i]}`,data?.open)
-//         await delay(500); // Adjust delay (1000ms = 1 sec) based on API rate limits
-//     }
-
-//     //   const turnover = calculateTurnover(data);
-//     //   console.log(`Total Turnover of SBIN (NSE) from ${fromDate} to ${toDate}: ₹${turnover.toFixed(2)}`);
-//     } catch (error) {
-//       console.error("Error in getData:", error.message);
-//     }
-
-//   }
-// getData();
-
-// const API_URL = 'https://api.dhan.co/market/instruments?segment=FO';
-
-// const ACCESS_TOKEN = process.env.DHAN_ACCESS_TOKEN; // Replace with your actual token
-// const CLIENT_ID = process.env.DHAN_CLIENT_ID; // Replace with your actual client ID
-
-// async function fetchFOInstruments() {
-//     try {
-//         const response = await axios.get(API_URL, {
-//             headers: {
-//                 "Accept": "application/json",
-//                 "access-token": ACCESS_TOKEN,
-//                 "client-id": CLIENT_ID
-//             }
-//         });
-
-//         const instruments = response.data;
-
-//         // Filtering only Futures & Options instruments
-//         const foInstruments = instruments.filter(instr =>
-//             ["FUTSTK", "OPTSTK", "FUTIDX", "OPTIDX"].includes(instr.instrumentType)
-//         );
-
-//         const securityIds = foInstruments.map(instr => ({
-//             symbol: instr.tradingSymbol,
-//             securityId: instr.securityId,
-//             instrumentType: instr.instrumentType
-//         }));
-
-//         console.log(securityIds);
-//     } catch (error) {
-//         console.error("Error fetching instruments:", error.response?.data || error.message);
-//     }
-// }
-
-// fetchFOInstruments();
-
-async function getTurnover() {
+async function sendData() {
   try {
-    const response = await getStocksData();
-    getSocketInstance().emit("turnOver", response);
-    console.log("start.....👍");
+    const socket = getSocketInstance();
+    if (!socket) {
+      console.error("Socket instance is not available.");
+      return;
+    }
+
+    console.log("Fetching and sending stock data...");
+
+    const [
+      response,
+      dayHighBreakResponse,
+      getTopGainersAndLosersResponse,
+      dayLowBreakResponse,
+      previousDaysVolumeResponse,
+    ] = await Promise.allSettled([
+      getStocksData(),
+      getDayHighBreak(),
+      getTopGainersAndLosers(),
+      getDayLowBreak(),
+      previousDaysVolume(),
+    ]);
+
+    if (response.status === "fulfilled")
+      socket.emit("turnOver", response.value);
+    if (dayHighBreakResponse.status === "fulfilled")
+      socket.emit("dayHighBreak", dayHighBreakResponse.value);
+    if (getTopGainersAndLosersResponse.status === "fulfilled")
+      socket.emit(
+        "getTopGainersAndLosers",
+        getTopGainersAndLosersResponse.value
+      );
+    if (dayLowBreakResponse.status === "fulfilled")
+      socket.emit("dayLowBreak", dayLowBreakResponse.value);
+    if (previousDaysVolumeResponse.status === "fulfilled")
+      socket.emit("previousDaysVolume", previousDaysVolumeResponse.value);
+
+    console.log("Data sent successfully... 👍");
   } catch (error) {
-    console.log(error);
-  } finally {
-    setTimeout(getTurnover, 20000);
+    console.error("Error sending data:", error);
   }
 }
 
-getTurnover();
+// ✅ **Run `sendData()` immediately**
+sendData();
+
+// ✅ **Then set an interval for every 20 seconds**
+setInterval(sendData, 20000);
+
+async function sendSectorData() {
+  try {
+    const socket = getSocketInstance();
+    if (!socket) {
+      console.error("Socket instance is not available.");
+      return;
+    }
+
+    console.log("Fetching and sending sector stock data...");
+
+    const [response] = await Promise.allSettled([sectorStockData()]);
+
+    if (response.status === "fulfilled")
+      socket.emit("sectorScope", response.value);
+
+    console.log("Data sector sent successfully... 👍");
+  } catch (error) {
+    console.error("Error sending data:", error);
+  }
+}
+
+// ✅ **Run `sendData()` immediately**
+sendSectorData();
+
+setInterval(sendSectorData, 20000);
 
 const PORT = process.env.PORT || 3000;
 

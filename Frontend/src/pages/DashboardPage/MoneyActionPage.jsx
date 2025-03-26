@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TreemapChart from "../../Components/Dashboard/TreemapChart";
 import candles from "../../assets/Images/Dashboard/marketdepthpage/candles.png";
 import { FaPlayCircle } from "react-icons/fa";
@@ -9,221 +9,300 @@ import LomLongTerm from "../../assets/Images/Dashboard/monryActionPage/LomLongTe
 import contraction from "../../assets/Images/Dashboard/monryActionPage/Contraction.png";
 import OneDayHL from "../../assets/Images/Dashboard/monryActionPage/oneDayHL.png";
 import twoDayHL from "../../assets/Images/Dashboard/monryActionPage/twoDayHL.png";
+import TwoDayHLBreak from "../../Components/Dashboard/Cards/Smart money action/TwoDayHLBreak";
+import axios from "axios";
+import DayHighLowReversal from "../../Components/Dashboard/Cards/Smart money action/DayHighLowReversal";
+import DailyRangeBreakout from "../../Components/Dashboard/Cards/Smart money action/DailyRangeBreakout";
+import AIMomentumCatcherTenMins from "../../Components/Dashboard/Cards/Smart money action/AIMomentumCatcherTenMins";
+import AIMomentumCatcherFiveMins from "../../Components/Dashboard/Cards/Smart money action/AIMomentumCatcherFiveMins";
+import AIIntradayReversalDaily from "../../Components/Dashboard/Cards/Smart money action/AIIntradayReversalDaily";
+import AIIntradayReversalFiveMins from "../../Components/Dashboard/Cards/Smart money action/AIIntradayReversalFiveMins";
 
 const MonryActionPage = () => {
-  const stockDataList = [
-    {
-      title: "AI Intraday Reversal (TF - 5 min)",
-      img: LomShortTerm,
-      price: "purchased",
-      stocks: [
-        {
-          symbol: "KPITTECH",
-          icon: "https://via.placeholder.com/20/00FF00",
-          percent: 2.96,
-          turnover: 332.89,
-        },
-        {
-          symbol: "ZOMATO",
-          icon: "https://via.placeholder.com/20/FF0000",
-          percent: 6.72,
-          turnover: 1.94,
-        },
-        {
-          symbol: "TVS MOTOR",
-          icon: "https://via.placeholder.com/20/FFA500",
-          percent: 5.94,
-          turnover: 0.77,
-        },
-        {
-          symbol: "SUPER MEIND",
-          icon: "https://via.placeholder.com/20/FF4500",
-          percent: 5.64,
-          turnover: 1.89,
-        },
-        {
-          symbol: "SUPER MEIND",
-          icon: "https://via.placeholder.com/20/FF4500",
-          percent: 5.64,
-          turnover: 1.89,
-        },
-        {
-          symbol: "SUPER MEIND",
-          icon: "https://via.placeholder.com/20/FF4500",
-          percent: 5.64,
-          turnover: 1.89,
-        },
-        {
-          symbol: "SUPER MEIND",
-          icon: "https://via.placeholder.com/20/FF4500",
-          percent: 5.64,
-          turnover: 1.89,
-        },
-        {
-          symbol: "SUPER MEIND",
-          icon: "https://via.placeholder.com/20/FF4500",
-          percent: 5.64,
-          turnover: 1.89,
-        },
-        {
-          symbol: "SUPER MEIND",
-          icon: "https://via.placeholder.com/20/FF4500",
-          percent: 5.64,
-          turnover: 1.89,
-        },
-      ],
-    },
-    {
-      title: "AI Swing Reversal (TF - Daily)",
-      img: LomLongTerm,
-      price: "purchased",
-      stocks: [
-        {
-          symbol: "HDFC",
-          icon: "https://via.placeholder.com/20/008000",
-          percent: 1.23,
-          turnover: 125.3,
-        },
-        {
-          symbol: "ICICI",
-          icon: "https://via.placeholder.com/20/FF4500",
-          percent: 2.45,
-          turnover: 76.5,
-        },
-        {
-          symbol: "TATA STEEL",
-          icon: "https://via.placeholder.com/20/0000FF",
-          percent: 3.78,
-          turnover: 56.1,
-        },
-      ],
-    },
-    {
-      title: "AI Swing Reversal (TF - Daily)",
-      img: LomLongTerm,
-      price: "purchased",
-      stocks: [
-        {
-          symbol: "HDFC",
-          icon: "https://via.placeholder.com/20/008000",
-          percent: 1.23,
-          turnover: 125.3,
-        },
-        {
-          symbol: "ICICI",
-          icon: "https://via.placeholder.com/20/FF4500",
-          percent: 2.45,
-          turnover: 76.5,
-        },
-        {
-          symbol: "TATA STEEL",
-          icon: "https://via.placeholder.com/20/0000FF",
-          percent: 3.78,
-          turnover: 56.1,
-        },
-      ],
-    },
-    {
-      title: "AI Swing Reversal (TF - Daily)",
-      img: LomLongTerm,
-      price: "purchased",
-      stocks: [
-        {
-          symbol: "HDFC",
-          icon: "https://via.placeholder.com/20/008000",
-          percent: 1.23,
-          turnover: 125.3,
-        },
-        {
-          symbol: "ICICI",
-          icon: "https://via.placeholder.com/20/FF4500",
-          percent: 2.45,
-          turnover: 76.5,
-        },
-        {
-          symbol: "TATA STEEL",
-          icon: "https://via.placeholder.com/20/0000FF",
-          percent: 3.78,
-          turnover: 56.1,
-        },
-      ],
-    },
-    {
-      title: "AI Range Breakout (TF - Daily)",
-      img: contraction,
-      price: "no",
-      stocks: [
-        {
-          symbol: "IRCTC",
-          icon: "https://via.placeholder.com/20/800080",
-          percent: 4.11,
-          turnover: 98.2,
-        },
-        {
-          symbol: "YES BANK",
-          icon: "https://via.placeholder.com/20/FFD700",
-          percent: 1.98,
-          turnover: 23.4,
-        },
-        {
-          symbol: "BIOCON",
-          icon: "https://via.placeholder.com/20/FF69B4",
-          percent: 3.22,
-          turnover: 45.8,
-        },
-      ],
-    },
-    {
-      title: "Day H/L Reversal",
-      img: OneDayHL,
-      price: "no",
-      stocks: [
-        {
-          symbol: "IRCTC",
-          icon: "https://via.placeholder.com/20/800080",
-          percent: 4.11,
-          turnover: 98.2,
-        },
-        {
-          symbol: "YES BANK",
-          icon: "https://via.placeholder.com/20/FFD700",
-          percent: 1.98,
-          turnover: 23.4,
-        },
-        {
-          symbol: "BIOCON",
-          icon: "https://via.placeholder.com/20/FF69B4",
-          percent: 3.22,
-          turnover: 45.8,
-        },
-      ],
-    },
-    {
-      title: "2 Day H/L BO",
-      img: twoDayHL,
-      price: "no",
-      stocks: [
-        {
-          symbol: "IRCTC",
-          icon: "https://via.placeholder.com/20/800080",
-          percent: 4.11,
-          turnover: 98.2,
-        },
-        {
-          symbol: "YES BANK",
-          icon: "https://via.placeholder.com/20/FFD700",
-          percent: 1.98,
-          turnover: 23.4,
-        },
-        {
-          symbol: "BIOCON",
-          icon: "https://via.placeholder.com/20/FF69B4",
-          percent: 3.22,
-          turnover: 45.8,
-        },
-      ],
-    },
-  ];
+  // const stockDataList = [
+
+  //   {
+  //     title: "AI Intraday Reversal (TF - 5 min)",
+  //     img: LomShortTerm,
+  //     price: "purchased",
+  //     stocks: [
+  //       {
+  //         symbol: "KPITTECH",
+  //         icon: "https://via.placeholder.com/20/00FF00",
+  //         percent: 2.96,
+  //         turnover: 332.89,
+  //       },
+  //       {
+  //         symbol: "ZOMATO",
+  //         icon: "https://via.placeholder.com/20/FF0000",
+  //         percent: 6.72,
+  //         turnover: 1.94,
+  //       },
+  //       {
+  //         symbol: "TVS MOTOR",
+  //         icon: "https://via.placeholder.com/20/FFA500",
+  //         percent: 5.94,
+  //         turnover: 0.77,
+  //       },
+  //       {
+  //         symbol: "SUPER MEIND",
+  //         icon: "https://via.placeholder.com/20/FF4500",
+  //         percent: 5.64,
+  //         turnover: 1.89,
+  //       },
+  //       {
+  //         symbol: "SUPER MEIND",
+  //         icon: "https://via.placeholder.com/20/FF4500",
+  //         percent: 5.64,
+  //         turnover: 1.89,
+  //       },
+  //       {
+  //         symbol: "SUPER MEIND",
+  //         icon: "https://via.placeholder.com/20/FF4500",
+  //         percent: 5.64,
+  //         turnover: 1.89,
+  //       },
+  //       {
+  //         symbol: "SUPER MEIND",
+  //         icon: "https://via.placeholder.com/20/FF4500",
+  //         percent: 5.64,
+  //         turnover: 1.89,
+  //       },
+  //       {
+  //         symbol: "SUPER MEIND",
+  //         icon: "https://via.placeholder.com/20/FF4500",
+  //         percent: 5.64,
+  //         turnover: 1.89,
+  //       },
+  //       {
+  //         symbol: "SUPER MEIND",
+  //         icon: "https://via.placeholder.com/20/FF4500",
+  //         percent: 5.64,
+  //         turnover: 1.89,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "AI Swing Reversal (TF - Daily)",
+  //     img: LomLongTerm,
+  //     price: "purchased",
+  //     stocks: [
+  //       {
+  //         symbol: "HDFC",
+  //         icon: "https://via.placeholder.com/20/008000",
+  //         percent: 1.23,
+  //         turnover: 125.3,
+  //       },
+  //       {
+  //         symbol: "ICICI",
+  //         icon: "https://via.placeholder.com/20/FF4500",
+  //         percent: 2.45,
+  //         turnover: 76.5,
+  //       },
+  //       {
+  //         symbol: "TATA STEEL",
+  //         icon: "https://via.placeholder.com/20/0000FF",
+  //         percent: 3.78,
+  //         turnover: 56.1,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "AI Swing Reversal (TF - Daily)",
+  //     img: LomLongTerm,
+  //     price: "purchased",
+  //     stocks: [
+  //       {
+  //         symbol: "HDFC",
+  //         icon: "https://via.placeholder.com/20/008000",
+  //         percent: 1.23,
+  //         turnover: 125.3,
+  //       },
+  //       {
+  //         symbol: "ICICI",
+  //         icon: "https://via.placeholder.com/20/FF4500",
+  //         percent: 2.45,
+  //         turnover: 76.5,
+  //       },
+  //       {
+  //         symbol: "TATA STEEL",
+  //         icon: "https://via.placeholder.com/20/0000FF",
+  //         percent: 3.78,
+  //         turnover: 56.1,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "AI Swing Reversal (TF - Daily)",
+  //     img: LomLongTerm,
+  //     price: "purchased",
+  //     stocks: [
+  //       {
+  //         symbol: "HDFC",
+  //         icon: "https://via.placeholder.com/20/008000",
+  //         percent: 1.23,
+  //         turnover: 125.3,
+  //       },
+  //       {
+  //         symbol: "ICICI",
+  //         icon: "https://via.placeholder.com/20/FF4500",
+  //         percent: 2.45,
+  //         turnover: 76.5,
+  //       },
+  //       {
+  //         symbol: "TATA STEEL",
+  //         icon: "https://via.placeholder.com/20/0000FF",
+  //         percent: 3.78,
+  //         turnover: 56.1,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "AI Range Breakout (TF - Daily)",
+  //     img: contraction,
+  //     price: "no",
+  //     stocks: [
+  //       {
+  //         symbol: "IRCTC",
+  //         icon: "https://via.placeholder.com/20/800080",
+  //         percent: 4.11,
+  //         turnover: 98.2,
+  //       },
+  //       {
+  //         symbol: "YES BANK",
+  //         icon: "https://via.placeholder.com/20/FFD700",
+  //         percent: 1.98,
+  //         turnover: 23.4,
+  //       },
+  //       {
+  //         symbol: "BIOCON",
+  //         icon: "https://via.placeholder.com/20/FF69B4",
+  //         percent: 3.22,
+  //         turnover: 45.8,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Day H/L Reversal",
+  //     img: OneDayHL,
+  //     price: "no",
+  //     stocks: [
+  //       {
+  //         symbol: "IRCTC",
+  //         icon: "https://via.placeholder.com/20/800080",
+  //         percent: 4.11,
+  //         turnover: 98.2,
+  //       },
+  //       {
+  //         symbol: "YES BANK",
+  //         icon: "https://via.placeholder.com/20/FFD700",
+  //         percent: 1.98,
+  //         turnover: 23.4,
+  //       },
+  //       {
+  //         symbol: "BIOCON",
+  //         icon: "https://via.placeholder.com/20/FF69B4",
+  //         percent: 3.22,
+  //         turnover: 45.8,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "2 Day H/L BO",
+  //     img: twoDayHL,
+  //     price: "no",
+  //     stocks: [
+  //       {
+  //         symbol: "IRCTC",
+  //         icon: "https://via.placeholder.com/20/800080",
+  //         percent: 4.11,
+  //         turnover: 98.2,
+  //       },
+  //       {
+  //         symbol: "YES BANK",
+  //         icon: "https://via.placeholder.com/20/FFD700",
+  //         percent: 1.98,
+  //         turnover: 23.4,
+  //       },
+  //       {
+  //         symbol: "BIOCON",
+  //         icon: "https://via.placeholder.com/20/FF69B4",
+  //         percent: 3.22,
+  //         turnover: 45.8,
+  //       },
+  //     ],
+  //   },
+  // ];
+const [stocks, setStocks] = useState([]);
+const [loading, setLoading] = useState(true);
+const [dayHLReversalRes, setDayHLReversalRes] = useState([]);
+const[DailyRangeBreakoutRes, setDailyRangeBreakoutRes] = useState([])
+ const [MomentumCatherTenMinRes, setMomentumCatherTenMinRes] = useState([])
+ const [MomentumCatherFiveMinRes, setMomentumCatherFiveMinRes] = useState([])
+ const [AIIntradayReversalFiveMinsRes, setAIIntradayReversalFiveMinsRes] = useState([])
+ const [AIIntradayReversalDailyRes, setAIIntradayReversalDailyRes] = useState([])
+const fetchStocks = async () => {
+  try {
+    // const response = await axios.get("http://localhost:3000/api/two-day-hl-break", {
+    //   timeout: 120000,
+    // });
+    // setStocks(response.data);
+
+    // const DayHighLowReversalRes =  await axios.get("http://localhost:3000/api/daily-range-breakout", {
+    //   timeout: 120000,
+    // })
+
+    // setDayHLReversalRes(DayHighLowReversalRes.data)
+
+    
+    // const DailyRangeBreakout =  await axios.get("http://localhost:3000/api/daily-range-breakout", {
+    //   timeout: 120000,
+    // })
+
+    // setDailyRangeBreakoutRes(DailyRangeBreakout.data)
+    
+    // const MomentumCatherTenMin =  await axios.get("http://localhost:3000/api/ten-min-momentum", {
+    //   timeout: 120000,
+    // })
+
+    // setMomentumCatherTenMinRes(MomentumCatherTenMin.data)
+    
+    // const MomentumCatherFiveMin =  await axios.get("http://localhost:3000/api/five-min-momentum", {
+    //   timeout: 120000,
+    // })
+
+    // setMomentumCatherFiveMinRes(MomentumCatherFiveMin.data)
+    
+
+    // const AIIntradayReversalFiveMins =  await axios.get("http://localhost:3000/api/five-min-intraday-reversal-candle", {
+    //   timeout: 120000,
+    // })
+
+    // setAIIntradayReversalFiveMinsRes(AIIntradayReversalFiveMins.data)
+
+
+    const AIIntradayReversalDaily =  await axios.get("http://localhost:3000/api/daily-intraday-reversal-candle", {
+      timeout: 120000,
+    })
+
+    setAIIntradayReversalDailyRes(AIIntradayReversalDaily.data)
+   
+
+
+  } catch (error) {
+    console.error("Error fetching stocks:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  fetchStocks();
+}, []);
+
+
+console.log(AIIntradayReversalDailyRes)
+
   return (
     <>
       {/* // 5 MIN MOMENTUM SPIKE card  */}
@@ -278,15 +357,14 @@ const MonryActionPage = () => {
       {/* stock cards section */}
 
       <section className="grid lg:grid-cols-2 grid-col-1 gap-8 mt-10">
-        {stockDataList.map((item, index) => (
-          <StockCard
-            key={index}
-            title={item.title}
-            stocks={item.stocks}
-            img={item.img}
-            price={item.price}
-          />
-        ))}
+
+        <AIMomentumCatcherFiveMins data={MomentumCatherFiveMinRes.updatedData} loading={loading}/>
+        <AIMomentumCatcherTenMins data={MomentumCatherTenMinRes.data} loading={loading}/>
+        <AIIntradayReversalFiveMins data={AIIntradayReversalFiveMinsRes.data} loading={loading}/>
+        <AIIntradayReversalDaily data={AIIntradayReversalDailyRes.data} loading={loading}/>
+        <DailyRangeBreakout data={DailyRangeBreakoutRes.data} loading={loading}/>
+        <DayHighLowReversal data={dayHLReversalRes.data} loading={loading}/>
+        <TwoDayHLBreak data={stocks.data} loading={loading} />
       </section>
     </>
   );

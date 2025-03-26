@@ -8,6 +8,7 @@ import Loader from "../../Loader";
 const HighPowerStock = ({ data, loading }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc"); // Ascending by default
+   const [sortOrderChange, setSortOrderChange] = useState("desc");
 
   // Update sortedData whenever data changes
   useEffect(() => {
@@ -26,10 +27,24 @@ const HighPowerStock = ({ data, loading }) => {
     setSortedData(sorted);
     setSortOrder(newOrder);
 
-    console.log(sortedData);
+    // console.log(sortedData);
   };
 
-  console.log(loading);
+  const handleSortByPercentageChange = () => {
+    if (!sortedData?.length) return;
+
+    const newOrder = sortOrderChange === "asc" ? "desc" : "asc";
+    const sorted = [...sortedData].sort((a, b) =>
+      newOrder === "asc"
+        ? a.percentageChange - b.percentageChange
+        : b.percentageChange - a.percentageChange
+    );
+
+    setSortedData(sorted);
+    setSortOrderChange(newOrder);
+  };
+
+  // console.log(loading);
 
   return (
     <div className="relative w-full h-[360px] bg-gradient-to-tr from-[#0009B2] to-[#02000E] rounded-lg p-px overflow-hidden">
@@ -71,8 +86,10 @@ const HighPowerStock = ({ data, loading }) => {
                     <th className="py-2">
                       <MdOutlineKeyboardArrowDown />
                     </th>
-                    <th className="py-2 flex items-center justify-center">
-                      % <MdOutlineKeyboardArrowDown />
+                    <th className="py-2 flex items-center justify-center"
+                    onClick={handleSortByPercentageChange}
+                    >
+                      % <MdOutlineKeyboardArrowDown   className={sortOrderChange === "desc" ? "rotate-180" : ""} />
                     </th>
                     <th
                       className="text-right py-2 cursor-pointer"
@@ -81,7 +98,7 @@ const HighPowerStock = ({ data, loading }) => {
                       <span className="flex justify-center items-center">
                         T.O.{" "}
                         <MdOutlineKeyboardArrowDown
-                          className={sortOrder === "asc" ? "rotate-180" : ""}
+                          className={sortOrder === "desc" ? "rotate-180" : ""}
                         />
                       </span>
                     </th>

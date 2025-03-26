@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaPlayCircle } from "react-icons/fa";
 import { FcCandleSticks } from "react-icons/fc";
 import { GoDotFill } from "react-icons/go";
@@ -6,6 +6,7 @@ import TreemapChart from "../../Components/Dashboard/TreemapChart";
 import AISectorChart from "../../Components/Dashboard/AISectorChart";
 import StockCard from "../../Components/Dashboard/StockCard";
 import TreeGrpahsGrid from "../../Components/Dashboard/TreeGraphsGrid";
+import { io } from "socket.io-client";
 const AiSectorDepthPage = () => {
   const stockDataList = [
     {
@@ -399,6 +400,29 @@ const AiSectorDepthPage = () => {
       ],
     },
   ];
+
+  const socket = io("http://localhost:3000");
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [sectorWiseData, setSectorWiseData] = useState([]);
+
+  useEffect(() => {
+    try {
+      socket.on("sectorScope", (data) => {
+        setData(data);
+        setSectorWiseData(data?.sectorWiseData);
+        setLoading(false);
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  }, []);
+
+  if (loading) {
+    console.log("loading....");
+  }
+
   return (
     <>
       <section className="mt-8 dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg h-auto ">
@@ -411,7 +435,7 @@ const AiSectorDepthPage = () => {
             <span className="flex items-center gap-1">
               How to use <FaPlayCircle className="text-[#0256F5]" />
             </span>
-            <span className="flex items-center px-2 py-px rounded-full w-fit text-white bg-[#0256F5] text-xs">  
+            <span className="flex items-center px-2 py-px rounded-full w-fit text-white bg-[#0256F5] text-xs">
               <GoDotFill />
               Live
             </span>
@@ -450,7 +474,7 @@ const AiSectorDepthPage = () => {
               </div>
             ))}
           </div> */}
-          <TreeGrpahsGrid />
+          <TreeGrpahsGrid data={data} />
         </div>
       </section>
 
@@ -467,7 +491,7 @@ const AiSectorDepthPage = () => {
             </span>
           </div>
           <div className="w-fullbg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
-            <AISectorChart />
+            <AISectorChart data={sectorWiseData} />
           </div>
         </div>
       </section>
@@ -476,15 +500,11 @@ const AiSectorDepthPage = () => {
 
       <section className="mt-8">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-        {stockDataList.map((item, index) => (
-          <StockCard
-            key={index}
-            title={item.title}
-            stocks={item.stocks}
-            img={item.img}
-            price={item.price}
-          />
-        ))}
+          {Object.entries(sectorWiseData)
+            .filter(([sector]) => sector !== "Uncategorized") // Filter out 'Uncategorized' before mapping
+            .map(([sector, values], index) => (
+              <StockCard key={index} title={sector} data={values}  loading={false} error={false}/>
+            ))}
         </div>
       </section>
     </>

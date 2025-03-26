@@ -8,10 +8,12 @@ import boost from "../../../assets/Images/Dashboard/marketdepthpage/boost.png";
 
 export const PreviousVolume = ({ data, loading, error }) => {
   const [sortedData, setSortedData] = useState([]);
-  const [sortOrder, setSortOrder] = useState("asc"); // desc by default
+  const [sortOrder, setSortOrder] = useState("desc"); // desc by default
+  const [sortOrderChange, setSortOrderChange] = useState("desc");
 
   // Update sortedData whenever data changes
   useEffect(() => {
+    // console.log('previousVolume',data)
     setSortedData(data || []);
   }, [data]);
 
@@ -26,6 +28,21 @@ export const PreviousVolume = ({ data, loading, error }) => {
 
     setSortedData(sorted);
     setSortOrder(newOrder);
+  };
+
+
+  const handleSortByPercentageChange = () => {
+    if (!sortedData?.length) return;
+
+    const newOrder = sortOrderChange === "asc" ? "desc" : "asc";
+    const sorted = [...sortedData].sort((a, b) =>
+      newOrder === "asc"
+        ? a.percentageChange - b.percentageChange
+        : b.percentageChange - a.percentageChange
+    );
+
+    setSortedData(sorted);
+    setSortOrderChange(newOrder);
   };
 
   return (
@@ -70,18 +87,18 @@ export const PreviousVolume = ({ data, loading, error }) => {
                     </th>
                     <th
                       className="py-2 flex items-center justify-center"
-                      onClick={handleSort}
+                      onClick={handleSortByPercentageChange}
                     >
                       %{" "}
                       <MdOutlineKeyboardArrowDown
-                        className={sortOrder === "asc" ? "rotate-180" : ""}
+                        className={sortOrder === "desc" ? "rotate-180" : ""}
                       />
                     </th>
                     <th className="text-right py-2 cursor-pointer">
-                      <span className="flex justify-center items-center">
-                        R Fact.{" "}
+                      <span className="flex justify-center items-center" title="X Element" onClick={handleSort}>
+                        xElem.{" "}
                         <MdOutlineKeyboardArrowDown
-                          className={sortOrder === "asc" ? "rotate-180" : ""}
+                          className={sortOrder === "desc" ? "rotate-180" : ""}
                         />
                       </span>
                     </th>

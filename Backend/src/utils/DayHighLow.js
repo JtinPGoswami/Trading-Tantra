@@ -79,9 +79,9 @@ const getDayHighBreak = async () => {
               ((latestPrice - dayClose) / dayClose) *
               100
             ).toFixed(2);
-            const cmpPrice = dayHigh - changePrice;
+          
             const percentageDifference = (
-              ((latestPrice - cmpPrice) / cmpPrice) *
+              ((dayHigh - latestPrice ) / latestPrice) *
               100
             ).toFixed(2);
             return {
@@ -186,12 +186,12 @@ const getDayLowBreak = async () => {
                 ((latestPrice - previousClose) / previousClose) *
                 100
               ).toFixed(2);
-              const cmpPrice = dayLow - changePrice;
+
+              
               const percentageDifference = (
-                ((latestPrice - (dayLow - cmpPrice)) / cmpPrice) *
+                ((dayLow - latestPrice ) / latestPrice) *
                 100
               ).toFixed(2);
-  
               return {
                 ...data,
                 stock: filteredStock,

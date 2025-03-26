@@ -23,6 +23,7 @@ import { io } from "socket.io-client";
 import { DayHigh, DayLow } from "../../Components/Dashboard/Cards/DayHighandLow";
 import { PreviousVolume } from "../../Components/Dashboard/Cards/PreviousVolume";
 
+
 const socket = io("http://localhost:3000");
 
 const MarketDepthPage = () => {
@@ -278,32 +279,57 @@ const MarketDepthPage = () => {
   //   },
   // ];
 
-  const [turnOverData, setdata] = useState([]);
+  const [turnOverData, setTurnOverdata] = useState([]);
   // const { data, loading, error, fetchData } = useFetchData();
+  const [dayHighBreakResponse, setDayHighBreakResponse] = useState([]);
 
-  const { TnGData, TnGLoading, TnGError, topGainersAndLosers } =
-    fetchStockData();
+  const [dayLowBreakResponse, setDayLowBreakResponse] = useState([]);
 
-  const { DhData, DhLoading, DhError, fetchDayHigh } = usefetchDayHighData();
 
-  const { DlData, DlLoading,  DlError, fetchDayLow } = usefetchDayLowData()
+  const [getTopGainersAndLosersResponse, setGetTopGainersAndLosersResponse] = useState([]);
 
-  const { PVData, PvLoading,  PvError, fetchPreviousVolume } = usefetchPreviousVolume();
+  const [previousDaysVolumeResponse, setPreviousDaysVolumeResponse] = useState([]);
+  const [sectorStockDataResponse, setSectorStockDataResponse] = useState([]);
+
+  // const { TnGData, TnGLoading, TnGError, topGainersAndLosers } =
+  //   fetchStockData();
+
+  // const { DhData, DhLoading, DhError, fetchDayHigh } = usefetchDayHighData();
+
+  // const { DlData, DlLoading,  DlError, fetchDayLow } = usefetchDayLowData()
+
+  // const { PVData, PvLoading,  PvError, fetchPreviousVolume } = usefetchPreviousVolume();
 
   const [loading, setloading] = useState(null);
+  const [error, seterror] = useState(null);
 
   useEffect(() => {
     try {
-      fetchDayHigh();
-      topGainersAndLosers();
-      fetchDayLow();
-      fetchPreviousVolume();
+      setloading(true);
       socket.on("turnOver", (data) => {
-        // console.log("live Data", data);
-        setdata(data?.data);
+        setTurnOverdata(data?.data);
       });
+
+      socket.on("dayLowBreak", (data) => {
+        console.log("dayLowBreakResponse", data);
+        setDayLowBreakResponse(data?.dayLowBreak);
+      })
+      socket.on("dayHighBreak", (data) => {
+        setDayHighBreakResponse(data?.dayHighBreak);
+      })
+      socket.on("getTopGainersAndLosers", (data) => {
+        setGetTopGainersAndLosersResponse(data);
+      })
+      socket.on("previousDaysVolume", (data) => {
+        
+        setPreviousDaysVolumeResponse(data?.combinedData);
+      })
+      
     } catch (error) {
       console.log("error", error);
+      seterror(error.message);
+    }finally{
+      setloading(false);
     }
 
     return () => socket.off("turnOver");
@@ -322,7 +348,7 @@ const MarketDepthPage = () => {
   //   return;
   // }
 
-  console.log("pv data", PVData);
+  // console.log("pv data", PVData);
 
   return (
     <section>
@@ -331,20 +357,20 @@ const MarketDepthPage = () => {
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 w-full mt-10">
         <HighPowerStock data={turnOverData} loading={loading} />
 
-        <PreviousVolume data={PVData?.data?.combinedData} loading={PvLoading} error={PvError} />
+        <PreviousVolume data={previousDaysVolumeResponse} loading={loading} error={error} />
 
-        <DayHigh data={DhData?.data?.dayHighBreak} loading={DhLoading} error={DhError} />
-        <DayLow data={DlData?.data?.dayLowBreak} loading={DhLoading} error={DhError} />
+        <DayHigh data={dayHighBreakResponse} loading={loading} error={error} />
+        <DayLow data={dayLowBreakResponse} loading={loading} error={error} />
 
         <TopGainers
-          data={TnGData?.data?.topGainers}  
-          loading={TnGLoading}
-          error={TnGError}
+          data={getTopGainersAndLosersResponse?.topGainers}  
+          loading={loading}
+          error={error}
         />
         <TopLoosers
-          data={TnGData?.data?.topLosers}
-          loading={TnGLoading}
-          error={TnGError}
+          data={getTopGainersAndLosersResponse?.topLosers}
+          loading={ loading}
+          error={error}
         />
       </div>
     </section>

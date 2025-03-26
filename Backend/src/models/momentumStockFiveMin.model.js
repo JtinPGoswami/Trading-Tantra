@@ -18,12 +18,8 @@ const momentumStockSchemaFiveMin = new mongoose.Schema(
     sector: { type: [String], required: true }, // Array of strings
     index: { type: [String], required: true }, // Array of strings
     timestamp: {
-      type: Date,
-      default: () => {
-        const now = new Date();
-        const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30 (5.5 hours in milliseconds)
-        return new Date(now.getTime() + istOffset);
-      },
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

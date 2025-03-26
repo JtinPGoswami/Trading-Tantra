@@ -33,13 +33,13 @@ const DailyMomentumSignalSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    overallPercentageChange: {
+      type:String,
+    },
     timestamp: {
-      type: Date,
-      default: () => {
-        const now = new Date();
-        const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30 (5.5 hours in milliseconds)
-        return new Date(now.getTime() + istOffset);
-      },
+      type: String,
+      required:true
+       
     },
   },
   { timestamps: true }

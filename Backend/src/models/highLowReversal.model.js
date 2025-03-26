@@ -48,9 +48,9 @@ const highLowReversalSchema = new mongoose.Schema(
       },
     },
     timestamp: {
-      type: Date,
+      type: String,
       required: true,
-      default: () => new Date(new Date().getTime() + 5.5 * 60 * 60 * 1000), // IST offset
+      
     },
     dayLow: {
       type: Number,
