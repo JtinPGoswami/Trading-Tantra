@@ -110,7 +110,7 @@ const HighPowerStock = ({ data, loading }) => {
                 {loading && <Loader />}
                 {/* {error && <p>{error}</p>} */}
                 <tbody>
-                  {sortedData.length > 0 ? (
+                  {sortedData?.length > 0 ? (
                     sortedData.map((stock, index) => (
                       <tr key={index}>
                         <td className="flex items-center font-medium text-xs gap-2 py-3">

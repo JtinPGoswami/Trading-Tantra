@@ -4,7 +4,6 @@ import meter from "../../assets/Images/Dashboard/marketdepthpage/meter.png";
 
 import dayHigh from "../../assets/Images/Dashboard/marketdepthpage/dayHigh.png";
 
-
 import useFetchData from "../../utils/useFetchData";
 import Loader from "../../Components/Loader";
 import HighPowerStock from "../../Components/Dashboard/Cards/HighPowerStock";
@@ -20,9 +19,11 @@ import {
 } from "../../Components/Dashboard/Cards/TopGainersAndLoosers";
 
 import { io } from "socket.io-client";
-import { DayHigh, DayLow } from "../../Components/Dashboard/Cards/DayHighandLow";
+import {
+  DayHigh,
+  DayLow,
+} from "../../Components/Dashboard/Cards/DayHighandLow";
 import { PreviousVolume } from "../../Components/Dashboard/Cards/PreviousVolume";
-
 
 const socket = io("http://localhost:3000");
 
@@ -285,10 +286,12 @@ const MarketDepthPage = () => {
 
   const [dayLowBreakResponse, setDayLowBreakResponse] = useState([]);
 
+  const [getTopGainersAndLosersResponse, setGetTopGainersAndLosersResponse] =
+    useState([]);
 
-  const [getTopGainersAndLosersResponse, setGetTopGainersAndLosersResponse] = useState([]);
-
-  const [previousDaysVolumeResponse, setPreviousDaysVolumeResponse] = useState([]);
+  const [previousDaysVolumeResponse, setPreviousDaysVolumeResponse] = useState(
+    []
+  );
   const [sectorStockDataResponse, setSectorStockDataResponse] = useState([]);
 
   // const { TnGData, TnGLoading, TnGError, topGainersAndLosers } =
@@ -300,55 +303,88 @@ const MarketDepthPage = () => {
 
   // const { PVData, PvLoading,  PvError, fetchPreviousVolume } = usefetchPreviousVolume();
 
-  const [loading, setloading] = useState(null);
+  const [loading, setLoading] = useState(null);
   const [error, seterror] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    try {
-      setloading(true);
-      socket.on("turnOver", (data) => {
-        setTurnOverdata(data?.data);
-      });
+    setLoading(true);
 
-      socket.on("dayLowBreak", (data) => {
-        console.log("dayLowBreakResponse", data);
-        setDayLowBreakResponse(data?.dayLowBreak);
-      })
-      socket.on("dayHighBreak", (data) => {
-        setDayHighBreakResponse(data?.dayHighBreak);
-      })
-      socket.on("getTopGainersAndLosers", (data) => {
-        setGetTopGainersAndLosersResponse(data);
-      })
-      socket.on("previousDaysVolume", (data) => {
-        
-        setPreviousDaysVolumeResponse(data?.combinedData);
-      })
-      
-    } catch (error) {
-      console.log("error", error);
-      seterror(error.message);
-    }finally{
-      setloading(false);
+    //trigger socket
+
+    let interval;
+
+    // socket.emit("getData");
+
+
+    if (!isFetching) {
+      socket.emit("getMarketDepthData");
+      setIsFetching(true)
+
+    } else {
+     interval =  setInterval(() => {
+        socket.emit("getMarketDepthData");
+      }, 50000);
     }
 
-    return () => socket.off("turnOver");
+    let hasDataArrived = false;
 
-    // fetchData("get-turnover", "GET");
-  }, []);
+    const handleTurnOver = (data) => {
+      setTurnOverdata(data?.data);
+      hasDataArrived = true;
+      setLoading(false);
+    };
 
-  // if (DlLoading) {
-  //   console.log("loading");
+    const handleDayLowBreak = (data) => {
+      setDayLowBreakResponse(data?.dayLowBreak);
+      hasDataArrived = true;
+      setLoading(false);
+    };
 
-  //   return;
-  // }
+    const handleDayHighBreak = (data) => {
+      setDayHighBreakResponse(data?.dayHighBreak);
+      hasDataArrived = true;
+      setLoading(false);
+    };
 
-  // if (DlError) {
-  //   console.log(TnGError, "eeeee");
-  //   return;
-  // }
+    const handleTopGainersAndLosers = (data) => {
+      setGetTopGainersAndLosersResponse(data);
+      hasDataArrived = true;
+      setLoading(false);
+    };
 
-  // console.log("pv data", PVData);
+    const handlePreviousDaysVolume = (data) => {
+      console.log("boommmm", data);
+      setPreviousDaysVolumeResponse(data?.combinedData);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+
+    // Attach event listeners
+    socket.on("turnOver", handleTurnOver);
+    socket.on("dayLowBreak", handleDayLowBreak);
+    socket.on("dayHighBreak", handleDayHighBreak);
+    socket.on("getTopGainersAndLosers", handleTopGainersAndLosers);
+    socket.on("previousDaysVolume", handlePreviousDaysVolume);
+
+    // Set a timeout to stop loading if no data arrives
+    // const timeout = setTimeout(() => {
+    //   if (!hasDataArrived) {
+    //     setLoading(false);
+    //     console.log("No data received within the expected time.");
+    //   }
+    // }, 20000); // Adjust timeout duration as needed
+
+    // Cleanup function
+    return () => {
+      socket.off("turnOver", handleTurnOver);
+      socket.off("dayLowBreak", handleDayLowBreak);
+      socket.off("dayHighBreak", handleDayHighBreak);
+      socket.off("getTopGainersAndLosers", handleTopGainersAndLosers);
+      socket.off("previousDaysVolume", handlePreviousDaysVolume);
+      clearInterval(interval);
+    };
+  }, [isFetching]);
 
   return (
     <section>
@@ -357,19 +393,23 @@ const MarketDepthPage = () => {
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 w-full mt-10">
         <HighPowerStock data={turnOverData} loading={loading} />
 
-        <PreviousVolume data={previousDaysVolumeResponse} loading={loading} error={error} />
+        <PreviousVolume
+          data={previousDaysVolumeResponse}
+          loading={loading}
+          error={error}
+        />
 
         <DayHigh data={dayHighBreakResponse} loading={loading} error={error} />
         <DayLow data={dayLowBreakResponse} loading={loading} error={error} />
 
         <TopGainers
-          data={getTopGainersAndLosersResponse?.topGainers}  
+          data={getTopGainersAndLosersResponse?.topGainers}
           loading={loading}
           error={error}
         />
         <TopLoosers
           data={getTopGainersAndLosersResponse?.topLosers}
-          loading={ loading}
+          loading={loading}
           error={error}
         />
       </div>
