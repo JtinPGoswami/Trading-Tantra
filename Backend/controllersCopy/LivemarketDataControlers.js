@@ -8,6 +8,7 @@ import {
   fetchHistoricalData,
   fetchHistoricalDataforTenMin,
 } from "../utils/fetchData.js";
+import fiveMinMomentumSignal from "../models/fiveMInMomentumSignal.model.js";
 import DailyMomentumSignal from "../models/dailyMomentumSignal.model.js";
 import MarketDetailData from "../models/marketData.model.js";
 import MomentumStockFiveMin from "../models/momentumStockFiveMin.model.js";
@@ -16,9 +17,6 @@ import DailyRangeBreakouts from "../models/dailyRangeBreakout.model.js";
 import { getDayHighBreak, getDayLowBreak } from "../utils/DayHighLow.js";
 import HighLowReversal from "../models/highLowReversal.model.js";
 import TwoDayHighLowBreak from "../models/twoDayHighLowBreak.model.js";
-import FiveMinCandles from "../models/fiveMinCandles.model.js";
-import IntradayReversalFiveMin from "../models/fiveMInMomentumSignal.model.js";
-import TenMinCandles from "../models/tenMinCandles.model.js";
 
 const ACCESS_TOKEN = process.env.DHAN_ACCESS_TOKEN;
 const CLIENT_ID = process.env.DHAN_CLIENT_ID;
@@ -199,72 +197,30 @@ async function startWebSocket() {
 }
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// const getData = async (fromDate, toDate) => {
-//   const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
-//   // console.log("stock", stocks);
-//   const securityIds = stocks.map((stock) =>
-//     stock.SECURITY_ID.trim().toString()
-//   );
-
-//   // const formattedFromDate = new Date(today); // Today's date
-
-//   // const formattedToDate = new Date(today);
-//   // formattedToDate.setDate(formattedToDate.getDate() + 1); // Tomorrow's date
-
-//   // const fromDate = formattedFromDate.toISOString().split("T")[0];
-//   // const toDate = formattedToDate.toISOString().split("T")[0];
-
-//   const fiveMinCandelMap = new Map();
-//   try {
-//     function convertToIST(unixTimestamp) {
-//       const date = new Date(unixTimestamp * 1000); // Convert to milliseconds
-//       return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-//     }
-
-//     // Example usage:
-//     // Outp
-
-//     for (let i = 0; i < securityIds.length; i++) {
-//       const data = await fetchHistoricalData(
-//         securityIds[i],
-//         fromDate,
-//         toDate,
-//         i
-//       );
-//       // console.log(data.timestamp,'timestamps');
-
-//       data.open = data?.open.slice(-5);
-//       data.high = data?.high.slice(-5);
-//       data.low = data?.low.slice(-5);
-//       data.close = data?.close.slice(-5);
-//       data.volume = data?.volume.slice(-5);
-//       data.timestamp = convertToIST(data.timestamp.slice(-5)[4]);
-//       data.securityId = data.securityId || securityIds[i];
-//       fiveMinCandelMap.set(securityIds[i], data);
-
-//       await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
-//     }
-
-//     await FiveMinCandles.insertMany(data);
-//     return fiveMinCandelMap;
-//   } catch (error) {
-//     console.error("Error in getData:", error.message);
-//   }
-// };
-
 const getData = async (fromDate, toDate) => {
   const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
+  // console.log("stock", stocks);
   const securityIds = stocks.map((stock) =>
     stock.SECURITY_ID.trim().toString()
   );
 
-  function convertToIST(unixTimestamp) {
-    const date = new Date(unixTimestamp * 1000); // Convert to milliseconds
-    return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-  }
+  // const formattedFromDate = new Date(today); // Today's date
 
+  // const formattedToDate = new Date(today);
+  // formattedToDate.setDate(formattedToDate.getDate() + 1); // Tomorrow's date
+
+  // const fromDate = formattedFromDate.toISOString().split("T")[0];
+  // const toDate = formattedToDate.toISOString().split("T")[0];
+
+  const fiveMinCandelMap = new Map();
   try {
-    const bulkOperations = [];
+    function convertToIST(unixTimestamp) {
+      const date = new Date(unixTimestamp * 1000); // Convert to milliseconds
+      return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+    }
+
+    // Example usage:
+    // Outp
 
     for (let i = 0; i < securityIds.length; i++) {
       const data = await fetchHistoricalData(
@@ -273,42 +229,20 @@ const getData = async (fromDate, toDate) => {
         toDate,
         i
       );
+      // console.log(data.timestamp,'timestamps');
 
-      if (!data || !data.timestamp) {
-        console.warn(`No data found for Security ID: ${securityIds[i]}`);
-        continue; // Skip if data is missing
-      }
+      data.open = data?.open.slice(-5);
+      data.high = data?.high.slice(-5);
+      data.low = data?.low.slice(-5);
+      data.close = data?.close.slice(-5);
+      data.volume = data?.volume.slice(-5);
+      data.timestamp = convertToIST(data.timestamp.slice(-5)[4]);
+      data.securityId = data.securityId || securityIds[i];
+      fiveMinCandelMap.set(securityIds[i], data);
 
-      // Prepare the updated data
-      const updatedData = {
-        securityId: securityIds[i],
-        timestamp: data.timestamp.slice(-5).map(convertToIST), // Convert all timestamps
-        open: data.open.slice(-5),
-        high: data.high.slice(-5),
-        low: data.low.slice(-5),
-        close: data.close.slice(-5),
-        volume: data.volume.slice(-5),
-      };
-
-      // Add update operation to bulkWrite array
-      bulkOperations.push({
-        updateOne: {
-          filter: { securityId: securityIds[i] }, // Find by securityId
-          update: { $set: updatedData }, // Update fields
-          upsert: true, // Insert if not found
-        },
-      });
-      await delay(200);
+      await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
     }
-
-    if (bulkOperations.length > 0) {
-      await FiveMinCandles.bulkWrite(bulkOperations);
-      console.log(
-        `Bulk operation completed for ${bulkOperations.length} records.`
-      );
-    } else {
-      console.log("No valid data found to update.");
-    }
+    return fiveMinCandelMap;
   } catch (error) {
     console.error("Error in getData:", error.message);
   }
@@ -351,78 +285,19 @@ const getDailyData = async (fromDate, toDate) => {
     console.error("Error in getData:", error.message);
   }
 };
-// const getDataForTenMin = async (fromDate, toDate) => {
-//   const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
-//   // console.log("stock", stocks);
-//   const securityIds = stocks.map((stock) =>
-//     stock.SECURITY_ID.trim().toString()
-//   );
-
-//   function convertToIST(unixTimestamp) {
-//     const date = new Date(unixTimestamp * 1000); // Convert to milliseconds
-//     return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-//   }
-
-//   const fiveMinCandelMap = new Map();
-//   const bulkOperations = [];
-//   try {
-//     for (let i = 0; i < securityIds.length; i++) {
-//       const data = await fetchHistoricalDataforTenMin(
-//         securityIds[i],
-//         fromDate,
-//         toDate,
-//         i
-//       );
-
-//       data.open = data.open.slice(-5);
-//       data.high = data.high.slice(-5);
-//       data.low = data.low.slice(-5);
-//       data.close = data.close.slice(-5);
-//       data.volume = data.volume.slice(-5);
-//       data.timestamp = convertToIST(data.timestamp.slice(-5)[4]);
-//       data.securityId = data.securityId || securityIds[i];
-//       fiveMinCandelMap.set(securityIds[i], data);
-
-//       bulkOperations.push({
-//         updateOne: {
-//           filter: { securityId: securityIds[i] }, // Find by securityId
-//           update: { $set: updatedData }, // Update fields
-//           upsert: true, // Insert if not found
-//         },
-//       });
-
-//       await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
-//     }
-
-//     if (bulkOperations.length > 0) {
-//       await FiveMinCandles.bulkWrite(bulkOperations);
-//       console.log(
-//         `Bulk operation completed for ${bulkOperations.length} records.`
-//       );
-//     } else {
-//       console.log("No valid data found to update.");
-//     }
-//   } catch (error) {
-//     console.error("Error in getData:", error.message);
-//   }
-// };
-
 const getDataForTenMin = async (fromDate, toDate) => {
   const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
-
+  // console.log("stock", stocks);
   const securityIds = stocks.map((stock) =>
     stock.SECURITY_ID.trim().toString()
   );
 
-  function convertToIST(unixTimestamps) {
-    return unixTimestamps.map((timestamp) => {
-      const date = new Date(timestamp * 1000);
-      return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-    });
+  function convertToIST(unixTimestamp) {
+    const date = new Date(unixTimestamp * 1000); // Convert to milliseconds
+    return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
   }
 
-  const bulkOperations = []; // Initialize bulk operations array
-
+  const fiveMinCandelMap = new Map();
   try {
     for (let i = 0; i < securityIds.length; i++) {
       const data = await fetchHistoricalDataforTenMin(
@@ -432,38 +307,20 @@ const getDataForTenMin = async (fromDate, toDate) => {
         i
       );
 
-      if (!data || !data.timestamp) continue; // Skip if no valid data
+      data.open = data.open.slice(-5);
+      data.high = data.high.slice(-5);
+      data.low = data.low.slice(-5);
+      data.close = data.close.slice(-5);
+      data.volume = data.volume.slice(-5);
+      data.timestamp = convertToIST(data.timestamp.slice(-5)[4]);
+      data.securityId = data.securityId || securityIds[i];
+      fiveMinCandelMap.set(securityIds[i], data);
 
-      const slicedData = {
-        open: data.open.slice(-5),
-        high: data.high.slice(-5),
-        low: data.low.slice(-5),
-        close: data.close.slice(-5),
-        timestamp: convertToIST(data.timestamp.slice(-5)),
-        securityId: securityIds[i],
-      };
-
-      bulkOperations.push({
-        updateOne: {
-          filter: { securityId: securityIds[i] }, // Find by securityId
-          update: { $set: slicedData }, // Update fields
-          upsert: true, // Insert if not found
-        },
-      });
-
-      await delay(200); // Adjust delay based on API rate limits
+      await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
     }
-
-    if (bulkOperations.length > 0) {
-      await TenMinCandles.bulkWrite(bulkOperations); // Use correct model
-      console.log(
-        `Ten Min data Bulk operation completed for ${bulkOperations.length} records.`
-      );
-    } else {
-      console.log("No valid data found to update.");
-    }
+    return fiveMinCandelMap;
   } catch (error) {
-    console.error("Error in getDataForTenMin:", error.message);
+    console.error("Error in getData:", error.message);
   }
 };
 
@@ -475,8 +332,7 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       .limit(1);
 
     if (!latestEntry) {
-      return { message: "No stock data available" };
-      // res.status(404).json({ message: "No stock data available" });
+      return res.status(404).json({ message: "No stock data available" });
     }
 
     const latestDate = latestEntry.date;
@@ -493,10 +349,9 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       .limit(1);
 
     if (!previousEntry || previousEntry.length === 0) {
-      return { message: "Can't get data because date is not available" };
-      //  res
-      //   .status(404)
-      //   .json({ message: "Can't get data because date is not available" });
+      return res
+        .status(404)
+        .json({ message: "Can't get data because date is not available" });
     }
 
     const latestData = await MarketDetailData.find(
@@ -547,18 +402,18 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       previousDayDataMap.set(entry.securityId, entry.data?.dayClose?.[0] || 0);
     });
 
-    const data = await FiveMinCandles.find();
+    const data = await getData(latestDate, tomorrowFormatted);
 
     // Check if data is valid and a Map
-    if (!data) {
-      return { message: "Invalid data format" }; //res.status(400).json({ message: "Invalid data format" });
+    if (!data || !(data instanceof Map)) {
+      return res.status(400).json({ message: "Invalid data format" });
     }
-    // console.log("data from databse", data);
+
     // Convert Map to an array
     const dataArray = Array.from(data.values());
 
     if (dataArray.length === 0) {
-      return { message: "No data found" }; // res.status(404).json({ message: "No data found" });
+      return res.status(404).json({ message: "No data found" });
     }
 
     // Fetch stock details
@@ -567,7 +422,7 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       { SYMBOL_NAME: 1, UNDERLYING_SYMBOL: 1, SECURITY_ID: 1, _id: 0 }
     );
     if (!stocks || stocks.length === 0) {
-      return { message: "No stocks data found" }; // res.status(404).json({ message: "No stocks data found" });
+      return res.status(404).json({ message: "No stocks data found" });
     }
 
     // Create a map for stock details
@@ -586,7 +441,7 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       const stock = stockmap.get(securityId);
       const latestTradedPrice = latestDataMap.get(securityId);
       const previousDayClose = previousDayDataMap.get(securityId);
-      const latestTimestamp = item.timestamp[4];
+      const latestTimestamp = item.timestamp;
       // Validate candle data structure
       if (
         !item.high ||
@@ -676,7 +531,7 @@ const AIIntradayReversalFiveMins = async (req, res) => {
     if (finalResults.length > 0) {
       const savePromises = finalResults.map(async (signal) => {
         try {
-          await IntradayReversalFiveMin.findOneAndUpdate(
+          await fiveMinMomentumSignal.findOneAndUpdate(
             { securityId: signal.securityId }, // Find by securityId
             {
               $set: {
@@ -699,16 +554,17 @@ const AIIntradayReversalFiveMins = async (req, res) => {
 
       await Promise.all(savePromises);
     }
-    const fullData = await IntradayReversalFiveMin.find(
-      {},
-      {
-        _id: 0,
-        __v: 0,
-        lastTradePrice: 0,
-        previousClosePrice: 0,
-        updatedAt: 0,
-      }
-    )
+    const fullData = await fiveMinMomentumSignal
+      .find(
+        {},
+        {
+          _id: 0,
+          __v: 0,
+          lastTradePrice: 0,
+          previousClosePrice: 0,
+          updatedAt: 0,
+        }
+      )
       .sort({ timestamp: -1 })
       .lean();
     // Send response
@@ -719,25 +575,15 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       });
     }
 
-    return {
+    return res.status(200).json({
       message: "Momentum analysis complete",
       data: fullData,
-    };
-
-    // res.status(200).json({
-    //   message: "Momentum analysis complete",
-    //   data: fullData,
-    // });
+    });
   } catch (error) {
-    return {
+    return res.status(500).json({
       message: "Internal server error",
       error: error.message,
-    };
-
-    // res.status(500).json({
-    //   message: "Internal server error",
-    //   error: error.message,
-    // });
+    });
   }
 };
 
@@ -1004,7 +850,6 @@ const AIIntradayReversalDaily = async (req, res) => {
     });
   }
 };
-
 const AIMomentumCatcherFiveMins = async (req, res) => {
   try {
     const stocks = await StocksDetail.find(
@@ -1028,14 +873,16 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
       .select("date");
 
     if (!latestEntry) {
-      return { message: "No stock data available" };
+      return res.status(404).json({ message: "No stock data available" });
     }
 
     const latestDate = latestEntry.date;
     const latestData = await MarketDetailData.find({ date: latestDate });
 
     if (latestData.length === 0) {
-      return { message: "No stock data available for the latest date" };
+      return res
+        .status(404)
+        .json({ message: "No stock data available for the latest date" });
     }
 
     const previousDayEntry = await MarketDetailData.findOne(
@@ -1044,7 +891,9 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
     ).sort({ date: -1 });
 
     if (!previousDayEntry) {
-      return { message: "No previous stock data available" };
+      return res
+        .status(404)
+        .json({ message: "No previous stock data available" });
     }
 
     const previousDayDate = previousDayEntry.date;
@@ -1070,7 +919,7 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
 
     const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
 
-    const data = await FiveMinCandles.find();
+    const data = await getData(latestDate, tomorrowFormatted);
     const dataArray = Array.from(data.values());
 
     if (dataArray.length === 0) {
@@ -1083,7 +932,7 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
         const twocandelLow = entry.low.slice(-2);
         const [preHigh, crrHigh] = twocandelHigh;
         const [preLow, crrLow] = twocandelLow;
-        const latestTimestamp = entry.timestamp[4]; // this is for try or test
+        const latestTimestamp = entry.timestamp;
 
         const preHighLowDiff = preHigh - preLow;
         const currentDiff = crrHigh - crrLow;
@@ -1126,7 +975,18 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
       (a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange)
     );
 
-    // Bulk update in MongoDB
+    // console.log("momentumStocks", momentumStocks);
+
+    // Save or update in MongoDB
+    // for (const stock of momentumStocks) {
+
+    //  await MomentumStockFiveMin.findOneAndUpdate(
+    //     { securityId: stock.securityId }, // Find by securityId
+    //     { $set: stock }, // Update existing data
+    //     { upsert: true, new: true } // Insert if not found
+    //   );
+    // }
+
     const bulkUpdates = momentumStocks.map((stock) => ({
       updateOne: {
         filter: { securityId: stock.securityId }, // Find by securityId
@@ -1151,11 +1011,11 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
       }
     );
 
-    return {
+    return res.json({
       message: "Momentum stocks found and saved",
       count: momentumStocks.length,
       updatedData,
-    };
+    });
   } catch (error) {
     console.error("Error in AIMomentumCatcherFiveMins:", error);
     return {
@@ -1188,16 +1048,19 @@ const AIMomentumCatcherTenMins = async (req, res) => {
       .select("date");
 
     if (!latestEntry) {
-      return { message: "No stock data available" };
-      // return res.status(404).json({ message: "No stock data available" });
+      return res.status(404).json({ message: "No stock data available" });
     }
 
     const latestDate = latestEntry.date;
+
+    // console.log("Latest available date:", latestDate);
+
     const latestData = await MarketDetailData.find({ date: latestDate });
 
     if (latestData.length === 0) {
-      return { message: "No stock data available for the latest date" };
-      // return res.status(404).json({ message: "No stock data available for the latest date" });
+      return res
+        .status(404)
+        .json({ message: "No stock data available for the latest date" });
     }
 
     const previousDayEntry = await MarketDetailData.findOne(
@@ -1206,8 +1069,9 @@ const AIMomentumCatcherTenMins = async (req, res) => {
     ).sort({ date: -1 });
 
     if (!previousDayEntry) {
-      return { message: "No previous stock data available" };
-      // return res.status(404).json({ message: "No previous stock data available" });
+      return res
+        .status(404)
+        .json({ message: "No previous stock data available" });
     }
 
     const previousDayDate = previousDayEntry.date;
@@ -1228,7 +1092,14 @@ const AIMomentumCatcherTenMins = async (req, res) => {
       yesterdayMap.set(entry.securityId, entry.data?.dayClose?.[0] || 0);
     });
 
-    const data = await TenMinCandles.find();
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
+    // console.log("Tomorrow's date (formatted):", tomorrowFormatted);
+
+    const data = await getDataForTenMin(latestDate, tomorrowFormatted);
     const dataArray = Array.from(data.values());
 
     if (dataArray.length === 0) {
@@ -1241,7 +1112,7 @@ const AIMomentumCatcherTenMins = async (req, res) => {
         const twocandelLow = entry.low.slice(-2);
         const [preHigh, crrHigh] = twocandelHigh;
         const [preLow, crrLow] = twocandelLow;
-        const latestTimestamp = entry.timestamp[4];
+        const latestTimestamp = entry.timestamp;
 
         const preHighLowDiff = preHigh - preLow;
         const currentDiff = crrHigh - crrLow;
@@ -1284,55 +1155,54 @@ const AIMomentumCatcherTenMins = async (req, res) => {
       (a, b) => Math.abs(b.priceChange) - Math.abs(a.priceChange)
     );
 
+    // console.log("momentumStocks", momentumStocks);
+
+    // Save or update in MongoDB
     for (const stock of momentumStocks) {
       await MomentumStockTenMin.findOneAndUpdate(
-        { securityId: stock.securityId },
-        { $set: stock },
-        { upsert: true, new: true }
+        { securityId: stock.securityId }, // Find by securityId
+        { $set: stock }, // Update existing data
+        { upsert: true, new: true } // Insert if not found
       );
     }
 
-    return {
+    return res.json({
       message: "Momentum stocks found and saved",
       count: momentumStocks.length,
       data: momentumStocks,
-    };
-    // return res.json({
-    //   message: "Momentum stocks found and saved",
-    //   count: momentumStocks.length,
-    //   data: momentumStocks,
-    // });
+    });
   } catch (error) {
-    console.error("Error in AIMomentumCatcherTenMins:", error);
+    console.error("Error in AIMomentumCatcherFiveMins:", error);
     return {
       message: "Internal server error",
       error: error.message,
     };
-    // return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
 
 const DailyRangeBreakout = async (req, res) => {
   try {
+    // Step 1: Get the 5 most recent unique trading days
     const uniqueTradingDays = await MarketDetailData.aggregate([
       { $group: { _id: "$date" } },
       { $sort: { _id: -1 } },
-      { $limit: 5 },
+      { $limit: 5 }, // 5 days: today + 4 previous
     ]);
 
     if (uniqueTradingDays.length < 5) {
-      return /* res.status(404).json({ message: "Not enough historical data found" }); */ {
-        message: "Not enough historical data found",
-      };
+      return res
+        .status(404)
+        .json({ message: "Not enough historical data found" });
     }
 
     const targetDates = uniqueTradingDays.map(
       (day) => new Date(day._id).toISOString().split("T")[0]
-    );
+    ); // Ensure Date objects
 
-    const latestDate = targetDates[0];
-    const previousFormatted = targetDates[1];
+    const latestDate = targetDates[0]; // Most recent day
+    const previousFormatted = targetDates[1]; // Previous day
 
+    // Step 2: Fetch all data for these 5 days in one query
     const historicalData = await MarketDetailData.find(
       { date: { $in: targetDates } },
       {
@@ -1348,13 +1218,14 @@ const DailyRangeBreakout = async (req, res) => {
     ).lean();
 
     if (!historicalData || historicalData.length === 0) {
-      return /* res.status(404).json({ message: "No data found for the target dates" }); */ {
-        message: "No data found for the target dates",
-      };
+      return res
+        .status(404)
+        .json({ message: "No data found for the target dates" });
     }
 
+    // Step 3: Group data by date (normalize dates to strings for comparison)
     const groupedData = targetDates.reduce((acc, date) => {
-      const dateStr = date;
+      const dateStr = date; // Compare by YYYY-MM-DD
       acc[dateStr] = historicalData.filter((entry) => {
         const entryDateStr = new Date(entry.date).toISOString().split("T")[0];
         return entryDateStr === dateStr;
@@ -1362,10 +1233,12 @@ const DailyRangeBreakout = async (req, res) => {
       return acc;
     }, {});
 
+    // Step 4: Prepare latest day and previous day data
     const latestDataMap = new Map();
     const prevDayCloseMap = new Map();
 
-    groupedData[latestDate].forEach((entry) => {
+    const latestDateStr = latestDate;
+    groupedData[latestDateStr].forEach((entry) => {
       latestDataMap.set(entry.securityId, {
         latestTradedPrice: entry.data?.[0]?.latestTradedPrice ?? 0,
         dayOpen: entry.data?.[0]?.dayOpen ?? 0,
@@ -1381,10 +1254,14 @@ const DailyRangeBreakout = async (req, res) => {
       });
     });
 
+    // Step 5: Fetch stock details
     const stocks = await StocksDetail.find(
       {},
       { SECURITY_ID: 1, SYMBOL_NAME: 1, UNDERLYING_SYMBOL: 1, _id: 0 }
     );
+    if (!stocks || stocks.length === 0) {
+      return res.status(404).json({ message: "No stocks data found" });
+    }
 
     const stockMap = new Map();
     stocks.forEach((entry) => {
@@ -1394,6 +1271,7 @@ const DailyRangeBreakout = async (req, res) => {
       });
     });
 
+    // Step 6: Process data for range breakout
     let breakoutStocks = [];
     const securityIds = [
       ...new Set(historicalData.map((item) => item.securityId)),
@@ -1401,17 +1279,29 @@ const DailyRangeBreakout = async (req, res) => {
 
     for (const securityId of securityIds) {
       const stockData = targetDates.map((date) => {
-        return groupedData[date].find(
+        const dateStr = date;
+        return groupedData[dateStr].find(
           (entry) => entry.securityId === securityId
         );
       });
 
-      if (stockData.length < 5 || stockData.some((day) => !day)) continue;
+      // Ensure we have 5 days of data
+      if (stockData.length < 5 || stockData.some((day) => !day)) {
+        console.warn(`Skipping ${securityId} due to insufficient data`);
+        continue;
+      }
 
       const todayData = latestDataMap.get(securityId);
       const preCloseData = prevDayCloseMap.get(securityId);
-      if (!todayData || !preCloseData) continue;
 
+      if (!todayData || !preCloseData) {
+        console.warn(
+          `Skipping ${securityId} due to missing today or previous data`
+        );
+        continue;
+      }
+
+      // Extract high/low for each day (reverse order: oldest to newest)
       const highs = stockData
         .map((day) => day.data?.[0]?.dayHigh ?? 0)
         .reverse();
@@ -1420,6 +1310,16 @@ const DailyRangeBreakout = async (req, res) => {
       const firstDayCandleHigh = highs[0];
       const firstDayCandleLow = lows[0];
 
+      if (securityId === "3045") {
+        console.log(
+          "firstDayCandleHigh",
+          firstDayCandleHigh,
+          "firstDayCandleLow",
+          firstDayCandleLow
+        );
+      }
+
+      // Check if next 3 days are within the first day's range
       const inRange =
         highs.slice(1, 4).every((high) => high <= firstDayCandleHigh) &&
         lows.slice(1, 4).every((low) => low >= firstDayCandleLow);
@@ -1427,6 +1327,8 @@ const DailyRangeBreakout = async (req, res) => {
       if (inRange) {
         const todayHigh = todayData.dayHigh;
         const todayLow = todayData.dayLow;
+        const todayClose = todayData.dayClose;
+        const todayOpen = todayData.dayOpen;
         const latestTradedPrice = todayData.latestTradedPrice;
         const preClose = preCloseData.dayClose;
 
@@ -1455,9 +1357,12 @@ const DailyRangeBreakout = async (req, res) => {
       }
     }
 
+    // console.log(breakoutStocks, "breakoutStocks");
+
+    // Step 7: Save or update results
     if (breakoutStocks.length > 0) {
-      await Promise.all(
-        breakoutStocks.map(async (signal) => {
+      const savePromises = breakoutStocks.map(async (signal) => {
+        try {
           await DailyRangeBreakouts.findOneAndUpdate(
             { securityId: signal.securityId },
             {
@@ -1468,13 +1373,18 @@ const DailyRangeBreakout = async (req, res) => {
                 percentageChange: signal.percentageChange,
                 timestamp: new Date(
                   new Date().getTime() + 5.5 * 60 * 60 * 1000
-                ),
+                ), // IST
               },
             },
             { upsert: true, new: true }
           );
-        })
-      );
+        } catch (dbError) {
+          console.error(`Error saving/updating ${signal.securityId}:`, dbError);
+        }
+      });
+
+      await Promise.all(savePromises);
+      console.log("Breakout signals processed successfully");
     }
 
     const fullData = await DailyRangeBreakouts.find(
@@ -1490,17 +1400,23 @@ const DailyRangeBreakout = async (req, res) => {
     )
       .sort({ timestamp: -1 })
       .lean();
+    if (fullData.length === 0) {
+      return res.status(200).json({
+        message: "No breakout signals detected",
+        data: [],
+      });
+    }
 
-    return /* res.status(200).json({ message: "Breakout analysis complete", data: fullData }); */ {
+    return res.status(200).json({
       message: "Breakout analysis complete",
       data: fullData,
-    };
+    });
   } catch (error) {
-    // console.error("Error in DailyRangeBreakout:", error);
-    return /* res.status(500).json({ message: "Internal server error", error: error.message }); */ {
+    console.error("Error in DailyRangeBreakout:", error);
+    return res.status(500).json({
       message: "Internal server error",
       error: error.message,
-    };
+    });
   }
 };
 
@@ -1510,7 +1426,10 @@ const DayHighLowReversal = async (req, res) => {
     const dayLowData = await getDayLowBreak();
 
     if (!dayHighData && !dayLowData) {
-      return { success: false, message: "No data found for day high and low" };
+      return res.status(404).json({
+        success: false,
+        message: "No data found for day high and low",
+      });
     }
 
     const latestEntry = await MarketDetailData.findOne()
@@ -1518,7 +1437,7 @@ const DayHighLowReversal = async (req, res) => {
       .select("date");
 
     if (!latestEntry) {
-      return { message: "No stock data available" };
+      return res.status(404).json({ message: "No stock data available" });
     }
 
     const latestDate = latestEntry.date;
@@ -1526,7 +1445,7 @@ const DayHighLowReversal = async (req, res) => {
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
 
-    const data = await FiveMinCandles.find();
+    const data = await getData(latestDate, tomorrowFormatted);
     const dataArray = Array.from(data.values());
 
     if (dataArray.length === 0) {
@@ -1552,7 +1471,9 @@ const DayHighLowReversal = async (req, res) => {
       const Low = item.low?.slice(-1);
       const Open = item.open?.slice(-1);
       const Close = item.close?.slice(-1);
-      const latestTimestamp = item.timestamp[4]; //try for the
+      const latestTimestamp = item.timestamp;
+
+      // console.log('itemmmmm',latestTimestamp)
 
       const dayHighBreak = dayHighBreakMap.get(securityId);
       const dayLowBreak = dayLowBreakMap.get(securityId);
@@ -1611,7 +1532,10 @@ const DayHighLowReversal = async (req, res) => {
     });
 
     if (highLowReversal.length === 0) {
-      return { success: true, message: "No reversal data found." };
+      return res.status(200).json({
+        success: true,
+        message: "No reversal data found.",
+      });
     }
 
     // **Bulk upsert to save or update data**
@@ -1625,45 +1549,30 @@ const DayHighLowReversal = async (req, res) => {
 
     await HighLowReversal.bulkWrite(bulkOps);
 
-    const highLowReversalData = await HighLowReversal.find(
-      {},
-      {
-        securityId: 1,
-        stockName: 1,
-        stockSymbol: 1,
-        type: 1,
-        timestamp: 1,
-        percentageChange: 1,
-        _id: 0,
-      }
-    );
+    const highLowReversalData = await HighLowReversal.find();
 
     if (!highLowReversalData) {
-      return { success: false, message: "No data found" };
+      return res.status(404).json({
+        success: false,
+        message: "No data found",
+      });
     }
 
-    // res.json({
-    //   success: true,
-    //   message: "High-Low Reversal data updated successfully.",
-    //   data: highLowReversalData,
-    // });
-
-    return {
+    return res.status(200).json({
       success: true,
       message: "High-Low Reversal data updated successfully.",
       data: highLowReversalData,
-    };
+    });
   } catch (error) {
-    // console.log("Error in DayHighLowReversal:", error.message);
-    return {
+    console.log("Error in DayHighLowReversal:", error.message);
+    return res.status(500).json({
       success: false,
       message: "Internal server error",
       error: error.message,
-    };
+    });
   }
 };
 
-// via sockets
 const twoDayHLBreak = async (req, res) => {
   try {
     const uniqueTradingDays = await MarketDetailData.aggregate([
@@ -1673,20 +1582,21 @@ const twoDayHLBreak = async (req, res) => {
     ]);
 
     if (!uniqueTradingDays || uniqueTradingDays.length < 3) {
-      // return res.status(404).json({ message: "Not enough historical data found" });
-      return { message: "Not enough historical data found" };
+      return res
+        .status(404)
+        .json({ message: "Not enough historical data found" });
     }
 
     const latestDate = uniqueTradingDays[0]._id;
+
     const tomorrow = new Date(latestDate);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
 
-    const fiveMinCandelData = await FiveMinCandles.find();
+    const fiveMinCandelData = await getData(latestDate, tomorrowFormatted);
 
-    if (!fiveMinCandelData) {
-      // return res.status(400).json({ message: "Invalid data format" });
-      return { message: "Invalid data format" };
+    if (!fiveMinCandelData || !(fiveMinCandelData instanceof Map)) {
+      return res.status(400).json({ message: "Invalid data format" });
     }
 
     const dataArray = Array.from(fiveMinCandelData.values());
@@ -1698,7 +1608,9 @@ const twoDayHLBreak = async (req, res) => {
     const secondPrevTargetDate = uniqueTradingDays[2]._id;
 
     const firstPrevStockData = await MarketDetailData.find(
-      { date: firstPrevTargetDate },
+      {
+        date: firstPrevTargetDate,
+      },
       {
         securityId: 1,
         "data.dayOpen": 1,
@@ -1713,9 +1625,10 @@ const twoDayHLBreak = async (req, res) => {
     if (!firstPrevStockData || firstPrevStockData.length === 0) {
       return { message: "No stock data found for the selected dates" };
     }
-
     const secondPrevStockData = await MarketDetailData.find(
-      { date: secondPrevTargetDate },
+      {
+        date: secondPrevTargetDate,
+      },
       {
         securityId: 1,
         "data.dayOpen": 1,
@@ -1732,6 +1645,7 @@ const twoDayHLBreak = async (req, res) => {
     }
 
     const firstPrevStockDataMap = new Map();
+
     firstPrevStockData.forEach((item) => {
       firstPrevStockDataMap.set(item.securityId, {
         securityId: item.securityId,
@@ -1743,8 +1657,8 @@ const twoDayHLBreak = async (req, res) => {
         latestTradedPrice: item.data?.latestTradedPrice?.[0],
       });
     });
-
     const secondPrevStockDataMap = new Map();
+
     secondPrevStockData.forEach((item) => {
       secondPrevStockDataMap.set(item.securityId, {
         securityId: item.securityId,
@@ -1762,11 +1676,14 @@ const twoDayHLBreak = async (req, res) => {
     );
 
     if (!stockDetails) {
-      // return res.status(404).json({ success: false, message: "No stocks info found" });
-      return { success: false, message: "No stocks info found" };
+      return res.status(404).json({
+        success: false,
+        message: "No stocks info found",
+      });
     }
 
     const stockDetailsMap = new Map();
+
     stockDetails.forEach((item) => {
       stockDetailsMap.set(item.SECURITY_ID, {
         symbolName: item.SYMBOL_NAME,
@@ -1792,10 +1709,9 @@ const twoDayHLBreak = async (req, res) => {
       const secondPrevDayLow = secondPrevDayData?.dayLow;
       const secondPrevDayClose = secondPrevDayData?.dayClose;
       const latestTradedPrice = firstPrevDayData?.latestTradedPrice;
-      const latestTimestamp = item.timestamp[4];
-      const percentageChange =
-        ((latestTradedPrice - secondPrevDayClose) / secondPrevDayClose) * 100;
-      // console.log("percentageChange", percentageChange);
+      const latestTimestamp = item.timestamp;
+      const percentageChange = ((latestTradedPrice - secondPrevDayClose) / secondPrevDayClose) * 100;
+      console.log('percentageChange',percentageChange)
 
       if (
         (firstPrevDayHigh <= secondPrevDayHigh + secondPrevDayHigh * 0.01 &&
@@ -1850,39 +1766,33 @@ const twoDayHLBreak = async (req, res) => {
 
     await TwoDayHighLowBreak.bulkWrite(bulkOps);
 
-    const data = await TwoDayHighLowBreak.find(
-      {},
-      {
-        securityId: 1,
-        symbolName: 1,
-        underlyingSymbol: 1,
-        type: 1,
-        timestamp: 1,
-        percentageChange: 1,
-        _id: 0,
-      }
-    );
+    const data = await TwoDayHighLowBreak.find({}, {
+      securityId: 1,
+      symbolName: 1,
+      underlyingSymbol: 1,
+      type: 1,
+      timestamp: 1,
+      percentageChange: 1,
+      _id:0
+    });
 
-    // return res.status(200).json({ message: "Two Day High Low Break analysis complete", data });
-    return {
+    res.status(200).json({
       message: "Two Day High Low Break analysis complete",
       data,
-    };
+    });
   } catch (error) {
-    // return res.status(500).json({ success: false, message: error.message });
-    return { success: false, message: error.message };
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
 export {
   startWebSocket,
   getData,
-  getDataForTenMin,
-  AIIntradayReversalFiveMins, //done with database👍❤️socket
-  AIMomentumCatcherFiveMins, //done with database👍😒socket
-  AIMomentumCatcherTenMins, //done with database👍😒socket
-  AIIntradayReversalDaily, //depend on hostorical data
-  DailyRangeBreakout, //done with database👍😒socket
-  DayHighLowReversal, //done with database👍😒socket
-  twoDayHLBreak, //done with data base 👍😒 socket
+  AIIntradayReversalFiveMins,
+  AIMomentumCatcherFiveMins,
+  AIMomentumCatcherTenMins,
+  AIIntradayReversalDaily,
+  DailyRangeBreakout,
+  DayHighLowReversal,
+  twoDayHLBreak,
 };

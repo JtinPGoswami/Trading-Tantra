@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import TreemapChart from "./TreemapChart";
+import Loader from "../Loader";
 
-const TreeGrpahsGrid = ({ data }) => {
+const TreeGrpahsGrid = ({ data, loading }) => {
   const graphTitles = [
     { title: "Energy", class: "div19" },
     { title: "Auto", class: "div20" },
@@ -27,7 +28,7 @@ const TreeGrpahsGrid = ({ data }) => {
     setSectorWiseData(data.sectorWiseData);
   }, [data]);
 
-  console.log("sec....", sectorWiseData);
+  // console.log("sec....", sectorWiseData);
 
   return (
     <>
@@ -37,12 +38,14 @@ const TreeGrpahsGrid = ({ data }) => {
             ([sector, values], index) => (
               <div
                 key={index}
-                className={`${graphTitles[index % graphTitles.length]?.class} w-full h-full mt-10 dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-md flex`}
+                className={`${
+                  graphTitles[index % graphTitles.length]?.class
+                } w-full h-full mt-10 dark:bg-gradient-to-br from-[#0009B2] to-[#02000E] p-px rounded-md flex`}
               >
                 <div className="w-full flex flex-col dark:bg-db-primary bg-db-secondary-light rounded-md overflow-hidden">
                   <h1 className="text-base px-2.5">{sector}</h1>
                   <div className="flex-grow w-full">
-                    <TreemapChart data={values} />
+                    {loading ? <Loader /> : <TreemapChart data={values} />}
                   </div>
                 </div>
               </div>

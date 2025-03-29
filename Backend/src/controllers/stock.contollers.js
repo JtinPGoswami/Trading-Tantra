@@ -19,6 +19,9 @@ const getStocks = async (req, res) => {
 // new logic that return previous data if today data not avail for turnover with optimized code
 const getStocksData = async () => {
   try {
+
+
+   
     // Step 1: Get the latest **unique** date
     const latestEntry = await MarketDetailData.findOne()
       .sort({ date: -1 })
@@ -29,7 +32,7 @@ const getStocksData = async () => {
       return { success: false, message: "No stock data available" };
     }
     // console.log("latestEntry", latestEntry);
-
+ 
     const latestDate = latestEntry.date;
 
     // Step 2: Find the **most recent past available date** (ignoring holidays)
@@ -41,6 +44,10 @@ const getStocksData = async () => {
       .sort({ date: -1 }) // Sort again to get the latest available past entry
       .select("date")
       .lean();
+
+    if(!previousDayEntry){
+      return {success:false, message:"No previous data found!"}
+    }
 
     if (previousDayEntry) {
       previousDayDate = previousDayEntry.date;
@@ -55,7 +62,7 @@ const getStocksData = async () => {
         message: "No stock data available for the latest date",
       };
     }
-
+ 
     // Step 4: Fetch previous day's stock data (if available)
     let previousDayMap = new Map();
     if (previousDayDate) {
@@ -67,6 +74,7 @@ const getStocksData = async () => {
       );
     }
 
+    console.log('emekdeb🙌')
     // Step 5: Fetch stock details
     const stockIds = stocksData.map((entry) => entry.securityId);
     const stockDetails = await StocksDetail.find(
@@ -114,11 +122,13 @@ const getStocksData = async () => {
       };
     });
 
+    
     // Sort by turnover and return top 30 stocks
     const sortedData = response
       .sort((a, b) => b.turnover - a.turnover)
       .slice(0, 30);
 
+      
     return { success: true, message: "Stock data retrieved", data: sortedData };
   } catch (error) {
     console.error("Error fetching stocks data:", error);
@@ -448,7 +458,7 @@ const getDayLowBreak = async (req, res) => {
     });
     const yesterdayMap = new Map();
     previousDayData.forEach((entry) => {
-      yesterdayMap.set(entry.securityId, entry.data?.dayClose || 0);
+      yesterdayMap.set(entry.securityId, entry.data?.dayClose[0] || 0);
     });
     const stocksDetail = await StocksDetail.find();
 

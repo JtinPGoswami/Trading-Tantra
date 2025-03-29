@@ -17,6 +17,7 @@ import AIMomentumCatcherTenMins from "../../Components/Dashboard/Cards/Smart mon
 import AIMomentumCatcherFiveMins from "../../Components/Dashboard/Cards/Smart money action/AIMomentumCatcherFiveMins";
 import AIIntradayReversalDaily from "../../Components/Dashboard/Cards/Smart money action/AIIntradayReversalDaily";
 import AIIntradayReversalFiveMins from "../../Components/Dashboard/Cards/Smart money action/AIIntradayReversalFiveMins";
+import { io } from "socket.io-client";
 
 const MonryActionPage = () => {
   // const stockDataList = [
@@ -233,75 +234,108 @@ const MonryActionPage = () => {
   //     ],
   //   },
   // ];
-const [stocks, setStocks] = useState([]);
-const [loading, setLoading] = useState(true);
-const [dayHLReversalRes, setDayHLReversalRes] = useState([]);
-const[DailyRangeBreakoutRes, setDailyRangeBreakoutRes] = useState([])
- const [MomentumCatherTenMinRes, setMomentumCatherTenMinRes] = useState([])
- const [MomentumCatherFiveMinRes, setMomentumCatherFiveMinRes] = useState([])
- const [AIIntradayReversalFiveMinsRes, setAIIntradayReversalFiveMinsRes] = useState([])
- const [AIIntradayReversalDailyRes, setAIIntradayReversalDailyRes] = useState([])
-const fetchStocks = async () => {
-  try {
-    // const response = await axios.get("http://localhost:3000/api/two-day-hl-break", {
-    //   timeout: 120000,
-    // });
-    // setStocks(response.data);
-
-    // const DayHighLowReversalRes =  await axios.get("http://localhost:3000/api/daily-range-breakout", {
-    //   timeout: 120000,
-    // })
-
-    // setDayHLReversalRes(DayHighLowReversalRes.data)
-
+  const socket = io("http://localhost:3000");
+  const [stocks, setStocks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dayHLReversalRes, setDayHLReversalRes] = useState([]);
+  const [DailyRangeBreakoutRes, setDailyRangeBreakoutRes] = useState([]);
+  const [MomentumCatherTenMinRes, setMomentumCatherTenMinRes] = useState([]);
+  const [MomentumCatherFiveMinRes, setMomentumCatherFiveMinRes] = useState([]);
+  const [AIIntradayReversalFiveMinsRes, setAIIntradayReversalFiveMinsRes] =
+    useState([]);
+      const [isFetching, setIsFetching] = useState(false);
     
-    // const DailyRangeBreakout =  await axios.get("http://localhost:3000/api/daily-range-breakout", {
-    //   timeout: 120000,
-    // })
-
-    // setDailyRangeBreakoutRes(DailyRangeBreakout.data)
-    
-    // const MomentumCatherTenMin =  await axios.get("http://localhost:3000/api/ten-min-momentum", {
-    //   timeout: 120000,
-    // })
-
-    // setMomentumCatherTenMinRes(MomentumCatherTenMin.data)
-    
-    // const MomentumCatherFiveMin =  await axios.get("http://localhost:3000/api/five-min-momentum", {
-    //   timeout: 120000,
-    // })
-
-    // setMomentumCatherFiveMinRes(MomentumCatherFiveMin.data)
-    
-
-    // const AIIntradayReversalFiveMins =  await axios.get("http://localhost:3000/api/five-min-intraday-reversal-candle", {
-    //   timeout: 120000,
-    // })
-
-    // setAIIntradayReversalFiveMinsRes(AIIntradayReversalFiveMins.data)
+  const [AIIntradayReversalDailyRes, setAIIntradayReversalDailyRes] = useState(
+    []
+  );
+  useEffect(() => {
+    // Flag to check if any data has arrived
+    let hasDataArrived = false;
 
 
-    const AIIntradayReversalDaily =  await axios.get("http://localhost:3000/api/daily-intraday-reversal-candle", {
-      timeout: 120000,
-    })
+    let interval;
 
-    setAIIntradayReversalDailyRes(AIIntradayReversalDaily.data)
-   
+    // socket.emit("getData");
 
 
-  } catch (error) {
-    console.error("Error fetching stocks:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+    if (!isFetching) {
+      socket.emit("getSmartMoneyActionData");
+      setIsFetching(true)
 
-useEffect(() => {
-  fetchStocks();
-}, []);
+    } else {
+     interval =  setInterval(() => {
+        socket.emit("getSmartMoneyActionData");
+      }, 50000);
 
+     
+    }
 
-console.log(AIIntradayReversalDailyRes)
+    // Define event handlers
+    const handleTwoDayHLBreak = (data) => {
+      setStocks(data.data);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+
+    const handleDayHighLowReversal = (DhlRdata) => {
+      setDayHLReversalRes(DhlRdata);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+
+    const handleDailyRangeBreakout = (data) => {
+      setDailyRangeBreakoutRes(data);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+
+    const handleMomentumCatcherTenMins = (data) => {
+      setMomentumCatherTenMinRes(data);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+
+    const handleMomentumCatcherFiveMins = (data) => {
+      setMomentumCatherFiveMinRes(data);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+
+    const handleAIIntradayReversalFiveMins = (data) => {
+      setAIIntradayReversalFiveMinsRes(data);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+
+    // Attach event listeners
+    socket.on("twoDayHLBreak", handleTwoDayHLBreak);
+    socket.on("DayHighLowReversal", handleDayHighLowReversal);
+    socket.on("DailyRangeBreakout", handleDailyRangeBreakout);
+    socket.on("AIMomentumCatcherTenMins", handleMomentumCatcherTenMins);
+    socket.on("AIMomentumCatcherFiveMins", handleMomentumCatcherFiveMins);
+    socket.on("AIIntradayReversalFiveMins", handleAIIntradayReversalFiveMins);
+
+    // Set a timeout to stop loading if no data is received
+    // const timeout = setTimeout(() => {
+    //   if (!hasDataArrived) {
+    //     setLoading(false);
+    //     console.log("No data received within the expected time.");
+    //   }
+    // }, 20000); // Adjust timeout duration as needed
+
+    return () => {
+      // Cleanup event listeners when component unmounts
+      socket.off("twoDayHLBreak", handleTwoDayHLBreak);
+      socket.off("DayHighLowReversal", handleDayHighLowReversal);
+      socket.off("DailyRangeBreakout", handleDailyRangeBreakout);
+      socket.off("AIMomentumCatcherTenMins", handleMomentumCatcherTenMins);
+      socket.off("AIMomentumCatcherFiveMins", handleMomentumCatcherFiveMins);
+      socket.off("AIIntradayReversalFiveMins", handleAIIntradayReversalFiveMins);
+      clearInterval(interval);
+
+      // clearTimeout(timeout);
+    };
+  }, []);
 
   return (
     <>
@@ -357,14 +391,28 @@ console.log(AIIntradayReversalDailyRes)
       {/* stock cards section */}
 
       <section className="grid lg:grid-cols-2 grid-col-1 gap-8 mt-10">
-
-        <AIMomentumCatcherFiveMins data={MomentumCatherFiveMinRes.updatedData} loading={loading}/>
-        <AIMomentumCatcherTenMins data={MomentumCatherTenMinRes.data} loading={loading}/>
-        <AIIntradayReversalFiveMins data={AIIntradayReversalFiveMinsRes.data} loading={loading}/>
-        <AIIntradayReversalDaily data={AIIntradayReversalDailyRes.data} loading={loading}/>
-        <DailyRangeBreakout data={DailyRangeBreakoutRes.data} loading={loading}/>
-        <DayHighLowReversal data={dayHLReversalRes.data} loading={loading}/>
-        <TwoDayHLBreak data={stocks.data} loading={loading} />
+        <AIMomentumCatcherFiveMins
+          data={MomentumCatherFiveMinRes.updatedData}
+          loading={loading}
+        />
+        <AIMomentumCatcherTenMins
+          data={MomentumCatherTenMinRes.data}
+          loading={loading}
+        />
+        <AIIntradayReversalFiveMins
+          data={AIIntradayReversalFiveMinsRes.data}
+          loading={loading}
+        />
+        <AIIntradayReversalDaily
+          data={AIIntradayReversalDailyRes.data}
+          loading={loading}
+        />
+        <DailyRangeBreakout
+          data={DailyRangeBreakoutRes.data}
+          loading={loading}
+        />
+        <DayHighLowReversal data={dayHLReversalRes.data} loading={loading} />
+        <TwoDayHLBreak data={stocks} loading={loading} />
       </section>
     </>
   );

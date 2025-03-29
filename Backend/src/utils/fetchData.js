@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const baseUri = "https://api.dhan.co/v2";
 const accessToken = process.env.DHAN_ACCESS_TOKEN;
 const clientId = process.env.DHAN_CLIENT_ID;
@@ -98,6 +97,8 @@ export const fetchHistoricalData = async (securityId, fromDate, toDate, i) => {
       },
     });
     console.log(" data for ", i + 1);
+
+  
     return response.data;
   } catch (error) {
     console.error("API Error:", error.response?.data || error.message);

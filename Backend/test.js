@@ -3,6 +3,7 @@
 import connectDB from "./src/config/db.js";
 import MarketDetailData from "./src/models/marketData.model.js";
 import StocksDetail from "./src/models/stocksDetail.model.js";
+import { fetchHistoricalDataforTenMin } from "./src/utils/fetchData.js";
 
 // import WebSocket from "ws";
 // import parseBinaryData from "../utils/parseBinaryData.js";
@@ -362,3 +363,52 @@ import StocksDetail from "./src/models/stocksDetail.model.js";
 //     });
 //   }
 // };
+
+
+const getDataForTenMin = async (fromDate, toDate) => {
+  const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
+  // console.log("stock", stocks);
+  const securityIds = stocks.map((stock) =>
+    stock.SECURITY_ID.trim().toString()
+  );
+
+  function convertToIST(unixTimestamp) {
+    const date = new Date(unixTimestamp * 1000); // Convert to milliseconds
+    return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+  }
+
+  const fiveMinCandelMap = new Map();
+  try {
+    for (let i = 0; i < securityIds.length; i++) {
+      const data = await fetchHistoricalDataforTenMin(
+        securityIds[i],
+        fromDate,
+        toDate,
+        i
+      );
+
+      data.open = data.open.slice(-5);
+      data.high = data.high.slice(-5);
+      data.low = data.low.slice(-5);
+      data.close = data.close.slice(-5);
+      data.volume = data.volume.slice(-5);
+      data.timestamp = convertToIST(data.timestamp.slice(-5)[4]);
+      data.securityId = data.securityId || securityIds[i];
+      fiveMinCandelMap.set(securityIds[i], data);
+
+      await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
+    }
+    return fiveMinCandelMap;
+  } catch (error) {
+    console.error("Error in getData:", error.message);
+  }
+};
+
+
+
+connectDB().then(() => {
+  getDataForTenMin().then((data) => {
+    console.log(data);
+  });
+});
+

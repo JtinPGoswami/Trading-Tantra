@@ -7,6 +7,7 @@ import AISectorChart from "../../Components/Dashboard/AISectorChart";
 import StockCard from "../../Components/Dashboard/StockCard";
 import TreeGrpahsGrid from "../../Components/Dashboard/TreeGraphsGrid";
 import { io } from "socket.io-client";
+import Loader from "../../Components/Loader";
 const AiSectorDepthPage = () => {
   const stockDataList = [
     {
@@ -406,22 +407,56 @@ const AiSectorDepthPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sectorWiseData, setSectorWiseData] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    try {
-      socket.on("sectorScope", (data) => {
-        setData(data);
-        setSectorWiseData(data?.sectorWiseData);
-        setLoading(false);
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-  }, []);
+    let hasDataArrived = false;
 
-  if (loading) {
-    console.log("loading....");
-  }
+
+    let interval;
+
+    // socket.emit("getData");
+
+
+    if (!isFetching) {
+      socket.emit("getSectorData");
+      setIsFetching(true)
+
+    } else {
+     interval =  setInterval(() => {
+        socket.emit("getSectorData");
+      }, 50000);
+
+     
+    }
+
+    // Define event handler
+    const handleSectorScope = (data) => {
+      setData(data);
+      setSectorWiseData(data?.sectorWiseData);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+
+    // Attach event listener
+    socket.on("sectorScope", handleSectorScope);
+
+    // Set a timeout to stop loading if no data is received
+    // const timeout = setTimeout(() => {
+    //   if (!hasDataArrived) {
+    //     setLoading(false);
+    //     console.log("No data received within the expected time.");
+    //   }
+    // }, 20000); // Adjust timeout duration as needed
+
+    return () => {
+      // Cleanup: Remove event listener and clear timeout
+      socket.off("sectorScope", handleSectorScope);
+      // clearTimeout(timeout);
+      clearInterval(interval);
+
+    };
+  }, []);
 
   return (
     <>
@@ -474,7 +509,7 @@ const AiSectorDepthPage = () => {
               </div>
             ))}
           </div> */}
-          <TreeGrpahsGrid data={data} />
+          {loading ? <Loader/> : <TreeGrpahsGrid data={data} />}
         </div>
       </section>
 
@@ -491,7 +526,7 @@ const AiSectorDepthPage = () => {
             </span>
           </div>
           <div className="w-fullbg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
-            <AISectorChart data={sectorWiseData} />
+            {loading ? <Loader /> : <AISectorChart data={sectorWiseData} />}
           </div>
         </div>
       </section>
@@ -503,7 +538,13 @@ const AiSectorDepthPage = () => {
           {Object.entries(sectorWiseData)
             .filter(([sector]) => sector !== "Uncategorized") // Filter out 'Uncategorized' before mapping
             .map(([sector, values], index) => (
-              <StockCard key={index} title={sector} data={values}  loading={false} error={false}/>
+              <StockCard
+                key={index}
+                title={sector}
+                data={values}
+                loading={loading}
+                error={false}
+              />
             ))}
         </div>
       </section>
