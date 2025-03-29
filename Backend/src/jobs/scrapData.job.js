@@ -1,41 +1,67 @@
-import { chromium } from 'playwright-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import { chromium } from "playwright-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import fs from "fs";
 
 chromium.use(StealthPlugin()); // Enable stealth mode
 
-async function scrapeTableData() {
-    const browser = await chromium.launch({ headless: false });
-    const page = await browser.newPage();
+async function scrapeData() {
+  const browser = await chromium.launch({ headless: false });
 
-    // Correct way to set User-Agent in Playwright
-    await page.setExtraHTTPHeaders({
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
-    });
+  const context = await browser.newContext({
+    userAgent:
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+    bypassCSP: true,
+  });
 
-    await page.goto('https://www.moneycontrol.com/stocks/marketstats/fii_dii_activity/index.php', { waitUntil: 'domcontentloaded' ,timeout: 60000});
+  const page = await context.newPage();
 
-   
+  await page.goto(
+    "https://www.moneycontrol.com/stocks/marketstats/fii_dii_activity/index.php",
+    { waitUntil: "domcontentloaded", timeout: 60000 }
+  );
 
-    await page.waitForTimeout(5000); // Wait for JavaScript to load
-    await page.keyboard.press('PageDown'); // Scroll to trigger loading
+  await page.waitForTimeout(3000); // Let the page settle
 
-    // console.log(await page.content()); // Print HTML to check for the table
+  // Step 1: Close the Notification Popup (if exists)
+  const popupSelector = "#wzrk-cancel";
+  if (await page.$(popupSelector)) {
+    console.log("Closing notification popup...");
+    await page.click(popupSelector);
+    await page.waitForTimeout(2000);
+  } else {
+    console.log("No notification popup found.");
+  }
 
-    await page.waitForFunction(() => document.querySelector('table') !== null, { timeout: 60000 });
+  // Step 2: Click the first button: F&O
+  const firstButtonSelector = "a[href='#fidifno']";
+  if (await page.$(firstButtonSelector)) {
+    console.log("Clicking F&O button...");
+    await page.click(firstButtonSelector);
+    await page.waitForTimeout(3000);
+  } else {
+    console.log("F&O button not found.");
+  }
 
-    const table = document.querySelector('table') 
+  // Step 3: Click the second button: Stock
+  const secondButtonSelector = "a[href='#fidfn21']";
+  if (await page.$(secondButtonSelector)) {
+    console.log("Clicking Stock button...");
+    await page.click(secondButtonSelector);
+    await page.waitForTimeout(5000);
+  } else {
+    console.log("Stock button not found.");
+  }
 
-    console.log('table',table)
+  // Step 4: Extract Full Page HTML
+  const fullPageHTML = await page.evaluate(
+    () => document.documentElement.outerHTML
+  );
 
+  // Save the extracted page data
+  fs.writeFileSync("full_page.html", fullPageHTML, "utf-8");
+  console.log("Full page data successfully saved in full_page.html.");
 
-    const tableData = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll('table tbody tr')).map(row =>
-            Array.from(row.querySelectorAll('td')).map(col => col.innerText.trim())
-        );
-    });
-
-    console.log("Scraped Table Data:", tableData);
-    await browser.close();
+  await browser.close();
 }
 
-scrapeTableData().catch(console.error);
+scrapeData().catch(console.error);

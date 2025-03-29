@@ -39,7 +39,7 @@ import {
   fiveDayRangeBreakers,
   tenDayRangeBreakers,
 } from "./controllers/swingAnalysis.controllers.js";
-import { DailyRangeBreakout } from "./controllers/liveMarketData.controller.js";
+
 dotenv.config();
 
 const app = express();
@@ -212,7 +212,7 @@ const socket = getSocketInstance();
 // ✅ **Run `sendData()` immediately**
 // sendSmartMoneyActionData();
 
-setInterval(sendSectorData, 20000);
+// setInterval(sendSectorDat, 20000);
 
 async function sendSwingData() {
   try {
