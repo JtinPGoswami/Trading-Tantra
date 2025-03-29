@@ -14,7 +14,9 @@ const fiveDayRangeBreakers = async (req, res) => {
     ]);
 
     if (uniqueTradingDays.length < 6) {
-      return { message: "Not enough historical data found" };
+      return res
+        .status(404)
+        .json({ message: "Not enough historical data found" });
     }
 
     const prevTargetDates = uniqueTradingDays.map((day) => day._id);
@@ -59,7 +61,7 @@ const fiveDayRangeBreakers = async (req, res) => {
       { SECURITY_ID: 1, UNDERLYING_SYMBOL: 1, SYMBOL_NAME: 1, _id: 0 }
     );
     if (!stocks) {
-      return { message: "No stocks found" };
+      return res.status(404).json({ message: "No stocks found" });
     }
 
     const stocksMap = new Map();
@@ -152,16 +154,18 @@ const fiveDayRangeBreakers = async (req, res) => {
     );
 
     if (!resData) {
-      return { message: "No data found" };
+      return res.status(404).json({ message: "No data found" });
     }
     console.log(resData, "resData");
 
-    return {
+    res.status(200).json({
       success: true,
       resData,
-    };
+    });
   } catch (error) {
-    return { message: "Internal server error", error: error.message };
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -174,7 +178,9 @@ const tenDayRangeBreakers = async (req, res) => {
     ]);
 
     if (uniqueTradingDays.length < 11) {
-      return { message: "Not enough historical data found" };
+      return res
+        .status(404)
+        .json({ message: "Not enough historical data found" });
     }
 
     const prevTargetDates = uniqueTradingDays.map((day) => day._id);
@@ -219,7 +225,7 @@ const tenDayRangeBreakers = async (req, res) => {
       { SECURITY_ID: 1, UNDERLYING_SYMBOL: 1, SYMBOL_NAME: 1, _id: 0 }
     );
     if (!stocks) {
-      return { message: "No stocks found" };
+      return res.status(404).json({ message: "No stocks found" });
     }
 
     const stocksMap = new Map();
@@ -307,14 +313,16 @@ const tenDayRangeBreakers = async (req, res) => {
       }
     ).lean();
     if (!resData) {
-      return { message: "No data found" };
+      return res.status(404).json({ message: "No data found" });
     }
-    return {
+    res.status(200).json({
       success: true,
       resData,
-    };
+    });
   } catch (error) {
-    return { message: "Internal server error", error: error.message };
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -327,7 +335,9 @@ const dailyCandleReversal = async (req, res) => {
     ]);
 
     if (uniqueTradingDays.length < 3) {
-      return { message: "Not enough historical data found" };
+      return res
+        .status(404)
+        .json({ message: "Not enough historical data found" });
     }
 
     const prevTargetDates = uniqueTradingDays.map((day) => day._id);
@@ -370,7 +380,7 @@ const dailyCandleReversal = async (req, res) => {
       { SECURITY_ID: 1, UNDERLYING_SYMBOL: 1, SYMBOL_NAME: 1, _id: 0 }
     );
     if (!stocks) {
-      return { message: "No stocks found" };
+      return res.status(404).json({ message: "No stocks found" });
     }
 
     const stocksMap = new Map();
@@ -468,14 +478,16 @@ const dailyCandleReversal = async (req, res) => {
       }
     ).lean();
     if (!resData) {
-      return { message: "No data found" };
+      return res.status(404).json({ message: "No data found" });
     }
-    return {
+    res.status(200).json({
       success: true,
       resData,
-    };
+    });
   } catch (error) {
-    return { message: "Internal server error", error: error.message };
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -488,7 +500,9 @@ const AIContraction = async (req, res) => {
     ]);
 
     if (uniqueTradingDays.length < 4) {
-      return { message: "Not enough historical data (need 5 days)" };
+      return res
+        .status(404)
+        .json({ message: "Not enough historical data (need 5 days)" });
     }
 
     const targetDates = uniqueTradingDays.map((day) => day._id);
@@ -626,11 +640,13 @@ const AIContraction = async (req, res) => {
 
     console.log(resData);
     if (!resData) {
-      return { message: "No data found" };
+      return res.status(404).json({ message: "No data found" });
     }
-    return { success: true, resData };
+    res.status(200).json({ success: true, resData });
   } catch (error) {
-    return { message: "Internal server error", error: error.message };
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 

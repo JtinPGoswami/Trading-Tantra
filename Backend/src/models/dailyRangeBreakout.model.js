@@ -9,7 +9,7 @@ const DailyRangeBreakoutSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["Breakout Bullish", "Breakout Bearish"],
+      enum: ["Bullish", "Bearish"],
       required: true,
     },
     stockSymbol: {

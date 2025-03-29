@@ -1401,22 +1401,22 @@ const DailyRangeBreakout = async (req, res) => {
       .sort({ timestamp: -1 })
       .lean();
     if (fullData.length === 0) {
-      return res.status(200).json({
+      return {
         message: "No breakout signals detected",
         data: [],
-      });
+      };
     }
 
-    return res.status(200).json({
+    return {
       message: "Breakout analysis complete",
       data: fullData,
-    });
+    };
   } catch (error) {
     console.error("Error in DailyRangeBreakout:", error);
-    return res.status(500).json({
+    return {
       message: "Internal server error",
       error: error.message,
-    });
+    };
   }
 };
 
@@ -1710,8 +1710,9 @@ const twoDayHLBreak = async (req, res) => {
       const secondPrevDayClose = secondPrevDayData?.dayClose;
       const latestTradedPrice = firstPrevDayData?.latestTradedPrice;
       const latestTimestamp = item.timestamp;
-      const percentageChange = ((latestTradedPrice - secondPrevDayClose) / secondPrevDayClose) * 100;
-      console.log('percentageChange',percentageChange)
+      const percentageChange =
+        ((latestTradedPrice - secondPrevDayClose) / secondPrevDayClose) * 100;
+      console.log("percentageChange", percentageChange);
 
       if (
         (firstPrevDayHigh <= secondPrevDayHigh + secondPrevDayHigh * 0.01 &&
@@ -1766,15 +1767,18 @@ const twoDayHLBreak = async (req, res) => {
 
     await TwoDayHighLowBreak.bulkWrite(bulkOps);
 
-    const data = await TwoDayHighLowBreak.find({}, {
-      securityId: 1,
-      symbolName: 1,
-      underlyingSymbol: 1,
-      type: 1,
-      timestamp: 1,
-      percentageChange: 1,
-      _id:0
-    });
+    const data = await TwoDayHighLowBreak.find(
+      {},
+      {
+        securityId: 1,
+        symbolName: 1,
+        underlyingSymbol: 1,
+        type: 1,
+        timestamp: 1,
+        percentageChange: 1,
+        _id: 0,
+      }
+    );
 
     res.status(200).json({
       message: "Two Day High Low Break analysis complete",
