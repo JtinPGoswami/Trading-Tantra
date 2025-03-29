@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MomentumSignalSchema = new mongoose.Schema(
+const IntradayReversalFiveMinSchema = new mongoose.Schema(
   {
     type: {
       type: String,
@@ -42,9 +42,9 @@ const MomentumSignalSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const fiveMinMomentumSignal = mongoose.model(
-  "MomentumSignal",
-  MomentumSignalSchema
+const IntradayReversalFiveMin = mongoose.model(
+  "IntradayReversalFiveMin",
+  IntradayReversalFiveMinSchema
 );
 
-export default fiveMinMomentumSignal;
+export default IntradayReversalFiveMin;

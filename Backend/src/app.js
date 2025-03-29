@@ -23,6 +23,16 @@ import { getSocketInstance, initializeServer } from "./config/socket.js";
 import holidayJob from "./jobs/holiday.job.js";
 import scheduleMarketJob from "./jobs/liveMarket.job.js";
 import { send } from "process";
+import {
+  AIIntradayReversalFiveMins,
+  AIMomentumCatcherFiveMins,
+  AIMomentumCatcherTenMins,
+  DailyRangeBreakout,
+  DayHighLowReversal,
+  twoDayHLBreak,
+} from "./controllers/liveMarketData.controller.js";
+import paymentRoutes from "./routes/payment.routes.js";
+
 dotenv.config();
 
 const app = express();
@@ -47,85 +57,157 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-// app.use("/api/payment", paymentRoutes);
+app.use("/api/payment", paymentRoutes);
 // app.use("/api", subscriptionPlanRoutes);
 app.use("/api", stocksRoutes);
 
-async function sendData() {
-  try {
-    const socket = getSocketInstance();
-    if (!socket) {
-      console.error("Socket instance is not available.");
-      return;
-    }
+const socket = getSocketInstance();
 
-    console.log("Fetching and sending stock data...");
 
-    const [
-      response,
-      dayHighBreakResponse,
-      getTopGainersAndLosersResponse,
-      dayLowBreakResponse,
-      previousDaysVolumeResponse,
-    ] = await Promise.allSettled([
-      getStocksData(),
-      getDayHighBreak(),
-      getTopGainersAndLosers(),
-      getDayLowBreak(),
-      previousDaysVolume(),
-    ]);
+// async function sendData() {
+//   try {
+//     if (!socket) {
+//       console.error("Socket instance is not available.");
+//       return;
+//     }
 
-    if (response.status === "fulfilled")
-      socket.emit("turnOver", response.value);
-    if (dayHighBreakResponse.status === "fulfilled")
-      socket.emit("dayHighBreak", dayHighBreakResponse.value);
-    if (getTopGainersAndLosersResponse.status === "fulfilled")
-      socket.emit(
-        "getTopGainersAndLosers",
-        getTopGainersAndLosersResponse.value
-      );
-    if (dayLowBreakResponse.status === "fulfilled")
-      socket.emit("dayLowBreak", dayLowBreakResponse.value);
-    if (previousDaysVolumeResponse.status === "fulfilled")
-      socket.emit("previousDaysVolume", previousDaysVolumeResponse.value);
+//     console.log("Fetching and sending stock data...");
+//     console.log('-----------------------------------')
 
-    console.log("Data sent successfully... 👍");
-  } catch (error) {
-    console.error("Error sending data:", error);
-  }
-}
+//     const [
+//       response,
+//       dayHighBreakResponse,
+//       getTopGainersAndLosersResponse,
+//       dayLowBreakResponse,
+//       previousDaysVolumeResponse,
+//     ] = await Promise.allSettled([
+//       getStocksData(),
+//       getDayHighBreak(),
+//       getTopGainersAndLosers(),
+//       getDayLowBreak(),
+//       previousDaysVolume(),
+//     ]);
+
+//     if (response.status === "fulfilled")
+//       socket.emit("turnOver", response.value);
+
+//     if (dayHighBreakResponse.status === "fulfilled")
+//       socket.emit("dayHighBreak", dayHighBreakResponse.value);
+//     if (getTopGainersAndLosersResponse.status === "fulfilled")
+//       socket.emit(
+//         "getTopGainersAndLosers",
+//         getTopGainersAndLosersResponse.value
+//       );
+//     if (dayLowBreakResponse.status === "fulfilled")
+//       socket.emit("dayLowBreak", dayLowBreakResponse.value);
+//     if (previousDaysVolumeResponse.status === "fulfilled")
+//       socket.emit("previousDaysVolume", previousDaysVolumeResponse.value);
+
+//     console.log("Data sent successfully... 👍");
+//   } catch (error) {
+//     console.error("Error sending data:", error);
+//   }
+// }
+
+// let isSent = false;
+
+// if (isSent) {
+//   setInterval(sendData, 20000);
+// } else {
+//   sendData();
+//   isSent = true;
+// }
+
+// async function sendSectorData() {
+//   try {
+//     const socket = getSocketInstance();
+//     if (!socket) {
+//       console.error("Socket instance is not available.");
+//       return;
+//     }
+
+//     console.log("Fetching and sending sector stock data...");
+
+//     const [response] = await Promise.allSettled([sectorStockData()]);
+
+//     if (response.status === "fulfilled")
+//       socket.emit("sectorScope", response.value);
+
+//     console.log("Data sector sent successfully... 👍");
+//   } catch (error) {
+//     console.error("Error sending data:", error);
+//   }
+// }
 
 // ✅ **Run `sendData()` immediately**
-sendData();
+// sendSectorData();
+
+// setInterval(sendSectorData, 20000);
+
+// async function sendSmartMoneyActionData() {
+//   try {
+//     const socket = getSocketInstance();
+//     if (!socket) {
+//       console.error("Socket instance is not available.");
+//       return;
+//     }
+
+//     console.log("Fetching and sending smart money action data stock...");
+
+//     const [
+//       twoDayHLBreakResponse,
+//       DayHighLowReversalResponse,
+//       DailyRangeBreakoutResponse,
+//       AIMomentumCatcherTenMinsResponse,
+//       AIMomentumCatcherFiveMinsResponse,
+//       AIIntradayReversalFiveMinsResponse,
+//     ] = await Promise.allSettled([
+//       twoDayHLBreak(),
+//       DayHighLowReversal(),
+//       DailyRangeBreakout(),
+//       AIMomentumCatcherTenMins(),
+//       AIMomentumCatcherFiveMins(),
+//       AIIntradayReversalFiveMins(),
+//     ]);
+
+//     if (twoDayHLBreakResponse.status === "fulfilled")
+//       socket.emit("twoDayHLBreak", twoDayHLBreakResponse.value);
+
+//     if (DayHighLowReversalResponse.status === "fulfilled")
+//       socket.emit("DayHighLowReversal", DayHighLowReversalResponse.value);
+
+//     if (DailyRangeBreakoutResponse.status === "fulfilled")
+//       socket.emit("DailyRangeBreakout", DailyRangeBreakoutResponse.value);
+
+//     if (AIMomentumCatcherTenMinsResponse.status === "fulfilled")
+//       socket.emit(
+//         "AIMomentumCatcherTenMins",
+//         AIMomentumCatcherTenMinsResponse.value
+//       );
+
+//     if (AIMomentumCatcherFiveMinsResponse.status === "fulfilled")
+//       socket.emit(
+//         "AIMomentumCatcherFiveMins",
+//         AIMomentumCatcherFiveMinsResponse.value
+//       );
+
+//     if (AIIntradayReversalFiveMinsResponse.status === "fulfilled")
+//       socket.emit(
+//         "AIIntradayReversalFiveMins",
+//         AIIntradayReversalFiveMinsResponse.value
+//       );
+
+//     console.log("Data sent successfully... 👍");
+//   } catch (error) {
+//     console.error("Error sending data:", error);
+//   }
+// }
+
+// ✅ **Run `sendData()` immediately**
+// sendSmartMoneyActionData();
 
 // ✅ **Then set an interval for every 20 seconds**
-setInterval(sendData, 20000);
-
-async function sendSectorData() {
-  try {
-    const socket = getSocketInstance();
-    if (!socket) {
-      console.error("Socket instance is not available.");
-      return;
-    }
-
-    console.log("Fetching and sending sector stock data...");
-
-    const [response] = await Promise.allSettled([sectorStockData()]);
-
-    if (response.status === "fulfilled")
-      socket.emit("sectorScope", response.value);
-
-    console.log("Data sector sent successfully... 👍");
-  } catch (error) {
-    console.error("Error sending data:", error);
-  }
-}
-
-// ✅ **Run `sendData()` immediately**
-sendSectorData();
-
-setInterval(sendSectorData, 20000);
+// setInterval(sendSmartMoneyActionData, 20000);
 
 const PORT = process.env.PORT || 3000;
 
