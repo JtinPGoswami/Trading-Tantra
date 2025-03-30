@@ -33,6 +33,13 @@ import {
 } from "./controllers/liveMarketData.controller.js";
 import paymentRoutes from "./routes/payment.routes.js";
 
+import {
+  AIContraction,
+  dailyCandleReversal,
+  fiveDayRangeBreakers,
+  tenDayRangeBreakers,
+} from "./controllers/swingAnalysis.controllers.js";
+import { DailyRangeBreakout } from "./controllers/liveMarketData.controller.js";
 dotenv.config();
 
 const app = express();
@@ -61,7 +68,6 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api", stocksRoutes);
 
 const socket = getSocketInstance();
-
 
 // async function sendData() {
 //   try {
@@ -205,8 +211,53 @@ const socket = getSocketInstance();
 // ✅ **Run `sendData()` immediately**
 // sendSmartMoneyActionData();
 
-// ✅ **Then set an interval for every 20 seconds**
-// setInterval(sendSmartMoneyActionData, 20000);
+setInterval(sendSectorData, 20000);
+
+async function sendSwingData() {
+  try {
+    const socket = getSocketInstance();
+    if (!socket) {
+      console.error("Socket instance is not available.");
+      return;
+    }
+
+    console.log("Fetching and sending sector stock data...");
+
+    const [
+      fiveDayRangeBreakersResponse,
+      tenDayRangeBreakersResponse,
+      dailyCandleReversalResponse,
+      AIContractionResponse,
+      DailyRangeBreakoutResponse,
+    ] = await Promise.allSettled([
+      fiveDayRangeBreakers(),
+      tenDayRangeBreakers(),
+      dailyCandleReversal(),
+      AIContraction(),
+      DailyRangeBreakout(),
+    ]);
+
+    if (fiveDayRangeBreakersResponse.status === "fulfilled")
+      socket.emit("fiveDayRangeBreakers", fiveDayRangeBreakersResponse.value);
+    if (tenDayRangeBreakersResponse.status === "fulfilled")
+      socket.emit("tenDayRangeBreakers", tenDayRangeBreakersResponse.value);
+    if (dailyCandleReversalResponse.status === "fulfilled")
+      socket.emit("setDailyCandleReversal", dailyCandleReversalResponse.value);
+    if (AIContractionResponse.status === "fulfilled")
+      socket.emit("AIContraction", AIContractionResponse.value);
+    if (DailyRangeBreakoutResponse.status === "fulfilled")
+      socket.emit("DailyRangeBreakout", DailyRangeBreakoutResponse.value);
+
+    console.log("Swing Data  successfully... 👍");
+  } catch (error) {
+    console.error("Error sending data:", error);
+  }
+}
+
+// ✅ **Run `sendData()` immediately**
+sendSwingData();
+
+setInterval(sendSwingData, 20000);
 
 const PORT = process.env.PORT || 3000;
 

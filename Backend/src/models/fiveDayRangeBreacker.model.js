@@ -10,7 +10,7 @@ const fiveDayRangeBreakerSchema = new mongoose.Schema(
     todayLatestTradedPrice: { type: Number, required: true },
     preFiveDaysHigh: { type: Number, required: true },
     preFiveDaysLow: { type: Number, required: true },
-    persentageChange: { type: Number, required: true },
+    percentageChange: { type: Number, required: true },
     type: { type: String, enum: ["bullish", "bearish"], required: true },
     timestamp: {
       type: Date,

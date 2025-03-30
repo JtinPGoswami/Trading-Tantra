@@ -288,7 +288,7 @@ import { fetchHistoricalDataforTenMin } from "./src/utils/fetchData.js";
 //           console.log(percentageChange, "percentageChange");
 
 //           breakoutStocks.push({
-//             type: breakoutAbove ? "Breakout Bullish" : "Breakout Bearish",
+//             type: breakoutAbove ? "Bullish" : " Bearish",
 //             securityId,
 //             stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
 //             stockName: stock?.SYMBOL_NAME || "N/A",
