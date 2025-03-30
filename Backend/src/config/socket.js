@@ -1,6 +1,7 @@
 import {Server} from "socket.io";
 import { getDayHighBreak, getDayLowBreak, getStocksData, getTopGainersAndLosers, previousDaysVolume, sectorStockData } from "../controllers/stock.contollers.js";
 import { AIIntradayReversalFiveMins, AIMomentumCatcherFiveMins, AIMomentumCatcherTenMins, DailyRangeBreakout, DayHighLowReversal, twoDayHLBreak } from "../controllers/liveMarketData.controller.js";
+import authenticateSocket from "../middlewares/authenticateSocket.js";
 
 let io ;
 
@@ -141,24 +142,26 @@ const initializeServer = (server) => {
             methods:["GET","POST"]
         },
     });
+
+
     
     io.on("connection", async (socket) => {
         console.log("a user connected",socket.id);
  
         socket.on("getMarketDepthData", async() => {
-            console.log('inside get data')
+            console.log('inside market depth data')
             await sendData()
             // console.log("user disconnected",socket.id);
           });
 
           socket.on("getSectorData", async() => {
-            console.log('inside get data')
+            console.log('inside  sector depth data')
             await sendSectorData()
             // console.log("user disconnected",socket.id);
           });
 
           socket.on("getSmartMoneyActionData", async() => {
-            console.log('inside get data')
+            console.log('inside smart money data')
             await sendSmartMoneyActionData()
             // console.log("user disconnected",socket.id);
           });

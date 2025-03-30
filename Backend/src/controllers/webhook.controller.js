@@ -39,7 +39,7 @@ export const razporpayWebhook = async (req, res) => {
         { new: true }
       );
 
-    //   console.log('payment on succes', payment)
+      console.log('payment on succes', payment)
 
       if (payment) {
       await UserSubscription.findOneAndUpdate(

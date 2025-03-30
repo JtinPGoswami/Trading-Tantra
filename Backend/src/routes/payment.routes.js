@@ -12,6 +12,10 @@ router.post('/verify-payment',verifyPayment)
 
 //webhook
 
+// it is called by razorpay itself we have to give the backend url at razorpay with this route ex. http://backend.com/webhook
+
+//It capture the event for payment if it is in state successfull, failed , pending etc.
+
 router.post('/webhook',razporpayWebhook)
 
 

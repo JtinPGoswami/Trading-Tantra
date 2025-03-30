@@ -58,7 +58,6 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/payment", paymentRoutes);
-// app.use("/api", subscriptionPlanRoutes);
 app.use("/api", stocksRoutes);
 
 const socket = getSocketInstance();
