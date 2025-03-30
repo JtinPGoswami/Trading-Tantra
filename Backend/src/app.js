@@ -214,51 +214,51 @@ const socket = getSocketInstance();
 
 // setInterval(sendSectorDat, 20000);
 
-async function sendSwingData() {
-  try {
-    const socket = getSocketInstance();
-    if (!socket) {
-      console.error("Socket instance is not available.");
-      return;
-    }
+// async function sendSwingData() {
+//   try {
+//     const socket = getSocketInstance();
+//     if (!socket) {
+//       console.error("Socket instance is not available.");
+//       return;
+//     }
 
-    console.log("Fetching and sending sector stock data...");
+//     console.log("Fetching and sending sector stock data...");
 
-    const [
-      fiveDayRangeBreakersResponse,
-      tenDayRangeBreakersResponse,
-      dailyCandleReversalResponse,
-      AIContractionResponse,
-      DailyRangeBreakoutResponse,
-    ] = await Promise.allSettled([
-      fiveDayRangeBreakers(),
-      tenDayRangeBreakers(),
-      dailyCandleReversal(),
-      AIContraction(),
-      DailyRangeBreakout(),
-    ]);
+//     const [
+//       fiveDayRangeBreakersResponse,
+//       tenDayRangeBreakersResponse,
+//       dailyCandleReversalResponse,
+//       AIContractionResponse,
+//       DailyRangeBreakoutResponse,
+//     ] = await Promise.allSettled([
+//       fiveDayRangeBreakers(),
+//       tenDayRangeBreakers(),
+//       dailyCandleReversal(),
+//       AIContraction(),
+//       DailyRangeBreakout(),
+//     ]);
 
-    if (fiveDayRangeBreakersResponse.status === "fulfilled")
-      socket.emit("fiveDayRangeBreakers", fiveDayRangeBreakersResponse.value);
-    if (tenDayRangeBreakersResponse.status === "fulfilled")
-      socket.emit("tenDayRangeBreakers", tenDayRangeBreakersResponse.value);
-    if (dailyCandleReversalResponse.status === "fulfilled")
-      socket.emit("setDailyCandleReversal", dailyCandleReversalResponse.value);
-    if (AIContractionResponse.status === "fulfilled")
-      socket.emit("AIContraction", AIContractionResponse.value);
-    if (DailyRangeBreakoutResponse.status === "fulfilled")
-      socket.emit("DailyRangeBreakout", DailyRangeBreakoutResponse.value);
+//     if (fiveDayRangeBreakersResponse.status === "fulfilled")
+//       socket.emit("fiveDayRangeBreakers", fiveDayRangeBreakersResponse.value);
+//     if (tenDayRangeBreakersResponse.status === "fulfilled")
+//       socket.emit("tenDayRangeBreakers", tenDayRangeBreakersResponse.value);
+//     if (dailyCandleReversalResponse.status === "fulfilled")
+//       socket.emit("setDailyCandleReversal", dailyCandleReversalResponse.value);
+//     if (AIContractionResponse.status === "fulfilled")
+//       socket.emit("AIContraction", AIContractionResponse.value);
+//     if (DailyRangeBreakoutResponse.status === "fulfilled")
+//       socket.emit("DailyRangeBreakout", DailyRangeBreakoutResponse.value);
 
-    console.log("Swing Data  successfully... 👍");
-  } catch (error) {
-    console.error("Error sending data:", error);
-  }
-}
+//     console.log("Swing Data  successfully... 👍");
+//   } catch (error) {
+//     console.error("Error sending data:", error);
+//   }
+// }
 
 // ✅ **Run `sendData()` immediately**
-sendSwingData();
+// sendSwingData();
 
-setInterval(sendSwingData, 20000);
+// setInterval(sendSwingData, 20000);
 
 const PORT = process.env.PORT || 3000;
 

@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaPlayCircle } from "react-icons/fa";
 import { FcCandleSticks } from "react-icons/fc";
 import { GoDotFill } from "react-icons/go";
 import CustomBarChart from "../../Components/Dashboard/FIIDIIchart";
 import FiiDiiTable from "../../Components/Dashboard/FiiDiiTable";
+import axios from "axios";
 
 const FIIDIIPage = () => {
+  const [loading, setLoading] = useState(false);
+  const [FiiDiiData, setFiiDiiData] = useState([]);
+  useEffect(async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get("http://localhost:3000/api/fii-dii");
+      const data = res.data.resdata;
+      setFiiDiiData(data);
+      console.log(FiiDiiData, "FiiDiiData");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return (
     <>
       <h1 className="text-3xl font-bold mt-8">FII/DII</h1>
@@ -22,21 +39,23 @@ const FIIDIIPage = () => {
                 Live
               </span>
 
-              <span className="flex items-center gap-1">How to use <FaPlayCircle className="text-[#0256F5]"/></span>
+              <span className="flex items-center gap-1">
+                How to use <FaPlayCircle className="text-[#0256F5]" />
+              </span>
             </div>
 
             <div className="mt-4 dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
-                <CustomBarChart/>
+              <CustomBarChart
+                data={FiiDiiData.slice(0, 10)}
+                loading={loading}
+              />
             </div>
-
-
           </div>
         </div>
       </section>
 
       <section className="mt-8 dark:bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
-
-            <FiiDiiTable/>
+        <FiiDiiTable data={FiiDiiData} loading={loading} />
       </section>
     </>
   );

@@ -3,10 +3,27 @@ import CalendarGrid from "../../Components/Dashboard/CalenarGrid";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { FaInfoCircle, FaCalendarAlt } from "react-icons/fa";
+import addTrade from "../../hooks/addTrade";
 
 const TradingJournal = () => {
-  const [date, setDate] = useState(new Date());
   const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth(); // 0-based index (Jan = 0, Feb = 1, ..., Dec = 11)
+  const startYear = currentMonth >= 3 ? currentYear : currentYear - 1;
+
+  const startDate = new Date(startYear, 3, 1); // April 1st of the current financial year
+  const endDate = new Date(startYear + 1, 2, 31); //
+
+  const [dateRange, setDateRange] = useState({
+    startDate,
+    endDate,
+  });
+
+  const [tempDates, setTempDates] = useState({
+    startDate,
+    endDate,
+  });
+  const [date, setDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState({
     day: "",
     month: "",
@@ -15,14 +32,7 @@ const TradingJournal = () => {
   const [dateRangeType, setDateRangeType] = useState("long");
   const [showDateRange, setShowDateRange] = useState(false);
   const [showAddTrade, setShowAddTrade] = useState(false);
-  const [dateRange, setDateRange] = useState({
-    startDate: today,
-    endDate: today,
-  });
-  const [tempDates, setTempDates] = useState({
-    startDate: today,
-    endDate: today,
-  });
+
   const [tradeData, setTradeData] = useState({
     entryDate: today,
     exitDate: today,
@@ -30,7 +40,7 @@ const TradingJournal = () => {
     entryPrice: "",
     exitPrice: "",
     quantity: "",
-    image: null,
+    dateRange: "short",
   });
 
   const dateRangeRef = useRef(null);
@@ -97,8 +107,8 @@ const TradingJournal = () => {
   };
 
   const handleAddTradeSubmit = () => {
-    console.log("Trade submitted:", tradeData);
     setShowAddTrade(false);
+    addTrade(tradeData);
     // Here you can add logic to save the trade data (e.g., to a database or state management)
   };
 
@@ -144,30 +154,175 @@ const TradingJournal = () => {
         </button>
         <div className="flex gap-2.5">
           <div className="relative">
-
-         
-          <button
-            className="text-sm font-normal bg-[#72A3FE] rounded-[5px] py-2 px-3"
-            onClick={() => setShowAddTrade(!showAddTrade)}
-          >
-            Add Trade (+)
-          </button>
-          {showAddTrade && (
-            <div
-              ref={addTradeRef}
-              className="absolute  top-15 -right-25 shadow-md w-[600px] z-50 rounded-md dark:bg-db-primary bg-db-secondary-light p-7 "
+            <button
+              className="text-sm font-normal bg-[#72A3FE] rounded-[5px] py-2 px-3"
+              onClick={() => setShowAddTrade(!showAddTrade)}
             >
-              <div className="flex justify-between">
-                <h3 className="text-2xl font-medium">Add Trade :</h3>
-                <span
-                  onClick={() => setShowAddTrade(false)}
-                  className="text-2xl font-extrabold cursor-pointer"
+              Add Trade (+)
+            </button>
+            {showAddTrade && (
+              <div
+                ref={addTradeRef}
+                className="absolute  top-15 -right-25 shadow-md w-[600px] z-50 rounded-md dark:bg-db-primary bg-db-secondary-light p-7 "
+              >
+                <div className="flex justify-between">
+                  <h3 className="text-2xl font-medium">Add Trade :</h3>
+                  <span
+                    onClick={() => setShowAddTrade(false)}
+                    className="text-2xl font-extrabold cursor-pointer"
+                  >
+                    X
+                  </span>
+                </div>
+                <div className="mt-10">
+                  <div className="flex items-center mb-5 justify-between w-full">
+                    <p className="text-lg font-normal">Select Date Range* :</p>
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="text-base cursor-pointer"
+                        onClick={() => setDateRangeType("long")}
+                      >
+                        Long
+                      </div>
+                      <div
+                        onClick={() =>
+                          setDateRangeType(() =>
+                            dateRangeType === "short" ? "long" : "short"
+                          )
+                        }
+                        className="w-14 h-6 dark:bg-[#00114e] bg-primary-light rounded-[5px] flex items-center p-1 cursor-pointer transition-all"
+                      >
+                        <div
+                          className={`w-6 h-6 bg-primary rounded-[5px] shadow-md transform transition-all ${
+                            dateRangeType === "short" ? "translate-x-6" : ""
+                          }`}
+                        />
+                      </div>
+                      <div
+                        className="text-base cursor-pointer"
+                        onClick={() => setDateRangeType("short")}
+                      >
+                        Short
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center mb-5 justify-between w-full">
+                    <p className="text-lg font-normal">Entry Date & Time* :</p>
+                    <input
+                      ref={startInputRef}
+                      type="date"
+                      value={formatDateForInput(tradeData.entryDate)}
+                      onChange={(e) => handleTradeDateChange(e, "entryDate")}
+                      onClick={() => handleInputClick(startInputRef)}
+                      className="dark:bg-[#00114E] bg-primary-light dark:placeholder:text-[#C9CFE5] placeholder:text-white text-white  rounded-sm px-3 py-1 w-[60%]"
+                    />
+                  </div>
+                  <div className="flex items-center mb-5 justify-between w-full">
+                    <p className="text-lg font-normal">Exit Date & Time* :</p>
+                    <input
+                      ref={endInputRef}
+                      type="date"
+                      value={formatDateForInput(tradeData.exitDate)}
+                      onChange={(e) => handleTradeDateChange(e, "exitDate")}
+                      onClick={() => handleInputClick(endInputRef)}
+                      className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white text-white "
+                    />
+                  </div>
+                  <div className="flex items-center mb-5 justify-between w-full">
+                    <p className="text-lg font-normal">Symbol/Ticker* :</p>
+                    <input
+                      type="text"
+                      name="symbol"
+                      value={tradeData.symbol}
+                      onChange={handleTradeInputChange}
+                      className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white "
+                      placeholder="Enter symbol/ticker"
+                    />
+                  </div>
+                  <div className="flex items-center mb-5 justify-between w-full">
+                    <p className="text-lg font-normal">Entry Price* :</p>
+                    <input
+                      type="number"
+                      name="entryPrice"
+                      value={tradeData.entryPrice}
+                      onChange={handleTradeInputChange}
+                      className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white "
+                      placeholder="Enter entry price"
+                    />
+                  </div>
+                  <div className="flex items-center mb-5 justify-between w-full">
+                    <p className="text-lg font-normal">Exit Price* :</p>
+                    <input
+                      type="number"
+                      name="exitPrice"
+                      value={tradeData.exitPrice}
+                      onChange={handleTradeInputChange}
+                      className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white "
+                      placeholder="Enter exit price"
+                    />
+                  </div>
+                  <div className="flex items-center mb-5 justify-between w-full">
+                    <p className="text-lg font-normal">Quantity* :</p>
+                    <input
+                      type="number"
+                      name="quantity"
+                      value={tradeData.quantity}
+                      onChange={handleTradeInputChange}
+                      className="dark:bg-[#00114E] dark:placeholder:text-[#C9CFE5] placeholder:text-white  bg-primary-light rounded-sm px-3 py-1 w-[60%]"
+                      placeholder="Enter quantity"
+                    />
+                  </div>
+                  {/* <div className="flex items-center mb-5 justify-between w-full">
+                    <p className="text-lg font-normal">Upload Image* :</p>
+                    <label className="bg-primary text-white rounded-md pl-3 h-8 cursor-pointer w-[50%] flex justify-between items-center">
+                      <span>Choose File</span>
+                      <span className="dark:bg-[#00114E] bg-primary-light h-full text-center flex items-center px-2 rounded-r-md ">
+                        {tradeData.image
+                          ? tradeData.image.name
+                          : "No File Chosen"}
+                      </span>
+                      <input
+                        type="file"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        accept="image/*"
+                      />
+                    </label>
+                  </div> */}
+                </div>
+
+                <button
+                  className="bg-primary w-full text-white rounded-md py-2 mt-10"
+                  onClick={handleAddTradeSubmit}
                 >
-                  X
-                </span>
+                  Submit
+                </button>
               </div>
-              <div className="mt-10">
-                <div className="flex items-center mb-5 justify-between w-full">
+            )}{" "}
+          </div>
+          <div className="relative">
+            <button
+              className="text-sm font-normal flex items-center gap-2 bg-[#0256F5] rounded-[5px] py-2 px-3"
+              onClick={() => setShowDateRange(!showDateRange)}
+            >
+              Date Range Selector
+              <FaCalendarAlt />
+            </button>
+            {showDateRange && (
+              <div
+                ref={dateRangeRef}
+                className="absolute top-15 right-5 shadow-md w-[600px] z-50 rounded-md dark:bg-db-primary bg-db-secondary-light p-7 border dark:border-transparent border-white "
+              >
+                <div className="flex justify-between">
+                  <h3 className="text-2xl font-medium">Select Date Range :</h3>
+                  <span
+                    onClick={() => setShowDateRange(false)}
+                    className="text-2xl font-extrabold cursor-pointer"
+                  >
+                    X
+                  </span>
+                </div>
+                <div className="flex items-center mt-10 gap-14">
                   <p className="text-lg font-normal">Select Date Range* :</p>
                   <div className="flex items-center gap-2">
                     <div
@@ -178,9 +333,10 @@ const TradingJournal = () => {
                     </div>
                     <div
                       onClick={() =>
-                        setDateRangeType(() =>
-                          dateRangeType === "short" ? "long" : "short"
-                        )
+                        setDateRangeType(() => {
+                          dateRangeType === "short" ? "long" : "short";
+                          tradeData.dateRange === "short" ? "long" : "short";
+                        })
                       }
                       className="w-14 h-6 dark:bg-[#00114e] bg-primary-light rounded-[5px] flex items-center p-1 cursor-pointer transition-all"
                     >
@@ -198,189 +354,38 @@ const TradingJournal = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center mb-5 justify-between w-full">
+                <div className="flex items-center my-10 justify-between w-full">
                   <p className="text-lg font-normal">Entry Date & Time* :</p>
                   <input
                     ref={startInputRef}
                     type="date"
-                    value={formatDateForInput(tradeData.entryDate)}
-                    onChange={(e) => handleTradeDateChange(e, "entryDate")}
+                    value={formatDateForInput(tempDates.startDate)}
+                    onChange={(e) => handleDateChange(e, "start")}
                     onClick={() => handleInputClick(startInputRef)}
-                    className="dark:bg-[#00114E] bg-primary-light dark:placeholder:text-[#C9CFE5] placeholder:text-white text-white  rounded-sm px-3 py-1 w-[60%]"
+                    className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%]"
                   />
                 </div>
-                <div className="flex items-center mb-5 justify-between w-full">
-                  <p className="text-lg font-normal">Exit Date & Time* :</p>
+                <div className="flex items-center w-full justify-between">
+                  <p className="text-lg font-normal">Entry Date & Time* :</p>
                   <input
                     ref={endInputRef}
                     type="date"
-                    value={formatDateForInput(tradeData.exitDate)}
-                    onChange={(e) => handleTradeDateChange(e, "exitDate")}
+                    value={formatDateForInput(tempDates.endDate)}
+                    onChange={(e) => handleDateChange(e, "end")}
                     onClick={() => handleInputClick(endInputRef)}
-                    className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white text-white "
+                    className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%]"
                   />
                 </div>
-                <div className="flex items-center mb-5 justify-between w-full">
-                  <p className="text-lg font-normal">Symbol/Ticker* :</p>
-                  <input
-                    type="text"
-                    name="symbol"
-                    value={tradeData.symbol}
-                    onChange={handleTradeInputChange}
-                    className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white "
-                    placeholder="Enter symbol/ticker"
-                  />
-                </div>
-                <div className="flex items-center mb-5 justify-between w-full">
-                  <p className="text-lg font-normal">
-                    Entry Price*
-                 :
-                  </p>
-                  <input
-                    type="number"
-                    name="entryPrice"
-                    value={tradeData.entryPrice}
-                    onChange={handleTradeInputChange}
-                    className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white "
-                    placeholder="Enter entry price"
-                  />
-                </div>
-                <div className="flex items-center mb-5 justify-between w-full">
-                  <p className="text-lg font-normal">Exit Price*  :</p>
-                  <input
-                    type="number"
-                    name="exitPrice"
-                    value={tradeData.exitPrice}
-                    onChange={handleTradeInputChange}
-                    className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white "
-                    placeholder="Enter exit price"
-                  />
-                </div>
-                <div className="flex items-center mb-5 justify-between w-full">
-                  <p className="text-lg font-normal">Quantity* :</p>
-                  <input
-                    type="number"
-                    name="quantity"
-                    value={tradeData.quantity}
-                    onChange={handleTradeInputChange}
-                    className="dark:bg-[#00114E] dark:placeholder:text-[#C9CFE5] placeholder:text-white  bg-primary-light rounded-sm px-3 py-1 w-[60%]"
-                    placeholder="Enter quantity"
-                  />
-                </div>
-                <div className="flex items-center mb-5 justify-between w-full">
-                  <p className="text-lg font-normal">Upload Image* :</p>
-                  <label className="bg-primary text-white rounded-md pl-3 h-8 cursor-pointer w-[50%] flex justify-between items-center">
-                    <span>Choose File</span>
-                    <span className="dark:bg-[#00114E] bg-primary-light h-full text-center flex items-center px-2 rounded-r-md ">
-                      {tradeData.image
-                        ? tradeData.image.name
-                        : "No File Chosen"}
-                    </span>
-                    <input
-                      type="file"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                      accept="image/*"
-                    />
-                  </label>
-                </div>
-              </div>
 
-              <button
-                className="bg-primary w-full text-white rounded-md py-2 mt-10"
-                onClick={handleAddTradeSubmit}
-              >
-                Submit
-              </button>
-            </div>
-          )} </div>
-          <div className="relative">
-
-         
-          <button
-            className="text-sm font-normal flex items-center gap-2 bg-[#0256F5] rounded-[5px] py-2 px-3"
-            onClick={() => setShowDateRange(!showDateRange)}
-          >
-            Date Range Selector
-            <FaCalendarAlt />
-          </button>
-          {showDateRange && (
-            <div
-              ref={dateRangeRef}
-              className="absolute top-15 right-5 shadow-md w-[600px] z-50 rounded-md dark:bg-db-primary bg-db-secondary-light p-7 border dark:border-transparent border-white "
-            >
-              <div className="flex justify-between">
-                <h3 className="text-2xl font-medium">Select Date Range :</h3>
-                <span
-                  onClick={() => setShowDateRange(false)}
-                  className="text-2xl font-extrabold cursor-pointer"
+                <button
+                  className="bg-primary w-full text-white rounded-md py-2 mt-10"
+                  onClick={handleApply}
                 >
-                  X
-                </span>
+                  Apply
+                </button>
               </div>
-              <div className="flex items-center mt-10 gap-14">
-                <p className="text-lg font-normal">Select Date Range* :</p>
-                <div className="flex items-center gap-2">
-                  <div
-                    className="text-base cursor-pointer"
-                    onClick={() => setDateRangeType("long")}
-                  >
-                    Long
-                  </div>
-                  <div
-                    onClick={() =>
-                      setDateRangeType(() =>
-                        dateRangeType === "short" ? "long" : "short"
-                      )
-                    }
-                    className="w-14 h-6 dark:bg-[#00114e] bg-primary-light rounded-[5px] flex items-center p-1 cursor-pointer transition-all"
-                  >
-                    <div
-                      className={`w-6 h-6 bg-primary rounded-[5px] shadow-md transform transition-all ${
-                        dateRangeType === "short" ? "translate-x-6" : ""
-                      }`}
-                    />
-                  </div>
-                  <div
-                    className="text-base cursor-pointer"
-                    onClick={() => setDateRangeType("short")}
-                  >
-                    Short
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center my-10 justify-between w-full">
-                <p className="text-lg font-normal">Entry Date & Time* :</p>
-                <input
-                  ref={startInputRef}
-                  type="date"
-                  value={formatDateForInput(tempDates.startDate)}
-                  onChange={(e) => handleDateChange(e, "start")}
-                  onClick={() => handleInputClick(startInputRef)}
-                  className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%]"
-                />
-              </div>
-              <div className="flex items-center w-full justify-between">
-                <p className="text-lg font-normal">Entry Date & Time* :</p>
-                <input
-                  ref={endInputRef}
-                  type="date"
-                  value={formatDateForInput(tempDates.endDate)}
-                  onChange={(e) => handleDateChange(e, "end")}
-                  onClick={() => handleInputClick(endInputRef)}
-                  className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%]"
-                />
-              </div>
-
-              <button
-                className="bg-primary w-full text-white rounded-md py-2 mt-10"
-                onClick={handleApply}
-              >
-                Apply
-              </button>
-            </div>
-          )} </div>
-          
+            )}{" "}
+          </div>
         </div>
       </div>
 

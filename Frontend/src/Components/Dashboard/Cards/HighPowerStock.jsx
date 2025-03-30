@@ -8,7 +8,7 @@ import Loader from "../../Loader";
 const HighPowerStock = ({ data, loading }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc"); // Ascending by default
-   const [sortOrderChange, setSortOrderChange] = useState("desc");
+  const [sortOrderChange, setSortOrderChange] = useState("desc");
 
   // Update sortedData whenever data changes
   useEffect(() => {
@@ -86,16 +86,22 @@ const HighPowerStock = ({ data, loading }) => {
                     <th className="py-2">
                       <MdOutlineKeyboardArrowDown />
                     </th>
-                    <th className="py-2 flex items-center justify-center"
-                    onClick={handleSortByPercentageChange}
+                    <th
+                      className="py-2 flex items-center justify-center"
+                      onClick={handleSortByPercentageChange}
                     >
-                      % <MdOutlineKeyboardArrowDown   className={sortOrderChange === "desc" ? "rotate-180" : ""} />
+                      %{" "}
+                      <MdOutlineKeyboardArrowDown
+                        className={
+                          sortOrderChange === "desc" ? "rotate-180" : ""
+                        }
+                      />
                     </th>
                     <th
                       className="text-right py-2 cursor-pointer"
                       onClick={handleSort}
                     >
-                      <span className="flex justify-center items-center">
+                      <span className="flex items-center justify-end">
                         T.O.{" "}
                         <MdOutlineKeyboardArrowDown
                           className={sortOrder === "desc" ? "rotate-180" : ""}
@@ -120,7 +126,13 @@ const HighPowerStock = ({ data, loading }) => {
                           <FcCandleSticks />
                         </td>
                         <td className="text-center">
-                          <span className="bg-blue-600 px-2 py-1 text-xs rounded-full">
+                          <span
+                            className={`${
+                              stock?.changePercentage >= 0
+                                ? "bg-green-600"
+                                : "bg-red-600"
+                            } px-2 py-1 text-xs rounded-full`}
+                          >
                             {stock?.changePercentage}
                           </span>
                         </td>

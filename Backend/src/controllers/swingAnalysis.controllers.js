@@ -252,7 +252,7 @@ const tenDayRangeBreakers = async (req, res) => {
           previousClose.push(previousDays[`day${i}`].data?.[0].dayClose);
         }
       }
-      const percentageChange =
+      const percentageChanges =
         ((todayLatestTradedPrice - previousClose[0]) / previousClose[0]) * 100;
 
       const maxPreviousHigh = Math.max(...previousHighs);
@@ -278,7 +278,7 @@ const tenDayRangeBreakers = async (req, res) => {
               preTenDaysLow: minPreviousLow.toFixed(2),
               UNDERLYING_SYMBOL: stock.UNDERLYING_SYMBOL,
               SYMBOL_NAME: stock.SYMBOL_NAME,
-              percentageChange: percentageChange.toFixed(2),
+              percentageChange: percentageChanges.toFixed(2),
               type,
               timestamp: new Date(new Date().getTime() + 5.5 * 60 * 60 * 1000), // IST Time
             },
@@ -487,7 +487,7 @@ const AIContraction = async (req, res) => {
       { $limit: 5 },
     ]);
 
-    if (uniqueTradingDays.length < 4) {
+    if (uniqueTradingDays.length < 5) {
       return { message: "Not enough historical data (need 5 days)" };
     }
 
@@ -499,6 +499,7 @@ const AIContraction = async (req, res) => {
         securityId: 1,
         "data.dayHigh": 1,
         "data.dayLow": 1,
+        "data.latestTradedPrice": 1, // Added for percentage change calculation
         date: 1,
         _id: 0,
       }
@@ -509,55 +510,28 @@ const AIContraction = async (req, res) => {
       return acc;
     }, {});
 
-    const firstDayData = new Map();
-    const secondDayData = new Map();
-    const thirdDayData = new Map();
-    const forthDayData = new Map();
-    const fifthDayData = new Map();
+    // Creating Maps for each day's data
+    const dayMaps = targetDates.map(() => new Map());
 
-    groupedData[targetDates[0]]?.forEach((entry) => {
-      firstDayData.set(entry.securityId, {
-        securityId: entry.securityId,
-        dayHigh: entry.data[0].dayHigh,
-        dayLow: entry.data[0].dayLow,
-        date: targetDates[0],
-      });
-    });
-    groupedData[targetDates[1]]?.forEach((entry) => {
-      secondDayData.set(entry.securityId, {
-        securityId: entry.securityId,
-        dayHigh: entry.data[0].dayHigh,
-        dayLow: entry.data[0].dayLow,
-        date: targetDates[1],
+    targetDates.forEach((date, index) => {
+      groupedData[date]?.forEach((entry) => {
+        dayMaps[index].set(entry.securityId, {
+          securityId: entry.securityId,
+          dayHigh: entry.data[0].dayHigh,
+          dayLow: entry.data[0].dayLow,
+          latestTradedPrice: entry.data[0].latestTradedPrice, // Needed for percentage change
+          date,
+        });
       });
     });
 
-    groupedData[targetDates[2]]?.forEach((entry) => {
-      thirdDayData.set(entry.securityId, {
-        securityId: entry.securityId,
-        dayHigh: entry.data[0].dayHigh,
-        dayLow: entry.data[0].dayLow,
-        date: targetDates[2],
-      });
-    });
-
-    groupedData[targetDates[3]]?.forEach((entry) => {
-      forthDayData.set(entry.securityId, {
-        securityId: entry.securityId,
-        dayHigh: entry.data[0].dayHigh,
-        dayLow: entry.data[0].dayLow,
-        date: targetDates[3],
-      });
-    });
-
-    groupedData[targetDates[4]]?.forEach((entry) => {
-      fifthDayData.set(entry.securityId, {
-        securityId: entry.securityId,
-        dayHigh: entry.data[0].dayHigh,
-        dayLow: entry.data[0].dayLow,
-        date: targetDates[4],
-      });
-    });
+    const [
+      firstDayData,
+      secondDayData,
+      thirdDayData,
+      forthDayData,
+      fifthDayData,
+    ] = dayMaps;
 
     const stocks = await StocksDetail.find(
       {},
@@ -573,28 +547,43 @@ const AIContraction = async (req, res) => {
       const stock = stocksMap.get(securityId);
       if (!stock) continue;
 
-      const firstDay = firstDayData.get(securityId) || {};
-      const secondDay = secondDayData.get(securityId) || {};
-      const thirdDay = thirdDayData.get(securityId) || {};
-      const forthDay = forthDayData.get(securityId) || {};
+      const firstDay = firstDayData.get(securityId);
+      const secondDay = secondDayData.get(securityId);
+      const thirdDay = thirdDayData.get(securityId);
+      const forthDay = forthDayData.get(securityId);
 
-      const maxHigh = Math.max(
-        firstDay.dayHigh ?? 0,
-        secondDay.dayHigh ?? 0,
-        thirdDay.dayHigh ?? 0,
-        forthDay.dayHigh ?? 0
-      );
-      const minLow = Math.min(
-        firstDay.dayLow ?? Infinity,
-        secondDay.dayLow ?? Infinity,
-        thirdDay.dayLow ?? Infinity,
-        forthDay.dayLow ?? Infinity
-      );
+      if (
+        firstDay &&
+        secondDay &&
+        thirdDay &&
+        forthDay &&
+        secondDay.dayHigh <= firstDay.dayHigh &&
+        secondDay.dayLow >= firstDay.dayLow &&
+        thirdDay.dayHigh <= firstDay.dayHigh &&
+        thirdDay.dayLow >= firstDay.dayLow &&
+        forthDay.dayHigh <= firstDay.dayHigh &&
+        forthDay.dayLow >= firstDay.dayLow &&
+        data.dayHigh <= firstDay.dayHigh &&
+        data.dayLow >= firstDay.dayLow
+      ) {
+        // Percentage change calculation
+        const todayLatestTradedPrice = data.latestTradedPrice;
+        const previousClose = forthDay.latestTradedPrice;
 
-      if (data.dayHigh > maxHigh && data.dayLow < minLow) {
-        responseData.push(stock);
+        let percentageChange = 0;
+        if (todayLatestTradedPrice && previousClose) {
+          percentageChange =
+            ((todayLatestTradedPrice - previousClose) / previousClose) * 100;
+        }
+
+        responseData.push({
+          ...stock,
+          percentageChange: percentageChange.toFixed(2) + "%", // Format to 2 decimal places
+        });
       }
     }
+
+    // Bulk update the contraction model
     const bulkOps = responseData.map((data) => ({
       updateOne: {
         filter: { securityId: data.SECURITY_ID },
@@ -603,9 +592,10 @@ const AIContraction = async (req, res) => {
             securityId: data.SECURITY_ID,
             UNDERLYING_SYMBOL: data.UNDERLYING_SYMBOL,
             SYMBOL_NAME: data.SYMBOL_NAME,
+            percentageChange: data.percentageChange,
           },
         },
-        upsert: true, // Creates a new entry if not found
+        upsert: true,
       },
     }));
 
@@ -614,11 +604,12 @@ const AIContraction = async (req, res) => {
     }
 
     const resData = await ContractionModel.find(
-      {}, // Empty filter to get all documents
+      {},
       {
         securityId: 1,
         SYMBOL_NAME: 1,
         UNDERLYING_SYMBOL: 1,
+        percentageChange: 1,
         timestamp: 1,
         _id: 0,
       }

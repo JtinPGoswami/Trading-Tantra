@@ -10,7 +10,7 @@ const DayHigh = ({ data, loading, error }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrderChange, setSortOrderChange] = useState("desc");
   const [sortOrderDiff, setSortOrderDiff] = useState("desc");
-  const [sortOrderSymbol, setSortOrderSymbol] = useState("desc")
+  const [sortOrderSymbol, setSortOrderSymbol] = useState("desc");
 
   useEffect(() => {
     setSortedData(data || []);
@@ -45,20 +45,18 @@ const DayHigh = ({ data, loading, error }) => {
   };
 
   const handleSortBySymbol = () => {
-     if (!sortedData?.length) return;
+    if (!sortedData?.length) return;
 
-     const newOrder = sortOrderSymbol === "asc"? "desc":"asc";
-     const sorted = [...sortedData].sort((a,b) => newOrder === "asc" ? a.stock.SYMBOL_NAME - b.stock.SYMBOL_NAME : b.stock.SYMBOL_NAME - a.stock.SYMBOL_NAME )
+    const newOrder = sortOrderSymbol === "asc" ? "desc" : "asc";
+    const sorted = [...sortedData].sort((a, b) =>
+      newOrder === "asc"
+        ? a.stock.SYMBOL_NAME - b.stock.SYMBOL_NAME
+        : b.stock.SYMBOL_NAME - a.stock.SYMBOL_NAME
+    );
 
-     setSortedData(sorted)
-     setSortOrderSymbol(newOrder)
-
-
-  }
-
-
-
- 
+    setSortedData(sorted);
+    setSortOrderSymbol(newOrder);
+  };
 
   return (
     <div className="relative w-full h-[360px] bg-gradient-to-tr from-[#0009B2] to-[#02000E] rounded-lg p-px overflow-hidden">
@@ -98,7 +96,10 @@ const DayHigh = ({ data, loading, error }) => {
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
                   <tr className="dark:text-gray-300 text-gray-800">
-                    <th className="flex justify-start items-center py-2" onClick={handleSortBySymbol}>
+                    <th
+                      className="flex justify-start items-center py-2"
+                      onClick={handleSortBySymbol}
+                    >
                       Symbol <MdOutlineKeyboardArrowDown />
                     </th>
                     <th className="py-2">
@@ -110,19 +111,21 @@ const DayHigh = ({ data, loading, error }) => {
                     >
                       %{" "}
                       <MdOutlineKeyboardArrowDown
-                        className={sortOrderChange === "desc" ? "rotate-180" : ""}
+                        className={
+                          sortOrderChange === "desc" ? "rotate-180" : ""
+                        }
                       />
                     </th>
-                    <th className="text-right py-2 cursor-pointer"
+                    <th
+                      className="text-right py-2 cursor-pointer"
                       onClick={handleSortByPercentageDifference}
                     >
-                      <span
-                    
-                        className="flex justify-center items-center"
-                      >
+                      <span className="flex items-center justify-end">
                         Diff{" "}
                         <MdOutlineKeyboardArrowDown
-                          className={sortOrderDiff === "desc" ? "rotate-180" : ""}
+                          className={
+                            sortOrderDiff === "desc" ? "rotate-180" : ""
+                          }
                         />
                       </span>
                     </th>
@@ -181,7 +184,7 @@ const DayLow = ({ data, loading, error }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrderChange, setSortOrderChange] = useState("desc");
   const [sortOrderDiff, setSortOrderDiff] = useState("desc");
-// console.log('dayLow',data)
+  // console.log('dayLow',data)
   // Update sortedData whenever data changes
   useEffect(() => {
     setSortedData(data || []);
@@ -215,11 +218,6 @@ const DayLow = ({ data, loading, error }) => {
     setSortedData(sorted);
     setSortOrderDiff(newOrder);
   };
-
-
-
-
-
 
   return (
     <div className="relative w-full h-[360px] bg-gradient-to-tr from-[#0009B2] to-[#02000E] rounded-lg p-px overflow-hidden">
@@ -267,19 +265,21 @@ const DayLow = ({ data, loading, error }) => {
                     >
                       %{" "}
                       <MdOutlineKeyboardArrowDown
-                        className={sortOrderChange === "desc" ? "rotate-180" : ""}
+                        className={
+                          sortOrderChange === "desc" ? "rotate-180" : ""
+                        }
                       />
                     </th>
-                    <th className="text-right py-2 cursor-pointer"
-                    onClick={handleSortByPercentageDifference}
+                    <th
+                      className="text-right py-2 cursor-pointer"
+                      onClick={handleSortByPercentageDifference}
                     >
-                      <span
-                         
-                        className="flex justify-center items-center"
-                      >
+                      <span className="flex items-center justify-end">
                         Diff{" "}
                         <MdOutlineKeyboardArrowDown
-                          className={sortOrderDiff === "desc" ? "rotate-180" : ""}
+                          className={
+                            sortOrderDiff === "desc" ? "rotate-180" : ""
+                          }
                         />
                       </span>
                     </th>

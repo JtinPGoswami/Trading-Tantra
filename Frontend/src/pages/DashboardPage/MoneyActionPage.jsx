@@ -243,8 +243,8 @@ const MonryActionPage = () => {
   const [MomentumCatherFiveMinRes, setMomentumCatherFiveMinRes] = useState([]);
   const [AIIntradayReversalFiveMinsRes, setAIIntradayReversalFiveMinsRes] =
     useState([]);
-      const [isFetching, setIsFetching] = useState(false);
-    
+  const [isFetching, setIsFetching] = useState(false);
+
   const [AIIntradayReversalDailyRes, setAIIntradayReversalDailyRes] = useState(
     []
   );
@@ -252,22 +252,17 @@ const MonryActionPage = () => {
     // Flag to check if any data has arrived
     let hasDataArrived = false;
 
-
     let interval;
 
     // socket.emit("getData");
 
-
     if (!isFetching) {
       socket.emit("getSmartMoneyActionData");
-      setIsFetching(true)
-
+      setIsFetching(true);
     } else {
-     interval =  setInterval(() => {
+      interval = setInterval(() => {
         socket.emit("getSmartMoneyActionData");
       }, 50000);
-
-     
     }
 
     // Define event handlers
@@ -306,6 +301,11 @@ const MonryActionPage = () => {
       hasDataArrived = true;
       setLoading(false);
     };
+    const handleAIIntradayReversalDaily = (data) => {
+      setAIIntradayReversalDailyRes(data);
+      hasDataArrived = true;
+      setLoading(false);
+    };
 
     // Attach event listeners
     socket.on("twoDayHLBreak", handleTwoDayHLBreak);
@@ -314,6 +314,7 @@ const MonryActionPage = () => {
     socket.on("AIMomentumCatcherTenMins", handleMomentumCatcherTenMins);
     socket.on("AIMomentumCatcherFiveMins", handleMomentumCatcherFiveMins);
     socket.on("AIIntradayReversalFiveMins", handleAIIntradayReversalFiveMins);
+    socket.on("AIIntradayReversalDaily", handleAIIntradayReversalDaily);
 
     // Set a timeout to stop loading if no data is received
     // const timeout = setTimeout(() => {
@@ -330,7 +331,11 @@ const MonryActionPage = () => {
       socket.off("DailyRangeBreakout", handleDailyRangeBreakout);
       socket.off("AIMomentumCatcherTenMins", handleMomentumCatcherTenMins);
       socket.off("AIMomentumCatcherFiveMins", handleMomentumCatcherFiveMins);
-      socket.off("AIIntradayReversalFiveMins", handleAIIntradayReversalFiveMins);
+      socket.off(
+        "AIIntradayReversalFiveMins",
+        handleAIIntradayReversalFiveMins
+      );
+      socket.off("AIIntradayReversalDaily", handleAIIntradayReversalDaily);
       clearInterval(interval);
 
       // clearTimeout(timeout);

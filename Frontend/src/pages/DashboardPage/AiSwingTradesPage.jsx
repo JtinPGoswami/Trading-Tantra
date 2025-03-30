@@ -193,36 +193,65 @@ const AiSwingTradesPage = () => {
 
   const [AIContraction, setAIContraction] = useState([]);
 
-  const [loading, setloading] = useState(null);
+  const [loading, setLoading] = useState(null);
   const [error, seterror] = useState(null);
-
+  const [isFetching, setIsFetching] = useState(false);
   useEffect(() => {
-    try {
-      setloading(true);
-      socket.on("fiveDayRangeBreakers", (data) => {
-        setFiveDayRangeBreakers(data?.resData);
-      });
+    setLoading(true);
 
-      socket.on("tenDayRangeBreakers", (data) => {
-        setTenDayRangeBreakers(data?.resData);
-      });
-      socket.on("setDailyCandleReversal", (data) => {
-        setDailyCandleReversal(data?.resData);
-      });
-      socket.on("AIContraction", (data) => {
-        setAIContraction(data.resData);
-      });
-      socket.on("DailyRangeBreakout", (data) => {
-        setDailyRangeBreakout(data.data);
-      });
-    } catch (error) {
-      console.log("error", error);
-      seterror(error.message);
-    } finally {
-      setloading(false);
+    let interval;
+
+    if (!isFetching) {
+      socket.emit("getSwingData");
+      setIsFetching(true);
+    } else {
+      interval = setInterval(() => {
+        socket.emit("getSwingData");
+      }, 50000);
     }
 
-    return () => socket.off("turnOver");
+    let hasDataArrived = false;
+
+    const handleFiveDayRangeBreakers = (data) => {
+      setFiveDayRangeBreakers(data?.resData);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+    const handleTenDayRangeBreakers = (data) => {
+      setTenDayRangeBreakers(data?.resData);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+    const handleDailyCandleReversal = (data) => {
+      setDailyCandleReversal(data?.resData);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+    const handleAIContraction = (data) => {
+      setAIContraction(data?.resData);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+    const handleDailyRangeBreakout = (data) => {
+      setDailyRangeBreakout(data?.data);
+      hasDataArrived = true;
+      setLoading(false);
+    };
+
+    socket.on("fiveDayRangeBreakers", handleFiveDayRangeBreakers);
+    socket.on("tenDayRangeBreakers", handleTenDayRangeBreakers);
+    socket.on("setDailyCandleReversal", handleDailyCandleReversal);
+    socket.on("AIContraction", handleAIContraction);
+    socket.on("DailyRangeBreakout", handleDailyRangeBreakout);
+
+    return () => {
+      socket.off("fiveDayRangeBreakers", handleFiveDayRangeBreakers);
+      socket.off("tenDayRangeBreakers", handleTenDayRangeBreakers);
+      socket.off("setDailyCandleReversal", handleDailyCandleReversal);
+      socket.off("AIContraction", handleAIContraction);
+      socket.off("DailyRangeBreakout", handleDailyRangeBreakout);
+      clearInterval(interval);
+    };
 
     // fetchData("get-turnover", "GET");
   }, []);

@@ -13,7 +13,7 @@ const signUp = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { email, password, displayName } = req.body;
+  const { email, password, fName, lName } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -26,14 +26,17 @@ const signUp = async (req, res) => {
       hashedPassword = await bcrypt.hash(password, salt);
     }
 
+    const displayName = email.split("@")[0];
     user = new User({
       email,
       password: hashedPassword,
+      firstName: fName,
+      lastName: lName,
       displayName,
     });
 
-    await user.save();
-
+    const newUser = await user.save();
+    newUser.password = undefined;
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "1h",
     });
@@ -41,9 +44,7 @@ const signUp = async (req, res) => {
     res.status(201).json({
       success: true,
       token,
-      user: {
-        email: user.email,
-      },
+      newUser,
     });
   } catch (error) {
     console.error("Login error:", error);

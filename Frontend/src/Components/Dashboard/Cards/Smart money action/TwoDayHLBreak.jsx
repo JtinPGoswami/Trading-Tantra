@@ -59,7 +59,7 @@ const TwoDayHLBreak = ({ data, loading, error }) => {
   };
   const handleSortByDateTime = () => {
     if (!sortedData?.length) return;
-  
+
     const newOrder = sortOrderDateTime === "asc" ? "desc" : "asc";
     const sorted = [...sortedData].sort((a, b) => {
       const dateA = new Date(
@@ -68,14 +68,14 @@ const TwoDayHLBreak = ({ data, loading, error }) => {
       const dateB = new Date(
         b.timestamp.replace(/(\d+)\/(\d+)\/(\d+),/, "$2/$1/$3")
       );
-  
+
       return newOrder === "asc" ? dateA - dateB : dateB - dateA;
     });
-  
+
     setSortedData(sorted);
     setSortOrderDateTime(newOrder);
   };
-  
+
   return (
     <div className="relative w-full h-[360px] bg-gradient-to-tr from-[#0009B2] to-[#02000E] rounded-lg p-px overflow-hidden">
       <div className="w-full h-full dark:bg-db-primary bg-db-primary-light rounded-lg p-2">
@@ -135,9 +135,18 @@ const TwoDayHLBreak = ({ data, loading, error }) => {
                         }
                       />
                     </th>
-                    <th className="py-2 text-center " onClick={handleSortByDateTime}>
+                    <th
+                      className="py-2 text-center "
+                      onClick={handleSortByDateTime}
+                    >
                       Date Time{" "}
-                      <MdOutlineKeyboardArrowDown  className={sortOrderDateTime === "desc" ? "rotate-180 inline-flex" : " inline-flex"} />
+                      <MdOutlineKeyboardArrowDown
+                        className={
+                          sortOrderDateTime === "desc"
+                            ? "rotate-180 inline-flex"
+                            : " inline-flex"
+                        }
+                      />
                     </th>
                     <th
                       className="py-2 text-right cursor-pointer "
@@ -178,7 +187,11 @@ const TwoDayHLBreak = ({ data, loading, error }) => {
                         <td className="text-xs text-center">
                           {stock?.timestamp}
                         </td>
-                        <td className="text-right text-sm"><span className="px-1 py-px bg-green-400 text-white">{stock?.type}</span></td>
+                        <td className="text-right text-sm">
+                          <span className="px-1 py-px rounded-full  bg-green-400 text-white">
+                            {stock?.type}
+                          </span>
+                        </td>
                       </tr>
                     ))
                   ) : (

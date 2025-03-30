@@ -1015,9 +1015,7 @@ const AIIntradayReversalDaily = async (req, res) => {
     ]);
 
     if (uniqueTradingDays.length < 5) {
-      return res
-        .status(404)
-        .json({ message: "Not enough historical data found" });
+      return { message: "Not enough historical data found" };
     }
 
     const targetDates = uniqueTradingDays.map(
@@ -1043,9 +1041,7 @@ const AIIntradayReversalDaily = async (req, res) => {
     ).lean();
 
     if (!historicalData || historicalData.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No data found for the target dates" });
+      return { message: "No data found for the target dates" };
     }
 
     // Group data by dates
@@ -1235,16 +1231,16 @@ const AIIntradayReversalDaily = async (req, res) => {
       .sort({ timestamp: -1 })
       .lean();
 
-    return res.status(200).json({
+    return {
       message: "Momentum analysis complete",
       data: fullData,
-    });
+    };
   } catch (error) {
     console.error("Error in AIIntradayReversalDaily:", error);
-    return res.status(500).json({
+    return {
       message: "Internal server error",
       error: error.message,
-    });
+    };
   }
 };
 
@@ -2124,7 +2120,7 @@ export {
   AIIntradayReversalFiveMins, //done with database👍❤️socket
   AIMomentumCatcherFiveMins, //done with database👍😒socket
   AIMomentumCatcherTenMins, //done with database👍😒socket
-  AIIntradayReversalDaily, //depend on hostorical data
+  AIIntradayReversalDaily, //done with database👍😒socket
   DailyRangeBreakout, //done with database👍😒socket
   DayHighLowReversal, //done with database👍😒socket
   twoDayHLBreak, //done with data base 👍😒 socket

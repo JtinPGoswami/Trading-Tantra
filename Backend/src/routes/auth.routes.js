@@ -25,7 +25,8 @@ router.post(
     check("password", "Password must be at least 6 characters").isLength({
       min: 6,
     }),
-    check("displayName", "Display name is required").not().isEmpty(),
+    check("fName", "first name is required").not().isEmpty(),
+    check("lName", "last name is required").not().isEmpty(),
   ],
 
   signUp
@@ -120,7 +121,7 @@ router.post(
       .not()
       .isEmpty(),
   ],
-  verifyUser,
+
   addTrade
 );
 
