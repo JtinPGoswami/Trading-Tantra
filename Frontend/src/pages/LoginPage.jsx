@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useFetchData from "../utils/useFetchData";
-
+import { useAuth } from "../contexts/AuthContext";
 
 const LoginPage = () => {
   // const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   // const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const {data,error,loading,fetchData} = useFetchData();
+  const { data, error, loading, fetchData } = useFetchData();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,18 +21,15 @@ const LoginPage = () => {
 
     // console.log(formData)
 
-    fetchData('auth/login','POST',formData)
-   
+    fetchData("auth/login", "POST", formData);
 
-if(data.success){
-  localStorage.setItem('token',data.token)
-  navigate('/dashboard')
-
-
-}
-};
-
-  return (
+    if (data.success) {
+      login(data.token);
+      console.log('data',data)
+      navigate("/dashboard");
+    }
+  };
+   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
       {loading && (
         <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-10">
@@ -88,7 +86,7 @@ if(data.success){
 
           {error && (
             <p className="text-red-500 text-sm mb-2">
-              {error?.response?.data?.error || error?.message}
+              {error?.data?.error || error?.message}
             </p>
           )}
           <button

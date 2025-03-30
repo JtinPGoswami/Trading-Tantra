@@ -402,7 +402,10 @@ const AiSectorDepthPage = () => {
     },
   ];
 
-  const socket = io("http://localhost:3000");
+  const token = localStorage.getItem("token");
+  const socket = io("http://localhost:3000",{
+    auth: {token}
+  });
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
