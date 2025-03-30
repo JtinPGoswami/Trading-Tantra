@@ -14,6 +14,7 @@ import myPlan from "../../assets/Images/Dashboard/HeaderImg/myPlan.svg";
 import myProfile from "../../assets/Images/Dashboard/HeaderImg/myProfile.svg";
 import feedBack from "../../assets/Images/Dashboard/HeaderImg/feedback.svg";
 import logout from "../../assets/Images/Dashboard/HeaderImg/logout.svg";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Header = () => {
   const [hovered, setHovered] = useState(false);
@@ -24,6 +25,8 @@ const Header = () => {
   const isOpen = useSelector((state) => state.sidebar.sideBarToggler);
 
   const dispatch = useDispatch();
+
+  const {logout} = useAuth();
 
   const themeToggler = () => {
     if (isDarkMode === "dark") {
@@ -163,10 +166,10 @@ const Header = () => {
                 </div>
               </div>
               <div>
-                <div className="flex items-center gap-3">
+                <button className="flex items-center gap-3" onClick={logout}>
                   <img src={logout} alt="" />
                   <p>Log out</p>
-                </div>
+                </button>
               </div>
             </div>
           )}

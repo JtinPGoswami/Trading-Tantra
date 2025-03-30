@@ -25,7 +25,15 @@ import {
 } from "../../Components/Dashboard/Cards/DayHighandLow";
 import { PreviousVolume } from "../../Components/Dashboard/Cards/PreviousVolume";
 
-const socket = io("http://localhost:3000");
+
+
+
+const token = localStorage.getItem("token");
+
+const socket = io("http://localhost:3000",{
+  auth:{token}
+});
+
 
 const MarketDepthPage = () => {
   const stockDataList = [
@@ -331,18 +339,20 @@ const MarketDepthPage = () => {
 
     const handleTurnOver = (data) => {
       setTurnOverdata(data?.data);
-      hasDataArrived = true;
+       hasDataArrived = true;
       setLoading(false);
     };
 
     const handleDayLowBreak = (data) => {
       setDayLowBreakResponse(data?.dayLowBreak);
+      console.log('day low',data)
       hasDataArrived = true;
       setLoading(false);
     };
 
     const handleDayHighBreak = (data) => {
       setDayHighBreakResponse(data?.dayHighBreak);
+ 
       hasDataArrived = true;
       setLoading(false);
     };

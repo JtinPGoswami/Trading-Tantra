@@ -8,7 +8,6 @@ import {
   sectorStockData,
 } from "../controllers/stock.contollers.js";
 import {
-  AIIntradayReversalDaily,
   AIIntradayReversalFiveMins,
   AIMomentumCatcherFiveMins,
   AIMomentumCatcherTenMins,
@@ -16,12 +15,7 @@ import {
   DayHighLowReversal,
   twoDayHLBreak,
 } from "../controllers/liveMarketData.controller.js";
-import {
-  AIContraction,
-  dailyCandleReversal,
-  fiveDayRangeBreakers,
-  tenDayRangeBreakers,
-} from "../controllers/swingAnalysis.controllers.js";
+import authenticateSocket from "../middlewares/authenticateSocket.js";
 
 let io;
 

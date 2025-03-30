@@ -9,7 +9,8 @@ const HighPowerStock = ({ data, loading }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc"); // Ascending by default
   const [sortOrderChange, setSortOrderChange] = useState("desc");
-
+  const [sortOrderSymbol, setSortOrderSymbol] = useState("desc");
+  console.log(data, "wmhbusb");
   // Update sortedData whenever data changes
   useEffect(() => {
     setSortedData(data);
@@ -34,14 +35,28 @@ const HighPowerStock = ({ data, loading }) => {
     if (!sortedData?.length) return;
 
     const newOrder = sortOrderChange === "asc" ? "desc" : "asc";
-    const sorted = [...sortedData].sort((a, b) =>
-      newOrder === "asc"
-        ? a.percentageChange - b.percentageChange
-        : b.percentageChange - a.percentageChange
-    );
+    const sorted = [...sortedData].sort((a, b) => {
+      const numA = a.changePercentage;
+      const numB = b.changePercentage;
+      return newOrder === "asc" ? numA - numB : numB - numA;
+    });
 
     setSortedData(sorted);
     setSortOrderChange(newOrder);
+  };
+
+  const handleSortBySymbol = () => {
+    if (!sortedData?.length) return;
+
+    const newOrder = sortOrderSymbol === "asc" ? "desc" : "asc";
+    const sorted = [...sortedData].sort((a, b) =>
+      newOrder === "asc"
+        ? a.UNDERLYING_SYMBOL.localeCompare(b.UNDERLYING_SYMBOL)
+        : b.UNDERLYING_SYMBOL.localeCompare(a.UNDERLYING_SYMBOL)
+    );
+
+    setSortedData(sorted);
+    setSortOrderSymbol(newOrder);
   };
 
   // console.log(loading);
@@ -80,8 +95,16 @@ const HighPowerStock = ({ data, loading }) => {
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
                   <tr className="dark:text-gray-300 text-gray-800">
-                    <th className="flex justify-start items-center py-2">
-                      Symbol <MdOutlineKeyboardArrowDown />
+                    <th
+                      className="flex justify-start items-center py-2"
+                      onClick={handleSortBySymbol}
+                    >
+                      Symbol{" "}
+                      <MdOutlineKeyboardArrowDown
+                        className={
+                          sortOrderSymbol === "desc" ? "rotate-180" : ""
+                        }
+                      />
                     </th>
                     <th className="py-2">
                       <MdOutlineKeyboardArrowDown />
@@ -120,7 +143,7 @@ const HighPowerStock = ({ data, loading }) => {
                     sortedData.map((stock, index) => (
                       <tr key={index}>
                         <td className="flex items-center font-medium text-xs gap-2 py-3">
-                          {stock?.DISPLAY_NAME}
+                          {stock?.UNDERLYING_SYMBOL}
                         </td>
                         <td className="text-lg">
                           <FcCandleSticks />

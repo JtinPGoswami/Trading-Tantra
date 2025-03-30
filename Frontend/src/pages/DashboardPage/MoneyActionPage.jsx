@@ -234,7 +234,11 @@ const MonryActionPage = () => {
   //     ],
   //   },
   // ];
-  const socket = io("http://localhost:3000");
+
+  const token = localStorage.getItem("token");
+  const socket = io("http://localhost:3000",{
+    auth: {token}
+  });
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dayHLReversalRes, setDayHLReversalRes] = useState([]);

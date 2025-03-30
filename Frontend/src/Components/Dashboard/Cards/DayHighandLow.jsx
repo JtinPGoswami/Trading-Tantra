@@ -50,8 +50,8 @@ const DayHigh = ({ data, loading, error }) => {
     const newOrder = sortOrderSymbol === "asc" ? "desc" : "asc";
     const sorted = [...sortedData].sort((a, b) =>
       newOrder === "asc"
-        ? a.stock.SYMBOL_NAME - b.stock.SYMBOL_NAME
-        : b.stock.SYMBOL_NAME - a.stock.SYMBOL_NAME
+        ? a.stock.UNDERLYING_SYMBOL.localeCompare(b.stock.UNDERLYING_SYMBOL)
+        : b.stock.UNDERLYING_SYMBOL.localeCompare(a.stock.UNDERLYING_SYMBOL)
     );
 
     setSortedData(sorted);
@@ -100,7 +100,12 @@ const DayHigh = ({ data, loading, error }) => {
                       className="flex justify-start items-center py-2"
                       onClick={handleSortBySymbol}
                     >
-                      Symbol <MdOutlineKeyboardArrowDown />
+                      Symbol{" "}
+                      <MdOutlineKeyboardArrowDown
+                        className={
+                          sortOrderSymbol === "desc" ? "rotate-180" : ""
+                        }
+                      />
                     </th>
                     <th className="py-2">
                       <MdOutlineKeyboardArrowDown />
@@ -120,7 +125,7 @@ const DayHigh = ({ data, loading, error }) => {
                       className="text-right py-2 cursor-pointer"
                       onClick={handleSortByPercentageDifference}
                     >
-                      <span className="flex items-center justify-end">
+                      <span className="flex justify-center items-center">
                         Diff{" "}
                         <MdOutlineKeyboardArrowDown
                           className={
@@ -142,7 +147,7 @@ const DayHigh = ({ data, loading, error }) => {
                       <tr key={index}>
                         {/* {console.log(stock?.xElement)} */}
                         <td className="flex items-center font-medium text-xs gap-2 py-3">
-                          {stock?.stock?.SYMBOL_NAME}
+                          {stock?.stock?.UNDERLYING_SYMBOL}
                         </td>
                         <td className="text-lg">
                           <FcCandleSticks />
@@ -184,6 +189,8 @@ const DayLow = ({ data, loading, error }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrderChange, setSortOrderChange] = useState("desc");
   const [sortOrderDiff, setSortOrderDiff] = useState("desc");
+  const [sortOrderSymbol, setSortOrderSymbol] = useState("desc");
+
   // console.log('dayLow',data)
   // Update sortedData whenever data changes
   useEffect(() => {
@@ -217,6 +224,20 @@ const DayLow = ({ data, loading, error }) => {
 
     setSortedData(sorted);
     setSortOrderDiff(newOrder);
+  };
+
+  const handleSortBySymbol = () => {
+    if (!sortedData?.length) return;
+
+    const newOrder = sortOrderSymbol === "asc" ? "desc" : "asc";
+    const sorted = [...sortedData].sort((a, b) =>
+      newOrder === "asc"
+        ? a.stock.UNDERLYING_SYMBOL.localeCompare(b.stock.UNDERLYING_SYMBOL)
+        : b.stock.UNDERLYING_SYMBOL.localeCompare(a.stock.UNDERLYING_SYMBOL)
+    );
+
+    setSortedData(sorted);
+    setSortOrderSymbol(newOrder);
   };
 
   return (
@@ -253,8 +274,16 @@ const DayLow = ({ data, loading, error }) => {
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
                   <tr className="dark:text-gray-300 text-gray-800">
-                    <th className="flex justify-start items-center py-2">
-                      Symbol <MdOutlineKeyboardArrowDown />
+                    <th
+                      className="flex justify-start items-center py-2"
+                      onClick={handleSortBySymbol}
+                    >
+                      Symbol{" "}
+                      <MdOutlineKeyboardArrowDown
+                        className={
+                          sortOrderSymbol === "desc" ? "rotate-180" : ""
+                        }
+                      />
                     </th>
                     <th className="py-2">
                       <MdOutlineKeyboardArrowDown />
@@ -274,7 +303,7 @@ const DayLow = ({ data, loading, error }) => {
                       className="text-right py-2 cursor-pointer"
                       onClick={handleSortByPercentageDifference}
                     >
-                      <span className="flex items-center justify-end">
+                      <span className="flex justify-center items-center">
                         Diff{" "}
                         <MdOutlineKeyboardArrowDown
                           className={
@@ -295,7 +324,7 @@ const DayLow = ({ data, loading, error }) => {
                     sortedData.map((stock, index) => (
                       <tr key={index}>
                         <td className="flex items-center font-medium text-xs gap-2 py-3">
-                          {stock?.stock?.SYMBOL_NAME}
+                          {stock?.stock?.UNDERLYING_SYMBOL}
                         </td>
                         <td className="text-lg">
                           <FcCandleSticks />

@@ -19,7 +19,7 @@ const createOrder = async (req, res) => {
 
   try {
     const order = await razorpayInstance.orders.create(options);
-    console.log( "order",order );
+    // console.log( "order",order );
 
     if (!order) {
       return res
@@ -59,7 +59,7 @@ const verifyPayment = async (req, res) => {
       planId,
     } = req.body;
 
-    console.log("bodu", req.body);
+    // console.log("bodu", req.body);
 
     if (
       !razorpay_payment_id &&

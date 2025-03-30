@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useFetchData from "../utils/useFetchData";
+import { useAuth } from "../contexts/AuthContext";
 
 const LoginPage = () => {
   // const [loading, setLoading] = useState(false);
@@ -8,6 +9,7 @@ const LoginPage = () => {
   // const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { data, error, loading, fetchData } = useFetchData();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,14 +23,12 @@ const LoginPage = () => {
 
     fetchData("auth/login", "POST", formData);
 
-    console.log("data", data);
-
     if (data.success) {
-      localStorage.setItem("token", data.token);
+      login(data.token);
+      console.log("data", data);
       navigate("/dashboard");
     }
   };
-
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
       {loading && (
@@ -86,7 +86,7 @@ const LoginPage = () => {
 
           {error && (
             <p className="text-red-500 text-sm mb-2">
-              {error?.response?.data?.error || error?.message}
+              {error?.data?.error || error?.message}
             </p>
           )}
           <button
