@@ -423,6 +423,7 @@ const AiSectorDepthPage = () => {
 
     if (!isFetching) {
       socket.emit("getSectorData");
+
       setIsFetching(true)
 
     } else {
@@ -437,6 +438,7 @@ const AiSectorDepthPage = () => {
     const handleSectorScope = (data) => {
       setData(data);
       setSectorWiseData(data?.sectorWiseData);
+      console.log('sectorwise data',data?.sectorWiseData)
       hasDataArrived = true;
       setLoading(false);
     };

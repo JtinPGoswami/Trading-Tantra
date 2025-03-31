@@ -775,7 +775,7 @@ const sectorStockData = async (req, res) => {
       const latestTradedPrice = data?.latestTradedPrice[0] || 0;
       const yesterdayClose = yesterdayMap.get(securityId) || 0;
       const stockdata = stockmap.get(securityId) || { INDEX: [], SECTOR: [] };
- 
+      const volume = data?.volume || 0
       const sectors = Array.isArray(stockdata.SECTOR)
         ? stockdata.SECTOR
         : [stockdata.SECTOR];
@@ -791,6 +791,7 @@ const sectorStockData = async (req, res) => {
       return {
         securityId,
         yesterdayClose,
+        volume,
         percentageChange,
         xelement,
         ...stockdata,
