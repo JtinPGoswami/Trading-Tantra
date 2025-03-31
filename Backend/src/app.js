@@ -20,8 +20,8 @@ import {
   sectorStockData,
 } from "./controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./config/socket.js";
-import holidayJob from "./jobs/holiday.job.js";
-import scheduleMarketJob from "./jobs/liveMarket.job.js";
+// import holidayJob from "./jobs/holiday.job.js";
+// import scheduleMarketJob from "./jobs/liveMarket.job.js";
 import { send } from "process";
 import {
   AIIntradayReversalFiveMins,
@@ -39,6 +39,7 @@ import {
   fiveDayRangeBreakers,
   tenDayRangeBreakers,
 } from "./controllers/swingAnalysis.controllers.js";
+
 dotenv.config();
 
 const app = express();
@@ -52,9 +53,13 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 initializeServer(server);
+
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
 
@@ -210,7 +215,7 @@ app.use('/api',feedbackRoute)
 // ✅ **Run `sendData()` immediately**
 // sendSmartMoneyActionData();
 
-// setInterval(sendSectorData, 20000);
+// setInterval(sendSectorDat, 20000);
 
 // async function sendSwingData() {
 //   try {
@@ -253,7 +258,7 @@ app.use('/api',feedbackRoute)
 //   }
 // }
 
-// // ✅ **Run `sendData()` immediately**
+// ✅ **Run `sendData()` immediately**
 // sendSwingData();
 
 // setInterval(sendSwingData, 20000);

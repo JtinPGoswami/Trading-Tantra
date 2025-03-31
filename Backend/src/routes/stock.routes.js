@@ -25,6 +25,7 @@ import {
   fiveDayRangeBreakers,
   tenDayRangeBreakers,
 } from "../controllers/swingAnalysis.controllers.js";
+import getFiiDiiData from "../controllers/FiiDii.controller.js";
 const router = express.Router();
 router.get("/get-turnover", getStocksData);
 router.get("/get-top-gainers-and-losers", getTopGainersAndLosers);
@@ -46,4 +47,5 @@ router.get("/ten-day-range-break", tenDayRangeBreakers);
 router.get("/daily-candel-reversal", dailyCandleReversal);
 router.get("/ai-contraction", AIContraction);
 
+router.get("/fii-dii", getFiiDiiData);
 export default router;

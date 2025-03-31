@@ -6,6 +6,8 @@ import LomLongTerm from "../../../../assets/Images/Dashboard/monryActionPage/Lom
 import { useEffect, useState } from "react";
 
 const AIIntradayReversalDaily = ({ data, loading, error }) => {
+  console.log("data AIIntradayReversalDaily ", data);
+
   const [sortedData, setSortedData] = useState([]);
   const [sortOrderChange, setSortOrderChange] = useState("desc");
   const [sortOrderType, setSortOrderType] = useState("desc");
@@ -59,7 +61,7 @@ const AIIntradayReversalDaily = ({ data, loading, error }) => {
   };
   const handleSortByDateTime = () => {
     if (!sortedData?.length) return;
-  
+
     const newOrder = sortOrderDateTime === "asc" ? "desc" : "asc";
     const sorted = [...sortedData].sort((a, b) => {
       const dateA = new Date(
@@ -68,14 +70,14 @@ const AIIntradayReversalDaily = ({ data, loading, error }) => {
       const dateB = new Date(
         b.timestamp.replace(/(\d+)\/(\d+)\/(\d+),/, "$2/$1/$3")
       );
-  
+
       return newOrder === "asc" ? dateA - dateB : dateB - dateA;
     });
-  
+
     setSortedData(sorted);
     setSortOrderDateTime(newOrder);
   };
-  
+
   return (
     <div className="relative w-full h-[360px] bg-gradient-to-tr from-[#0009B2] to-[#02000E] rounded-lg p-px overflow-hidden">
       <div className="w-full h-full dark:bg-db-primary bg-db-primary-light rounded-lg p-2">
@@ -89,7 +91,7 @@ const AIIntradayReversalDaily = ({ data, loading, error }) => {
             />
             <div>
               <h2 className="text-xl font-semibold flex items-center gap-2">
-              AI Swing Reversal (TF - Daily)
+                AI Swing Reversal (TF - Daily)
                 <FcCandleSticks />
               </h2>
               <p className="dark:text-gray-400 text-sm flex items-center gap-2">
@@ -135,9 +137,18 @@ const AIIntradayReversalDaily = ({ data, loading, error }) => {
                         }
                       />
                     </th>
-                    <th className="py-2 text-center " onClick={handleSortByDateTime}>
+                    <th
+                      className="py-2 text-center "
+                      onClick={handleSortByDateTime}
+                    >
                       Date Time{" "}
-                      <MdOutlineKeyboardArrowDown  className={sortOrderDateTime === "desc" ? "rotate-180 inline-flex" : " inline-flex"} />
+                      <MdOutlineKeyboardArrowDown
+                        className={
+                          sortOrderDateTime === "desc"
+                            ? "rotate-180 inline-flex"
+                            : " inline-flex"
+                        }
+                      />
                     </th>
                     <th
                       className="py-2 text-right cursor-pointer "
@@ -178,7 +189,19 @@ const AIIntradayReversalDaily = ({ data, loading, error }) => {
                         <td className="text-xs text-center">
                           {stock?.timestamp}
                         </td>
-                        <td className="text-right text-sm"><span className={`px-2 py-[2px] rounded-3xl  text-white ${stock?.type === "Bearish" ? "bg-red-600" : "bg-green-600"}`}>{stock?.type}</span></td>
+                        <td className="text-right text-sm">
+                          <span
+                            className={`px-2 py-[2px] rounded-3xl  text-white ${
+                              stock?.type === "Bullish Reversal"
+                                ? "bg-red-600"
+                                : "bg-green-600"
+                            }`}
+                          >
+                            {stock?.type === "Bullish Reversal"
+                              ? "Bullish"
+                              : "Bearish"}
+                          </span>
+                        </td>
                       </tr>
                     ))
                   ) : (
@@ -198,4 +221,4 @@ const AIIntradayReversalDaily = ({ data, loading, error }) => {
   );
 };
 
-export default  AIIntradayReversalDaily;
+export default AIIntradayReversalDaily;

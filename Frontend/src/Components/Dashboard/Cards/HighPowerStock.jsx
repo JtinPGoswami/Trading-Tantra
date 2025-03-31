@@ -124,7 +124,7 @@ const HighPowerStock = ({ data, loading }) => {
                       className="text-right py-2 cursor-pointer"
                       onClick={handleSort}
                     >
-                      <span className="flex justify-center items-center">
+                      <span className="flex items-center justify-end">
                         T.O.{" "}
                         <MdOutlineKeyboardArrowDown
                           className={sortOrder === "desc" ? "rotate-180" : ""}
@@ -149,7 +149,13 @@ const HighPowerStock = ({ data, loading }) => {
                           <FcCandleSticks />
                         </td>
                         <td className="text-center">
-                          <span className="bg-blue-600 px-2 py-1 text-xs rounded-full">
+                          <span
+                            className={`${
+                              stock?.changePercentage >= 0
+                                ? "bg-green-600"
+                                : "bg-red-600"
+                            } px-2 py-1 text-xs rounded-full`}
+                          >
                             {stock?.changePercentage}
                           </span>
                         </td>

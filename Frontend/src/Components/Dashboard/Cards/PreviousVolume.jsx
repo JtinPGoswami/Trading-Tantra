@@ -31,7 +31,6 @@ export const PreviousVolume = ({ data, loading, error }) => {
     setSortOrder(newOrder);
   };
 
-
   const handleSortByPercentageChange = () => {
     if (!sortedData?.length) return;
 
@@ -111,7 +110,11 @@ export const PreviousVolume = ({ data, loading, error }) => {
                       />
                     </th>
                     <th className="text-right py-2 cursor-pointer">
-                      <span className="flex justify-center items-center" title="X Element" onClick={handleSort}>
+                      <span
+                        className="flex items-center justify-end"
+                        title="X Element"
+                        onClick={handleSort}
+                      >
                         xElem.{" "}
                         <MdOutlineKeyboardArrowDown
                           className={sortOrder === "desc" ? "rotate-180" : ""}
@@ -136,7 +139,13 @@ export const PreviousVolume = ({ data, loading, error }) => {
                           <FcCandleSticks />
                         </td>
                         <td className="text-center">
-                          <span className="bg-blue-600 px-2 py-1 text-xs rounded-full">
+                          <span
+                            className={`${
+                              stock?.percentageChange >= 0
+                                ? "bg-green-600"
+                                : "bg-red-600"
+                            } px-2 py-1 text-xs rounded-full`}
+                          >
                             {stock?.percentageChange?.toFixed(2)}
                           </span>
                         </td>

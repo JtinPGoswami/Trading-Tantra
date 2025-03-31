@@ -25,11 +25,11 @@ const LoginPage = () => {
 
     if (data.success) {
       login(data.token);
-      console.log('data',data)
+      console.log("data", data);
       navigate("/dashboard");
     }
   };
-   return (
+  return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
       {loading && (
         <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-10">

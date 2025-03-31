@@ -69,12 +69,12 @@
 
 // export default scheduleMarketJob;
 
-
-
-
 import cron from "node-cron";
 import MarketHoliday from "../models/holidays.model.js";
-import { getData, getDataForTenMin } from "../controllers/liveMarketData.controller.js";
+import {
+  getData,
+  getDataForTenMin,
+} from "../controllers/liveMarketData.controller.js";
 
 // Helper to get IST time
 const getISTTime = () => {
@@ -116,19 +116,36 @@ const runMarketTask = async () => {
     return;
   }
 
-  if (hours < 9 || (hours === 9 && minutes < 15) || hours > 15 || (hours === 15 && minutes > 40)) {
-    console.log("Outside market hours (9:15 AM - 3:40 PM IST). Skipping execution.");
+  if (
+    hours < 9 ||
+    (hours === 9 && minutes < 15) ||
+    hours > 15 ||
+    (hours === 15 && minutes > 40)
+  ) {
+    console.log(
+      "Outside market hours (9:15 AM - 3:40 PM IST). Skipping execution."
+    );
     return;
   }
 
   try {
     console.log(`Running market task at ${now.toLocaleTimeString()}`);
-    
+    const today = new Date();
+    const fromDate = `${today.getFullYear()}-${String(
+      today.getMonth() + 1
+    ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+    // console.log(formattedDate);
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const toDate = tomorrow.toISOString().split("T")[0];
+    // console.log(formattedDate);
+
     console.log("Executing getDataForTenMin...");
-    await getDataForTenMin("2025-03-28", "2025-03-29");
+    await getDataForTenMin(fromDate, toDate);
 
     console.log("Executing getData for 5 min...");
-    await getData("2025-03-28", "2025-03-29");
+    await getData(fromDate, toDate);
 
     console.log("Market task completed.");
   } catch (error) {

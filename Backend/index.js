@@ -2,9 +2,14 @@ import dotenv from "dotenv";
 // import WebSocket from "ws";
 // import parseBinaryData from "./src/utils/parseBinaryData.js";
 import connectDB from "./src/config/db.js";
-import { getData, getDataForTenMin, startWebSocket } from "./src/controllers/liveMarketData.controller.js";
+import {
+  getData,
+  getDataForTenMin,
+  startWebSocket,
+} from "./src/controllers/liveMarketData.controller.js";
 
 import cron from "node-cron";
+import scrapeAndSaveFIIDIIData from "./src/jobs/scrapData_Two.js";
 
 dotenv.config();
 
@@ -34,11 +39,11 @@ dotenv.config();
 // console.log("Cron job scheduled to run every 2 minutes.");
 
 connectDB();
-
+scrapeAndSaveFIIDIIData();
 
 // getDataForTenMin("2025-03-27", "2025-03-28")
 
- getData("2025-03-27", "2025-03-28");
+//  getData("2025-03-27", "2025-03-28");
 
 // setInterval(getData, 150000);
 

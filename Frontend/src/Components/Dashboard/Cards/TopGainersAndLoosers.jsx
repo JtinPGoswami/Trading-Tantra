@@ -86,7 +86,7 @@ const TopGainers = ({ data, loading, error }) => {
                     <th className="text-right py-2 cursor-pointer">
                       <span
                         title="xElement"
-                        className="flex justify-center items-center"
+                        className="flex items-center justify-end"
                       >
                         xElem{" "}
                         <MdOutlineKeyboardArrowDown
@@ -112,7 +112,13 @@ const TopGainers = ({ data, loading, error }) => {
                           <FcCandleSticks />
                         </td>
                         <td className="text-center">
-                          <span className="bg-blue-600 px-2 py-1 text-xs rounded-full">
+                          <span
+                            className={`${
+                              stock?.percentageChange >= 0
+                                ? "bg-green-600"
+                                : "bg-red-600"
+                            } px-2 py-1 text-xs rounded-full`}
+                          >
                             {stock?.percentageChange}
                           </span>
                         </td>
@@ -218,7 +224,7 @@ const TopLoosers = ({ data, loading, error }) => {
                     <th className="text-right py-2 cursor-pointer">
                       <span
                         title="xElement"
-                        className="flex justify-center items-center"
+                        className="flex  items-center justify-end"
                       >
                         xElem{" "}
                         <MdOutlineKeyboardArrowDown
@@ -244,7 +250,13 @@ const TopLoosers = ({ data, loading, error }) => {
                           <FcCandleSticks />
                         </td>
                         <td className="text-center">
-                          <span className="bg-blue-600 px-2 py-1 text-xs rounded-full">
+                          <span
+                            className={`${
+                              stock?.percentageChange >= 0
+                                ? "bg-green-600"
+                                : "bg-red-600"
+                            } px-2 py-1 text-xs rounded-full`}
+                          >
                             {stock?.percentageChange}
                           </span>
                         </td>

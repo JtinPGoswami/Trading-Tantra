@@ -34,12 +34,10 @@ const verifyUser = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("Error in verifyUser middleware:", error);
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Something went wrong. Please try again later.",
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong. Please try again later.",
+    });
   }
 };
 
