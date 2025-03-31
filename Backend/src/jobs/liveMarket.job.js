@@ -134,12 +134,12 @@ const runMarketTask = async () => {
     const fromDate = `${today.getFullYear()}-${String(
       today.getMonth() + 1
     ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
-    console.log(formattedDate);
+    // console.log(formattedDate);
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const toDate = tomorrow.toISOString().split("T")[0];
-    console.log(formattedDate);
+    // console.log(formattedDate);
 
     console.log("Executing getDataForTenMin...");
     await getDataForTenMin(fromDate, toDate);

@@ -19,6 +19,7 @@ const useFetchData = () => {
           method: "POST",
           url: `http://localhost:3000/api/${url}`,
           data: formData,
+          withCredentials: true,
         });
       } else if (method === "PUT") {
         response = await axios({

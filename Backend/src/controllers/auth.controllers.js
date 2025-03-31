@@ -61,6 +61,8 @@ const logIn = async (req, res) => {
   }
 
   const { email, password } = req.body;
+
+  console.log(email, password);
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -85,6 +87,8 @@ const logIn = async (req, res) => {
     const options = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+
+      sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000, //for one day
     };
 

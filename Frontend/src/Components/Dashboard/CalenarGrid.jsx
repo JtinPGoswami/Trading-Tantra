@@ -2,18 +2,16 @@ import React from "react";
 import clsx from "clsx";
 import { Tooltip } from "react-tooltip";
 
-const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
-  // Extract start and end dates from selectedDateRange
+const CalendarGrid = ({ setSelectedDate, selectedDateRange, tradeData }) => {
   const startDate = selectedDateRange?.[0]?.startDate || new Date();
   const endDate = selectedDateRange?.[0]?.endDate || new Date();
 
-  // Calculate the months to show based on the date range
+  console.log("tradeData", tradeData);
   const startYear = startDate.getFullYear();
   const endYear = endDate.getFullYear();
-  const startMonth = startDate.getMonth() + 1; // getMonth() returns 0-11, we need 1-12
+  const startMonth = startDate.getMonth() + 1;
   const endMonth = endDate.getMonth() + 1;
 
-  // Generate monthsToShow array based on date range
   const monthsToShow = [];
   let currentYear = startYear;
   let currentMonth = startMonth;
@@ -30,7 +28,6 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
     }
   }
 
-  // Limit to 12 months (since we have 13 columns total, 1 for days, 12 for months)
   if (monthsToShow.length > 12) {
     monthsToShow.length = 12;
   }
@@ -39,19 +36,14 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
   const getStartDayIndex = (year, month) =>
     new Date(year, month - 1, 1).getDay();
 
-  const getColor = (date) => {
-    const currentDate = new Date(date);
-    if (currentDate >= startDate && currentDate <= endDate) {
-      const value = 0; // Placeholder - replace with actual trade value
-      if (value > 150) return "bg-green-900";
-      if (value > 50) return "bg-green-600";
-      if (value > 0) return "bg-green-300";
-      if (value === 0) return "bg-gray-200";
-      if (value < -150) return "bg-red-900";
-      if (value < -50) return "bg-red-600";
-      return "bg-red-300";
-    }
-    return "bg-gray-200";
+  const getColor = (value) => {
+    if (value > 10) return "bg-green-900";
+    if (value > 5) return "bg-green-600";
+    if (value > 0) return "bg-green-300";
+    if (value === 0) return "bg-gray-200";
+    if (value < -5) return "bg-red-900";
+    if (value < -10) return "bg-red-600";
+    return "bg-red-300";
   };
 
   const generateMonthData = (year, month) => {
@@ -69,9 +61,27 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
       const dateString = `${year}-${String(month).padStart(2, "0")}-${String(
         i
       ).padStart(2, "0")}`;
+
+      // Find all trades for this specific date
+      const tradesForDate =
+        tradeData?.filter((t) => {
+          const entryDate = new Date(t.entryDate).toISOString().split("T")[0];
+          return entryDate === dateString;
+        }) || [];
+
+      // console.log("tradesForDate", tradesForDate);
+      // Sum up total profit/loss for the day if multiple trades exist
+      const totalValue = tradesForDate.reduce(
+        (sum, t) => sum + t.totalProfitOrLoss,
+        0
+      );
+
+      // console.log("totalValue", totalValue);
       data.push({
         date: dateString,
-        value: 0, // Placeholder for actual data
+        value: totalValue,
+        profitLossPercentage: tradesForDate.profitLossPercentage,
+        trades: tradesForDate, // Store all trades for tooltip
         column: currentColumn,
         row: currentRow,
       });
@@ -96,8 +106,8 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
   };
 
   const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const totalColumns = 13; // Fixed number of columns
-  const emptyColumns = totalColumns - monthsToShow.length - 1; // -1 for the day labels column
+  const totalColumns = 13;
+  const emptyColumns = totalColumns - monthsToShow.length - 1;
 
   return (
     <section className="bg-gradient-to-tr from-[#0009B2] to-[#02000E] p-px rounded-md">
@@ -168,18 +178,34 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
                               key={index}
                               className={clsx(
                                 "w-2 h-2 flex justify-center mt-1 font-bold cursor-pointer",
-                                getColor(entry.date)
+                                getColor(entry.value)
                               )}
                               data-tooltip-id={entry.date}
                               onClick={() => handleDateClick(entry.date)}
                             >
                               <Tooltip id={entry.date} place="top">
-                                {entry.date} -{" "}
-                                {entry.value > 0
-                                  ? `Profit: ₹${entry.value}`
-                                  : entry.value < 0
-                                  ? `Loss: ₹${Math.abs(entry.value)}`
-                                  : "Neutral"}
+                                {entry.date}
+                                <br />
+                                {entry.trades.length > 0
+                                  ? entry.trades.map((trade, idx) => (
+                                      <div key={idx}>
+                                        {trade.symbol}:{" "}
+                                        {trade.totalProfitOrLoss > 0
+                                          ? `Profit: ₹${trade.totalProfitOrLoss}`
+                                          : trade.totalProfitOrLoss < 0
+                                          ? `Loss: ₹${Math.abs(
+                                              trade.totalProfitOrLoss
+                                            )}`
+                                          : "Neutral"}
+                                      </div>
+                                    ))
+                                  : "No trades"}
+                                {entry.trades.length > 1 && (
+                                  <div>
+                                    Total: ₹{entry.value > 0 ? "+" : ""}
+                                    {entry.value}
+                                  </div>
+                                )}
                               </Tooltip>
                             </div>
                           ) : (
@@ -192,20 +218,6 @@ const CalendarGrid = ({ setSelectedDate, selectedDateRange }) => {
                       </div>
                     );
                   })}
-                  {Array(emptyColumns)
-                    .fill(null)
-                    .map((_, index) => (
-                      <div key={`empty-row-${index}`} className="flex gap-1">
-                        {Array(6)
-                          .fill(null)
-                          .map((_, i) => (
-                            <div
-                              key={i}
-                              className="w-2 h-2 bg-transparent"
-                            ></div>
-                          ))}
-                      </div>
-                    ))}
                 </>
               ))}
             </div>

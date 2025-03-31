@@ -4,7 +4,8 @@ const addTrade = async (tradeData) => {
   try {
     const response = await axios.post(
       "http://localhost:3000/api/auth/add-trade",
-      tradeData
+      tradeData,
+      { withCredentials: true }
     );
 
     console.log("Trade added successfully:", response.data);

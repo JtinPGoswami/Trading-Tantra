@@ -121,7 +121,7 @@ router.post(
       .not()
       .isEmpty(),
   ],
-
+  verifyUser,
   addTrade
 );
 
