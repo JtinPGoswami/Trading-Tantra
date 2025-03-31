@@ -10,7 +10,7 @@ import http from "http";
 import "./config/passport.js";
 
 import stocksRoutes from "./routes/stock.routes.js";
-
+import feedbackRoute from './routes/feedback.route.js'
 import {
   getDayLowBreak,
   getDayHighBreak,
@@ -39,7 +39,6 @@ import {
   fiveDayRangeBreakers,
   tenDayRangeBreakers,
 } from "./controllers/swingAnalysis.controllers.js";
-import { DailyRangeBreakout } from "./controllers/liveMarketData.controller.js";
 dotenv.config();
 
 const app = express();
@@ -66,8 +65,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api", stocksRoutes);
-
-const socket = getSocketInstance();
+app.use('/api',feedbackRoute)
+ 
 
 // async function sendData() {
 //   try {
@@ -211,53 +210,53 @@ const socket = getSocketInstance();
 // ✅ **Run `sendData()` immediately**
 // sendSmartMoneyActionData();
 
-setInterval(sendSectorData, 20000);
+// setInterval(sendSectorData, 20000);
 
-async function sendSwingData() {
-  try {
-    const socket = getSocketInstance();
-    if (!socket) {
-      console.error("Socket instance is not available.");
-      return;
-    }
+// async function sendSwingData() {
+//   try {
+//     const socket = getSocketInstance();
+//     if (!socket) {
+//       console.error("Socket instance is not available.");
+//       return;
+//     }
 
-    console.log("Fetching and sending sector stock data...");
+//     console.log("Fetching and sending sector stock data...");
 
-    const [
-      fiveDayRangeBreakersResponse,
-      tenDayRangeBreakersResponse,
-      dailyCandleReversalResponse,
-      AIContractionResponse,
-      DailyRangeBreakoutResponse,
-    ] = await Promise.allSettled([
-      fiveDayRangeBreakers(),
-      tenDayRangeBreakers(),
-      dailyCandleReversal(),
-      AIContraction(),
-      DailyRangeBreakout(),
-    ]);
+//     const [
+//       fiveDayRangeBreakersResponse,
+//       tenDayRangeBreakersResponse,
+//       dailyCandleReversalResponse,
+//       AIContractionResponse,
+//       DailyRangeBreakoutResponse,
+//     ] = await Promise.allSettled([
+//       fiveDayRangeBreakers(),
+//       tenDayRangeBreakers(),
+//       dailyCandleReversal(),
+//       AIContraction(),
+//       DailyRangeBreakout(),
+//     ]);
 
-    if (fiveDayRangeBreakersResponse.status === "fulfilled")
-      socket.emit("fiveDayRangeBreakers", fiveDayRangeBreakersResponse.value);
-    if (tenDayRangeBreakersResponse.status === "fulfilled")
-      socket.emit("tenDayRangeBreakers", tenDayRangeBreakersResponse.value);
-    if (dailyCandleReversalResponse.status === "fulfilled")
-      socket.emit("setDailyCandleReversal", dailyCandleReversalResponse.value);
-    if (AIContractionResponse.status === "fulfilled")
-      socket.emit("AIContraction", AIContractionResponse.value);
-    if (DailyRangeBreakoutResponse.status === "fulfilled")
-      socket.emit("DailyRangeBreakout", DailyRangeBreakoutResponse.value);
+//     if (fiveDayRangeBreakersResponse.status === "fulfilled")
+//       socket.emit("fiveDayRangeBreakers", fiveDayRangeBreakersResponse.value);
+//     if (tenDayRangeBreakersResponse.status === "fulfilled")
+//       socket.emit("tenDayRangeBreakers", tenDayRangeBreakersResponse.value);
+//     if (dailyCandleReversalResponse.status === "fulfilled")
+//       socket.emit("setDailyCandleReversal", dailyCandleReversalResponse.value);
+//     if (AIContractionResponse.status === "fulfilled")
+//       socket.emit("AIContraction", AIContractionResponse.value);
+//     if (DailyRangeBreakoutResponse.status === "fulfilled")
+//       socket.emit("DailyRangeBreakout", DailyRangeBreakoutResponse.value);
 
-    console.log("Swing Data  successfully... 👍");
-  } catch (error) {
-    console.error("Error sending data:", error);
-  }
-}
+//     console.log("Swing Data  successfully... 👍");
+//   } catch (error) {
+//     console.error("Error sending data:", error);
+//   }
+// }
 
-// ✅ **Run `sendData()` immediately**
-sendSwingData();
+// // ✅ **Run `sendData()` immediately**
+// sendSwingData();
 
-setInterval(sendSwingData, 20000);
+// setInterval(sendSwingData, 20000);
 
 const PORT = process.env.PORT || 3000;
 
