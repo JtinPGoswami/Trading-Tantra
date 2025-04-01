@@ -1326,7 +1326,7 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
 
         const preHighLowDiff = preHigh - preLow;
         const currentDiff = crrHigh - crrLow;
-        const hasMomentum = currentDiff >= preHighLowDiff * 1.5;
+        const hasMomentum = currentDiff >= preHighLowDiff * 2;
 
         const lastClose = entry.close.slice(-1)[0];
         const lastOpen = entry.open.slice(-1)[0];
@@ -1484,7 +1484,7 @@ const AIMomentumCatcherTenMins = async (req, res) => {
 
         const preHighLowDiff = preHigh - preLow;
         const currentDiff = crrHigh - crrLow;
-        const hasMomentum = currentDiff >= preHighLowDiff * 1.5;
+        const hasMomentum = currentDiff >= preHighLowDiff * 2;
 
         const lastClose = entry.close.slice(-1)[0];
         const lastOpen = entry.open.slice(-1)[0];

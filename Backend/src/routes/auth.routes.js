@@ -147,7 +147,10 @@ router.post(
 //gooole auth
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    accessType: "offline",
+  })
 );
 
 router.get(
@@ -163,7 +166,7 @@ router.get(
         expiresIn: "1h",
       }
     );
-
+    console.log(req.user);
     const options = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -172,8 +175,7 @@ router.get(
 
     res
       .status(200)
-      .cookie("accessToken", req.user.accessToken, options)
-      .cookie("refreshToken", req.user.refreshToken, options)
+      .cookie("accessToken", token, options)
       .json({
         success: true,
         token,

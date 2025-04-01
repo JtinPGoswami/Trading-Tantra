@@ -16,6 +16,12 @@ import {
   twoDayHLBreak,
 } from "../controllers/liveMarketData.controller.js";
 import authenticateSocket from "../middlewares/authenticateSocket.js";
+import {
+  AIContraction,
+  dailyCandleReversal,
+  fiveDayRangeBreakers,
+  tenDayRangeBreakers,
+} from "../controllers/swingAnalysis.controllers.js";
 
 let io;
 
