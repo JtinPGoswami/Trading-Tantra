@@ -80,7 +80,12 @@
   }
 }
 
-
+.lock-container{
+  background-image: url(../src/assets/Images/dummyLockBg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 /* loader css */
 .loader {
   width: 50px;

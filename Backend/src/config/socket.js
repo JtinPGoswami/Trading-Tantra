@@ -8,6 +8,7 @@ import {
   sectorStockData,
 } from "../controllers/stock.contollers.js";
 import {
+  AIIntradayReversalDaily,
   AIIntradayReversalFiveMins,
   AIMomentumCatcherFiveMins,
   AIMomentumCatcherTenMins,
@@ -16,6 +17,14 @@ import {
   twoDayHLBreak,
 } from "../controllers/liveMarketData.controller.js";
 import authenticateSocket from "../middlewares/authenticateSocket.js";
+import {
+  AIContraction,
+  dailyCandleReversal,
+  fiveDayRangeBreakers,
+  tenDayRangeBreakers,
+} from "../controllers/swingAnalysis.controllers.js";
+import checkSubscription from "../middlewares/checkSubscription.js";
+import { check } from "express-validator";
 
 let io;
 
@@ -191,25 +200,36 @@ const initializeServer = (server) => {
     console.log("a user connected", socket.id);
 
     socket.on("getMarketDepthData", async () => {
-      console.log("inside get data");
-      await sendData();
+       
+        console.log("inside get data");
+        await sendData();
+      
       // console.log("user disconnected",socket.id);
     });
 
     socket.on("getSectorData", async () => {
-      console.log("inside get data");
-      await sendSectorData();
+      
+        console.log("inside get data");
+        await sendSectorData();
+ 
       // console.log("user disconnected",socket.id);
     });
 
     socket.on("getSmartMoneyActionData", async () => {
-      console.log("inside get data");
-      await sendSmartMoneyActionData();
+      checkSubscription(socket, async () => {
+        console.log("inside get data");
+        await sendSmartMoneyActionData();
+      });
+
       // console.log("user disconnected",socket.id);
     });
     socket.on("getSwingData", async () => {
-      console.log("inside get data");
-      await sendSwingData();
+      checkSubscription(socket, async () => {
+        console.log("inside get data");
+
+        await sendSwingData();
+      });
+
       // console.log("user disconnected",socket.id);
     });
 

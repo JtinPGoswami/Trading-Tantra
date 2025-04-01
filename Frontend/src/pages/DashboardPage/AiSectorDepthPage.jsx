@@ -411,6 +411,9 @@ const AiSectorDepthPage = () => {
   const [loading, setLoading] = useState(true);
   const [sectorWiseData, setSectorWiseData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
+   
+
+ 
 
   useEffect(() => {
     let hasDataArrived = false;
@@ -422,13 +425,13 @@ const AiSectorDepthPage = () => {
 
 
     if (!isFetching) {
-      socket.emit("getSectorData");
+      socket.emit("getSectorData",{token});
 
       setIsFetching(true)
 
     } else {
      interval =  setInterval(() => {
-        socket.emit("getSectorData");
+        socket.emit("getSectorData",{token});
       }, 50000);
 
      
@@ -437,6 +440,7 @@ const AiSectorDepthPage = () => {
     // Define event handler
     const handleSectorScope = (data) => {
       setData(data);
+      console.log('data',data)
       setSectorWiseData(data?.sectorWiseData);
       console.log('sectorwise data',data?.sectorWiseData)
       hasDataArrived = true;

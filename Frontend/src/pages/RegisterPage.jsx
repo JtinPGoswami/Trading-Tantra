@@ -1,38 +1,37 @@
 import React, { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
-
-
+import { useNavigate, Link } from "react-router-dom";
+import useFetchData from "../utils/useFetchData";
 
 const RegisterPage = () => {
   const [FormData, setFormData] = useState({
     firstname: "",
-    lastname:"",
+    lastname: "",
     email: "",
     password: "",
-    confirmPassword:""
+    confirmPassword: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+   const [passworderror, setPasswordError] = useState('');
   const navigate = useNavigate();
 
+  const { data, loading, error, fetchData } = useFetchData();
   const handleChange = (e) => {
-    const {name,value} = e.target;
-    setFormData({...FormData, [name]:value});
-
-  }
+    const { name, value } = e.target;
+    setFormData({ ...FormData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if(FormData.password !== FormData.confirmPassword){
-      setError("Password not match.")
-      return  error;
+    if (FormData.password !== FormData.confirmPassword) {
+      setError("Password not match.");
+      return error;
     }
-    console.log(FormData,',wdkjebkdbs')
-  }
+
+    await fetchData("auth/signup", "POST", FormData);
 
 
-   
+    console.log(data, ",wdkjebkdbs");
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative ">
@@ -57,34 +56,37 @@ const RegisterPage = () => {
 
         <form className="flex flex-col mt-2" onSubmit={handleSubmit}>
           <div className="mb-4 flex md:flex-row flex-col w-full gap-2">
-           <div className="flex flex-col w-1/2">
-           <label htmlFor="name" className="block text-lg text-gray-600 mb-1">
-              Firstname:
-            </label>
-            <input
-              type="text"
-              name="firstname"
-              value={FormData.firstname}
-              onChange={handleChange}
-              id="name"
-              placeholder="Firstname"
-              className=" w-full border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
-            />
-           </div>
+            <div className="flex flex-col w-1/2">
+              <label
+                htmlFor="name"
+                className="block text-lg text-gray-600 mb-1"
+              >
+                Firstname:
+              </label>
+              <input
+                type="text"
+                name="firstname"
+                value={FormData.firstname}
+                onChange={handleChange}
+                id="name"
+                placeholder="Firstname"
+                className=" w-full border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+              />
+            </div>
 
             <div className="flex flex-col w-1/2">
-            <label className="block text-lg text-gray-600 mb-1">Lastname:
-              
+              <label className="block text-lg text-gray-600 mb-1">
+                Lastname:
               </label>
-  
-              <input type="text" 
 
-              name="lastname"
-              value={FormData.lastname}
-              onChange={handleChange}
-              placeholder="Lastname"
-                  className=" w-full border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
-                />
+              <input
+                type="text"
+                name="lastname"
+                value={FormData.lastname}
+                onChange={handleChange}
+                placeholder="Lastname"
+                className=" w-full border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+              />
             </div>
           </div>
 
@@ -125,7 +127,7 @@ const RegisterPage = () => {
               htmlFor="password"
               className="block text-lg text-gray-600 mb-1"
             >
-            Confirm Password:
+              Confirm Password:
             </label>
             <input
               type="password"
@@ -137,7 +139,8 @@ const RegisterPage = () => {
               className="border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
             />
           </div>
-            
+
+          {passworderror && <p className="text-red-500 mb-1">{passworderror}</p>}
           {error && <p className="text-red-500 mb-1">{error}</p>}
           <button
             type="submit"
@@ -146,14 +149,17 @@ const RegisterPage = () => {
             Register
           </button>
 
-
-          <button  className="bg-[#2196F3] text-white rounded-lg py-2 text-lg font-semibold hover:bg-[#348dd6] transition duration-300 ease-in-out mt-2">Google Signup</button>
+          <button className="bg-[#2196F3] text-white rounded-lg py-2 text-lg font-semibold hover:bg-[#348dd6] transition duration-300 ease-in-out mt-2">
+            Google Signup
+          </button>
         </form>
 
         <div className="flex gap-1 items-center justify-center mt-2">
           <p className="text-gray-600">Already have an Account?</p>
           <Link to="/login">
-          <span className="text-[#2196F3] underline font-semibold">Log In</span>
+            <span className="text-[#2196F3] underline font-semibold">
+              Log In
+            </span>
           </Link>
         </div>
       </div>

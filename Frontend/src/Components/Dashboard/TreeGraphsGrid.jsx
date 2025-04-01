@@ -23,6 +23,7 @@ const TreeGrpahsGrid = ({ data, loading }) => {
   ];
 
   const [sectorWiseData, setSectorWiseData] = useState([]);
+  console.log('data in grapg ',data)
 
   useEffect(() => {
     setSectorWiseData(data.sectorWiseData);
@@ -45,7 +46,7 @@ const TreeGrpahsGrid = ({ data, loading }) => {
                 <div className="w-full flex flex-col dark:bg-db-primary bg-db-secondary-light rounded-md overflow-hidden">
                   <h1 className="text-base px-2.5">{sector}</h1>
                   <div className="flex-grow w-full">
-                    {loading ? <Loader /> : <TreemapChart data={values} />}
+                    {loading ? <Loader /> : <TreemapChart data={values.slice(0, 10)} />}
                   </div>
                 </div>
               </div>

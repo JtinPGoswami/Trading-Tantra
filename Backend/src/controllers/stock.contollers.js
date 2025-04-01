@@ -396,7 +396,7 @@ const getDayHighBreak = async (req, res) => {
         return null;
       })
       .filter(Boolean)
-      .sort((a, b) => b.percentageDifference - a.percentageDifference);
+      .sort((a, b) => a.percentageDifference - b.percentageDifference);
 
     return { success: true, dayHighBreak };
 
@@ -522,7 +522,7 @@ const getDayLowBreak = async (req, res) => {
         return null;
       })
       .filter(Boolean)
-      .sort((a, b) => a.percentageChange - b.percentageChange);
+      .sort((a, b) => a.percentageDifference - b.percentageDifference);
     return { success: true, dayLowBreak };
 
     // console.log("dayLowBreak:", dayLowBreak);
@@ -802,7 +802,7 @@ const sectorStockData = async (req, res) => {
 
     // 8️⃣ Organize data sector-wise and index-wise
     const sectorWiseData = {};
-    const indexWiseData = {};
+     
 
     combinedData.forEach((stock) => {
       // Categorize by SECTOR
@@ -813,23 +813,23 @@ const sectorStockData = async (req, res) => {
 
       // Categorize by INDEX
       stock.INDEX.forEach((index) => {
-        if (!indexWiseData[index]) indexWiseData[index] = [];
-        indexWiseData[index].push(stock);
+        if (!sectorWiseData[index]) sectorWiseData[index] = [];
+         sectorWiseData[index].push(stock);
       });
 
       // Handle stocks with no sector
-      if (stock.SECTOR.length === 0) {
-        if (!sectorWiseData["Uncategorized"])
-          sectorWiseData["Uncategorized"] = [];
-        sectorWiseData["Uncategorized"].push(stock);
-      }
+      // if (stock.SECTOR.length === 0) {
+      //   if (!sectorWiseData["Uncategorized"])
+      //     sectorWiseData["Uncategorized"] = [];
+      //   sectorWiseData["Uncategorized"].push(stock);
+      // }
 
       // Handle stocks with no index
-      if (stock.INDEX.length === 0) {
-        if (!indexWiseData["Uncategorized"])
-          indexWiseData["Uncategorized"] = [];
-        indexWiseData["Uncategorized"].push(stock);
-      }
+      // if (stock.INDEX.length === 0) {
+      //   if (!indexWiseData["Uncategorized"])
+      //     indexWiseData["Uncategorized"] = [];
+      //   indexWiseData["Uncategorized"].push(stock);
+      // }
     });
 
     return {
@@ -837,7 +837,6 @@ const sectorStockData = async (req, res) => {
       latestDate,
       previousDayDate,
       sectorWiseData,
-      indexWiseData,
     };
 
     // 9️⃣ Send response

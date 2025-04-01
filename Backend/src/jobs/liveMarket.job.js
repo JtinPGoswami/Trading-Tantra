@@ -74,6 +74,7 @@ import MarketHoliday from "../models/holidays.model.js";
 import {
   getData,
   getDataForTenMin,
+  startWebSocket,
 } from "../controllers/liveMarketData.controller.js";
 
 // Helper to get IST time
@@ -148,6 +149,12 @@ const runMarketTask = async () => {
     await getData(fromDate, toDate);
 
     console.log("Market task completed.");
+
+    startWebSocket();
+
+    console.log('websocket executed');
+
+
   } catch (error) {
     console.error("Error in market task:", error.message);
   }
@@ -155,7 +162,7 @@ const runMarketTask = async () => {
 
 // Schedule the cron job
 const scheduleMarketJob = cron.schedule(
-  "*/2 9-15 * * 1-5", // Runs every 2 minutes, Monday to Friday (9 AM - 3 PM)
+  "*/4 9-15 * * 1-5", // Runs every 2 minutes, Monday to Friday (9 AM - 3 PM)
   runMarketTask,
   {
     scheduled: true,

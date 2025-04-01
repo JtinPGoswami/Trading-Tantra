@@ -3,6 +3,7 @@ import folderimg from "../../assets/Images/Dashboard/FeedbackImg/folderImg.png";
 import { CiUser } from "react-icons/ci";
 import { MdOutlinePhone } from "react-icons/md";
 import useFetchData from "../../utils/useFetchData";
+import { Loader } from "lucide-react";
 
 const FeedBackPage = () => {
   const fileInputRef = useRef(null);
@@ -18,9 +19,16 @@ const FeedBackPage = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log('form dtaa', formData)
+    
 
     await fetchData("feedback", "POST", formData);
+
+    setFormData({
+      name: "",
+      number: "",
+      category: "",
+      message: "",
+    });
 
   };
 
@@ -34,7 +42,12 @@ const FeedBackPage = () => {
   };
 
   return (
-    <div className="dark:bg-db-primary bg-db-primary-light  rounded-2xl p-5 space-y-3 w-full md:w-4/5  lg:w-1/2 md:mx-auto mt-10">
+
+    <div className="dark:bg-db-primary relative bg-db-primary-light  rounded-2xl p-5 space-y-3 w-full md:w-4/5  lg:w-1/2 md:mx-auto mt-10">
+
+     {
+      loading &&  <Loader className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"/>
+     }
       <h4 className="text-3xl font-medium font-Inter ">Feed Back</h4>
       <div className="w-full mt-10">
         <form className="flex items-center justify-between flex-wrap w-full space-y-4" onSubmit={handleFormSubmit}>

@@ -5,8 +5,9 @@ import { FcCandleSticks } from "react-icons/fc";
 import Loader from "../../Loader";
 import dayHigh from "../../../assets/Images/Dashboard/marketdepthpage/dayHigh.png";
 import dayLow from "../../../assets/Images/Dashboard/marketdepthpage/dayLow.png";
+import Lock from "../Lock";
 
-const DayHigh = ({ data, loading, error }) => {
+const DayHigh = ({ data, loading, error,isSubscribed }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrderChange, setSortOrderChange] = useState("desc");
   const [sortOrderDiff, setSortOrderDiff] = useState("desc");
@@ -92,7 +93,9 @@ const DayHigh = ({ data, loading, error }) => {
           <div className="w-full rounded-lg dark:bg-db-secondary bg-db-secondary-light p-2 relative">
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden">
-              <table className="w-full">
+             {
+              isSubscribed === 'false' ? (<Lock/>) : (
+                <table className="w-full">
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
                   <tr className="dark:text-gray-300 text-gray-800">
@@ -125,7 +128,7 @@ const DayHigh = ({ data, loading, error }) => {
                       className="text-right py-2 cursor-pointer"
                       onClick={handleSortByPercentageDifference}
                     >
-                      <span className="flex justify-center items-center">
+                      <span className="flex justify-end items-center">
                         Diff{" "}
                         <MdOutlineKeyboardArrowDown
                           className={
@@ -177,6 +180,8 @@ const DayHigh = ({ data, loading, error }) => {
                   )}
                 </tbody>
               </table>
+              )
+             }
             </div>
           </div>
         </div>
@@ -185,7 +190,7 @@ const DayHigh = ({ data, loading, error }) => {
   );
 };
 
-const DayLow = ({ data, loading, error }) => {
+const DayLow = ({ data, loading, error ,isSubscribed}) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrderChange, setSortOrderChange] = useState("desc");
   const [sortOrderDiff, setSortOrderDiff] = useState("desc");
@@ -270,7 +275,9 @@ const DayLow = ({ data, loading, error }) => {
           <div className="w-full rounded-lg dark:bg-db-secondary bg-db-secondary-light p-2 relative">
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden">
-              <table className="w-full">
+             {
+              isSubscribed === 'false' ? <Lock/> :(
+                <table className="w-full">
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
                   <tr className="dark:text-gray-300 text-gray-800">
@@ -303,7 +310,7 @@ const DayLow = ({ data, loading, error }) => {
                       className="text-right py-2 cursor-pointer"
                       onClick={handleSortByPercentageDifference}
                     >
-                      <span className="flex justify-center items-center">
+                      <span className="flex justify-end items-center">
                         Diff{" "}
                         <MdOutlineKeyboardArrowDown
                           className={
@@ -354,6 +361,8 @@ const DayLow = ({ data, loading, error }) => {
                   )}
                 </tbody>
               </table>
+              )
+             }
             </div>
           </div>
         </div>

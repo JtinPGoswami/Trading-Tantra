@@ -25,15 +25,11 @@ import {
 } from "../../Components/Dashboard/Cards/DayHighandLow";
 import { PreviousVolume } from "../../Components/Dashboard/Cards/PreviousVolume";
 
-
-
-
 const token = localStorage.getItem("token");
 
-const socket = io("http://localhost:3000",{
-  auth:{token}
+const socket = io("http://localhost:3000", {
+  auth: { token },
 });
-
 
 const MarketDepthPage = () => {
   const stockDataList = [
@@ -314,8 +310,13 @@ const MarketDepthPage = () => {
   const [loading, setLoading] = useState(null);
   const [error, seterror] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [isSubscribed,setIsSubscribed] = useState(null)
 
+  const token = localStorage.getItem("token");
   useEffect(() => {
+    const Subscribed = localStorage.getItem("isSubscribed");
+    setIsSubscribed(Subscribed)
+    
     setLoading(true);
 
     //trigger socket
@@ -324,14 +325,16 @@ const MarketDepthPage = () => {
 
     // socket.emit("getData");
 
+    socket.on("error", (data) => {
+      console.log("error", data);
+    });
 
     if (!isFetching) {
-      socket.emit("getMarketDepthData");
-      setIsFetching(true)
-
+      socket.emit("getMarketDepthData", { token });
+      setIsFetching(true);
     } else {
-     interval =  setInterval(() => {
-        socket.emit("getMarketDepthData");
+      interval = setInterval(() => {
+        socket.emit("getMarketDepthData", { token });
       }, 50000);
     }
 
@@ -339,20 +342,21 @@ const MarketDepthPage = () => {
 
     const handleTurnOver = (data) => {
       setTurnOverdata(data?.data);
-       hasDataArrived = true;
+
+      hasDataArrived = true;
       setLoading(false);
     };
 
     const handleDayLowBreak = (data) => {
       setDayLowBreakResponse(data?.dayLowBreak);
-      console.log('day low',data)
+      console.log("day low", data);
       hasDataArrived = true;
       setLoading(false);
     };
 
     const handleDayHighBreak = (data) => {
       setDayHighBreakResponse(data?.dayHighBreak);
- 
+
       hasDataArrived = true;
       setLoading(false);
     };
@@ -401,26 +405,43 @@ const MarketDepthPage = () => {
       <h1 className="text-3xl font-medium mt-5">Market Depth</h1>
 
       <div className="grid md:grid-cols-2 grid-cols-1 gap-6 w-full mt-10">
-        <HighPowerStock data={turnOverData} loading={loading} />
+        <HighPowerStock
+          data={turnOverData}
+          loading={loading}
+          isSubscribed={isSubscribed}
+        />
 
         <PreviousVolume
           data={previousDaysVolumeResponse}
           loading={loading}
           error={error}
+          isSubscribed={isSubscribed}
         />
 
-        <DayHigh data={dayHighBreakResponse} loading={loading} error={error} />
-        <DayLow data={dayLowBreakResponse} loading={loading} error={error} />
+        <DayHigh
+          data={dayHighBreakResponse}
+          loading={loading}
+          error={error}
+          isSubscribed={isSubscribed}
+        />
+        <DayLow
+          data={dayLowBreakResponse}
+          loading={loading}
+          error={error}
+          isSubscribed={isSubscribed}
+        />
 
         <TopGainers
           data={getTopGainersAndLosersResponse?.topGainers}
           loading={loading}
           error={error}
+          isSubscribed={isSubscribed}
         />
         <TopLoosers
           data={getTopGainersAndLosersResponse?.topLosers}
           loading={loading}
           error={error}
+          isSubscribed={isSubscribed}
         />
       </div>
     </section>

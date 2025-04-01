@@ -122,9 +122,9 @@ const TradingJournal = () => {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    // return () => {
+    //   document.removeEventListener("mousedown", handleClickOutside);
+    // };
   }, [showDateRange, showAddTrade]);
 
   const handleInputClick = (ref) => {
@@ -155,7 +155,7 @@ const TradingJournal = () => {
   }, [data]);
 
   if (loading) return <div>Loading trades...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <div>Error: {error.data.message}</div>;
 
   return (
     <div className="container mx-auto">
@@ -246,7 +246,7 @@ const TradingJournal = () => {
                     <input
                       type="text"
                       name="symbol"
-                      value={tradeData.symbol}
+                      value={tradeData?.symbol}
                       onChange={handleTradeInputChange}
                       className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white"
                       placeholder="Enter symbol/ticker"
@@ -257,7 +257,7 @@ const TradingJournal = () => {
                     <input
                       type="number"
                       name="entryPrice"
-                      value={tradeData.entryPrice}
+                      value={tradeData?.entryPrice}
                       onChange={handleTradeInputChange}
                       className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white"
                       placeholder="Enter entry price"
@@ -268,7 +268,7 @@ const TradingJournal = () => {
                     <input
                       type="number"
                       name="exitPrice"
-                      value={tradeData.exitPrice}
+                      value={tradeData?.exitPrice}
                       onChange={handleTradeInputChange}
                       className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white"
                       placeholder="Enter exit price"
@@ -279,7 +279,7 @@ const TradingJournal = () => {
                     <input
                       type="number"
                       name="quantity"
-                      value={tradeData.quantity}
+                      value={tradeData?.quantity}
                       onChange={handleTradeInputChange}
                       className="dark:bg-[#00114E] dark:placeholder:text-[#C9CFE5] placeholder:text-white bg-primary-light rounded-sm px-3 py-1 w-[60%]"
                       placeholder="Enter quantity"
@@ -365,7 +365,7 @@ const TradingJournal = () => {
                   <input
                     ref={endInputRef}
                     type="date"
-                    value={formatDateForInput(tempDates.endDate)}
+                    value={formatDateForInput(tempDates?.endDate)}
                     onChange={(e) => handleDateChange(e, "end")}
                     onClick={() => handleInputClick(endInputRef)}
                     className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%]"
@@ -438,21 +438,21 @@ const TradingJournal = () => {
                       </p>
                       <p>
                         {stat === "Total P&L"
-                          ? data.summary.totalProfitLoss
+                          ? data.summary?.totalProfitLoss
                           : stat === "Total Trades"
-                          ? data.summary.totalTrade
+                          ? data.summary?.totalTrade
                           : stat === "Biggest Win"
-                          ? data.summary.maxPL
+                          ? data.summary?.maxPL
                           : stat === "Biggest Loss"
-                          ? data.summary.minPL
+                          ? data.summary?.minPL
                           : stat === "Avg. Winner"
-                          ? data.summary.avgW
+                          ? data.summary?.avgW
                           : stat === "Avg. Loser"
-                          ? data.summary.avgL
+                          ? data.summary?.avgL
                           : stat === "Risk to Reward"
-                          ? data.summary.riskToReward
+                          ? data.summary?.riskToReward
                           : stat === "Avg. P&L"
-                          ? data.summary.averagePL
+                          ? data.summary?.averagePL
                           : ""}
                       </p>
                     </div>

@@ -4,8 +4,9 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FcCandleSticks } from "react-icons/fc";
 import Loader from "../../../Loader";
 import twoDayhl from "../../../../assets/Images/Dashboard/monryActionPage/twoDayHL.png";
+import Lock from "../../Lock";
 
-const TwoDayHLBreak = ({ data, loading, error }) => {
+const TwoDayHLBreak = ({ data, loading, error,isSubscribed }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrderChange, setSortOrderChange] = useState("desc");
   const [sortOrderType, setSortOrderType] = useState("desc");
@@ -111,7 +112,9 @@ const TwoDayHLBreak = ({ data, loading, error }) => {
           <div className="w-full rounded-lg dark:bg-db-secondary bg-db-secondary-light p-2 relative">
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden">
-              <table className="w-full">
+             {
+              isSubscribed === 'false' ? <Lock/>:(
+                <table className="w-full">
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
                   <tr className="dark:text-gray-300 text-gray-800">
@@ -203,6 +206,8 @@ const TwoDayHLBreak = ({ data, loading, error }) => {
                   )}
                 </tbody>
               </table>
+              )
+             }
             </div>
           </div>
         </div>

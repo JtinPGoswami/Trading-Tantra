@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Home, User, Settings, Menu, X } from "lucide-react";
 import logo from "../../assets/Images/logo.svg";
 import { RiLockFill } from "react-icons/ri";
@@ -18,17 +18,23 @@ import profit from "../../assets/Images/sidebar/profit.svg";
 import smartMoneyAction from "../../assets/Images/sidebar/smartMoneyAction.svg";
 import tradingJournal from "../../assets/Images/sidebar/tradingJournal.svg";
 import updates from "../../assets/Images/sidebar/updates.svg";
-import dashboard from '../../assets/Images/sidebar/dashboard.svg'
+import dashboard from "../../assets/Images/sidebar/dashboard.svg";
 
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBar } from "../../contexts/Redux/Slices/sidebarTogglerSlice";
 
 const Sidebar = () => {
+  const [isSubscribed, setIsSubscribed] = useState(null);
 
-  const isOpen = useSelector((state) => state.sidebar.sideBarToggler )
+  useEffect(() => {
+    const Subscribed = localStorage.getItem("isSubscribed");
+    setIsSubscribed(Subscribed);
+  }, []);
 
-  const dispatch = useDispatch()
+  const isOpen = useSelector((state) => state.sidebar.sideBarToggler);
+
+  const dispatch = useDispatch();
   // const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -68,33 +74,38 @@ const Sidebar = () => {
               <ul className="w-full space-y-5">
                 <NavItem
                   icon={dashboard}
-                  label='Dashboard'
+                  label="Dashboard"
                   isOpen={isOpen}
-                  path={'/dashboard'}
+                  path={"/dashboard"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={marketDepth}
                   label="AI Market Depth"
                   isOpen={isOpen}
                   path={"/dashboard/market-depth"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={smartMoneyAction}
                   label="Smart Money Action"
                   isOpen={isOpen}
                   path={"/dashboard/smart-action"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={AiSectorDepth}
                   label="AI Sector Depth"
                   isOpen={isOpen}
                   path={"/dashboard/sector-depth"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={AiSwing}
                   label="AI Swing Analysis"
                   isOpen={isOpen}
                   path={"/dashboard/swing-trades"}
+                  isSubscribed={isSubscribed}
                 />
                 {/* <NavItem
                   icon={AiOptionClock}
@@ -113,6 +124,7 @@ const Sidebar = () => {
                   label="FII / DII Data"
                   isOpen={isOpen}
                   path={"/dashboard/fii-dii"}
+                  isSubscribed={isSubscribed}
                 />
                 {/* <NavItem
                   icon={indexDepth}
@@ -125,48 +137,56 @@ const Sidebar = () => {
                   label="Trading Journal"
                   isOpen={isOpen}
                   path={"/dashboard/trading-journal"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={learnFromUs}
                   label="Learn From Us"
                   isOpen={isOpen}
                   path={"/dashboard/learn-from-us"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={ourStrategy}
                   label="Our Strategy"
                   isOpen={isOpen}
                   path={"/dashboard/our-strategy"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={financialCalender}
                   label="Financial Calendar"
                   isOpen={isOpen}
                   path={"/dashboard/calender"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={calculator}
                   label="Calculator"
                   isOpen={isOpen}
                   path={"/dashboard/calculator"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={feedback}
                   label="Feedback Form"
                   isOpen={isOpen}
                   path={"/dashboard/feedback"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={profit}
                   label="Profit"
                   isOpen={isOpen}
                   path={"/dashboard/profit"}
+                  isSubscribed={isSubscribed}
                 />
                 <NavItem
                   icon={updates}
                   label="Updates"
                   isOpen={isOpen}
                   path={"/dashboard/updates"}
+                  isSubscribed={isSubscribed}
                 />
               </ul>
             </nav>
@@ -191,7 +211,7 @@ const Sidebar = () => {
   );
 };
 
-const NavItem = ({ icon, label, isOpen, path }) => (
+const NavItem = ({ icon, label, isOpen, path, isSubscribed }) => (
   <NavLink
     to={path}
     className={({ isActive }) =>
@@ -213,7 +233,7 @@ const NavItem = ({ icon, label, isOpen, path }) => (
         {isOpen && <span>{label}</span>}
       </span>
 
-      {isOpen && (
+      {isSubscribed === "false" && isOpen && (
         <svg
           width="24"
           height="24"

@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 
 const verifyUser = async (req, res, next) => {
   try {
-    const token = req.cookies?.accessToken;
+    const token = req?.cookies?.accessToken;
 
     if (!token) {
       return res

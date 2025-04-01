@@ -25,8 +25,8 @@ router.post(
     check("password", "Password must be at least 6 characters").isLength({
       min: 6,
     }),
-    check("fName", "first name is required").not().isEmpty(),
-    check("lName", "last name is required").not().isEmpty(),
+    check("firstname", "first name is required").not().isEmpty(),
+    check("lastname", "last name is required").not().isEmpty(),
   ],
 
   signUp
@@ -172,17 +172,24 @@ router.get(
 
     res
       .status(200)
-      .cookie("accessToken", req.user.accessToken, options)
-      .cookie("refreshToken", req.user.refreshToken, options)
-      .json({
-        success: true,
-        token,
-        user: {
-          email: req.user.email,
-          displayName: req.user.displayName,
-        },
-      });
+      .cookie("accessToken", token, options)
+      .session('accessToken', token)
+      .redirect(`http://localhost:5173/dashboard`);
   }
 );
+
+router.get("/user", (req, res) => {
+  const token = req.cookies.accessToken;
+
+  if (!token) {
+    return res.status(401).json({ success: false, message: "No token found" });
+  }
+
+  try {
+    res.status(200).json({ success: true, token });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Invalid token" });
+  }
+});
 
 export default router;

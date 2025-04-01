@@ -6,7 +6,9 @@ const TestRazorpay = () => {
     try {
       const res = await axios.post(
         "http://localhost:3000/api/payment/createorder",
-        { planId: "67c5a9539a4c8ca255e18061" }
+        { planId: "67c5a9539a4c8ca255e18061" },{
+          withCredentials: true
+        }
       );
 
       if (!res) {

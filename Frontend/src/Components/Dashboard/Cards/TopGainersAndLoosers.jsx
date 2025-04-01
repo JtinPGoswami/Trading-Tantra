@@ -5,21 +5,37 @@ import { FcCandleSticks } from "react-icons/fc";
 import topGainers from "../../../assets/Images/Dashboard/marketdepthpage/topGainers.png";
 import topLoosers from "../../../assets/Images/Dashboard/marketdepthpage/topLoosers.png";
 import Loader from "../../Loader";
+import Lock from "../Lock";
 
-const TopGainers = ({ data, loading, error }) => {
+const TopGainers = ({ data, loading, error,isSubscribed }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc"); // desc by default
+  const [sortOrderChange, setSortOrderChange] = useState("desc");
+  const [sortOrderSymbol, setSortOrderSymbol] = useState("desc");
 
   // Update sortedData whenever data changes
   useEffect(() => {
     setSortedData(data || []);
   }, [data]);
-
+  console.log("emejheb", data);
   // Function to sort data
+
   const handleSort = () => {
     if (!sortedData?.length) return;
 
     const newOrder = sortOrder === "asc" ? "desc" : "asc";
+    const sorted = [...sortedData].sort((a, b) =>
+      newOrder === "asc" ? a.xElement - b.xElement : b.xElement - a.xElement
+    );
+
+    setSortedData(sorted);
+    setSortOrder(newOrder);
+  };
+
+  const handleSortByPercentageChange = () => {
+    if (!sortedData?.length) return;
+
+    const newOrder = sortOrderChange === "asc" ? "desc" : "asc";
     const sorted = [...sortedData].sort((a, b) =>
       newOrder === "asc"
         ? a.percentageChange - b.percentageChange
@@ -27,7 +43,21 @@ const TopGainers = ({ data, loading, error }) => {
     );
 
     setSortedData(sorted);
-    setSortOrder(newOrder);
+    setSortOrderChange(newOrder);
+  };
+
+  const handleSortBySymbol = () => {
+    if (!sortedData?.length) return;
+
+    const newOrder = sortOrderSymbol === "asc" ? "desc" : "asc";
+    const sorted = [...sortedData].sort((a, b) =>
+      newOrder === "asc"
+        ? a.stockSymbol.localeCompare(b.stockSymbol)
+        : b.stockSymbol.localeCompare(a.stockSymbol)
+    );
+
+    setSortedData(sorted);
+    setSortOrderSymbol(newOrder);
   };
 
   return (
@@ -64,33 +94,42 @@ const TopGainers = ({ data, loading, error }) => {
           <div className="w-full rounded-lg dark:bg-db-secondary bg-db-secondary-light p-2 relative">
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden">
-              <table className="w-full">
+             {
+              isSubscribed === 'false' ? <Lock/> : (
+                <table className="w-full">
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
                   <tr className="dark:text-gray-300 text-gray-800">
-                    <th className="flex justify-start items-center py-2">
-                      Symbol <MdOutlineKeyboardArrowDown />
+                    <th
+                      className="flex justify-start items-center py-2"
+                      onClick={handleSortBySymbol}
+                    >
+                      Symbol{" "}
+                      <MdOutlineKeyboardArrowDown
+                        className={sortOrderSymbol === "desc" ? "rotate-180" : ""}
+                      />
                     </th>
                     <th className="py-2">
                       <MdOutlineKeyboardArrowDown />
                     </th>
                     <th
                       className="py-2 flex items-center justify-center"
-                      onClick={handleSort}
+                      onClick={handleSortByPercentageChange}
                     >
                       %{" "}
                       <MdOutlineKeyboardArrowDown
-                        className={sortOrder === "asc" ? "rotate-180" : ""}
+                        className={sortOrderChange === "desc" ? "rotate-180" : ""}
                       />
                     </th>
                     <th className="text-right py-2 cursor-pointer">
                       <span
                         title="xElement"
                         className="flex items-center justify-end"
+                        onClick={handleSort}
                       >
                         xElem{" "}
                         <MdOutlineKeyboardArrowDown
-                          className={sortOrder === "asc" ? "rotate-180" : ""}
+                          className={sortOrder === "desc" ? "rotate-180" : ""}
                         />
                       </span>
                     </th>
@@ -106,7 +145,7 @@ const TopGainers = ({ data, loading, error }) => {
                     sortedData.map((stock, index) => (
                       <tr key={index}>
                         <td className="flex items-center font-medium text-xs gap-2 py-3">
-                          {stock?.stockName}
+                          {stock?.stockSymbol}
                         </td>
                         <td className="text-lg">
                           <FcCandleSticks />
@@ -123,7 +162,7 @@ const TopGainers = ({ data, loading, error }) => {
                           </span>
                         </td>
                         <td className="text-right text-xs">
-                          {stock?.xElement.toFixed(2)}
+                          {stock?.xElement?.toFixed(2)}
                         </td>
                       </tr>
                     ))
@@ -136,6 +175,8 @@ const TopGainers = ({ data, loading, error }) => {
                   )}
                 </tbody>
               </table>
+              )
+             }
             </div>
           </div>
         </div>
@@ -144,10 +185,11 @@ const TopGainers = ({ data, loading, error }) => {
   );
 };
 
-const TopLoosers = ({ data, loading, error }) => {
+const TopLoosers = ({ data, loading, error,isSubscribed }) => {
   const [sortedData, setSortedData] = useState([]);
-  const [sortOrder, setSortOrder] = useState("asc"); // desc by default
-
+  const [sortOrder, setSortOrder] = useState("desc"); // desc by default
+  const [sortOrderChange, setSortOrderChange] = useState("desc");
+  const [sortOrderSymbol, setSortOrderSymbol] = useState("desc");
   // Update sortedData whenever data changes
   useEffect(() => {
     setSortedData(data || []);
@@ -159,13 +201,39 @@ const TopLoosers = ({ data, loading, error }) => {
 
     const newOrder = sortOrder === "asc" ? "desc" : "asc";
     const sorted = [...sortedData].sort((a, b) =>
+      newOrder === "asc" ? a.xElement - b.xElement : b.xElement - a.xElement
+    );
+
+    setSortedData(sorted);
+    setSortOrder(newOrder);
+  };
+
+  const handleSortByPercentageChange = () => {
+    if (!sortedData?.length) return;
+
+    const newOrder = sortOrderChange === "asc" ? "desc" : "asc";
+    const sorted = [...sortedData].sort((a, b) =>
       newOrder === "asc"
         ? a.percentageChange - b.percentageChange
         : b.percentageChange - a.percentageChange
     );
 
     setSortedData(sorted);
-    setSortOrder(newOrder);
+    setSortOrderChange(newOrder);
+  };
+
+  const handleSortBySymbol = () => {
+    if (!sortedData?.length) return;
+
+    const newOrder = sortOrderSymbol === "asc" ? "desc" : "asc";
+    const sorted = [...sortedData].sort((a, b) =>
+      newOrder === "asc"
+        ? a.stockSymbol.localeCompare(b.stockSymbol)
+        : b.stockSymbol.localeCompare(a.stockSymbol)
+    );
+
+    setSortedData(sorted);
+    setSortOrderSymbol(newOrder);
   };
 
   return (
@@ -202,33 +270,36 @@ const TopLoosers = ({ data, loading, error }) => {
           <div className="w-full rounded-lg dark:bg-db-secondary bg-db-secondary-light p-2 relative">
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden">
-              <table className="w-full">
+              {
+                isSubscribed === 'false' ? <Lock/> : (
+                  <table className="w-full">
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
                   <tr className="dark:text-gray-300 text-gray-800">
-                    <th className="flex justify-start items-center py-2">
-                      Symbol <MdOutlineKeyboardArrowDown />
+                    <th className="flex justify-start items-center py-2" onClick={handleSortBySymbol}>
+                      Symbol <MdOutlineKeyboardArrowDown className={sortOrderSymbol === "desc" ? "rotate-180" : ""} />
                     </th>
                     <th className="py-2">
                       <MdOutlineKeyboardArrowDown />
                     </th>
                     <th
                       className="py-2 flex items-center justify-center"
-                      onClick={handleSort}
+                      onClick={handleSortByPercentageChange}
                     >
                       %{" "}
                       <MdOutlineKeyboardArrowDown
-                        className={sortOrder === "asc" ? "rotate-180" : ""}
+                        className={sortOrderChange === "asc" ? "rotate-180" : ""}
                       />
                     </th>
-                    <th className="text-right py-2 cursor-pointer">
+                    <th className=" py-2 cursor-pointer">
                       <span
                         title="xElement"
                         className="flex  items-center justify-end"
+                        onClick={handleSort}
                       >
                         xElem{" "}
                         <MdOutlineKeyboardArrowDown
-                          className={sortOrder === "asc" ? "rotate-180" : ""}
+                          className={sortOrder === "desc" ? "rotate-180" : ""}
                         />
                       </span>
                     </th>
@@ -244,7 +315,7 @@ const TopLoosers = ({ data, loading, error }) => {
                     sortedData.map((stock, index) => (
                       <tr key={index}>
                         <td className="flex items-center font-medium text-xs gap-2 py-3">
-                          {stock?.stockName}
+                          {stock?.stockSymbol}
                         </td>
                         <td className="text-lg">
                           <FcCandleSticks />
@@ -274,6 +345,8 @@ const TopLoosers = ({ data, loading, error }) => {
                   )}
                 </tbody>
               </table>
+                )
+              }
             </div>
           </div>
         </div>

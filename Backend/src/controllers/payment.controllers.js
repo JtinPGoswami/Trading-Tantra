@@ -28,7 +28,7 @@ const createOrder = async (req, res) => {
     }
 
     const payment = new Payment({
-      userId: "67c3491cb1908e10e1238b2e",
+      userId: req.user._id,
       amount: options.amount,
       currency: options.currency,
       orderId: order.id,

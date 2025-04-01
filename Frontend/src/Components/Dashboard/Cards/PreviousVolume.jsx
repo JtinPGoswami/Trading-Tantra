@@ -5,8 +5,9 @@ import { FcCandleSticks } from "react-icons/fc";
 import Loader from "../../Loader";
 
 import boost from "../../../assets/Images/Dashboard/marketdepthpage/boost.png";
+import Lock from "../Lock";
 
-export const PreviousVolume = ({ data, loading, error }) => {
+export const PreviousVolume = ({ data, loading, error,isSubscribed }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc"); // desc by default
   const [sortOrderChange, setSortOrderChange] = useState("desc");
@@ -90,7 +91,9 @@ export const PreviousVolume = ({ data, loading, error }) => {
           <div className="w-full rounded-lg dark:bg-db-secondary bg-db-secondary-light p-2 relative">
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden">
-              <table className="w-full">
+             {
+              isSubscribed === 'false' ? <Lock/> : (
+                <table className="w-full">
                 {/* Table Header */}
                 <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
                   <tr className="dark:text-gray-300 text-gray-800">
@@ -163,6 +166,8 @@ export const PreviousVolume = ({ data, loading, error }) => {
                   )}
                 </tbody>
               </table>
+              )
+             }
             </div>
           </div>
         </div>

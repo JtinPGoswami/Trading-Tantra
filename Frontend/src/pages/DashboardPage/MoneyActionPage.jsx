@@ -252,8 +252,14 @@ const MonryActionPage = () => {
   const [AIIntradayReversalDailyRes, setAIIntradayReversalDailyRes] = useState(
     []
   );
+
+  const [isSubscribed,setIsSubscribed] = useState(null)
   useEffect(() => {
+    const Subscribed = localStorage.getItem("isSubscribed");
+    setIsSubscribed(Subscribed)
+    
     // Flag to check if any data has arrived
+
     let hasDataArrived = false;
 
     let interval;
@@ -261,11 +267,11 @@ const MonryActionPage = () => {
     // socket.emit("getData");
 
     if (!isFetching) {
-      socket.emit("getSmartMoneyActionData");
+      socket.emit("getSmartMoneyActionData",{token});
       setIsFetching(true);
     } else {
       interval = setInterval(() => {
-        socket.emit("getSmartMoneyActionData");
+        socket.emit("getSmartMoneyActionData",{token});
       }, 50000);
     }
 
@@ -403,25 +409,31 @@ const MonryActionPage = () => {
         <AIMomentumCatcherFiveMins
           data={MomentumCatherFiveMinRes.updatedData}
           loading={loading}
+          isSubscibed={isSubscribed}
+          
         />
         <AIMomentumCatcherTenMins
           data={MomentumCatherTenMinRes.data}
           loading={loading}
+          isSubscribed={isSubscribed}
         />
         <AIIntradayReversalFiveMins
           data={AIIntradayReversalFiveMinsRes.data}
           loading={loading}
+          isSubscribed={isSubscribed}
         />
         <AIIntradayReversalDaily
           data={AIIntradayReversalDailyRes.data}
           loading={loading}
+          isSubscribed={isSubscribed}
         />
         <DailyRangeBreakout
           data={DailyRangeBreakoutRes.data}
           loading={loading}
+          isSubscribed={isSubscribed}
         />
-        <DayHighLowReversal data={dayHLReversalRes.data} loading={loading} />
-        <TwoDayHLBreak data={stocks} loading={loading} />
+        <DayHighLowReversal data={dayHLReversalRes.data} loading={loading}  isSubscribed={isSubscribed}/>
+        <TwoDayHLBreak data={stocks} loading={loading}  isSubscribed={isSubscribed} />
       </section>
     </>
   );

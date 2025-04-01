@@ -13,7 +13,7 @@ const signUp = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { email, password, fName, lName } = req.body;
+  const { email, password, firstname, lastname } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -30,8 +30,8 @@ const signUp = async (req, res) => {
     user = new User({
       email,
       password: hashedPassword,
-      firstName: fName,
-      lastName: lName,
+      firstName: firstname,
+      lastName: lastname,
       displayName,
     });
 
@@ -47,8 +47,8 @@ const signUp = async (req, res) => {
       newUser,
     });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ error: "Server error" });
+    // console.error("Login error:", error);
+    res.status(500).json({success: false, error:error.message });
   }
 };
 
@@ -62,7 +62,7 @@ const logIn = async (req, res) => {
 
   const { email, password } = req.body;
 
-  console.log(email, password);
+  // console.log(email, password);
   try {
     const user = await User.findOne({ email });
     if (!user) {

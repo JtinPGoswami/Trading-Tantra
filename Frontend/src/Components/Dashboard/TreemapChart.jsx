@@ -68,7 +68,7 @@ const TreemapChart = ({data}) => {
                   fontSize={width < 40 ? "10" : "12"} // Smaller font for small bars
                   fontWeight="bold"
                 >
-                  {width < 40 ? stock.name.charAt(0) : stock.name}
+                  {width < 70 ? stock.name.charAt(0) : stock.name}
                 </text>
               </g>
             );

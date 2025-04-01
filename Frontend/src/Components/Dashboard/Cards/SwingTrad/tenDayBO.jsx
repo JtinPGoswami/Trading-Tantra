@@ -4,8 +4,9 @@ import { FcCandleSticks } from "react-icons/fc";
 import Loader from "../../../Loader";
 import tendays from "../../../../assets/Images/Dashboard/AiSwingTradesPAge/tenDays.png";
 import { useEffect, useState } from "react";
+import Lock from "../../Lock";
 
-const TenDayBO = ({ data, loading, error }) => {
+const TenDayBO = ({ data, loading, error, isSubscribed }) => {
   console.log(data, "data");
   const [sortedData, setSortedData] = useState([]);
   const [sortOrderChange, setSortOrderChange] = useState("desc");
@@ -112,105 +113,114 @@ const TenDayBO = ({ data, loading, error }) => {
           <div className="w-full rounded-lg dark:bg-db-secondary bg-db-secondary-light p-2 relative">
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden">
-              <table className="w-full">
-                {/* Table Header */}
-                <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
-                  <tr className="dark:text-gray-300 text-gray-800">
-                    <th className="py-2 text-left" onClick={handleSortBySymbol}>
-                      Symbol{" "}
-                      <MdOutlineKeyboardArrowDown className="inline-flex" />
-                    </th>
-                    <th className="py-2 text-center">
-                      <MdOutlineKeyboardArrowDown />
-                    </th>
-                    <th
-                      className="py-2 text-center"
-                      onClick={handleSortByPercentageChange}
-                    >
-                      %{" "}
-                      <MdOutlineKeyboardArrowDown
-                        className={
-                          sortOrderChange === "desc"
-                            ? "rotate-180 inline-flex"
-                            : " inline-flex"
-                        }
-                      />
-                    </th>
-                    <th
-                      className="py-2 text-center "
-                      onClick={handleSortByDateTime}
-                    >
-                      Date{" "}
-                      <MdOutlineKeyboardArrowDown
-                        className={
-                          sortOrderDateTime === "desc"
-                            ? "rotate-180 inline-flex"
-                            : " inline-flex"
-                        }
-                      />
-                    </th>
-                    <th
-                      className="py-2 text-right cursor-pointer "
-                      onClick={handleSortByType}
-                    >
-                      <MdOutlineKeyboardArrowDown
-                        className={sortOrderType === "desc" ? "rotate-180" : ""}
-                      />
-                    </th>
-                  </tr>
-                  <tr className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#000A2D] via-[#002ED0] to-[#000A2D]" />
-                </thead>
+              {isSubscribed === "false" ? (
+                <Lock />
+              ) : (
+                <table className="w-full">
+                  {/* Table Header */}
+                  <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
+                    <tr className="dark:text-gray-300 text-gray-800">
+                      <th
+                        className="py-2 text-left"
+                        onClick={handleSortBySymbol}
+                      >
+                        Symbol{" "}
+                        <MdOutlineKeyboardArrowDown className="inline-flex" />
+                      </th>
+                      <th className="py-2 text-center">
+                        <MdOutlineKeyboardArrowDown />
+                      </th>
+                      <th
+                        className="py-2 text-center"
+                        onClick={handleSortByPercentageChange}
+                      >
+                        %{" "}
+                        <MdOutlineKeyboardArrowDown
+                          className={
+                            sortOrderChange === "desc"
+                              ? "rotate-180 inline-flex"
+                              : " inline-flex"
+                          }
+                        />
+                      </th>
+                      <th
+                        className="py-2 text-center "
+                        onClick={handleSortByDateTime}
+                      >
+                        Date{" "}
+                        <MdOutlineKeyboardArrowDown
+                          className={
+                            sortOrderDateTime === "desc"
+                              ? "rotate-180 inline-flex"
+                              : " inline-flex"
+                          }
+                        />
+                      </th>
+                      <th
+                        className="py-2 text-right cursor-pointer "
+                        onClick={handleSortByType}
+                      >
+                        <MdOutlineKeyboardArrowDown
+                          className={
+                            sortOrderType === "desc" ? "rotate-180" : ""
+                          }
+                        />
+                      </th>
+                    </tr>
+                    <tr className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#000A2D] via-[#002ED0] to-[#000A2D]" />
+                  </thead>
 
-                {/* Scrollable Table Body */}
-                <tbody>
-                  {loading && <Loader />}
-                  {error && <p>{error}</p>}
-                  {sortedData.length > 0 ? (
-                    sortedData.map((stock, index) => (
-                      <tr key={index}>
-                        <td className="py-3 text-left text-sm font-semibold">
-                          {stock?.UNDERLYING_SYMBOL}
-                        </td>
-                        <td className="text-lg text-center">
-                          <FcCandleSticks />
-                        </td>
-                        <td className="text-center">
-                          <span
-                            className={`${
-                              stock?.percentageChange >= 0
-                                ? "bg-green-600"
-                                : "bg-red-600"
-                            } px-2 py-1 text-xs rounded-full`}
-                          >
-                            {stock?.percentageChange}
-                            {/* {Number(stock?.percentageChange=0)?.toFixed(2)} */}
-                          </span>
-                        </td>
-                        <td className="text-xs text-center">
-                          {stock?.timestamp.split("T")[0]}
-                        </td>
-                        <td className="text-right text-sm">
-                          <span
-                            className={`px-2 py-[2px] rounded-3xl  text-white ${
-                              stock?.type === "bearish"
-                                ? "bg-red-600"
-                                : "bg-green-600"
-                            }`}
-                          >
-                            {stock?.type.toUpperCase()}
-                          </span>
+                  {/* Scrollable Table Body */}
+                  <tbody>
+                    {loading && <Loader />}
+                    {error && <p>{error}</p>}
+                    {sortedData.length > 0 ? (
+                      sortedData.map((stock, index) => (
+                        <tr key={index}>
+                          <td className="py-3 text-left text-sm font-semibold">
+                            {stock?.UNDERLYING_SYMBOL}
+                          </td>
+                          <td className="text-lg text-center">
+                            <FcCandleSticks />
+                          </td>
+                          <td className="text-center">
+                            <span
+                              className={`${
+                                stock?.percentageChange >= 0
+                                  ? "bg-green-600"
+                                  : "bg-red-600"
+                              } px-2 py-1 text-xs rounded-full`}
+                            >
+                              {stock?.percentageChange}
+                              {/* {Number(stock?.percentageChange=0)?.toFixed(2)} */}
+                            </span>
+                          </td>
+                          <td className="text-xs text-center">
+                            {stock?.timestamp.split("T")[0]}
+                          </td>
+                          <td className="text-right text-sm">
+                            <span
+                              className={`px-2 py-[2px] rounded-3xl  text-white ${
+                                stock?.type === "bearish"
+                                  ? "bg-red-600"
+                                  : "bg-green-600"
+                              }`}
+                            >
+                              {stock?.type.toUpperCase()}
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5" className="text-center py-4">
+                          {!loading && !error ? "No data available" : ""}
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="5" className="text-center py-4">
-                        {!loading && !error ? "No data available" : ""}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                    )}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>

@@ -29,6 +29,12 @@ const LoginPage = () => {
       navigate("/dashboard");
     }
   };
+
+  const handleGoolgleLogin = async () => {
+
+    window.location.href = "http://localhost:3000/api/auth/google"
+
+  }
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
       {loading && (
@@ -86,7 +92,7 @@ const LoginPage = () => {
 
           {error && (
             <p className="text-red-500 text-sm mb-2">
-              {error?.data?.error || error?.message}
+              {error?.data?.error || error?.message || error?.data?.message}
             </p>
           )}
           <button
@@ -96,6 +102,10 @@ const LoginPage = () => {
             Login
           </button>
         </form>
+
+        <div className="mt-2">
+          <button className="bg-[#2196F3] text-white rounded-lg py-2 text-lg font-semibold hover:bg-[#348dd6] transition duration-300 ease-in-out w-full" onClick={handleGoolgleLogin}>Login with Google</button>
+        </div>
 
         <div className="flex gap-1 items-center justify-center mt-2">
           <p className="text-gray-600">Don't have an Account?</p>
