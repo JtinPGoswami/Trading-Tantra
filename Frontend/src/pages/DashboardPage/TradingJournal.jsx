@@ -4,12 +4,13 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { FaInfoCircle, FaCalendarAlt } from "react-icons/fa";
 import useFetchData from "../../utils/useFetchData";
+import { tickerSymbol } from "../../utils/tickerSymbol";
 
 const TradingJournal = () => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth();
-
+  const [summary, setSummary] = useState([]);
   const startYear = currentMonth >= 3 ? currentYear : currentYear - 1;
   const startDate = new Date(startYear, 3, 1);
   // March 31 of next year
@@ -17,6 +18,8 @@ const TradingJournal = () => {
   console.log("endDate", endDate);
   const [dateRange, setDateRange] = useState({ startDate, endDate });
   const [tempDates, setTempDates] = useState({ startDate, endDate });
+  const [reload, setReload] = useState(true);
+
   const [selectedDate, setSelectedDate] = useState({
     day: "",
     month: "",
@@ -98,6 +101,7 @@ const TradingJournal = () => {
   const handleAddTradeSubmit = () => {
     setShowAddTrade(false);
     fetchData("auth/add-trade", "POST", tradeData);
+    setReload(!reload);
     // Note: No refetch here, so trades won’t update until page refresh
   };
 
@@ -144,14 +148,23 @@ const TradingJournal = () => {
     const formattedDate = formatDateRange(dateRange);
     console.log("Fetching trades on mount with:", formattedDate);
     fetchData("auth/get-trade", "POST", formattedDate);
-  }, []); // Empty dependency array to run only on mount
+
+    return () => {
+      console.log("Cleanup function executed"); // Optional: For debugging
+    };
+  }, [reload]);
 
   // Update addedTrades when data changes
   useEffect(() => {
     if (data?.trades) {
       console.log("Setting addedTrades:", data.trades);
       setAddedTrades(data.trades);
+      setSummary(data.summary);
     }
+
+    return () => {
+      console.log("Cleanup function executed"); // Optional: For debugging
+    };
   }, [data]);
 
   if (loading) return <div>Loading trades...</div>;
@@ -243,14 +256,19 @@ const TradingJournal = () => {
                   </div>
                   <div className="flex items-center mb-5 justify-between w-full">
                     <p className="text-lg font-normal">Symbol/Ticker* :</p>
-                    <input
-                      type="text"
+                    <select
                       name="symbol"
                       value={tradeData?.symbol}
                       onChange={handleTradeInputChange}
                       className="dark:bg-[#00114E] bg-primary-light rounded-sm px-3 py-1 w-[60%] dark:placeholder:text-[#C9CFE5] placeholder:text-white"
                       placeholder="Enter symbol/ticker"
-                    />
+                    >
+                      {tickerSymbol.map((symbol, index) => (
+                        <option key={index} value={symbol.proName}>
+                          {symbol.proName}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="flex items-center mb-5 justify-between w-full">
                     <p className="text-lg font-normal">Entry Price* :</p>

@@ -69,7 +69,7 @@ const AIContractions = ({ data, loading, error, isSubscribed }) => {
         {/* Header Section */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src={nr7} alt="Logo" className="w-20 h-20 object-contain" />
+            <img src={nr7} alt="Logo" className="w-12 h-12 object-contain" />
             <div>
               <h2 className="text-xl font-semibold flex items-center gap-2">
                 AI Contraction (TF-Daily)

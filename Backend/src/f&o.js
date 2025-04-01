@@ -12,7 +12,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "ABB",
     DISPLAY_NAME: "ABB",
     SYMBOL_NAME: "ABB INDIA LIMITED",
-    SECTOR: null,
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -44,7 +44,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "ADANIENSOL",
     DISPLAY_NAME: "Adani Energy Solutions",
     SYMBOL_NAME: "ADANI ENERGY SOLUTION LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -60,7 +60,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "ADANIGREEN",
     DISPLAY_NAME: "Adani Green Energy",
     SYMBOL_NAME: "ADANI GREEN ENERGY LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -92,7 +92,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "ANGELONE",
     DISPLAY_NAME: "Angel One",
     SYMBOL_NAME: "ANGEL ONE LIMITED",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -124,8 +124,8 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "ASHOKLEY",
     DISPLAY_NAME: "Ashok Leyland",
     SYMBOL_NAME: "ASHOK LEYLAND LTD",
-    SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    SECTOR: ["AUTO"],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "236",
@@ -141,14 +141,14 @@ export const stocksData = [
     DISPLAY_NAME: "Astral",
     SYMBOL_NAME: "ASTRAL LIMITED",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: null,
   },
   {
     SECURITY_ID: "6066",
     UNDERLYING_SYMBOL: "ATGL",
     DISPLAY_NAME: "Adani Total Gas",
     SYMBOL_NAME: "ADANI TOTAL GAS LIMITED",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -156,8 +156,8 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "AUBANK",
     DISPLAY_NAME: "AU Small Finance Bank",
     SYMBOL_NAME: "AU SMALL FINANCE BANK LTD",
-    SECTOR: ["BANK"],
-    INDEX: ["NIFTY MID "],
+    SECTOR: null,
+    INDEX: null,
   },
   {
     SECURITY_ID: "275",
@@ -165,7 +165,7 @@ export const stocksData = [
     DISPLAY_NAME: "Aurobindo Pharma",
     SYMBOL_NAME: "AUROBINDO PHARMA LTD",
     SECTOR: ["PHARMA"],
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "5900",
@@ -173,7 +173,7 @@ export const stocksData = [
     DISPLAY_NAME: "Axis Bank",
     SYMBOL_NAME: "AXIS BANK LIMITED",
     SECTOR: ["BANK", "FIN SERV", "PVT BANK"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "16669",
@@ -189,7 +189,7 @@ export const stocksData = [
     DISPLAY_NAME: "Bajaj Finserv",
     SYMBOL_NAME: "BAJAJ FINSERV LTD.",
     SECTOR: ["FIN SERV"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "317",
@@ -197,7 +197,7 @@ export const stocksData = [
     DISPLAY_NAME: "Bajaj Finance",
     SYMBOL_NAME: "BAJAJ FINANCE LIMITED",
     SECTOR: ["FIN SERV"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "335",
@@ -228,7 +228,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "BANKINDIA",
     DISPLAY_NAME: "Bank of India",
     SYMBOL_NAME: "BANK OF INDIA",
-    SECTOR: ["BANK", "PSU BANK"],
+    SECTOR: ["PSU BANK"],
     INDEX: null,
   },
   {
@@ -253,7 +253,7 @@ export const stocksData = [
     DISPLAY_NAME: "Bharat Forge",
     SYMBOL_NAME: "BHARAT FORGE LTD",
     SECTOR: ["AUTO"],
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "10604",
@@ -261,15 +261,15 @@ export const stocksData = [
     DISPLAY_NAME: "Bharti Airtel",
     SYMBOL_NAME: "BHARTI AIRTEL LIMITED",
     SECTOR: null,
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "438",
     UNDERLYING_SYMBOL: "BHEL",
     DISPLAY_NAME: "Bharat Heavy Electricals",
     SYMBOL_NAME: "BHEL",
-    SECTOR: null,
-    INDEX: null,
+    SECTOR: ["ENERGY"],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "11373",
@@ -292,7 +292,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "BPCL",
     DISPLAY_NAME: "Bharat Petroleum",
     SYMBOL_NAME: "BHARAT PETROLEUM CORP  LT",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: ["NIFTY 50"],
   },
   {
@@ -301,15 +301,15 @@ export const stocksData = [
     DISPLAY_NAME: "Britannia Industries",
     SYMBOL_NAME: "BRITANNIA INDUSTRIES LTD",
     SECTOR: ["FMCG"],
-    INDEX: ["NIFTY 50"],
+    INDEX: null,
   },
   {
     SECURITY_ID: "19585",
     UNDERLYING_SYMBOL: "BSE",
     DISPLAY_NAME: "BSE",
     SYMBOL_NAME: "BSE LIMITED",
-    SECTOR: ["FIN SERV"],
-    INDEX: null,
+    SECTOR: null,
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "6994",
@@ -324,7 +324,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "CAMS",
     DISPLAY_NAME: "Computer Age Management Services",
     SYMBOL_NAME: "COMPUTER AGE MNGT SER LTD",
-    SECTOR: ["IT"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -340,7 +340,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "CDSL",
     DISPLAY_NAME: "CDSL",
     SYMBOL_NAME: "CENTRAL DEPO SER (I) LTD",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -348,7 +348,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "CESC",
     DISPLAY_NAME: "CESC",
     SYMBOL_NAME: "CESC LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -356,7 +356,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "CGPOWER",
     DISPLAY_NAME: "CG Power & Industrial Solutions",
     SYMBOL_NAME: "CG POWER AND IND SOL LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -388,7 +388,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "COALINDIA",
     DISPLAY_NAME: "Coal India",
     SYMBOL_NAME: "COAL INDIA LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: ["NIFTY 50"],
   },
   {
@@ -397,7 +397,7 @@ export const stocksData = [
     DISPLAY_NAME: "Coforge",
     SYMBOL_NAME: "COFORGE LIMITED",
     SECTOR: ["IT"],
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "15141",
@@ -405,7 +405,7 @@ export const stocksData = [
     DISPLAY_NAME: "Colgate Palmolive",
     SYMBOL_NAME: "COLGATE PALMOLIVE LTD.",
     SECTOR: ["FMCG"],
-    INDEX: null,
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "4749",
@@ -413,7 +413,7 @@ export const stocksData = [
     DISPLAY_NAME: "Container Corporation of India",
     SYMBOL_NAME: "CONTAINER CORP OF IND LTD",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: null,
   },
   {
     SECURITY_ID: "17094",
@@ -429,14 +429,14 @@ export const stocksData = [
     DISPLAY_NAME: "Cummins",
     SYMBOL_NAME: "CUMMINS INDIA LTD",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "5748",
     UNDERLYING_SYMBOL: "CYIENT",
     DISPLAY_NAME: "Cyient",
     SYMBOL_NAME: "CYIENT LIMITED",
-    SECTOR: ["IT"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -477,7 +477,7 @@ export const stocksData = [
     DISPLAY_NAME: "Divis Laboratories",
     SYMBOL_NAME: "DIVI S LABORATORIES LTD",
     SECTOR: ["PHARMA"],
-    INDEX: ["NIFTY 50"],
+    INDEX: null,
   },
   {
     SECURITY_ID: "21690",
@@ -485,7 +485,7 @@ export const stocksData = [
     DISPLAY_NAME: "Dixon Technologies",
     SYMBOL_NAME: "DIXON TECHNO (INDIA) LTD",
     SECTOR: null,
-    INDEX: null,
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "14732",
@@ -500,7 +500,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "DMART",
     DISPLAY_NAME: "Avenue Supermarts DMart",
     SYMBOL_NAME: "AVENUE SUPERMARTS LIMITED",
-    SECTOR: ["FMCG"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -541,14 +541,14 @@ export const stocksData = [
     DISPLAY_NAME: "Federal Bank",
     SYMBOL_NAME: "FEDERAL BANK LTD",
     SECTOR: ["BANK", "PVT BANK"],
-    INDEX: ["NIFTY MID "],
+    INDEX: null,
   },
   {
     SECURITY_ID: "4717",
     UNDERLYING_SYMBOL: "GAIL",
     DISPLAY_NAME: "GAIL",
     SYMBOL_NAME: "GAIL (INDIA) LTD",
-    SECTOR: null,
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -564,7 +564,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "GMRAIRPORT",
     DISPLAY_NAME: "GMR Airports",
     SYMBOL_NAME: "GMR AIRPORTS LIMITED",
-    SECTOR: ["ENEGRY"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -581,7 +581,7 @@ export const stocksData = [
     DISPLAY_NAME: "Godrej Properties",
     SYMBOL_NAME: "GODREJ PROPERTIES LTD",
     SECTOR: ["REALTY"],
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "11872",
@@ -620,8 +620,8 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "HCLTECH",
     DISPLAY_NAME: "HCL Technologies",
     SYMBOL_NAME: "HCL TECHNOLOGIES LTD",
-    SECTOR: ["IT"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    SECTOR: null,
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "4244",
@@ -629,7 +629,7 @@ export const stocksData = [
     DISPLAY_NAME: "HDFC AMC",
     SYMBOL_NAME: "HDFC AMC LIMITED",
     SECTOR: ["FIN SERV"],
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "1333",
@@ -637,7 +637,7 @@ export const stocksData = [
     DISPLAY_NAME: "HDFC Bank",
     SYMBOL_NAME: "HDFC BANK LTD",
     SECTOR: ["BANK", "FIN SERV", "PVT BANK"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "467",
@@ -660,7 +660,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "HFCL",
     DISPLAY_NAME: "HFCL",
     SYMBOL_NAME: "HFCL LIMITED",
-    SECTOR: ["IT"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -684,8 +684,8 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "HINDPETRO",
     DISPLAY_NAME: "Hindustan Petroleum",
     SYMBOL_NAME: "HINDUSTAN PETROLEUM CORP",
-    SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    SECTOR: ["ENERGY"],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "1394",
@@ -693,14 +693,14 @@ export const stocksData = [
     DISPLAY_NAME: "Hindustan Unilever",
     SYMBOL_NAME: "HINDUSTAN UNILEVER LTD.",
     SECTOR: ["FMCG"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "20825",
     UNDERLYING_SYMBOL: "HUDCO",
     DISPLAY_NAME: "HUDCO",
     SYMBOL_NAME: "HSG & URBAN DEV CORPN LTD",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -709,7 +709,7 @@ export const stocksData = [
     DISPLAY_NAME: "ICICI Bank",
     SYMBOL_NAME: "ICICI BANK LTD.",
     SECTOR: ["BANK", "FIN SERV", "PVT BANK"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "21770",
@@ -733,15 +733,15 @@ export const stocksData = [
     DISPLAY_NAME: "Vodafone Idea",
     SYMBOL_NAME: "VODAFONE IDEA LIMITED",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "11184",
     UNDERLYING_SYMBOL: "IDFCFIRSTB",
     DISPLAY_NAME: "IDFC First Bank",
     SYMBOL_NAME: "IDFC FIRST BANK LIMITED",
-    SECTOR: ["PVT BANK"],
-    INDEX: ["NIFTY MID "],
+    SECTOR: ["BANK", "PVT BANK"],
+    INDEX: null,
   },
   {
     SECURITY_ID: "220",
@@ -756,7 +756,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "IGL",
     DISPLAY_NAME: "Indraprastha Gas",
     SYMBOL_NAME: "INDRAPRASTHA GAS LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -764,7 +764,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "IIFL",
     DISPLAY_NAME: "IIFL Finance",
     SYMBOL_NAME: "IIFL FINANCE LIMITED",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -773,14 +773,14 @@ export const stocksData = [
     DISPLAY_NAME: "Indian Hotels Company",
     SYMBOL_NAME: "THE INDIAN HOTELS CO. LTD",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: null,
   },
   {
     SECURITY_ID: "14309",
     UNDERLYING_SYMBOL: "INDIANB",
     DISPLAY_NAME: "Indian Bank",
     SYMBOL_NAME: "INDIAN BANK",
-    SECTOR: ["BANK", "PSU BANK"],
+    SECTOR: ["PSU BANK"],
     INDEX: null,
   },
   {
@@ -805,7 +805,7 @@ export const stocksData = [
     DISPLAY_NAME: "Indus Towers",
     SYMBOL_NAME: "INDUS TOWERS LIMITED",
     SECTOR: null,
-    INDEX: null,
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "1594",
@@ -813,22 +813,22 @@ export const stocksData = [
     DISPLAY_NAME: "Infosys",
     SYMBOL_NAME: "INFOSYS LIMITED",
     SECTOR: ["IT"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "1624",
     UNDERLYING_SYMBOL: "IOC",
     DISPLAY_NAME: "Indian Oil Corporation",
     SYMBOL_NAME: "INDIAN OIL CORP LTD",
-    SECTOR: ["ENEGRY"],
-    INDEX: null,
+    SECTOR: ["ENERGY"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "15313",
     UNDERLYING_SYMBOL: "IRB",
     DISPLAY_NAME: "IRB Infrastructure Developers",
     SYMBOL_NAME: "IRB INFRA DEV LTD.",
-    SECTOR: ["REALTY"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -844,7 +844,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "IREDA",
     DISPLAY_NAME: "IREDA",
     SYMBOL_NAME: "INDIAN RENEWABLE ENERGY",
-    SECTOR: ["ENEGRY"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -852,7 +852,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "IRFC",
     DISPLAY_NAME: "IRFC",
     SYMBOL_NAME: "INDIAN RAILWAY FIN CORP L",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -861,7 +861,7 @@ export const stocksData = [
     DISPLAY_NAME: "ITC",
     SYMBOL_NAME: "ITC LTD",
     SECTOR: ["FMCG"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "6733",
@@ -876,8 +876,8 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "JIOFIN",
     DISPLAY_NAME: "Jio Financial Services",
     SYMBOL_NAME: "JIO FIN SERVICES LTD",
-    SECTOR: ["FIN SERV"],
-    INDEX: null,
+    SECTOR: null,
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "13270",
@@ -892,7 +892,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "JSL",
     DISPLAY_NAME: "Jindal Stainless",
     SYMBOL_NAME: "JINDAL STAINLESS LIMITED",
-    SECTOR: ["METAL"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -900,7 +900,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "JSWENERGY",
     DISPLAY_NAME: "JSW Energy",
     SYMBOL_NAME: "JSW ENERGY LIMITED",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -909,7 +909,7 @@ export const stocksData = [
     DISPLAY_NAME: "JSW Steel",
     SYMBOL_NAME: "JSW STEEL LIMITED",
     SECTOR: ["METAL"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "18096",
@@ -917,14 +917,14 @@ export const stocksData = [
     DISPLAY_NAME: "Jubilant FoodWorks",
     SYMBOL_NAME: "JUBILANT FOODWORKS LTD",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: null,
   },
   {
     SECURITY_ID: "2955",
     UNDERLYING_SYMBOL: "KALYANKJIL",
     DISPLAY_NAME: "Kalyan Jewellers",
     SYMBOL_NAME: "KALYAN JEWELLERS IND LTD",
-    SECTOR: ["FMCG"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -941,14 +941,14 @@ export const stocksData = [
     DISPLAY_NAME: "Kotak Bank",
     SYMBOL_NAME: "KOTAK MAHINDRA BANK LTD",
     SECTOR: ["BANK", "FIN SERV", "PVT BANK"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "9683",
     UNDERLYING_SYMBOL: "KPITTECH",
     DISPLAY_NAME: "KPIT Technologies",
     SYMBOL_NAME: "KPIT TECHNOLOGIES LIMITED",
-    SECTOR: ["IT"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -972,7 +972,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "LICI",
     DISPLAY_NAME: "LIC of India",
     SYMBOL_NAME: "LIFE INSURA CORP OF INDIA",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -989,7 +989,7 @@ export const stocksData = [
     DISPLAY_NAME: "Larsen & Toubro",
     SYMBOL_NAME: "LARSEN & TOUBRO LTD.",
     SECTOR: null,
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "24948",
@@ -1005,7 +1005,7 @@ export const stocksData = [
     DISPLAY_NAME: "LTI Mindtree",
     SYMBOL_NAME: "LTIMINDTREE LIMITED",
     SECTOR: ["IT"],
-    INDEX: ["NIFTY 50"],
+    INDEX: null,
   },
   {
     SECURITY_ID: "18564",
@@ -1021,7 +1021,7 @@ export const stocksData = [
     DISPLAY_NAME: "Lupin",
     SYMBOL_NAME: "LUPIN LIMITED",
     SECTOR: ["PHARMA"],
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "2031",
@@ -1029,7 +1029,7 @@ export const stocksData = [
     DISPLAY_NAME: "Mahindra & Mahindra",
     SYMBOL_NAME: "MAHINDRA & MAHINDRA LTD",
     SECTOR: ["AUTO"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "13285",
@@ -1053,7 +1053,7 @@ export const stocksData = [
     DISPLAY_NAME: "Marico",
     SYMBOL_NAME: "MARICO LIMITED",
     SECTOR: ["FMCG"],
-    INDEX: null,
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "10999",
@@ -1061,22 +1061,22 @@ export const stocksData = [
     DISPLAY_NAME: "Maruti Suzuki",
     SYMBOL_NAME: "MARUTI SUZUKI INDIA LTD.",
     SECTOR: ["AUTO"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "22377",
     UNDERLYING_SYMBOL: "MAXHEALTH",
     DISPLAY_NAME: "Max Healthcare Institute",
     SYMBOL_NAME: "MAX HEALTHCARE INS LTD",
-    SECTOR: ["FIN SERV"],
-    INDEX: null,
+    SECTOR: null,
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "31181",
     UNDERLYING_SYMBOL: "MCX",
     DISPLAY_NAME: "MCX",
     SYMBOL_NAME: "MULTI COMMODITY EXCHANGE",
-    SECTOR: null,
+    SECTOR: ["FIN SERV"],
     INDEX: null,
   },
   {
@@ -1092,7 +1092,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "MGL",
     DISPLAY_NAME: "Mahanagar Gas",
     SYMBOL_NAME: "MAHANAGAR GAS LTD.",
-    SECTOR: null,
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -1109,7 +1109,7 @@ export const stocksData = [
     DISPLAY_NAME: "Mphasis",
     SYMBOL_NAME: "MPHASIS LIMITED",
     SECTOR: ["IT"],
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "2277",
@@ -1117,7 +1117,7 @@ export const stocksData = [
     DISPLAY_NAME: "MRF",
     SYMBOL_NAME: "MRF LTD",
     SECTOR: ["AUTO"],
-    INDEX: ["NIFTY MID "],
+    INDEX: null,
   },
   {
     SECURITY_ID: "23650",
@@ -1148,7 +1148,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "NBCC",
     DISPLAY_NAME: "NBCC",
     SYMBOL_NAME: "NBCC (INDIA) LIMITED",
-    SECTOR: ["REALTY"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1156,7 +1156,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "NCC",
     DISPLAY_NAME: "Nagarjuna Construction Company",
     SYMBOL_NAME: "NCC LIMITED",
-    SECTOR: ["REALTY"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1172,7 +1172,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "NHPC",
     DISPLAY_NAME: "NHPC",
     SYMBOL_NAME: "NHPC LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -1188,15 +1188,15 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "NTPC",
     DISPLAY_NAME: "NTPC",
     SYMBOL_NAME: "NTPC LTD",
-    SECTOR: ["ENEGRY"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    SECTOR: ["ENERGY"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "6545",
     UNDERLYING_SYMBOL: "NYKAA",
     DISPLAY_NAME: "Nykaa",
     SYMBOL_NAME: "FSN E COMMERCE VENTURES",
-    SECTOR: ["FMCG"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1213,14 +1213,14 @@ export const stocksData = [
     DISPLAY_NAME: "Oracle Financial Services Software",
     SYMBOL_NAME: "ORACLE FIN SERV SOFT LTD.",
     SECTOR: null,
-    INDEX: null,
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "17438",
     UNDERLYING_SYMBOL: "OIL",
     DISPLAY_NAME: "Oil India",
     SYMBOL_NAME: "OIL INDIA LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -1228,8 +1228,8 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "ONGC",
     DISPLAY_NAME: "Oil & Natural Gas Corporation",
     SYMBOL_NAME: "OIL AND NATURAL GAS CORP.",
-    SECTOR: ["ENEGRY"],
-    INDEX: ["NIFTY 50"],
+    SECTOR: ["ENERGY"],
+    INDEX: null,
   },
   {
     SECURITY_ID: "14413",
@@ -1237,14 +1237,14 @@ export const stocksData = [
     DISPLAY_NAME: "Page Industries",
     SYMBOL_NAME: "PAGE INDUSTRIES LTD",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: null,
   },
   {
     SECURITY_ID: "17029",
     UNDERLYING_SYMBOL: "PATANJALI",
     DISPLAY_NAME: "Patanjali Foods",
     SYMBOL_NAME: "PATANJALI FOODS LIMITED",
-    SECTOR: ["FMCG"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1252,7 +1252,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "PAYTM",
     DISPLAY_NAME: "One97 Communications",
     SYMBOL_NAME: "ONE 97 COMMUNICATIONS LTD",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1260,7 +1260,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "PEL",
     DISPLAY_NAME: "Piramal Enterprises",
     SYMBOL_NAME: "PIRAMAL ENTERPRISES LTD",
-    SECTOR: ["PHARMA"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1269,14 +1269,14 @@ export const stocksData = [
     DISPLAY_NAME: "Persistent Systems",
     SYMBOL_NAME: "PERSISTENT SYSTEMS LTD",
     SECTOR: ["IT"],
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "11351",
     UNDERLYING_SYMBOL: "PETRONET",
     DISPLAY_NAME: "Petronet LNG",
     SYMBOL_NAME: "PETRONET LNG LIMITED",
-    SECTOR: ["ENEGRY"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1309,7 +1309,7 @@ export const stocksData = [
     DISPLAY_NAME: "PI Industries",
     SYMBOL_NAME: "PI INDUSTRIES LTD",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: null,
   },
   {
     SECURITY_ID: "10666",
@@ -1324,7 +1324,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "POLICYBZR",
     DISPLAY_NAME: "PB FinTech",
     SYMBOL_NAME: "PB FINTECH LIMITED",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1333,14 +1333,14 @@ export const stocksData = [
     DISPLAY_NAME: "Polycab",
     SYMBOL_NAME: "POLYCAB INDIA LIMITED",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "11403",
     UNDERLYING_SYMBOL: "POONAWALLA",
     DISPLAY_NAME: "Poonawalla Fincorp",
     SYMBOL_NAME: "POONAWALLA FINCORP LTD",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1348,7 +1348,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "POWERGRID",
     DISPLAY_NAME: "Power Grid Corporation of India",
     SYMBOL_NAME: "POWER GRID CORP. LTD.",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: ["NIFTY 50", "SENSEX"],
   },
   {
@@ -1380,7 +1380,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "RECLTD",
     DISPLAY_NAME: "Rural Electrification Corporation",
     SYMBOL_NAME: "REC LIMITED",
-    SECTOR: ["FIN SERV"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1388,8 +1388,8 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "RELIANCE",
     DISPLAY_NAME: "Reliance Industries",
     SYMBOL_NAME: "RELIANCE INDUSTRIES LTD",
-    SECTOR: ["ENEGRY"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    SECTOR: ["ENERGY"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "2963",
@@ -1421,7 +1421,7 @@ export const stocksData = [
     DISPLAY_NAME: "State Bank of India",
     SYMBOL_NAME: "STATE BANK OF INDIA",
     SECTOR: ["BANK", "FIN SERV", "PSU BANK"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "3103",
@@ -1444,7 +1444,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "SIEMENS",
     DISPLAY_NAME: "Siemens",
     SYMBOL_NAME: "SIEMENS LTD",
-    SECTOR: null,
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -1452,7 +1452,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "SJVN",
     DISPLAY_NAME: "SJVN",
     SYMBOL_NAME: "SJVN LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -1460,7 +1460,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "SOLARINDS",
     DISPLAY_NAME: "Solar Industries",
     SYMBOL_NAME: "SOLAR INDUSTRIES (I) LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1468,7 +1468,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "SONACOMS",
     DISPLAY_NAME: "Sona BLW Precision Forgings",
     SYMBOL_NAME: "SONA BLW PRECISION FRGS L",
-    SECTOR: ["AUTO"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1477,7 +1477,7 @@ export const stocksData = [
     DISPLAY_NAME: "SRF",
     SYMBOL_NAME: "SRF LTD",
     SECTOR: null,
-    INDEX: null,
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "3351",
@@ -1485,14 +1485,14 @@ export const stocksData = [
     DISPLAY_NAME: "Sun Pharmaceutical",
     SYMBOL_NAME: "SUN PHARMACEUTICAL IND L",
     SECTOR: ["PHARMA"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "3363",
     UNDERLYING_SYMBOL: "SUPREMEIND",
     DISPLAY_NAME: "Supreme Industries",
     SYMBOL_NAME: "SUPREME INDUSTRIES LTD",
-    SECTOR: ["FMCG"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1500,7 +1500,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "SYNGENE",
     DISPLAY_NAME: "Syngene International",
     SYMBOL_NAME: "SYNGENE INTERNATIONAL LTD",
-    SECTOR: ["PHARMA"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1532,7 +1532,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "TATAELXSI",
     DISPLAY_NAME: "Tata Elxsi",
     SYMBOL_NAME: "TATA ELXSI LIMITED",
-    SECTOR: ["IT"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1548,7 +1548,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "TATAPOWER",
     DISPLAY_NAME: "Tata Power",
     SYMBOL_NAME: "TATA POWER CO LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -1564,7 +1564,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "TATATECH",
     DISPLAY_NAME: "Tata Technologies",
     SYMBOL_NAME: "TATA TECHNOLOGIES LIMITED",
-    SECTOR: ["IT"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1573,7 +1573,7 @@ export const stocksData = [
     DISPLAY_NAME: "Tata Consultancy Services",
     SYMBOL_NAME: "TATA CONSULTANCY SERV LT",
     SECTOR: ["IT"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "13538",
@@ -1588,7 +1588,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "TIINDIA",
     DISPLAY_NAME: "Tube Investment",
     SYMBOL_NAME: "TUBE INVEST OF INDIA LTD",
-    SECTOR: ["AUTO"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1596,7 +1596,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "TITAGARH",
     DISPLAY_NAME: "Titagarh Rail Systems",
     SYMBOL_NAME: "TITAGARH RAIL SYSTEMS LTD",
-    SECTOR: ["AUTO"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1620,7 +1620,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "TORNTPOWER",
     DISPLAY_NAME: "Torrent Power",
     SYMBOL_NAME: "TORRENT POWER LTD",
-    SECTOR: ["ENEGRY"],
+    SECTOR: ["ENERGY"],
     INDEX: null,
   },
   {
@@ -1629,7 +1629,7 @@ export const stocksData = [
     DISPLAY_NAME: "Trent",
     SYMBOL_NAME: "TRENT LTD",
     SECTOR: null,
-    INDEX: null,
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "8479",
@@ -1645,14 +1645,14 @@ export const stocksData = [
     DISPLAY_NAME: "UltraTech Cement",
     SYMBOL_NAME: "ULTRATECH CEMENT LIMITED",
     SECTOR: ["CEMENT"],
-    INDEX: ["NIFTY 50", "SENSEX"],
+    INDEX: ["NIFTY 50"],
   },
   {
     SECURITY_ID: "10753",
     UNDERLYING_SYMBOL: "UNIONBANK",
     DISPLAY_NAME: "Union Bank of India",
     SYMBOL_NAME: "UNION BANK OF INDIA",
-    SECTOR: ["BANK", "PSU BANK"],
+    SECTOR: ["PSU BANK"],
     INDEX: null,
   },
   {
@@ -1669,7 +1669,7 @@ export const stocksData = [
     DISPLAY_NAME: "UPL",
     SYMBOL_NAME: "UPL LIMITED",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: null,
   },
   {
     SECURITY_ID: "18921",
@@ -1684,7 +1684,7 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "VEDL",
     DISPLAY_NAME: "Vedanta",
     SYMBOL_NAME: "VEDANTA LIMITED",
-    SECTOR: ["METAL"],
+    SECTOR: null,
     INDEX: null,
   },
   {
@@ -1693,7 +1693,7 @@ export const stocksData = [
     DISPLAY_NAME: "Voltas",
     SYMBOL_NAME: "VOLTAS LTD",
     SECTOR: null,
-    INDEX: ["NIFTY MID "],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "3787",
@@ -1708,16 +1708,16 @@ export const stocksData = [
     UNDERLYING_SYMBOL: "YESBANK",
     DISPLAY_NAME: "Yes Bank",
     SYMBOL_NAME: "YES BANK LIMITED",
-    SECTOR: null,
-    INDEX: null,
+    SECTOR: ["PVT BANK"],
+    INDEX: ["NIFTY MID"],
   },
   {
     SECURITY_ID: "5097",
     UNDERLYING_SYMBOL: "ZOMATO",
     DISPLAY_NAME: "Zomato",
     SYMBOL_NAME: "ZOMATO LIMITED",
-    SECTOR: ["FMCG"],
-    INDEX: null,
+    SECTOR: null,
+    INDEX: ["NIFTY 50", "SENSEX"],
   },
   {
     SECURITY_ID: "7929",

@@ -87,7 +87,7 @@ const AICandleReversal = ({ data, loading, error,isSubscribed }) => {
             <img
               src={reversalRader}
               alt="Logo"
-              className="w-20 h-20 object-contain"
+              className="w-12 h-12 object-contain"
             />
             <div>
               <h2 className="text-xl font-semibold flex items-center gap-2">

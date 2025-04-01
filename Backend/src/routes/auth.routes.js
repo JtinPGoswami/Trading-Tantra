@@ -147,7 +147,10 @@ router.post(
 //gooole auth
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+    accessType: "offline",
+  })
 );
 
 router.get(
@@ -163,7 +166,7 @@ router.get(
         expiresIn: "1h",
       }
     );
-
+    console.log(req.user);
     const options = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -173,22 +176,14 @@ router.get(
     res
       .status(200)
       .cookie("accessToken", token, options)
-      .session('accessToken', token)
-      .redirect(`http://localhost:5173/dashboard`);
-  }
-);
-
-router.get("/user", (req, res) => {
-  const token = req.cookies.accessToken;
-
-  if (!token) {
-    return res.status(401).json({ success: false, message: "No token found" });
-  }
-
-  try {
-    res.status(200).json({ success: true, token });
-  } catch (error) {
-    res.status(401).json({ success: false, message: "Invalid token" });
+      .json({
+        success: true,
+        token,
+        user: {
+          email: req.user.email,
+          displayName: req.user.displayName,
+        },
+      });
   }
 });
 

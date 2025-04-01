@@ -24,7 +24,7 @@ import {
   tenDayRangeBreakers,
 } from "../controllers/swingAnalysis.controllers.js";
 import checkSubscription from "../middlewares/checkSubscription.js";
-import { check } from "express-validator";
+
 
 let io;
 
