@@ -1,10 +1,34 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import folderimg from "../../assets/Images/Dashboard/FeedbackImg/folderImg.png";
 import { CiUser } from "react-icons/ci";
 import { MdOutlinePhone } from "react-icons/md";
+import useFetchData from "../../utils/useFetchData";
 
 const FeedBackPage = () => {
   const fileInputRef = useRef(null);
+
+  const { data, loading, error, fetchData } = useFetchData();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    number: "",
+    category: "",
+    message: "",
+  });
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    console.log('form dtaa', formData)
+
+    await fetchData("feedback", "POST", formData);
+
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleClick = () => {
     fileInputRef.current.click();
   };
@@ -13,7 +37,7 @@ const FeedBackPage = () => {
     <div className="dark:bg-db-primary bg-db-primary-light  rounded-2xl p-5 space-y-3 w-full md:w-4/5  lg:w-1/2 md:mx-auto mt-10">
       <h4 className="text-3xl font-medium font-Inter ">Feed Back</h4>
       <div className="w-full mt-10">
-        <form className="flex items-center justify-between flex-wrap w-full space-y-4">
+        <form className="flex items-center justify-between flex-wrap w-full space-y-4" onSubmit={handleFormSubmit}>
           <div className="flex flex-col items-start dark:text-[#C9CFE5] text-gray-800 w-full space-y-2">
             <label className="font-Inter  text-sm font-light" htmlFor="name">
               Name
@@ -23,6 +47,8 @@ const FeedBackPage = () => {
               <input
                 type="text"
                 placeholder="Jhon"
+                value={formData.name}
+                onChange={handleChange}
                 name="name"
                 className="outline-none border-none bg-transparent w-full"
               />
@@ -37,7 +63,11 @@ const FeedBackPage = () => {
               <input
                 type="text"
                 placeholder="+91 xxxx-xxxx-xx"
-                name="phone"
+                name="number"
+                value={formData.number}
+                onChange={handleChange}
+                maxLength={10}
+                minLength={10}
                 className="outline-none border-none bg-transparent w-full"
               />
             </div>
@@ -54,6 +84,8 @@ const FeedBackPage = () => {
                 type="text"
                 placeholder="Select Category"
                 name="category"
+                onChange={handleChange}
+                value={formData.category}
                 className="outline-none border-none bg-transparent w-full"
               />
             </div>
@@ -89,15 +121,17 @@ const FeedBackPage = () => {
             </label>
             <div className="flex items-center gap-2 dark:placeholder:text-[#C9CFE5]  dark:bg-[#151B2D] border dark:border-none border-black rounded-lg px-2 w-full py-2">
               <textarea
-                name="feedback"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 placeholder="Enter Your Feedback Here"
                 className="outline-none border-none bg-transparent w-full resize-none h-30"
               ></textarea>
             </div>
           </div>
-          {/* <button className="w-full bg-primary mt-5 py-5 rounded-lg">
-                   Send message
-                 </button> */}
+          <button className="w-full bg-primary mt-5 py-5 rounded-lg" type="submit">
+            Send message
+          </button>
         </form>
       </div>
     </div>

@@ -364,7 +364,7 @@ const MarketDepthPage = () => {
     };
 
     const handlePreviousDaysVolume = (data) => {
-      console.log("boommmm", data);
+      // console.log("boommmm", data);
       setPreviousDaysVolumeResponse(data?.combinedData);
       hasDataArrived = true;
       setLoading(false);

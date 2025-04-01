@@ -10,7 +10,7 @@ import http from "http";
 import "./config/passport.js";
 
 import stocksRoutes from "./routes/stock.routes.js";
-
+import feedbackRoute from './routes/feedback.route.js'
 import {
   getDayLowBreak,
   getDayHighBreak,
@@ -70,8 +70,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api", stocksRoutes);
-
-const socket = getSocketInstance();
+app.use('/api',feedbackRoute)
+ 
 
 // async function sendData() {
 //   try {

@@ -96,30 +96,30 @@ const Sidebar = () => {
                   isOpen={isOpen}
                   path={"/dashboard/swing-trades"}
                 />
-                <NavItem
+                {/* <NavItem
                   icon={AiOptionClock}
                   label="Option Clock"
                   isOpen={isOpen}
                   path={"/dashboard/option-clock"}
-                />
-                <NavItem
+                /> */}
+                {/* <NavItem
                   icon={AiOptionData}
                   label="AI Option Data"
                   isOpen={isOpen}
                   path={"/dashboard/option-data"}
-                />
+                /> */}
                 <NavItem
                   icon={FiiDii}
                   label="FII / DII Data"
                   isOpen={isOpen}
                   path={"/dashboard/fii-dii"}
                 />
-                <NavItem
+                {/* <NavItem
                   icon={indexDepth}
                   label="Index Depth"
                   isOpen={isOpen}
                   path={"/dashboard/index-depth"}
-                />
+                /> */}
                 <NavItem
                   icon={tradingJournal}
                   label="Trading Journal"
