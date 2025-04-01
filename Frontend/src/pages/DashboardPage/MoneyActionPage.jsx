@@ -409,7 +409,7 @@ const MonryActionPage = () => {
         <AIMomentumCatcherFiveMins
           data={MomentumCatherFiveMinRes.updatedData}
           loading={loading}
-          isSubscibed={isSubscribed}
+          isSubscribed={isSubscribed}
           
         />
         <AIMomentumCatcherTenMins

@@ -148,10 +148,10 @@ const RegisterPage = () => {
           >
             Register
           </button>
-
+{/* 
           <button className="bg-[#2196F3] text-white rounded-lg py-2 text-lg font-semibold hover:bg-[#348dd6] transition duration-300 ease-in-out mt-2">
             Google Signup
-          </button>
+          </button> */}
         </form>
 
         <div className="flex gap-1 items-center justify-center mt-2">

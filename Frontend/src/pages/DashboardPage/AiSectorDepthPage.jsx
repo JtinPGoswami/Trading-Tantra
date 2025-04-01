@@ -8,6 +8,7 @@ import StockCard from "../../Components/Dashboard/StockCard";
 import TreeGrpahsGrid from "../../Components/Dashboard/TreeGraphsGrid";
 import { io } from "socket.io-client";
 import Loader from "../../Components/Loader";
+import Lock from "../../Components/Dashboard/Lock";
 const AiSectorDepthPage = () => {
   const stockDataList = [
     {
@@ -403,46 +404,43 @@ const AiSectorDepthPage = () => {
   ];
 
   const token = localStorage.getItem("token");
-  const socket = io("http://localhost:3000",{
-    auth: {token}
+  const socket = io("http://localhost:3000", {
+    auth: { token },
   });
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sectorWiseData, setSectorWiseData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
-   
 
- 
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
-    let hasDataArrived = false;
+    const Subscribed = localStorage.getItem("isSubscribed");
+    setIsSubscribed(Subscribed);
 
+    let hasDataArrived = false;
 
     let interval;
 
     // socket.emit("getData");
 
-
     if (!isFetching) {
-      socket.emit("getSectorData",{token});
+      socket.emit("getSectorData", { token });
 
-      setIsFetching(true)
-
+      setIsFetching(true);
     } else {
-     interval =  setInterval(() => {
-        socket.emit("getSectorData",{token});
+      interval = setInterval(() => {
+        socket.emit("getSectorData", { token });
       }, 50000);
-
-     
     }
 
     // Define event handler
     const handleSectorScope = (data) => {
       setData(data);
-      console.log('data',data)
+      console.log("data", data);
       setSectorWiseData(data?.sectorWiseData);
-      console.log('sectorwise data',data?.sectorWiseData)
+      console.log("sectorwise data", data?.sectorWiseData);
       hasDataArrived = true;
       setLoading(false);
     };
@@ -463,7 +461,6 @@ const AiSectorDepthPage = () => {
       socket.off("sectorScope", handleSectorScope);
       // clearTimeout(timeout);
       clearInterval(interval);
-
     };
   }, []);
 
@@ -518,7 +515,11 @@ const AiSectorDepthPage = () => {
               </div>
             ))}
           </div> */}
-          {loading ? <Loader/> : <TreeGrpahsGrid data={data} />}
+          {isSubscribed === "false" ? (
+            <div className="w-full h-[300px]"><Lock /></div>
+          ) : (
+            <>{loading ? <Loader /> : <TreeGrpahsGrid data={data} />}</>
+          )}
         </div>
       </section>
 
@@ -534,8 +535,14 @@ const AiSectorDepthPage = () => {
               How to use <FaPlayCircle className="text-[#0256F5]" />
             </span>
           </div>
-          <div className="w-fullbg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
-            {loading ? <Loader /> : <AISectorChart data={sectorWiseData} />}
+          <div className="w-full bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
+            {isSubscribed === "false" ? (
+              <div className="w-full h-[300px]"><Lock /></div>
+            ) : (
+              <>
+                {loading ? <Loader /> : <AISectorChart data={sectorWiseData} />}
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -543,19 +550,25 @@ const AiSectorDepthPage = () => {
       {/* shares card */}
 
       <section className="mt-8">
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
-          {Object.entries(sectorWiseData)
-            .filter(([sector]) => sector !== "Uncategorized") // Filter out 'Uncategorized' before mapping
-            .map(([sector, values], index) => (
-              <StockCard
-                key={index}
-                title={sector}
-                data={values}
-                loading={loading}
-                error={false}
-              />
-            ))}
-        </div>
+        {isSubscribed === "false" ? (
+           ''
+        ) : (
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            <>
+              {Object.entries(sectorWiseData)
+                .filter(([sector]) => sector !== "Uncategorized") // Filter out 'Uncategorized' before mapping
+                .map(([sector, values], index) => (
+                  <StockCard
+                    key={index}
+                    title={sector}
+                    data={values}
+                    loading={loading}
+                    error={false}
+                  />
+                ))}
+            </>
+          </div>
+        )}
       </section>
     </>
   );

@@ -103,13 +103,13 @@ const LoginPage = () => {
           </button>
         </form>
 
-        <div className="mt-2">
+        {/* <div className="mt-2">
           <button className="bg-[#2196F3] text-white rounded-lg py-2 text-lg font-semibold hover:bg-[#348dd6] transition duration-300 ease-in-out w-full" onClick={handleGoolgleLogin}>Login with Google</button>
-        </div>
+        </div> */}
 
         <div className="flex gap-1 items-center justify-center mt-2">
           <p className="text-gray-600">Don't have an Account?</p>
-          <Link to="/register">
+          <Link to="/signup">
             <span className="text-[#2196F3] underline font-semibold">
               Register
             </span>

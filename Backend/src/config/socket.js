@@ -25,7 +25,6 @@ import {
 } from "../controllers/swingAnalysis.controllers.js";
 import checkSubscription from "../middlewares/checkSubscription.js";
 
-
 let io;
 
 async function sendData() {
@@ -200,35 +199,29 @@ const initializeServer = (server) => {
     console.log("a user connected", socket.id);
 
     socket.on("getMarketDepthData", async () => {
-       
-        console.log("inside get data");
-        await sendData();
-      
+      console.log("inside get data");
+      await sendData();
+
       // console.log("user disconnected",socket.id);
     });
 
     socket.on("getSectorData", async () => {
-      
-        console.log("inside get data");
-        await sendSectorData();
- 
+      console.log("inside get data");
+      await sendSectorData();
+
       // console.log("user disconnected",socket.id);
     });
 
     socket.on("getSmartMoneyActionData", async () => {
-      checkSubscription(socket, async () => {
-        console.log("inside get data");
-        await sendSmartMoneyActionData();
-      });
+      console.log("inside get data");
+      await sendSmartMoneyActionData();
 
       // console.log("user disconnected",socket.id);
     });
     socket.on("getSwingData", async () => {
-      checkSubscription(socket, async () => {
-        console.log("inside get data");
+      console.log("inside get data");
 
-        await sendSwingData();
-      });
+      await sendSwingData();
 
       // console.log("user disconnected",socket.id);
     });
