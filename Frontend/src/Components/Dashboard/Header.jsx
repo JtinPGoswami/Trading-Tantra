@@ -12,7 +12,7 @@ import hamburger from "../../assets/Images/hamburger.svg";
 import { toggleSideBar } from "../../contexts/Redux/Slices/sidebarTogglerSlice";
 import myPlan from "../../assets/Images/Dashboard/HeaderImg/myPlan.svg";
 import myProfile from "../../assets/Images/Dashboard/HeaderImg/myProfile.svg";
-import feedBack from "../../assets/Images/Dashboard/HeaderImg/feedback.svg";
+import feedBack from "../../assets/Images/Dashboard/HeaderImg/feedBack.svg";
 import logout from "../../assets/Images/Dashboard/HeaderImg/logout.svg";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -26,7 +26,7 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
-  const {logout} = useAuth();
+  const { logout } = useAuth();
 
   const themeToggler = () => {
     if (isDarkMode === "dark") {
