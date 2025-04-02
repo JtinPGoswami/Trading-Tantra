@@ -10,7 +10,7 @@ import http from "http";
 import "./config/passport.js";
 
 import stocksRoutes from "./routes/stock.routes.js";
-import feedbackRoute from './routes/feedback.route.js';
+import feedbackRoute from "./routes/feedback.route.js";
 import {
   getDayLowBreak,
   getDayHighBreak,
@@ -20,7 +20,7 @@ import {
   sectorStockData,
 } from "./controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./config/socket.js";
- import holidayJob from "./jobs/holiday.job.js";
+import holidayJob from "./jobs/holiday.job.js";
 //  import scheduleMarketJob from "./jobs/liveMarket.job.js";
 import { send } from "process";
 import {
@@ -57,7 +57,7 @@ initializeServer(server);
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://trading-tantra-8trv.vercel.app",
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -71,9 +71,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api", stocksRoutes);
-app.use('/api',feedbackRoute)
-app.use('/api',isSubscribedRoute)
- 
+app.use("/api", feedbackRoute);
+app.use("/api", isSubscribedRoute);
 
 // async function sendData() {
 //   try {

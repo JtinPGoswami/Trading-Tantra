@@ -404,7 +404,7 @@ const AiSectorDepthPage = () => {
   ];
 
   const token = localStorage.getItem("token");
-  const socket = io("http://localhost:3000", {
+  const socket = io("https://api.tradingtantra.in", {
     auth: { token },
   });
 
@@ -516,7 +516,9 @@ const AiSectorDepthPage = () => {
             ))}
           </div> */}
           {isSubscribed === "false" ? (
-            <div className="w-full h-[300px]"><Lock /></div>
+            <div className="w-full h-[300px]">
+              <Lock />
+            </div>
           ) : (
             <>{loading ? <Loader /> : <TreeGrpahsGrid data={data} />}</>
           )}
@@ -537,7 +539,9 @@ const AiSectorDepthPage = () => {
           </div>
           <div className="w-full bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
             {isSubscribed === "false" ? (
-              <div className="w-full h-[300px]"><Lock /></div>
+              <div className="w-full h-[300px]">
+                <Lock />
+              </div>
             ) : (
               <>
                 {loading ? <Loader /> : <AISectorChart data={sectorWiseData} />}
@@ -551,7 +555,7 @@ const AiSectorDepthPage = () => {
 
       <section className="mt-8">
         {isSubscribed === "false" ? (
-           ''
+          ""
         ) : (
           <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
             <>

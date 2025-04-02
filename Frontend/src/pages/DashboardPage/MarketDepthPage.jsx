@@ -27,7 +27,7 @@ import { PreviousVolume } from "../../Components/Dashboard/Cards/PreviousVolume"
 
 const token = localStorage.getItem("token");
 
-const socket = io("http://localhost:3000", {
+const socket = io("https://api.tradingtantra.in", {
   auth: { token },
 });
 
@@ -310,13 +310,13 @@ const MarketDepthPage = () => {
   const [loading, setLoading] = useState(null);
   const [error, seterror] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const [isSubscribed,setIsSubscribed] = useState(null)
+  const [isSubscribed, setIsSubscribed] = useState(null);
 
   const token = localStorage.getItem("token");
   useEffect(() => {
     const Subscribed = localStorage.getItem("isSubscribed");
-    setIsSubscribed(Subscribed)
-    
+    setIsSubscribed(Subscribed);
+
     setLoading(true);
 
     //trigger socket

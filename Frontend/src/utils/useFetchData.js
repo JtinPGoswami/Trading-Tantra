@@ -13,24 +13,26 @@ const useFetchData = () => {
       let response;
 
       if (method == "GET") {
-        response = await axios.get(`http://localhost:3000/api/${url}`,{withCredentials:true});
+        response = await axios.get(`https://api.tradingtantra.in/api/${url}`, {
+          withCredentials: true,
+        });
       } else if (method == "POST") {
         response = await axios({
           method: "POST",
-          url: `http://localhost:3000/api/${url}`,
+          url: `https://api.tradingtantra.in/api/${url}`,
           data: formData,
           withCredentials: true,
         });
       } else if (method === "PUT") {
         response = await axios({
           method: "PUT",
-          url: `http://localhost:3000/api/${url}`,
+          url: `https://api.tradingtantra.in/api/${url}`,
           data: formData,
         });
       } else if (method === "DELETE") {
         response = await axios({
           method: "DELETE",
-          url: `http://localhost:3000/api/${url}`,
+          url: `https://api.tradingtantra.in/api/${url}`,
         });
       }
 

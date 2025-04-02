@@ -236,8 +236,8 @@ const MonryActionPage = () => {
   // ];
 
   const token = localStorage.getItem("token");
-  const socket = io("http://localhost:3000",{
-    auth: {token}
+  const socket = io("https://api.tradingtantra.in", {
+    auth: { token },
   });
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -253,11 +253,11 @@ const MonryActionPage = () => {
     []
   );
 
-  const [isSubscribed,setIsSubscribed] = useState(null)
+  const [isSubscribed, setIsSubscribed] = useState(null);
   useEffect(() => {
     const Subscribed = localStorage.getItem("isSubscribed");
-    setIsSubscribed(Subscribed)
-    
+    setIsSubscribed(Subscribed);
+
     // Flag to check if any data has arrived
 
     let hasDataArrived = false;
@@ -267,11 +267,11 @@ const MonryActionPage = () => {
     // socket.emit("getData");
 
     if (!isFetching) {
-      socket.emit("getSmartMoneyActionData",{token});
+      socket.emit("getSmartMoneyActionData", { token });
       setIsFetching(true);
     } else {
       interval = setInterval(() => {
-        socket.emit("getSmartMoneyActionData",{token});
+        socket.emit("getSmartMoneyActionData", { token });
       }, 50000);
     }
 
@@ -410,7 +410,6 @@ const MonryActionPage = () => {
           data={MomentumCatherFiveMinRes.updatedData}
           loading={loading}
           isSubscribed={isSubscribed}
-          
         />
         <AIMomentumCatcherTenMins
           data={MomentumCatherTenMinRes.data}
@@ -432,8 +431,16 @@ const MonryActionPage = () => {
           loading={loading}
           isSubscribed={isSubscribed}
         />
-        <DayHighLowReversal data={dayHLReversalRes.data} loading={loading}  isSubscribed={isSubscribed}/>
-        <TwoDayHLBreak data={stocks} loading={loading}  isSubscribed={isSubscribed} />
+        <DayHighLowReversal
+          data={dayHLReversalRes.data}
+          loading={loading}
+          isSubscribed={isSubscribed}
+        />
+        <TwoDayHLBreak
+          data={stocks}
+          loading={loading}
+          isSubscribed={isSubscribed}
+        />
       </section>
     </>
   );

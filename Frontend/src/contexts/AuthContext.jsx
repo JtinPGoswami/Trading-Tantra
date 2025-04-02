@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios"; 
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     return token ? jwtDecode(token) : null; // ✅ Decode token on first load
   });
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,13 +22,16 @@ export const AuthProvider = ({ children }) => {
 
     if (!token) {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/auth/user", {
-          withCredentials: true,
-        });
+        const { data } = await axios.get(
+          "https://api.tradingtantra.in/api/auth/user",
+          {
+            withCredentials: true,
+          }
+        );
 
         if (data.success && data.token) {
           token = data.token;
-          setUser(jwtDecode(token)); 
+          setUser(jwtDecode(token));
           localStorage.setItem("token", token);
           // ✅ Decode and set user info
         }
@@ -61,7 +64,11 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/auth/logout", {}, { withCredentials: true });
+      await axios.post(
+        "https://api.tradingtantra.in/api/auth/logout",
+        {},
+        { withCredentials: true }
+      );
     } catch (error) {
       console.error("Error logging out:", error);
     }

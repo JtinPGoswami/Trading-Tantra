@@ -31,10 +31,8 @@ const LoginPage = () => {
   };
 
   const handleGoolgleLogin = async () => {
-
-    window.location.href = "http://localhost:3000/api/auth/google"
-
-  }
+    window.location.href = "https://api.tradingtantra.in/api/auth/google";
+  };
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
       {loading && (

@@ -5,9 +5,10 @@ const TestRazorpay = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/payment/createorder",
-        { planId: "67c5a9539a4c8ca255e18061" },{
-          withCredentials: true
+        "https://api.tradingtantra.in/api/payment/createorder",
+        { planId: "67c5a9539a4c8ca255e18061" },
+        {
+          withCredentials: true,
         }
       );
 
@@ -30,12 +31,15 @@ const TestRazorpay = () => {
         handler: async (response) => {
           console.log("lrresponse", response);
 
-          await axios.post("http://localhost:3000/api/payment/verify-payment", {
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            razorpay_order_id: response.razorpay_order_id,
-            planId:"67c5a9539a4c8ca255e18061",
-          });
+          await axios.post(
+            "https://api.tradingtantra.in/api/payment/verify-payment",
+            {
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              razorpay_order_id: response.razorpay_order_id,
+              planId: "67c5a9539a4c8ca255e18061",
+            }
+          );
         },
         prefill: {
           name: "Gaurav Kumar",

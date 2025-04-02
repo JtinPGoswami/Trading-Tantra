@@ -17,10 +17,10 @@ import AICandleReversal from "../../Components/Dashboard/Cards/SwingTrad/AICandl
 import AIChannelBreakers from "../../Components/Dashboard/Cards/SwingTrad/AIChannelBreakers";
 import AIContractions from "../../Components/Dashboard/Cards/SwingTrad/AIContraction";
 
-  const token = localStorage.getItem("token");
-  const socket = io("http://localhost:3000",{
-    auth: {token}
-  });
+const token = localStorage.getItem("token");
+const socket = io("https://api.tradingtantra.in", {
+  auth: { token },
+});
 const AiSwingTradesPage = () => {
   // const stockDataList = [
   //   {
@@ -202,18 +202,18 @@ const AiSwingTradesPage = () => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   useEffect(() => {
     const Subscribed = localStorage.getItem("isSubscribed");
-    setIsSubscribed(Subscribed)
-    
+    setIsSubscribed(Subscribed);
+
     setLoading(true);
 
     let interval;
 
     if (!isFetching) {
-      socket.emit("getSwingData",{token});
+      socket.emit("getSwingData", { token });
       setIsFetching(true);
     } else {
       interval = setInterval(() => {
-        socket.emit("getSwingData",{token});
+        socket.emit("getSwingData", { token });
       }, 50000);
     }
 
@@ -280,11 +280,31 @@ const AiSwingTradesPage = () => {
             />
           ))} */}
 
-          <FiveDayBO data={fiveDayRangeBreakers} loading={loading} isSubscribed={isSubscribed} />
-          <TenDayBO data={tenDayRangeBreakers} loading={loading} isSubscribed={isSubscribed} />
-          <AICandleReversal data={dailyCandleReversal} loading={loading} isSubscribed={isSubscribed} />
-          <AIChannelBreakers data={dailyRangeBreakout} loading={loading} isSubscribed={isSubscribed} />
-          <AIContractions data={AIContraction} loading={loading} isSubscribed={isSubscribed} />
+          <FiveDayBO
+            data={fiveDayRangeBreakers}
+            loading={loading}
+            isSubscribed={isSubscribed}
+          />
+          <TenDayBO
+            data={tenDayRangeBreakers}
+            loading={loading}
+            isSubscribed={isSubscribed}
+          />
+          <AICandleReversal
+            data={dailyCandleReversal}
+            loading={loading}
+            isSubscribed={isSubscribed}
+          />
+          <AIChannelBreakers
+            data={dailyRangeBreakout}
+            loading={loading}
+            isSubscribed={isSubscribed}
+          />
+          <AIContractions
+            data={AIContraction}
+            loading={loading}
+            isSubscribed={isSubscribed}
+          />
         </div>
       </section>
 
