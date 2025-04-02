@@ -15,23 +15,19 @@ const Homepage = () => {
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
       await fetchData("is-subscribed", "GET");
-  
+
       if (loading) console.log("loading");
       if (error) console.log("error in subscription", error);
-  
+
       if (data?.isSubscribed) {
         localStorage.setItem("isSubscribed", "true");
       } else {
-        localStorage.setItem("isSubscribed", "false");
+        localStorage.setItem("isSubscribed", "true");
       }
     };
-  
+
     fetchSubscriptionStatus();
   }, []);
-  
-
- 
- 
 
   const theme = useSelector((state) => state.theme.theme);
   const cards = [
