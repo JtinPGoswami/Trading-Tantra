@@ -261,7 +261,7 @@ const AiSwingTradesPage = () => {
     };
 
     // fetchData("get-turnover", "GET");
-  }, []);
+  }, [isFetching]);
 
   console.log(fiveDayRangeBreakers, "fiveDayRangeBreakers");
   return (
