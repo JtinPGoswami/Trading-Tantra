@@ -238,6 +238,15 @@ const MonryActionPage = () => {
   const token = localStorage.getItem("token");
   const socket = io("https://api.tradingtantra.in", {
     auth: { token },
+    transports: ["websocket"],
+  });
+
+  socket.on("connect", () => {
+    console.log("✅ Connected to WebSocket Server:", socket.id);
+  });
+
+  socket.on("connect_error", (err) => {
+    console.error("❌ WebSocket Connection Error:", err.message);
   });
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
