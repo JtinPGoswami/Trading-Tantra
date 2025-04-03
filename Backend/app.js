@@ -3,14 +3,15 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import cors from "cors";
 import passport from "passport";
-import connectDB from "./config/db.js";
-import authRoutes from "./routes/auth.routes.js";
+import connectDB from "./src/config/db.js";
+
+import authRoutes from "./src/routes/auth.routes.js";
 import cookieParser from "cookie-parser";
 import http from "http";
-import "./config/passport.js";
+import "./src/config/passport.js";
 
-import stocksRoutes from "./routes/stock.routes.js";
-import feedbackRoute from "./routes/feedback.route.js";
+import stocksRoutes from "./src/routes/stock.routes.js";
+import feedbackRoute from "./src/routes/feedback.route.js";
 import {
   getDayLowBreak,
   getDayHighBreak,
@@ -18,9 +19,9 @@ import {
   getTopGainersAndLosers,
   previousDaysVolume,
   sectorStockData,
-} from "./controllers/stock.contollers.js";
-import { getSocketInstance, initializeServer } from "./config/socket.js";
-import holidayJob from "./jobs/holiday.job.js";
+} from "./src/controllers/stock.contollers.js";
+import { getSocketInstance, initializeServer } from "./src/config/socket.js";
+import holidayJob from "./src/jobs/holiday.job.js";
 //  import scheduleMarketJob from "./jobs/liveMarket.job.js";
 import { send } from "process";
 import {
@@ -30,16 +31,16 @@ import {
   DailyRangeBreakout,
   DayHighLowReversal,
   twoDayHLBreak,
-} from "./controllers/liveMarketData.controller.js";
-import paymentRoutes from "./routes/payment.routes.js";
+} from "./src/controllers/liveMarketData.controller.js";
+import paymentRoutes from "./src/routes/payment.routes.js";
 
 import {
   AIContraction,
   dailyCandleReversal,
   fiveDayRangeBreakers,
   tenDayRangeBreakers,
-} from "./controllers/swingAnalysis.controllers.js";
-import isSubscribedRoute from "./routes/isSubscribed.js";
+} from "./src/controllers/swingAnalysis.controllers.js";
+import isSubscribedRoute from "./src/routes/isSubscribed.js";
 
 dotenv.config();
 
