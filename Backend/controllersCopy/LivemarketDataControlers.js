@@ -8,7 +8,7 @@ import {
   fetchHistoricalData,
   fetchHistoricalDataforTenMin,
 } from "../utils/fetchData.js";
-import fiveMinMomentumSignal from "../models/fiveMInMomentumSignal.model.js";
+import fiveMinMomentumSignal from "../src/models/fiveMinMomentumSignal.model.js";
 import DailyMomentumSignal from "../models/dailyMomentumSignal.model.js";
 import MarketDetailData from "../models/marketData.model.js";
 import MomentumStockFiveMin from "../models/momentumStockFiveMin.model.js";
