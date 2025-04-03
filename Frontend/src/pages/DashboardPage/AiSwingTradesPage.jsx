@@ -23,6 +23,7 @@ const socket = io("http://13.60.46.100:3000", {
   transports: ["websocket"],
 });
 
+//socket error handeling
 socket.on("connect", () => {
   console.log("✅ Connected to WebSocket Server:", socket.id);
 });
