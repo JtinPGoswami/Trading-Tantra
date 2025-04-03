@@ -61,7 +61,8 @@ app.use(passport.initialize());
 initializeServer(server);
 
 app.use(cors({
-    origin: '*'
+    origin: "http://locahost:5173/", // Replace with your frontend URL
+    credentials: true
 }));
 
 
