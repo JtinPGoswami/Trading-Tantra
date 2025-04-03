@@ -10,35 +10,37 @@ import cookieParser from "cookie-parser";
 import http from "http";
 import "./src/config/passport.js";
 
+import bodyParser from 'body-parser';
+
 import stocksRoutes from "./src/routes/stock.routes.js";
 import feedbackRoute from "./src/routes/feedback.route.js";
 import {
-  getDayLowBreak,
-  getDayHighBreak,
-  getStocksData,
-  getTopGainersAndLosers,
-  previousDaysVolume,
-  sectorStockData,
+    getDayLowBreak,
+    getDayHighBreak,
+    getStocksData,
+    getTopGainersAndLosers,
+    previousDaysVolume,
+    sectorStockData,
 } from "./src/controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./src/config/socket.js";
 import holidayJob from "./src/jobs/holiday.job.js";
 //  import scheduleMarketJob from "./jobs/liveMarket.job.js";
 import { send } from "process";
 import {
-  AIIntradayReversalFiveMins,
-  AIMomentumCatcherFiveMins,
-  AIMomentumCatcherTenMins,
-  DailyRangeBreakout,
-  DayHighLowReversal,
-  twoDayHLBreak,
+    AIIntradayReversalFiveMins,
+    AIMomentumCatcherFiveMins,
+    AIMomentumCatcherTenMins,
+    DailyRangeBreakout,
+    DayHighLowReversal,
+    twoDayHLBreak,
 } from "./src/controllers/liveMarketData.controller.js";
 import paymentRoutes from "./src/routes/payment.routes.js";
 
 import {
-  AIContraction,
-  dailyCandleReversal,
-  fiveDayRangeBreakers,
-  tenDayRangeBreakers,
+    AIContraction,
+    dailyCandleReversal,
+    fiveDayRangeBreakers,
+    tenDayRangeBreakers,
 } from "./src/controllers/swingAnalysis.controllers.js";
 import isSubscribedRoute from "./src/routes/isSubscribed.js";
 
@@ -47,26 +49,24 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-app.use(express.json());
 app.use(morgan("dev"));
-app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.json());
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
 app.use(cookieParser());
 
 app.use(passport.initialize());
 initializeServer(server);
 
-app.use(
-    cors({
-      origin: "*", // This allows all origins
-      allowedHeaders: ["Content-Type", "Authorization"],
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    })
-  );
+app.use(cors({
+    origin: '*'
+}));
 
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+    res.send("Hello World!");
 });
 
 app.use("/api/auth", authRoutes);
@@ -268,13 +268,13 @@ app.use("/api", isSubscribedRoute);
 const PORT = process.env.PORT || 3000;
 
 connectDB()
-  .then(() => {
-    server.listen(PORT, () => {
-      console.log("Server started on port ", PORT);
+    .then(() => {
+        server.listen(PORT, () => {
+            console.log("Server started on port ", PORT);
+        });
+    })
+    .catch((error) => {
+        console.log("Failed to connect ", error);
     });
-  })
-  .catch((error) => {
-    console.log("Failed to connect ", error);
-  });
 
 export { app, server };
