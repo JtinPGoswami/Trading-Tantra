@@ -18,7 +18,6 @@ import {
   startWebSocket,
   twoDayHLBreak,
 } from "../controllers/liveMarketData.controller.js";
-import fiveMinMomentumSignal from "../models/fiveMInMomentumSignal.model.js";
 import {
   AIContraction,
   dailyCandleReversal,
