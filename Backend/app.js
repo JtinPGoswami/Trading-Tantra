@@ -57,13 +57,12 @@ app.use(passport.initialize());
 initializeServer(server);
 
 app.use(
-  cors({
-    origin: "https://trading-tantra-8trv.vercel.app",
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  })
-);
+    cors({
+      origin: "*",
+      credentials: true,
+    })
+  );
+
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
