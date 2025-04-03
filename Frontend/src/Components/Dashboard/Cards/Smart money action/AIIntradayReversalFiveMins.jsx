@@ -202,8 +202,8 @@ const AIIntradayReversalFiveMins = ({ data, loading, error, isSubscribed }) => {
                             <span
                               className={`px-2 py-[2px] rounded-3xl  text-white ${
                                 stock?.type === "Bullish Reversal"
-                                  ? "bg-red-600"
-                                  : "bg-green-600"
+                                  ? "bg-green-600"
+                                  : "bg-red-600"
                               }`}
                             >
                               {stock?.type === "Bullish Reversal"
