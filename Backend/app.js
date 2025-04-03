@@ -58,8 +58,9 @@ initializeServer(server);
 
 app.use(
     cors({
-      origin: "*",
-      credentials: true,
+      origin: "*", // This allows all origins
+      allowedHeaders: ["Content-Type", "Authorization"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     })
   );
 
