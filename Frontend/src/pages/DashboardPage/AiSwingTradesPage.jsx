@@ -20,11 +20,21 @@ import AIContractions from "../../Components/Dashboard/Cards/SwingTrad/AIContrac
 const token = localStorage.getItem("token");
 const socket = io("https://api.tradingtantra.in", {
   auth: { token },
+  transports: ["websocket"],
+});
+
+socket.on("connect", () => {
+  console.log("✅ Connected to WebSocket Server:", socket.id);
+});
+
+socket.on("connect_error", (err) => {
+  console.error("❌ WebSocket Connection Error:", err.message);
 });
 const AiSwingTradesPage = () => {
   // const stockDataList = [
   //   {
-  //     title: "10 Days BO",
+  //     title: "10 D
+  // ays BO",
   //     img: tendays,
   //     price: "purchased",
   //     stocks: [
