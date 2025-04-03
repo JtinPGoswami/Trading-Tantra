@@ -333,9 +333,9 @@ const MarketDepthPage = () => {
 
     // socket.emit("getData");
 
-    socket.on("error", (data) => {
-      console.log("error", data);
-    });
+    // socket.on("error", (data) => {
+    //   console.log("error", data);
+    // });
 
     if (!isFetching) {
       socket.emit("getMarketDepthData", { token });
