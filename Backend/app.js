@@ -61,7 +61,7 @@ app.use(passport.initialize());
 initializeServer(server);
 
 app.use(cors({
-    origin: "http://localhost:5173", // Replace with your frontend URL
+    origin: ["http://localhost:5173", "https://trading-tantra-8trv.vercel.app"], // Replace with your frontend URL
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
