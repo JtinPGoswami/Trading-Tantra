@@ -39,7 +39,7 @@ import TestRazorpay from "./pages/DashboardPage/TestRazorpay";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 // import { AuthProvider } from "./contexts/AuthContext";
-import ProtectedRoute from "./utils/ProtectedRoutes";
+// import ProtectedRoute from "./utils/ProtectedRoutes";
 
 const App = () => {
   return (
