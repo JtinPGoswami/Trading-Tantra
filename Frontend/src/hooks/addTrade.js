@@ -3,7 +3,7 @@ import axios from "axios";
 const addTrade = async (tradeData) => {
   try {
     const response = await axios.post(
-      "https://api.tradingtantra.in/api/auth/add-trade",
+      "http://13.60.46.100:3000/api/auth/add-trade",
       tradeData,
       { withCredentials: true }
     );

@@ -5,7 +5,7 @@ const TestRazorpay = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "https://api.tradingtantra.in/api/payment/createorder",
+        "http://13.60.46.100:3000/api/payment/createorder",
         { planId: "67c5a9539a4c8ca255e18061" },
         {
           withCredentials: true,
@@ -32,7 +32,7 @@ const TestRazorpay = () => {
           console.log("lrresponse", response);
 
           await axios.post(
-            "https://api.tradingtantra.in/api/payment/verify-payment",
+            "http://13.60.46.100:3000/api/payment/verify-payment",
             {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,

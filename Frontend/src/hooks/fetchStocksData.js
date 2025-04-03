@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-const serverUri = "https://api.tradingtantra.in/api";
+const serverUri = "http://13.60.46.100:3000/api";
 
 export const fetchStockData = () => {
   const [TnGData, setData] = useState([]);

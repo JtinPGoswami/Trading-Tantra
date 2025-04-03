@@ -236,7 +236,7 @@ const MonryActionPage = () => {
   // ];
 
   const token = localStorage.getItem("token");
-  const socket = io("https://api.tradingtantra.in", {
+  const socket = io("http://13.60.46.100:3000", {
     auth: { token },
     transports: ["websocket"],
   });
