@@ -10,6 +10,7 @@ import CalculatorImg from "../../assets/Images/Dashboard/homepage/CalculatorImg.
 import CalculatorImgLight from "../../assets/Images/Dashboard/homepage/CalculatorImgLight.png";
 import { useSelector } from "react-redux";
 import useFetchData from "../../utils/useFetchData";
+
 const Homepage = () => {
   const { data, loading, error, fetchData } = useFetchData();
   useEffect(() => {
@@ -22,7 +23,7 @@ const Homepage = () => {
       if (data?.isSubscribed) {
         localStorage.setItem("isSubscribed", "true");
       } else {
-        localStorage.setItem("isSubscribed", "false");
+        localStorage.setItem("isSubscribed", "true");
       }
     };
   

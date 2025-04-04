@@ -131,7 +131,7 @@ const getStocksData = async () => {
       
     return { success: true, message: "Stock data retrieved", data: sortedData };
   } catch (error) {
-    console.error("Error fetching stocks data:", error);
+    // console.error("Error fetching stocks data:", error);
     return {
       success: false,
       message: "Internal server error",
@@ -288,6 +288,9 @@ const getTopGainersAndLosers = async (req, res) => {
 // give the previous data if today data not avail
 const getDayHighBreak = async (req, res) => {
   try {
+
+ 
+     
     // Step 1: Find the most recent date available in the database
     const latestEntry = await MarketDetailData.findOne()
       .sort({ date: -1 }) // Get the latest date
@@ -405,7 +408,7 @@ const getDayHighBreak = async (req, res) => {
   } catch (error) {
     // console.log(error);
     return { message: "Server error", error: error.message };
-    res.status(500).json({ message: "Server error", error: error.message });
+   // res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 

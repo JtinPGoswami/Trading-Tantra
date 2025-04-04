@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import MarketHoliday from "../models/holidays.model";
+import MarketHoliday from "../models/holidays.model.js";
 import scrapeAndSaveFIIDIIData from "./scrapData_Two.js";
 
 // Helper to get IST time

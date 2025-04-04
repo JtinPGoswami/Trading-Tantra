@@ -236,8 +236,8 @@ const MonryActionPage = () => {
   // ];
 
   const token = localStorage.getItem("token");
-  const socket = io("http://localhost:3000",{
-    auth: {token}
+  const socket = io("http://localhost:3000", {
+    auth: { token },
   });
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -253,27 +253,28 @@ const MonryActionPage = () => {
     []
   );
 
-  const [isSubscribed,setIsSubscribed] = useState(null)
+  const [isSubscribed, setIsSubscribed] = useState(null);
   useEffect(() => {
     const Subscribed = localStorage.getItem("isSubscribed");
-    setIsSubscribed(Subscribed)
-    
-    // Flag to check if any data has arrived
+    setIsSubscribed(Subscribed);
 
-    let hasDataArrived = false;
+    // Flag to check if any data has arrived
 
     let interval;
 
     // socket.emit("getData");
 
     if (!isFetching) {
-      socket.emit("getSmartMoneyActionData",{token});
+      socket.emit("getSmartMoneyActionData", { token });
+      console.log('emittttttttt')
       setIsFetching(true);
     } else {
       interval = setInterval(() => {
-        socket.emit("getSmartMoneyActionData",{token});
+        socket.emit("getSmartMoneyActionData", { token });
+        console.log('emittt after interval')
       }, 50000);
     }
+    let hasDataArrived = false;
 
     // Define event handlers
     const handleTwoDayHLBreak = (data) => {
@@ -317,6 +318,13 @@ const MonryActionPage = () => {
       setLoading(false);
     };
 
+    socket.on("connect_error", (err) => {
+      console.warn("Socket Connection Error:", err.message);
+      
+      if (err.message.includes("Subscription required")) {
+          alert("⚠️ Subscription Required: Please subscribe to access this feature.");
+      }
+  })  
     // Attach event listeners
     socket.on("twoDayHLBreak", handleTwoDayHLBreak);
     socket.on("DayHighLowReversal", handleDayHighLowReversal);
@@ -325,7 +333,7 @@ const MonryActionPage = () => {
     socket.on("AIMomentumCatcherFiveMins", handleMomentumCatcherFiveMins);
     socket.on("AIIntradayReversalFiveMins", handleAIIntradayReversalFiveMins);
     socket.on("AIIntradayReversalDaily", handleAIIntradayReversalDaily);
-
+     
     // Set a timeout to stop loading if no data is received
     // const timeout = setTimeout(() => {
     //   if (!hasDataArrived) {
@@ -346,11 +354,12 @@ const MonryActionPage = () => {
         handleAIIntradayReversalFiveMins
       );
       socket.off("AIIntradayReversalDaily", handleAIIntradayReversalDaily);
+      socket.off("connect_error");
       clearInterval(interval);
 
       // clearTimeout(timeout);
     };
-  }, []);
+  }, [isFetching]);
 
   return (
     <>
@@ -410,7 +419,6 @@ const MonryActionPage = () => {
           data={MomentumCatherFiveMinRes.updatedData}
           loading={loading}
           isSubscribed={isSubscribed}
-          
         />
         <AIMomentumCatcherTenMins
           data={MomentumCatherTenMinRes.data}
@@ -432,8 +440,16 @@ const MonryActionPage = () => {
           loading={loading}
           isSubscribed={isSubscribed}
         />
-        <DayHighLowReversal data={dayHLReversalRes.data} loading={loading}  isSubscribed={isSubscribed}/>
-        <TwoDayHLBreak data={stocks} loading={loading}  isSubscribed={isSubscribed} />
+        <DayHighLowReversal
+          data={dayHLReversalRes.data}
+          loading={loading}
+          isSubscribed={isSubscribed}
+        />
+        <TwoDayHLBreak
+          data={stocks}
+          loading={loading}
+          isSubscribed={isSubscribed}
+        />
       </section>
     </>
   );

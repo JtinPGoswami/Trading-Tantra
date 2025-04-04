@@ -445,6 +445,13 @@ const AiSectorDepthPage = () => {
       setLoading(false);
     };
 
+    socket.on("connect_error", (err) => {
+      console.warn("Socket Connection Error:", err.message);
+      
+      if (err.message.includes("Subscription required")) {
+          alert("⚠️ Subscription Required: Please subscribe to access this feature.");
+      }
+  })  
     // Attach event listener
     socket.on("sectorScope", handleSectorScope);
 
@@ -459,10 +466,11 @@ const AiSectorDepthPage = () => {
     return () => {
       // Cleanup: Remove event listener and clear timeout
       socket.off("sectorScope", handleSectorScope);
+      socket.off('connect_error')
       // clearTimeout(timeout);
       clearInterval(interval);
     };
-  }, []);
+  }, [isFetching]);
 
   return (
     <>

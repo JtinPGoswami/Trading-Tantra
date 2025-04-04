@@ -68,7 +68,7 @@ const LoginPage = () => {
               name="email"
               id="email"
               placeholder="Enter your email"
-              className="border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+              className="border-2 outline-none text-gray-800 border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
             />
           </div>
 
@@ -86,7 +86,7 @@ const LoginPage = () => {
               name="password"
               id="password"
               placeholder="Enter your password"
-              className="border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+              className="border-2 outline-none text-gray-800 border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
             />
           </div>
 

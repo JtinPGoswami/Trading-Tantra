@@ -39,6 +39,7 @@ dotenv.config();
 // console.log("Cron job scheduled to run every 2 minutes.");
 
 connectDB();
+startWebSocket();
 // scrapeAndSaveFIIDIIData();
 
 // getDataForTenMin("2025-03-27", "2025-03-28")

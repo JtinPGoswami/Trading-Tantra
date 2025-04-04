@@ -515,8 +515,8 @@ const dailyCandleReversal = async (req, res) => {
       return { percentageChange, ...data };
     });
 
-    console.log(resData, "resData");
-    console.log(preCha, "preCha");
+    // console.log(resData, "resData");
+    // console.log(preCha, "preCha");
 
     return { success: true, resData };
   } catch (error) {

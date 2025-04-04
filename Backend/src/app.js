@@ -20,9 +20,10 @@ import {
   sectorStockData,
 } from "./controllers/stock.contollers.js";
 import { getSocketInstance, initializeServer } from "./config/socket.js";
- import holidayJob from "./jobs/holiday.job.js";
-//  import scheduleMarketJob from "./jobs/liveMarket.job.js";
-import { send } from "process";
+import holidayJob from "./jobs/holiday.job.js";
+import scheduleMarketJob from "./jobs/liveMarket.job.js";
+import FiiDiiJob from './jobs/FiiDiiJob.js'
+
 import {
   AIIntradayReversalFiveMins,
   AIMomentumCatcherFiveMins,

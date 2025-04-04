@@ -16,14 +16,14 @@ import {
   DayHighLowReversal,
   twoDayHLBreak,
 } from "../controllers/liveMarketData.controller.js";
-import authenticateSocket from "../middlewares/authenticateSocket.js";
-import {
+ import {
   AIContraction,
   dailyCandleReversal,
   fiveDayRangeBreakers,
   tenDayRangeBreakers,
 } from "../controllers/swingAnalysis.controllers.js";
 import checkSubscription from "../middlewares/checkSubscription.js";
+import authenticateSocket from '../middlewares/authenticateSocket.js'
 
 let io;
 
@@ -195,6 +195,9 @@ const initializeServer = (server) => {
     },
   });
 
+  io.use(authenticateSocket);
+  io.use(checkSubscription);
+console.log('not run afetr login')
   io.on("connection", async (socket) => {
     console.log("a user connected", socket.id);
 
@@ -243,3 +246,9 @@ const getSocketInstance = () => {
 };
 
 export { initializeServer, getSocketInstance };
+
+
+
+
+ 
+ 

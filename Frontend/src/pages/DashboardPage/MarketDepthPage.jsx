@@ -374,6 +374,13 @@ const MarketDepthPage = () => {
       setLoading(false);
     };
 
+    socket.on("connect_error", (err) => {
+      console.warn("Socket Connection Error:", err.message);
+      
+      if (err.message.includes("Subscription required")) {
+          alert("⚠️ Subscription Required: Please subscribe to access this feature.");
+      }
+  })  
     // Attach event listeners
     socket.on("turnOver", handleTurnOver);
     socket.on("dayLowBreak", handleDayLowBreak);
@@ -396,6 +403,7 @@ const MarketDepthPage = () => {
       socket.off("dayHighBreak", handleDayHighBreak);
       socket.off("getTopGainersAndLosers", handleTopGainersAndLosers);
       socket.off("previousDaysVolume", handlePreviousDaysVolume);
+      socket.off('connect_error')
       clearInterval(interval);
     };
   }, [isFetching]);

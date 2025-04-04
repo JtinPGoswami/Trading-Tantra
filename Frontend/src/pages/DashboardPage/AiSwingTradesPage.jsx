@@ -245,6 +245,13 @@ const AiSwingTradesPage = () => {
       setLoading(false);
     };
 
+    socket.on("connect_error", (err) => {
+      console.warn("Socket Connection Error:", err.message);
+      
+      if (err.message.includes("Subscription required")) {
+          alert("⚠️ Subscription Required: Please subscribe to access this feature.");
+      }
+  })  
     socket.on("fiveDayRangeBreakers", handleFiveDayRangeBreakers);
     socket.on("tenDayRangeBreakers", handleTenDayRangeBreakers);
     socket.on("setDailyCandleReversal", handleDailyCandleReversal);
@@ -257,11 +264,12 @@ const AiSwingTradesPage = () => {
       socket.off("setDailyCandleReversal", handleDailyCandleReversal);
       socket.off("AIContraction", handleAIContraction);
       socket.off("DailyRangeBreakout", handleDailyRangeBreakout);
+      socket.off('connect_error');
       clearInterval(interval);
     };
 
     // fetchData("get-turnover", "GET");
-  }, []);
+  }, [isFetching]);
 
   console.log(fiveDayRangeBreakers, "fiveDayRangeBreakers");
   return (

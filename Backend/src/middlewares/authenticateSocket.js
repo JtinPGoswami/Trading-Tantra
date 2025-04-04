@@ -1,18 +1,29 @@
 import jwt from "jsonwebtoken";
 
 const authenticateSocket = (socket, next) => {
-  const token = socket.handshake.auth?.token || socket.handshake.query?.token; // Get token from handshake
-  if (!token) {
-    return next(new Error("Authentication error: No token provided"));
-  }
+    try {
+        const token = socket.handshake.auth?.token;
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify token
-    socket.user = decoded; // Attach user info to socket
-    next();
-  } catch (error) {
-    return next(new Error("Authentication error: Invalid token"));
-  }
+        if (!token) {
+            return next(new Error("Authentication token missing"));
+        }
+
+        jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+            if (err) {
+                if (err.name === "TokenExpiredError") {
+                    return next(new Error("Token expired, please reauthenticate"));
+                }
+                return next(new Error("Invalid token"));
+            }
+
+            console.log('authentucate')
+            socket.user = { id: decoded.userId };
+            next();
+        });
+    } catch (error) {
+        console.error("Socket Authentication Error:", error);
+        next(new Error("Authentication failed"));
+    }
 };
 
 export default authenticateSocket;

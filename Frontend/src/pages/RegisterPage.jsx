@@ -23,7 +23,7 @@ const RegisterPage = () => {
     e.preventDefault();
 
     if (FormData.password !== FormData.confirmPassword) {
-      setError("Password not match.");
+      setPasswordError("Password not match.");
       return error;
     }
 
@@ -56,7 +56,7 @@ const RegisterPage = () => {
 
         <form className="flex flex-col mt-2" onSubmit={handleSubmit}>
           <div className="mb-4 flex md:flex-row flex-col w-full gap-2">
-            <div className="flex flex-col w-1/2">
+            <div className="flex flex-col sm:w-1/2 w-full">
               <label
                 htmlFor="name"
                 className="block text-lg text-gray-600 mb-1"
@@ -70,11 +70,11 @@ const RegisterPage = () => {
                 onChange={handleChange}
                 id="name"
                 placeholder="Firstname"
-                className=" w-full border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+                className=" w-full border-2 text-gray-800 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
               />
             </div>
 
-            <div className="flex flex-col w-1/2">
+            <div className="flex flex-col sm:w-1/2 w-full">
               <label className="block text-lg text-gray-600 mb-1">
                 Lastname:
               </label>
@@ -85,7 +85,7 @@ const RegisterPage = () => {
                 value={FormData.lastname}
                 onChange={handleChange}
                 placeholder="Lastname"
-                className=" w-full border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+                className=" w-full border-2 text-gray-800 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
               />
             </div>
           </div>
@@ -101,7 +101,7 @@ const RegisterPage = () => {
               onChange={handleChange}
               id="email"
               placeholder="Enter your email"
-              className="border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+              className="border-2 outline-none text-gray-800 border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
             />
           </div>
 
@@ -119,7 +119,7 @@ const RegisterPage = () => {
               onChange={handleChange}
               id="password"
               placeholder="Enter your password"
-              className="border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+              className="border-2 outline-none text-gray-800 border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
             />
           </div>
           <div className="mb-4 flex flex-col">
@@ -136,7 +136,7 @@ const RegisterPage = () => {
               onChange={handleChange}
               id="confrimPassword"
               placeholder="Confirm your password"
-              className="border-2 outline-none border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
+              className="border-2 outline-none text-gray-800 border-gray-300 rounded-lg px-4 py-2 text-base focus:border-[#2196F3] focus:ring-4 focus:ring-[#2195f34f] transition duration-300 ease-in-out"
             />
           </div>
 
