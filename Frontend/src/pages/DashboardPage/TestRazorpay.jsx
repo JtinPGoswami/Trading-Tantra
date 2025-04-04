@@ -2,10 +2,12 @@ import React from "react";
 import axios from "axios";
 
 const TestRazorpay = () => {
+
+  const SERVER_URI = import.meta.env.VITE_SERVER_URI;
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "http://13.60.46.100:3000/api/payment/createorder",
+        `${SERVER_URI}/payment/createorder`,
         { planId: "67c5a9539a4c8ca255e18061" },
         {
           withCredentials: true,
@@ -32,7 +34,7 @@ const TestRazorpay = () => {
           console.log("lrresponse", response);
 
           await axios.post(
-            "http://13.60.46.100:3000/api/payment/verify-payment",
+            `${SERVER_URI}/payment/verify-payment`,
             {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,

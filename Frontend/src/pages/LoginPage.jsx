@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useFetchData from "../utils/useFetchData";
-// import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
+import Cookies from "js-cookie";  
+
 
 const LoginPage = () => {
+  const SERVER_URI = import.meta.env.VITE_SERVER_URI;
   // const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
   // const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { data, error, loading, fetchData } = useFetchData();
-  // const { login } = useAuth();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,17 +24,21 @@ const LoginPage = () => {
 
     // console.log(formData)
 
-    fetchData("auth/login", "POST", formData);
-
-    if (data.success) {
-      login(data.token);
-      console.log("data", data);
-      navigate("/dashboard");
-    }
+    await fetchData("auth/login", "POST", formData);
   };
 
+  useEffect(() => {
+    if (data?.success) {
+      login(data.token);
+      Cookies.set("isSubscribed",data?.user?.isSubscribed,{expires: 1});
+      navigate("/dashboard");
+    }
+     
+ 
+  }, [data]);
+
   const handleGoolgleLogin = async () => {
-    window.location.href = "http://13.60.46.100:3000/api/auth/google";
+    window.location.href = `${SERVER_URI}/auth/google`;
   };
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
@@ -60,6 +67,7 @@ const LoginPage = () => {
               Email:
             </label>
             <input
+              required
               value={setFormData.email}
               onChange={handleChange}
               type="email"
@@ -78,6 +86,7 @@ const LoginPage = () => {
               Password:
             </label>
             <input
+              required
               value={setFormData.password}
               onChange={handleChange}
               type="password"
@@ -118,4 +127,10 @@ const LoginPage = () => {
   );
 };
 
+
+
+
 export default LoginPage;
+
+
+ 

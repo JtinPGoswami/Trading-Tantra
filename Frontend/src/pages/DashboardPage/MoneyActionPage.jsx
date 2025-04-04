@@ -18,6 +18,7 @@ import AIMomentumCatcherFiveMins from "../../Components/Dashboard/Cards/Smart mo
 import AIIntradayReversalDaily from "../../Components/Dashboard/Cards/Smart money action/AIIntradayReversalDaily";
 import AIIntradayReversalFiveMins from "../../Components/Dashboard/Cards/Smart money action/AIIntradayReversalFiveMins";
 import { io } from "socket.io-client";
+import Cookies from "js-cookie";
 
 const MonryActionPage = () => {
   // const stockDataList = [
@@ -234,9 +235,10 @@ const MonryActionPage = () => {
   //     ],
   //   },
   // ];
+  const SOCKET_URI = import.meta.env.VITE_SOCKET_URI;
 
   const token = localStorage.getItem("token");
-  const socket = io("http://13.60.46.100:3000", {
+  const socket = io(SOCKET_URI, {
     auth: { token },
     transports: ["websocket"],
   });
@@ -264,7 +266,7 @@ const MonryActionPage = () => {
 
   const [isSubscribed, setIsSubscribed] = useState(null);
   useEffect(() => {
-    const Subscribed = localStorage.getItem("isSubscribed");
+    const Subscribed =Cookies.get("isSubscribed");
     setIsSubscribed(Subscribed);
 
     // Flag to check if any data has arrived

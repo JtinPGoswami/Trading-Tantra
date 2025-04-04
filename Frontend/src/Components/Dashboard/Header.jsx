@@ -14,7 +14,7 @@ import myPlan from "../../assets/Images/Dashboard/HeaderImg/myPlan.svg";
 import myProfile from "../../assets/Images/Dashboard/HeaderImg/myProfile.svg";
 import feedBack from "../../assets/Images/Dashboard/HeaderImg/feedBack.svg";
 import logout from "../../assets/Images/Dashboard/HeaderImg/logout.svg";
-// import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Header = () => {
   const [hovered, setHovered] = useState(false);
@@ -26,7 +26,7 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
-  // const { logout } = useAuth();
+  const { logout } = useAuth();
 
   const themeToggler = () => {
     if (isDarkMode === "dark") {
@@ -167,7 +167,7 @@ const Header = () => {
               </div>
               <div>
                 {/* <button className="flex items-center gap-3" onClick={logout}> */}
-                <button className="flex items-center gap-3">
+                <button className="flex items-center gap-3" onClick={logout}>
                   <img src={logout} alt="" />
                   <p>Log out</p>
                 </button>

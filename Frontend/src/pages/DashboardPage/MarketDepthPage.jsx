@@ -24,10 +24,16 @@ import {
   DayLow,
 } from "../../Components/Dashboard/Cards/DayHighandLow";
 import { PreviousVolume } from "../../Components/Dashboard/Cards/PreviousVolume";
+import Cookies from "js-cookie";
+
+
 
 const token = localStorage.getItem("token");
 
-const socket = io("http://13.60.46.100:3000", {
+
+
+const SOCKET_URI = import.meta.env.VITE_SOCKET_URI;
+const socket = io(SOCKET_URI, {
   auth: { token },
   transports: ["websocket"],
 });
@@ -322,7 +328,7 @@ const MarketDepthPage = () => {
 
   const token = localStorage.getItem("token");
   useEffect(() => {
-    const Subscribed = localStorage.getItem("isSubscribed");
+    const Subscribed =Cookies.get("isSubscribed");
     setIsSubscribed(Subscribed);
 
     setLoading(true);
@@ -381,6 +387,10 @@ const MarketDepthPage = () => {
       hasDataArrived = true;
       setLoading(false);
     };
+
+    socket.on('error', (error) => {
+      console.error('Socket error:', error);
+    })
 
     socket.on("connect_error", (err) => {
       console.warn("Socket Connection Error:", err.message);

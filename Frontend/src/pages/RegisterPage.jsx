@@ -24,12 +24,12 @@ const RegisterPage = () => {
 
     if (FormData.password !== FormData.confirmPassword) {
       setPasswordError("Password not match.");
-      return error;
+      return passworderror;
     }
 
     await fetchData("auth/signup", "POST", FormData);
 
-
+console.log(error)
     console.log(data, ",wdkjebkdbs");
   };
 
@@ -141,7 +141,11 @@ const RegisterPage = () => {
           </div>
 
           {passworderror && <p className="text-red-500 mb-1">{passworderror}</p>}
-          {error && <p className="text-red-500 mb-1">{error}</p>}
+          {error && <p className="text-red-500 mb-1">{error}</p>}{error && (
+            <p className="text-red-500 text-sm mb-2">
+              {error?.data?.error || error?.message || error?.data?.message}
+            </p>
+          )}
           <button
             type="submit"
             className="bg-[#2196F3] text-white rounded-lg py-2 text-lg font-semibold hover:bg-[#348dd6] transition duration-300 ease-in-out"

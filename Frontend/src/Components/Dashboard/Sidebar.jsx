@@ -19,7 +19,7 @@ import smartMoneyAction from "../../assets/Images/sidebar/smartMoneyAction.svg";
 import tradingJournal from "../../assets/Images/sidebar/tradingJournal.svg";
 import updates from "../../assets/Images/sidebar/updates.svg";
 import dashboard from "../../assets/Images/sidebar/dashboard.svg";
-
+import Cookies from "js-cookie";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBar } from "../../contexts/Redux/Slices/sidebarTogglerSlice";
@@ -28,7 +28,7 @@ const Sidebar = () => {
   const [isSubscribed, setIsSubscribed] = useState(null);
 
   useEffect(() => {
-    const Subscribed = localStorage.getItem("isSubscribed");
+    const Subscribed =Cookies.get("isSubscribed");
     setIsSubscribed(Subscribed);
   }, []);
 

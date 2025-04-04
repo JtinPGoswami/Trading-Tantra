@@ -7,12 +7,13 @@ import FiiDiiTable from "../../Components/Dashboard/FiiDiiTable";
 import axios from "axios";
 
 const FIIDIIPage = () => {
+  const SERVER_URI = import.meta.env.VITE_SERVER_URI;
   const [loading, setLoading] = useState(false);
   const [FiiDiiData, setFiiDiiData] = useState([]);
   useEffect(async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://13.60.46.100:3000/api/fii-dii");
+      const res = await axios.get(`${SERVER_URI}/fii-dii`);
       const data = res.data.resdata;
       setFiiDiiData(data);
       console.log(FiiDiiData, "FiiDiiData");

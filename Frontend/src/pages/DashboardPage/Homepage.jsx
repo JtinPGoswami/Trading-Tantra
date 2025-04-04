@@ -9,26 +9,10 @@ import FIIDIILight from "../../assets/Images/Dashboard/homepage/FII-DII-ImgLight
 import CalculatorImg from "../../assets/Images/Dashboard/homepage/CalculatorImg.png";
 import CalculatorImgLight from "../../assets/Images/Dashboard/homepage/CalculatorImgLight.png";
 import { useSelector } from "react-redux";
-import useFetchData from "../../utils/useFetchData";
+
 
 const Homepage = () => {
-  const { data, loading, error, fetchData } = useFetchData();
-  useEffect(() => {
-    const fetchSubscriptionStatus = async () => {
-      await fetchData("is-subscribed", "GET");
-
-      if (loading) console.log("loading");
-      if (error) console.log("error in subscription", error);
-
-      if (data?.isSubscribed) {
-        localStorage.setItem("isSubscribed", "true");
-      } else {
-        localStorage.setItem("isSubscribed", "true");
-      }
-    };
-
-    fetchSubscriptionStatus();
-  }, []);
+   
 
   const theme = useSelector((state) => state.theme.theme);
   const cards = [

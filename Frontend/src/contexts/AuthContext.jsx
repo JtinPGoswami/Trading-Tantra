@@ -5,67 +5,56 @@
 
 // const AuthContext = createContext();
 
+// const SERVER_URI = import.meta.env.VITE_SERVER_URI;
+
 // export const AuthProvider = ({ children }) => {
 //   const [user, setUser] = useState(() => {
 //     const token = localStorage.getItem("token");
-//     return token ? jwtDecode(token) : null; // ✅ Decode token on first load
+//     return token ? jwtDecode(token) : null;
 //   });
 
 //   const navigate = useNavigate();
 
 //   useEffect(() => {
 //     checkAuth();
-//   }, []);
+//   }, [user]);
 
 //   const checkAuth = async () => {
 //     let token = localStorage.getItem("token");
 
 //     if (!token) {
-//       try {
-//         const { data } = await axios.get(
-//           "https://api.tradingtantra.in/api/auth/user",
-//           {
-//             withCredentials: true,
-//           }
-//         );
+//       navigate("/login", { replace: true });
+//       return;
+//     }
 
-//         if (data.success && data.token) {
-//           token = data.token;
-//           setUser(jwtDecode(token));
-//           localStorage.setItem("token", token);
-//           // ✅ Decode and set user info
-//         }
-//       } catch (error) {
-//         console.error("Error fetching user token:", error);
-//       }
-//     } else {
-//       try {
-//         const decoded = jwtDecode(token);
-//         const expirationTime = decoded.exp * 1000;
+//     try {
+//       const decoded = jwtDecode(token);
+//       const expirationTime = decoded.exp * 1000;
 
-//         if (expirationTime > Date.now()) {
-//           setUser(decoded); // ✅ Store user info instead of `{ token }`
-//           const timeout = setTimeout(logout, expirationTime - Date.now());
-//           return () => clearTimeout(timeout);
-//         } else {
-//           logout();
-//         }
-//       } catch {
+//       if (expirationTime > Date.now()) {
+//         setUser(decoded);
+//         const timeout = setTimeout(logout, expirationTime - Date.now());
+//         return () => clearTimeout(timeout);
+//       } else {
 //         logout();
 //       }
+//     } catch (error) {
+//       console.error("Error decoding token:", error);
+//       logout();
 //     }
 //   };
 
 //   const login = (token) => {
 //     localStorage.setItem("token", token);
-//     setUser(jwtDecode(token)); // ✅ Decode and store user info
+//     setUser(jwtDecode(token));
+//     checkAuth(); // ✅ Ensure authentication is verified after login
 //     navigate("/dashboard", { replace: true });
 //   };
 
 //   const logout = async () => {
 //     try {
 //       await axios.post(
-//         "https://api.tradingtantra.in/api/auth/logout",
+//         `${SERVER_URI}/auth/logout`,
 //         {},
 //         { withCredentials: true }
 //       );
@@ -75,7 +64,7 @@
 
 //     localStorage.removeItem("token");
 //     setUser(null);
-//     navigate("/login", { replace: true });
+//     navigate("/", { replace: true });
 //   };
 
 //   return (
@@ -86,3 +75,79 @@
 // };
 
 // export const useAuth = () => useContext(AuthContext);
+
+
+
+
+
+import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+
+const AuthContext = createContext();
+
+const SERVER_URI = import.meta.env.VITE_SERVER_URI;
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    const token = localStorage.getItem("token");
+    return token ? jwtDecode(token) : null;
+  });
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    let token = localStorage.getItem("token");
+
+    if (!token) {
+      setUser(null);
+      return;
+    }
+
+    try {
+      const decoded = jwtDecode(token);
+      const expirationTime = decoded.exp * 1000;
+
+      if (expirationTime > Date.now()) {
+        setUser(decoded);
+        setTimeout(logout, expirationTime - Date.now()); // Auto logout when token expires
+      } else {
+        logout();
+      }
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      logout();
+    }
+  };
+
+  const login = (token) => {
+    localStorage.setItem("token", token);
+    setUser(jwtDecode(token));
+    navigate("/dashboard", { replace: true });
+  };
+
+  const logout = async () => {
+    try {
+      await axios.post(`${SERVER_URI}/auth/logout`, {}, { withCredentials: true });
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate("/", { replace: true });
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, checkAuth }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);

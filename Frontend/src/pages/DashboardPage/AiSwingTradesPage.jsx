@@ -16,9 +16,10 @@ import TenDayBO from "../../Components/Dashboard/Cards/SwingTrad/tenDayBO";
 import AICandleReversal from "../../Components/Dashboard/Cards/SwingTrad/AICandleReversal";
 import AIChannelBreakers from "../../Components/Dashboard/Cards/SwingTrad/AIChannelBreakers";
 import AIContractions from "../../Components/Dashboard/Cards/SwingTrad/AIContraction";
-
+import Cookies from "js-cookie";
 const token = localStorage.getItem("token");
-const socket = io("http://13.60.46.100:3000", {
+const SOCKET_URI = import.meta.env.VITE_SOCKET_URI;
+const socket = io(SOCKET_URI, {
   auth: { token },
   transports: ["websocket"],
 });
@@ -212,7 +213,7 @@ const AiSwingTradesPage = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   useEffect(() => {
-    const Subscribed = localStorage.getItem("isSubscribed");
+    const Subscribed =Cookies.get("isSubscribed");
     setIsSubscribed(Subscribed);
 
     setLoading(true);

@@ -9,7 +9,10 @@ import TreeGrpahsGrid from "../../Components/Dashboard/TreeGraphsGrid";
 import { io } from "socket.io-client";
 import Loader from "../../Components/Loader";
 import Lock from "../../Components/Dashboard/Lock";
+
+import Cookies from "js-cookie";
 const AiSectorDepthPage = () => {
+  const SOCKET_URI = import.meta.env.VITE_SOCKET_URI;
   const stockDataList = [
     {
       title: "Nifty 50",
@@ -404,7 +407,7 @@ const AiSectorDepthPage = () => {
   ];
 
   const token = localStorage.getItem("token");
-  const socket = io("http://13.60.46.100:3000", {
+  const socket = io(`${SOCKET_URI}`, {
     auth: { token },
     transports: ["websocket"],
   });
@@ -425,7 +428,7 @@ const AiSectorDepthPage = () => {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
-    const Subscribed = localStorage.getItem("isSubscribed");
+    const Subscribed = Cookies.get("isSubscribed");
     setIsSubscribed(Subscribed);
 
     let hasDataArrived = false;
