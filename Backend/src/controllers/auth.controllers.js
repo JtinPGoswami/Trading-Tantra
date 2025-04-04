@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import sendEmail from "../utils/email.js";
+import UserSubscription from "../models/userSubscription.model.js";
 
 //signup controller
 
@@ -48,7 +49,7 @@ const signUp = async (req, res) => {
     });
   } catch (error) {
     // console.error("Login error:", error);
-    res.status(500).json({success: false, error:error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
@@ -80,6 +81,20 @@ const logIn = async (req, res) => {
       return res.status(400).json({ error: "Please sign in with Google" });
     }
 
+    let isSubscribed = false;
+
+    const subscribed = await UserSubscription.findOne({
+      userId: user._id,
+      status: "active",
+      endDate: { $gt: Date.now() },
+    });
+
+    if (!subscribed) {
+      isSubscribed = false;
+    }else{
+      isSubscribed = true
+    }
+
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "1h",
     });
@@ -102,6 +117,7 @@ const logIn = async (req, res) => {
           id: user._id,
           email: user.email,
           displayName: user.displayName,
+          isSubscribed
         },
       });
   } catch (error) {

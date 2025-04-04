@@ -27,7 +27,7 @@ import authenticateSocket from '../middlewares/authenticateSocket.js'
 
 let io;
 
-async function sendData() {
+async function sendData(socket) {
   try {
     //   if (!socket) {
     //     console.error("Socket instance is not available.");
@@ -48,7 +48,7 @@ async function sendData() {
       getDayHighBreak(),
       getTopGainersAndLosers(),
       getDayLowBreak(),
-      previousDaysVolume(),
+      previousDaysVolume(socket),
     ]);
 
     if (response.status === "fulfilled") io.emit("turnOver", response.value);
@@ -197,13 +197,13 @@ const initializeServer = (server) => {
 
   io.use(authenticateSocket);
   io.use(checkSubscription);
-console.log('not run afetr login')
+ 
   io.on("connection", async (socket) => {
     console.log("a user connected", socket.id);
 
     socket.on("getMarketDepthData", async () => {
       console.log("inside get data");
-      await sendData();
+      await sendData(socket);
 
       // console.log("user disconnected",socket.id);
     });

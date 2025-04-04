@@ -16,7 +16,7 @@ const authenticateSocket = (socket, next) => {
                 return next(new Error("Invalid token"));
             }
 
-            console.log('authentucate')
+            // console.log('authenticate')
             socket.user = { id: decoded.userId };
             next();
         });

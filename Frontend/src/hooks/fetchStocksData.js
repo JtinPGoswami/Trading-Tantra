@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-const serverUri = "http://13.60.46.100:3000/api";
+const SERVER_URI = import.meta.env.VITE_SERVER_URI;
 
 export const fetchStockData = () => {
   const [TnGData, setData] = useState([]);
@@ -13,7 +13,7 @@ export const fetchStockData = () => {
       setLoading(true);
 
       const response = await axios.get(
-        `${serverUri}/get-top-gainers-and-losers`
+        `${SERVER_URI}/get-top-gainers-and-losers`
       );
       setData(response);
     } catch (error) {
@@ -35,7 +35,7 @@ export const usefetchDayHighData = () => {
     try {
       setLoading(true);
 
-      const response = await axios.get(`${serverUri}/get-day-high-break`);
+      const response = await axios.get(`${SERVER_URI}/get-day-high-break`);
 
       setData(response);
     } catch (error) {
@@ -57,7 +57,7 @@ export const usefetchDayLowData = () => {
     try {
       setDlLoading(true);
 
-      const response = await axios.get(`${serverUri}/get-day-low-break`);
+      const response = await axios.get(`${SERVER_URI}/get-day-low-break`);
 
       setDlData(response);
     } catch (error) {
@@ -79,7 +79,7 @@ export const usefetchPreviousVolume = () => {
     try {
       setPvLoading(true);
 
-      const response = await axios.get(`${serverUri}/previous-volume`);
+      const response = await axios.get(`${SERVER_URI}/previous-volume`);
 
       setPvData(response);
     } catch (error) {

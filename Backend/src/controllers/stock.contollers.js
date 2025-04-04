@@ -537,13 +537,13 @@ const getDayLowBreak = async (req, res) => {
 };
 
 // give the previous data if today data not avail
-const previousDaysVolume = async (req, res) => {
+const previousDaysVolume = async (socket) => {
   try {
     const uniqueTradingDaysDates = await MarketDetailData.aggregate([
       { $group: { _id: "$date" } },
       { $sort: { _id: -1 } },
       { $limit: 2 },
-    ]);
+    ],{allowDiskUse: true});
 
     if (!uniqueTradingDaysDates) {
       return { success: false, message: "No stock data available" };
@@ -578,7 +578,7 @@ const previousDaysVolume = async (req, res) => {
         date: 1,
         _id: 0,
       }
-    ).sort({ date: -1 });
+    ).sort({ date: -1 }).allowDiskUse(true);
 
     if (!previousData.length) {
       return { success: false, message: "No previous stock data available" };
@@ -685,8 +685,8 @@ const previousDaysVolume = async (req, res) => {
 
     // res.status(200).json({ success: true, combinedData });
   } catch (error) {
-    console.error(error);
-    return { success: false, message: "Server error", error: error.message };
+    // console.error(error,'pd reeoe');
+    socket.emit('error', error.message);
     // res.status(500).json({ message: "Server error", error: error.message });
   }
 };

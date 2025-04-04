@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const addTrade = async (tradeData) => {
+  const SERVER_URI = import.meta.env.VITE_SERVER_URI;
   try {
     const response = await axios.post(
-      "http://13.60.46.100:3000/api/auth/add-trade",
+      `${SERVER_URI}/auth/add-trade`,
       tradeData,
       { withCredentials: true }
     );

@@ -7,9 +7,10 @@ import {
   getDataForTenMin,
   startWebSocket,
 } from "./src/controllers/liveMarketData.controller.js";
+import MarketDetailData from "./src/models/marketData.model.js";
 
-import cron from "node-cron";
-import scrapeAndSaveFIIDIIData from "./src/jobs/scrapData_Two.js";
+// import cron from "node-cron";
+// import scrapeAndSaveFIIDIIData from "./src/jobs/scrapData_Two.js";
 
 dotenv.config();
 
@@ -38,8 +39,11 @@ dotenv.config();
 
 // console.log("Cron job scheduled to run every 2 minutes.");
 
-connectDB();
-startWebSocket();
+ 
+
+
+
+// startWebSocket();
 // scrapeAndSaveFIIDIIData();
 
 // getDataForTenMin("2025-03-27", "2025-03-28")

@@ -5,7 +5,7 @@ const useFetchData = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState("");
-
+  const SERVER_URI = import.meta.env.VITE_SERVER_URI;
   const fetchData = async (url, method, formData = null) => {
     try {
       setLoading(true);
@@ -13,26 +13,26 @@ const useFetchData = () => {
       let response;
 
       if (method == "GET") {
-        response = await axios.get(`http://13.60.46.100:3000/api/${url}`, {
+        response = await axios.get(`${SERVER_URI}/${url}`, {
           withCredentials: true,
         });
       } else if (method == "POST") {
         response = await axios({
           method: "POST",
-          url: `http://13.60.46.100:3000/api/${url}`,
+          url: `${SERVER_URI}/${url}`,
           data: formData,
           withCredentials: true,
         });
       } else if (method === "PUT") {
         response = await axios({
           method: "PUT",
-          url: `http://13.60.46.100:3000/api/${url}`,
+          url: `${SERVER_URI}/${url}`,
           data: formData,
         });
       } else if (method === "DELETE") {
         response = await axios({
           method: "DELETE",
-          url: `http://13.60.46.100:3000/api/${url}`,
+          url: `${SERVER_URI}/api/${url}`,
         });
       }
 
