@@ -10,20 +10,19 @@ import cookieParser from "cookie-parser";
 import http from "http";
 import "./src/config/passport.js";
 
-import bodyParser from 'body-parser';
+import bodyParser from "body-parser";
 
 import stocksRoutes from "./src/routes/stock.routes.js";
 import feedbackRoute from "./src/routes/feedback.route.js";
- 
+
 import { getSocketInstance, initializeServer } from "./src/config/socket.js";
-import holidayJob from "./src/jobs/holiday.job.js";
-import scheduleMarketJob from "./jobs/liveMarket.job.js";
-import FiiDiiJob from './src/jobs/FiiDiiJob.js'
- 
+
 import paymentRoutes from "./src/routes/payment.routes.js";
 
- 
 import isSubscribedRoute from "./src/routes/isSubscribed.js";
+import scheduleMarketJob from "./src/jobs/liveMarket.job.js";
+import FiiDiiJob from "./src/jobs/FiiDiiJob.js";
+import holidayJob from "./src/jobs/holiday.job.js";
 
 dotenv.config();
 
@@ -33,24 +32,25 @@ const server = http.createServer(app);
 app.use(morgan("dev"));
 
 app.use(bodyParser.json());
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ limit: '100mb', extended: true }));
+app.use(express.json({ limit: "100mb" }));
+app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
 app.use(cookieParser());
 
 app.use(passport.initialize());
 initializeServer(server);
 
-app.use(cors({
+app.use(
+  cors({
     origin: ["http://localhost:5173", "https://trading-tantra-8trv.vercel.app"], // Replace with your frontend URL
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+  res.send("Hello World!");
 });
 
 app.use("/api/auth", authRoutes);
@@ -59,18 +59,16 @@ app.use("/api", stocksRoutes);
 app.use("/api", feedbackRoute);
 app.use("/api", isSubscribedRoute);
 
- 
-
 const PORT = process.env.PORT || 3000;
 
 connectDB()
-    .then(() => {
-        server.listen(PORT, () => {
-            console.log("Server started on port ", PORT);
-        });
-    })
-    .catch((error) => {
-        console.log("Failed to connect ", error);
+  .then(() => {
+    server.listen(PORT, () => {
+      console.log("Server started on port ", PORT);
     });
+  })
+  .catch((error) => {
+    console.log("Failed to connect ", error);
+  });
 
 export { app, server };
