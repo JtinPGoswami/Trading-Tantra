@@ -404,8 +404,17 @@ const AiSectorDepthPage = () => {
   ];
 
   const token = localStorage.getItem("token");
-  const socket = io("http://localhost:3000", {
+  const socket = io("http://13.60.46.100:3000", {
     auth: { token },
+    transports: ["websocket"],
+  });
+
+  socket.on("connect", () => {
+    console.log("✅ Connected to WebSocket Server:", socket.id);
+  });
+
+  socket.on("connect_error", (err) => {
+    console.error("❌ WebSocket Connection Error:", err.message);
   });
 
   const [data, setData] = useState([]);
@@ -524,7 +533,9 @@ const AiSectorDepthPage = () => {
             ))}
           </div> */}
           {isSubscribed === "false" ? (
-            <div className="w-full h-[300px]"><Lock /></div>
+            <div className="w-full h-[300px]">
+              <Lock />
+            </div>
           ) : (
             <>{loading ? <Loader /> : <TreeGrpahsGrid data={data} />}</>
           )}
@@ -545,7 +556,9 @@ const AiSectorDepthPage = () => {
           </div>
           <div className="w-full bg-gradient-to-br from-[#00078F] to-[#01071C] p-px rounded-lg">
             {isSubscribed === "false" ? (
-              <div className="w-full h-[300px]"><Lock /></div>
+              <div className="w-full h-[300px]">
+                <Lock />
+              </div>
             ) : (
               <>
                 {loading ? <Loader /> : <AISectorChart data={sectorWiseData} />}
@@ -559,7 +572,7 @@ const AiSectorDepthPage = () => {
 
       <section className="mt-8">
         {isSubscribed === "false" ? (
-           ''
+          ""
         ) : (
           <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
             <>

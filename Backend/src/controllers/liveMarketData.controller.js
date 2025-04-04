@@ -17,7 +17,7 @@ import { getDayHighBreak, getDayLowBreak } from "../utils/DayHighLow.js";
 import HighLowReversal from "../models/highLowReversal.model.js";
 import TwoDayHighLowBreak from "../models/twoDayHighLowBreak.model.js";
 import FiveMinCandles from "../models/fiveMinCandles.model.js";
-import IntradayReversalFiveMin from "../models/fiveMInMomentumSignal.model.js";
+import IntradayReversalFiveMin from "../models/fiveMinMomentumSignal.model.js";
 import TenMinCandles from "../models/tenMinCandles.model.js";
 
 const ACCESS_TOKEN = process.env.DHAN_ACCESS_TOKEN;

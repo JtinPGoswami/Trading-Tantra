@@ -3,78 +3,80 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import cors from "cors";
 import passport from "passport";
-import connectDB from "./config/db.js";
-import authRoutes from "./routes/auth.routes.js";
+import connectDB from "./src/config/db.js";
+
+import authRoutes from "./src/routes/auth.routes.js";
 import cookieParser from "cookie-parser";
 import http from "http";
-import "./config/passport.js";
+import "./src/config/passport.js";
 
-import stocksRoutes from "./routes/stock.routes.js";
-import feedbackRoute from './routes/feedback.route.js';
+import bodyParser from 'body-parser';
+
+import stocksRoutes from "./src/routes/stock.routes.js";
+import feedbackRoute from "./src/routes/feedback.route.js";
 import {
-  getDayLowBreak,
-  getDayHighBreak,
-  getStocksData,
-  getTopGainersAndLosers,
-  previousDaysVolume,
-  sectorStockData,
-} from "./controllers/stock.contollers.js";
-import { getSocketInstance, initializeServer } from "./config/socket.js";
-import holidayJob from "./jobs/holiday.job.js";
-import scheduleMarketJob from "./jobs/liveMarket.job.js";
-import FiiDiiJob from './jobs/FiiDiiJob.js'
+    getDayLowBreak,
+    getDayHighBreak,
+    getStocksData,
+    getTopGainersAndLosers,
+    previousDaysVolume,
+    sectorStockData,
+} from "./src/controllers/stock.contollers.js";
+import { getSocketInstance, initializeServer } from "./src/config/socket.js";
+import holidayJob from "./src/jobs/holiday.job.js";
+//  import scheduleMarketJob from "./jobs/liveMarket.job.js";
+import { send } from "process";
+import {
+    AIIntradayReversalFiveMins,
+    AIMomentumCatcherFiveMins,
+    AIMomentumCatcherTenMins,
+    DailyRangeBreakout,
+    DayHighLowReversal,
+    twoDayHLBreak,
+} from "./src/controllers/liveMarketData.controller.js";
+import paymentRoutes from "./src/routes/payment.routes.js";
 
 import {
-  AIIntradayReversalFiveMins,
-  AIMomentumCatcherFiveMins,
-  AIMomentumCatcherTenMins,
-  DailyRangeBreakout,
-  DayHighLowReversal,
-  twoDayHLBreak,
-} from "./controllers/liveMarketData.controller.js";
-import paymentRoutes from "./routes/payment.routes.js";
-
-import {
-  AIContraction,
-  dailyCandleReversal,
-  fiveDayRangeBreakers,
-  tenDayRangeBreakers,
-} from "./controllers/swingAnalysis.controllers.js";
-import isSubscribedRoute from "./routes/isSubscribed.js";
+    AIContraction,
+    dailyCandleReversal,
+    fiveDayRangeBreakers,
+    tenDayRangeBreakers,
+} from "./src/controllers/swingAnalysis.controllers.js";
+import isSubscribedRoute from "./src/routes/isSubscribed.js";
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
 
-app.use(express.json());
 app.use(morgan("dev"));
-app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.json());
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
 app.use(cookieParser());
 
 app.use(passport.initialize());
 initializeServer(server);
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
+app.use(cors({
+    origin: ["http://localhost:5173", "https://trading-tantra-8trv.vercel.app"], // Replace with your frontend URL
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  })
-);
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+    res.send("Hello World!");
 });
 
 app.use("/api/auth", authRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api", stocksRoutes);
-app.use('/api',feedbackRoute)
-app.use('/api',isSubscribedRoute)
- 
+app.use("/api", feedbackRoute);
+app.use("/api", isSubscribedRoute);
 
 // async function sendData() {
 //   try {
@@ -269,13 +271,13 @@ app.use('/api',isSubscribedRoute)
 const PORT = process.env.PORT || 3000;
 
 connectDB()
-  .then(() => {
-    server.listen(PORT, () => {
-      console.log("Server started on port ", PORT);
+    .then(() => {
+        server.listen(PORT, () => {
+            console.log("Server started on port ", PORT);
+        });
+    })
+    .catch((error) => {
+        console.log("Failed to connect ", error);
     });
-  })
-  .catch((error) => {
-    console.log("Failed to connect ", error);
-  });
 
 export { app, server };

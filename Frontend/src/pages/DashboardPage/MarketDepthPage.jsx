@@ -27,10 +27,18 @@ import { PreviousVolume } from "../../Components/Dashboard/Cards/PreviousVolume"
 
 const token = localStorage.getItem("token");
 
-const socket = io("http://localhost:3000", {
+const socket = io("http://13.60.46.100:3000", {
   auth: { token },
+  transports: ["websocket"],
 });
 
+socket.on("connect", () => {
+  console.log("✅ Connected to WebSocket Server:", socket.id);
+});
+
+socket.on("connect_error", (err) => {
+  console.error("❌ WebSocket Connection Error:", err.message);
+});
 const MarketDepthPage = () => {
   const stockDataList = [
     {
@@ -310,13 +318,13 @@ const MarketDepthPage = () => {
   const [loading, setLoading] = useState(null);
   const [error, seterror] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const [isSubscribed,setIsSubscribed] = useState(null)
+  const [isSubscribed, setIsSubscribed] = useState(null);
 
   const token = localStorage.getItem("token");
   useEffect(() => {
     const Subscribed = localStorage.getItem("isSubscribed");
-    setIsSubscribed(Subscribed)
-    
+    setIsSubscribed(Subscribed);
+
     setLoading(true);
 
     //trigger socket
@@ -325,9 +333,9 @@ const MarketDepthPage = () => {
 
     // socket.emit("getData");
 
-    socket.on("error", (data) => {
-      console.log("error", data);
-    });
+    // socket.on("error", (data) => {
+    //   console.log("error", data);
+    // });
 
     if (!isFetching) {
       socket.emit("getMarketDepthData", { token });

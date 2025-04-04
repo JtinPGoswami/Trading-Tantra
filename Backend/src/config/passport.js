@@ -7,7 +7,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/api/auth/google/callback",
+      callbackURL: "http://13.60.46.100:3000/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -31,7 +31,7 @@ passport.use(
         await user.save();
         done(null, user);
       } catch (error) {
-        console.log('error in pass config',error)
+        console.log("error in pass config", error);
         done(error, null);
       }
     }

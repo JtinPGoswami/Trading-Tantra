@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useFetchData from "../utils/useFetchData";
-import { useAuth } from "../contexts/AuthContext";
+// import { useAuth } from "../contexts/AuthContext";
 
 const LoginPage = () => {
   // const [loading, setLoading] = useState(false);
@@ -9,7 +9,7 @@ const LoginPage = () => {
   // const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { data, error, loading, fetchData } = useFetchData();
-  const { login } = useAuth();
+  // const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,10 +31,8 @@ const LoginPage = () => {
   };
 
   const handleGoolgleLogin = async () => {
-
-    window.location.href = "http://localhost:3000/api/auth/google"
-
-  }
+    window.location.href = "http://13.60.46.100:3000/api/auth/google";
+  };
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100  ">
       {loading && (
