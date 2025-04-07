@@ -117,6 +117,9 @@ const AICandleBreakers = async (req, res) => {
 };
 
 
+
+
+
 const AIContraction = async (req, res) => {
     try {
         const data = await ContractionModel.find({},{
