@@ -197,60 +197,169 @@ async function startWebSocket() {
     setTimeout(startWebSocket, 2000);
   });
 }
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// const getData = async (fromDate, toDate) => {
-//   const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
-//   // console.log("stock", stocks);
-//   const securityIds = stocks.map((stock) =>
-//     stock.SECURITY_ID.trim().toString()
-//   );
+// //with redis
 
-//   // const formattedFromDate = new Date(today); // Today's date
+// import redis from "../config/redisClient.js"; // or your own configured Redis connection
 
-//   // const formattedToDate = new Date(today);
-//   // formattedToDate.setDate(formattedToDate.getDate() + 1); // Tomorrow's date
+// let securityIdList = [];
+// const securityIdMap = new Map();
+// let marketDataBuffer = new Map();
 
-//   // const fromDate = formattedFromDate.toISOString().split("T")[0];
-//   // const toDate = formattedToDate.toISOString().split("T")[0];
+// const batchSize = 216;
+// let isProcessingSave = false;
+// let batchCount = 0;
 
-//   const fiveMinCandelMap = new Map();
+// let lastDbSaveTime = 0;
+
+// const fetchSecurityIds = async () => {
 //   try {
-//     function convertToIST(unixTimestamp) {
-//       const date = new Date(unixTimestamp * 1000); // Convert to milliseconds
-//       return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-//     }
-
-//     // Example usage:
-//     // Outp
-
-//     for (let i = 0; i < securityIds.length; i++) {
-//       const data = await fetchHistoricalData(
-//         securityIds[i],
-//         fromDate,
-//         toDate,
-//         i
-//       );
-//       // console.log(data.timestamp,'timestamps');
-
-//       data.open = data?.open.slice(-5);
-//       data.high = data?.high.slice(-5);
-//       data.low = data?.low.slice(-5);
-//       data.close = data?.close.slice(-5);
-//       data.volume = data?.volume.slice(-5);
-//       data.timestamp = convertToIST(data.timestamp.slice(-5)[4]);
-//       data.securityId = data.securityId || securityIds[i];
-//       fiveMinCandelMap.set(securityIds[i], data);
-
-//       await delay(200); // Adjust delay (1000ms = 1 sec) based on API rate limits
-//     }
-
-//     await FiveMinCandles.insertMany(data);
-//     return fiveMinCandelMap;
+//     const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
+//     securityIdList = stocks.map((stock) => stock.SECURITY_ID);
 //   } catch (error) {
-//     console.error("Error in getData:", error.message);
+//     console.error("❌ Error fetching security IDs:", error);
+//     throw error;
 //   }
 // };
+
+// const splitIntoBatches = (array, batchSize) => {
+//   const batches = [];
+//   for (let i = 0; i < array.length; i += batchSize) {
+//     batches.push(array.slice(i, i + batchSize));
+//   }
+//   return batches;
+// };
+
+// const calculateTurnover = (avgPrice, volume) => {
+//   return Number(avgPrice * volume).toFixed(2);
+// };
+
+// const saveMarketData = async () => {
+//   console.log("📝 Saving market data to MongoDB");
+//   const todayDate = new Date().toISOString().split("T")[0];
+//   let successCount = 0;
+//   let errorCount = 0;
+
+//   for (const [securityId, marketData] of marketDataBuffer.entries()) {
+//     if (!marketData || !marketData.length || !marketData[0]) continue;
+
+//     const turnover = calculateTurnover(
+//       marketData[0].avgTradePrice,
+//       marketData[0].volume
+//     );
+
+//     try {
+//       await MarketDetailData.findOneAndUpdate(
+//         { date: todayDate, securityId },
+//         { $set: { data: marketData, turnover } },
+//         { upsert: true, new: true }
+//       );
+//       successCount++;
+//     } catch (err) {
+//       console.error(`❌ DB error for ${securityId}: ${err.message}`);
+//       errorCount++;
+//     }
+//   }
+
+//   console.log(
+//     `✅ Saved to DB | Success: ${successCount}, Errors: ${errorCount}`
+//   );
+//   marketDataBuffer.clear();
+//   isProcessingSave = false;
+//   lastDbSaveTime = Date.now();
+// };
+
+// const saveToRedis = async (securityId, data) => {
+//   try {
+//     await redis.set(`market:${securityId}`, JSON.stringify(data));
+//     // Optionally set TTL: await redis.expire(`market:${securityId}`, 300);
+//   } catch (err) {
+//     console.error(`❌ Redis Save Error for ${securityId}: ${err.message}`);
+//   }
+// };
+
+// async function startWebSocket() {
+//   console.log("🔄 Fetching security IDs...");
+//   await fetchSecurityIds();
+
+//   if (securityIdList.length === 0) {
+//     console.error("❌ No security IDs found. WebSocket will not start.");
+//     return;
+//   }
+
+//   const securityIdBatches = splitIntoBatches(securityIdList, 100);
+
+//   const ws = new WebSocket(WS_URL, {
+//     perMessageDeflate: false,
+//     maxPayload: 1024 * 1024,
+//   });
+
+//   ws.on("open", () => {
+//     console.log("✅ Connected to WebSocket");
+
+//     securityIdBatches.forEach((batch, batchIndex) => {
+//       setTimeout(() => {
+//         securityIdMap.set(batchIndex, batch);
+
+//         const subscriptionRequest = {
+//           RequestCode: 21,
+//           InstrumentCount: batch.length,
+//           InstrumentList: batch.map((securityId) => ({
+//             ExchangeSegment: "NSE_EQ",
+//             SecurityId: securityId,
+//           })),
+//         };
+
+//         ws.send(JSON.stringify(subscriptionRequest));
+//         console.log(`📩 Subscribed Batch ${batchIndex + 1}`);
+//       }, batchIndex * 5000);
+//     });
+//   });
+
+//   ws.on("message", async (data) => {
+//     if (isProcessingSave) return;
+
+//     try {
+//       const marketData = parseBinaryData(data);
+
+//       if (marketData && marketData.securityId) {
+//         const securityId = marketData.securityId;
+
+//         if (!marketDataBuffer.has(securityId)) {
+//           marketDataBuffer.set(securityId, []);
+//         }
+
+//         marketDataBuffer.get(securityId).push(marketData);
+
+//         // Save each live data to Redis immediately
+//         await saveToRedis(securityId, marketData);
+
+//         // Check if 5 minutes have passed since last DB save
+//         const currentTime = Date.now();
+//         if (currentTime - lastDbSaveTime >= 5 * 60 * 1000) {
+//           console.log("🕔 5 minutes passed. Saving batch to DB...");
+//           isProcessingSave = true;
+//           await saveMarketData();
+//         }
+//       } else {
+//         console.warn("⚠️ Invalid market data received.");
+//       }
+//     } catch (error) {
+//       console.error("❌ Error processing market data:", error.message);
+//     }
+//   });
+
+//   ws.on("error", (error) => {
+//     console.error("❌ WebSocket Error:", error.message);
+//   });
+
+//   ws.on("close", () => {
+//     console.log("🔄 WebSocket disconnected. Reconnecting...");
+//     isProcessingSave = false;
+//     setTimeout(startWebSocket, 2000);
+//   });
+// }
 
 const getData = async (fromDate, toDate) => {
   const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
@@ -273,6 +382,20 @@ const getData = async (fromDate, toDate) => {
         toDate,
         i
       );
+
+      // Check Redis cache
+      const cachedData = await redis.get(redisKey);
+      if (cachedData) {
+        console.log(`Fetched from Redis: ${securityIds[i]}`);
+        data = JSON.parse(cachedData);
+      } else {
+        data = await fetchHistoricalData(securityIds[i], fromDate, toDate, i);
+
+        if (data) {
+          await redis.setEx(redisKey, 300, JSON.stringify(data)); // Cache for 5 minutes
+          console.log(`Fetched from API and cached: ${securityIds[i]}`);
+        }
+      }
 
       if (!data || !data.timestamp) {
         console.warn(`No data found for Security ID: ${securityIds[i]}`);
@@ -407,7 +530,7 @@ const getDailyData = async (fromDate, toDate) => {
 //   }
 // };
 
-const getDataForTenMin = async (fromDate, toDate) => {
+const getDataForTenMin = async (fromDate="2025-04-03", toDate='2025-04-04') => {
   const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
 
   const securityIds = stocks.map((stock) =>
@@ -515,8 +638,10 @@ const AIIntradayReversalFiveMins = async (req, res) => {
     }
 
     const latestDataMap = new Map();
+    const securityIds = [];
 
     latestData.forEach((entry) => {
+      securityIds.push(entry.securityId.trim().toString());
       latestDataMap.set(
         entry.securityId,
         entry.data?.latestTradedPrice?.[0] || 0
@@ -547,15 +672,53 @@ const AIIntradayReversalFiveMins = async (req, res) => {
       previousDayDataMap.set(entry.securityId, entry.data?.dayClose?.[0] || 0);
     });
 
-    const data = await FiveMinCandles.find();
+    function convertToIST(unixTimestamp) {
+      const date = new Date(unixTimestamp * 1000); // Convert to milliseconds
+      return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+    }
+   
+    const updatedData = [];
+    let data;
+    for (let i = 0; i < securityIds.length; i++) {
+      // const data = await fetchHistoricalData(
+      //   securityIds[i],
+      //   fromDate,
+      //   toDate,
+      //   i
+      // );
+      const redisKey = `stockFiveMinCandle:${securityIds[i]}:${latestDate}-${tomorrowFormatted}`;
+
+      // Check Redis cache
+      const cachedData = await redis.get(redisKey);
+      if (cachedData) {
+        console.log(`Fetched from Redis: ${securityIds[i]}`);
+        data = JSON.parse(cachedData);
+      }
+
+      if (!data) {
+        console.warn(`No data found for Security ID: ${securityIds[i]}`);
+        continue; // Skip if data is missing
+      }
+
+      // Prepare the updated data
+      updatedData.push({
+        securityId: securityIds[i],
+        timestamp: data.timestamp.slice(-5).map(convertToIST), // Convert all timestamps
+        open: data.open.slice(-5),
+        high: data.high.slice(-5),
+        low: data.low.slice(-5),
+        close: data.close.slice(-5),
+        volume: data.volume.slice(-5),
+      });
+    }
 
     // Check if data is valid and a Map
-    if (!data) {
+    if (!updatedData) {
       return { message: "Invalid data format" }; //res.status(400).json({ message: "Invalid data format" });
     }
     // console.log("data from databse", data);
     // Convert Map to an array
-    const dataArray = Array.from(data.values());
+    const dataArray = Array.from(updatedData.values());
 
     if (dataArray.length === 0) {
       return { message: "No data found" }; // res.status(404).json({ message: "No data found" });
@@ -632,7 +795,7 @@ const AIIntradayReversalFiveMins = async (req, res) => {
 
       if (allBearish && decreasingMomentum && latestPositive) {
         momentumSignals.push({
-          type: "Bullish Reversal",
+          type: "Bullish",
           securityId,
           stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
           stockName: stock?.SYMBOL_NAME || "N/A",
@@ -654,7 +817,7 @@ const AIIntradayReversalFiveMins = async (req, res) => {
 
       if (allBullish && decreasingBullMomentum && latestNegative) {
         momentumSignals.push({
-          type: "Bearish Reversal",
+          type: "Bearish",
           securityId,
           stockSymbol: stock?.UNDERLYING_SYMBOL || "N/A",
           stockName: stock?.SYMBOL_NAME || "N/A",

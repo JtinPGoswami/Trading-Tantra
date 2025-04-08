@@ -76,6 +76,7 @@ import {
   getDataForTenMin,
   startWebSocket,
 } from "../controllers/liveMarketData.controller.js";
+import { fiveMinDataQueue, liveDataQueue } from "./Queues.js";
 
 // Helper to get IST time
 const getISTTime = () => {
@@ -140,28 +141,35 @@ const runMarketTask = async () => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const toDate = tomorrow.toISOString().split("T")[0];
+
+    //new implementation with queue
+
+    await fiveMinDataQueue.add("fetch-five-min-candle", { fromDate, toDate });
+
+    await liveDataQueue.add("fetch-live-candle", { fromDate, toDate });
+
+    
+  console.log('All market jobs queued ✅');
     // console.log(formattedDate);
 
-    console.log("Executing getDataForTenMin...");
-    await getDataForTenMin(fromDate, toDate);
+    // console.log("Executing getDataForTenMin...");
+    // await getDataForTenMin(fromDate, toDate);
 
-    console.log("Executing getData for 5 min...");
-    await getData(fromDate, toDate);
+    // console.log("Executing getData for 5 min...");
+    // await getData(fromDate, toDate);
 
-    console.log("Market task completed.");
+    // console.log("Market task completed.");
 
-    startWebSocket();
+    // startWebSocket();
 
-    console.log('websocket executed');
-
-
+    // console.log('websocket executed');
   } catch (error) {
     console.error("Error in market task:", error.message);
   }
 };
 
 // Schedule the cron job
-const scheduleMarketJob = cron.schedule(
+cron.schedule(
   "*/4 9-15 * * 1-5", // Runs every 2 minutes, Monday to Friday (9 AM - 3 PM)
   runMarketTask,
   {
@@ -174,4 +182,4 @@ console.log(
   "Market cron job scheduled: Every 2 minutes, 9:15 AM - 3:40 PM IST, Mon-Fri ✅"
 );
 
-export default scheduleMarketJob;
+
