@@ -19,9 +19,6 @@ const getStocks = async (req, res) => {
 // new logic that return previous data if today data not avail for turnover with optimized code
 const getStocksData = async () => {
   try {
-
-
-   
     // Step 1: Get the latest **unique** date
     const latestEntry = await MarketDetailData.findOne()
       .sort({ date: -1 })
@@ -32,7 +29,7 @@ const getStocksData = async () => {
       return { success: false, message: "No stock data available" };
     }
     // console.log("latestEntry", latestEntry);
- 
+
     const latestDate = latestEntry.date;
 
     // Step 2: Find the **most recent past available date** (ignoring holidays)
@@ -45,8 +42,8 @@ const getStocksData = async () => {
       .select("date")
       .lean();
 
-    if(!previousDayEntry){
-      return {success:false, message:"No previous data found!"}
+    if (!previousDayEntry) {
+      return { success: false, message: "No previous data found!" };
     }
 
     if (previousDayEntry) {
@@ -62,7 +59,7 @@ const getStocksData = async () => {
         message: "No stock data available for the latest date",
       };
     }
- 
+
     // Step 4: Fetch previous day's stock data (if available)
     let previousDayMap = new Map();
     if (previousDayDate) {
@@ -74,7 +71,7 @@ const getStocksData = async () => {
       );
     }
 
-    console.log('emekdeb🙌')
+    console.log("emekdeb🙌");
     // Step 5: Fetch stock details
     const stockIds = stocksData.map((entry) => entry.securityId);
     const stockDetails = await StocksDetail.find(
@@ -100,8 +97,7 @@ const getStocksData = async () => {
       const previousStock = previousDayMap.get(stock.securityId);
       const dayClose = previousStock?.data?.[0].dayClose;
       const latestTradePrice = stock?.data?.[0].latestTradedPrice;
-      // console.log(latestTradePrice, dayClose, "ltp,dayclose");
-
+ 
       // Change Percentage Calculation
       const changePercentage =
         dayClose && dayClose !== 0
@@ -122,17 +118,14 @@ const getStocksData = async () => {
       };
     });
 
-    
     // Sort by turnover and return top 30 stocks
     const sortedData = response
       .sort((a, b) => b.turnover - a.turnover)
       .slice(0, 30);
 
-      
     return { success: true, message: "Stock data retrieved", data: sortedData };
   } catch (error) {
-    // console.error("Error fetching stocks data:", error);
-    return {
+     return {
       success: false,
       message: "Internal server error",
       error: error.message,
@@ -150,12 +143,10 @@ const getTopGainersAndLosers = async (req, res) => {
 
     if (!latestEntry) {
       return { success: false, message: "No stock data available" };
-      //  res.status(404).json({ message: "No stock data available" });
-    }
+     }
 
     const latestDate = latestEntry.date;
-    // console.log("Latest available date:", latestDate);
-
+ 
     // Step 2: Fetch all data for the latest available date
     const latestData = await MarketDetailData.find({ date: latestDate });
 
@@ -164,13 +155,7 @@ const getTopGainersAndLosers = async (req, res) => {
         success: false,
         message: "No stock data available for the latest date",
       };
-
-      // res
-      //   .status(404)
-      //   .json({ message: "No stock data available for the latest date" });
     }
-
-    // console.log("Total entries found for latest date:", latestData.length);
 
     // Step 3: Find the most recent previous available date
     const previousDayEntry = await MarketDetailData.findOne(
@@ -180,14 +165,10 @@ const getTopGainersAndLosers = async (req, res) => {
 
     if (!previousDayEntry) {
       return { success: false, message: "No previous stock data available" };
-
-      // res
-      //   .status(404)
-      //   .json({ message: "No previous stock data available" });
     }
 
     const previousDayDate = previousDayEntry.date;
-    // console.log("Previous available date:", previousDayDate);
+    
 
     // Fetch previous day's stock data
     const yesterdayData = await MarketDetailData.find({
@@ -199,8 +180,6 @@ const getTopGainersAndLosers = async (req, res) => {
     yesterdayData.forEach((entry) => {
       yesterdayMap.set(entry.securityId, entry.data?.dayClose[0] || 0);
     });
-
-    // console.log('yesterdayyyyyyyyyyyy',yesterdayMap)
 
     const gainers = [];
     const losers = [];
@@ -228,8 +207,7 @@ const getTopGainersAndLosers = async (req, res) => {
     latestData.forEach((todayEntry) => {
       const prevClose = yesterdayMap.get(todayEntry.securityId);
       if (!prevClose || prevClose === 0) return;
-      // console.log(' jbrbjbrrbbkrbirbfribiu',prevClose)
-
+ 
       const latestPrice = todayEntry.data?.latestTradedPrice[0] || 0;
 
       if (latestPrice === 0) return;
@@ -240,8 +218,7 @@ const getTopGainersAndLosers = async (req, res) => {
             )
           : 0;
       const stockDetail = stockDetailsMap.get(todayEntry.securityId) || {};
-      // console.log('fnrfkjrknf',percentageChange)
-      const result = {
+       const result = {
         securityId: todayEntry.securityId,
         stockSymbol: stockDetail.UNDERLYING_SYMBOL || "N/A",
         stockName: stockDetail.SYMBOL_NAME || "N/A",
@@ -255,8 +232,7 @@ const getTopGainersAndLosers = async (req, res) => {
       };
 
       if (percentageChange > 0) {
-        // console.log(true)
-        gainers.push(result);
+         gainers.push(result);
       } else {
         losers.push(result);
       }
@@ -270,10 +246,7 @@ const getTopGainersAndLosers = async (req, res) => {
       topGainers: gainers.slice(0, 30),
       topLosers: losers.slice(0, 30),
     };
-    // res.status(200).json({
-    //   topGainers: gainers.slice(0, 30),
-    //   topLosers: losers.slice(0, 30),
-    // });
+     
   } catch (error) {
     console.error("Error fetching top gainers & losers:", error);
     return {
@@ -281,16 +254,13 @@ const getTopGainersAndLosers = async (req, res) => {
       message: "Error fetching top gainers & losers",
       error: error.message,
     };
-    // res.status(500).json({ message: "Server error" });
+   
   }
 };
 
 // give the previous data if today data not avail
 const getDayHighBreak = async (req, res) => {
   try {
-
- 
-     
     // Step 1: Find the most recent date available in the database
     const latestEntry = await MarketDetailData.findOne()
       .sort({ date: -1 }) // Get the latest date
@@ -299,22 +269,17 @@ const getDayHighBreak = async (req, res) => {
     if (!latestEntry) {
       return { message: "Not enough data to calculate day high break" };
 
-      // res
-      //   .status(404)
-      //   .json({ message: "Not enough data to calculate day high break" });
+    
     }
 
     const latestDate = latestEntry.date;
-    // console.log("Latest available date:", latestDate);
-
+ 
     // Step 2: Fetch all entries that match this date
     const todayData = await MarketDetailData.find({ date: latestDate });
 
     if (todayData.length === 0) {
       return { message: "No data available for the latest saved date" };
-      // res
-      //   .status(404)
-      //   .json({ message: "No data available for the latest saved date" });
+       
     }
     const previousDayEntry = await MarketDetailData.findOne(
       { date: { $lt: latestDate } },
@@ -342,9 +307,7 @@ const getDayHighBreak = async (req, res) => {
         success: false,
         message: "Not enough data to calculate day high break",
       };
-      // res
-      //   .status(404)
-      //   .json({ message: "Not enough data to calculate day high break" });
+      
     }
     let filteredData = todayData.map((data) => ({
       latestPrice: parseFloat(data.data.latestTradedPrice[0].toFixed(2)),
@@ -354,8 +317,7 @@ const getDayHighBreak = async (req, res) => {
       todayOpen: parseFloat(data.data.dayOpen?.[0].toFixed(2)),
       xElement: data.xelement,
     }));
-    // console.log("today data", todayData);
-    const dayHighBreak = filteredData
+     const dayHighBreak = filteredData
       .map((data) => {
         const dayHigh = data.dayHigh;
         const changePrice = dayHigh * 0.005;
@@ -381,8 +343,7 @@ const getDayHighBreak = async (req, res) => {
               100
             ).toFixed(2);
 
-            //   console.log('dayhigh', dayHigh, 'latestPrice', latestPrice)
-            // return;
+           ;
 
             const percentageDifference = (
               ((dayHigh - latestPrice) / latestPrice) *
@@ -402,13 +363,11 @@ const getDayHighBreak = async (req, res) => {
       .sort((a, b) => a.percentageDifference - b.percentageDifference);
 
     return { success: true, dayHighBreak };
-
-    // console.log("dayHighBreak:", dayHighBreak);
-    // res.status(200).json({ dayHighBreak });
+ 
   } catch (error) {
     // console.log(error);
     return { message: "Server error", error: error.message };
-   // res.status(500).json({ message: "Server error", error: error.message });
+    
   }
 };
 
@@ -422,14 +381,11 @@ const getDayLowBreak = async (req, res) => {
 
     if (!latestEntry) {
       return { message: "Not enough data to calculate day low break" };
-      //  res
-      //   .status(404)
-      //   .json({ message: "Not enough data to calculate day low break" });
+      
     }
 
     const latestDate = latestEntry.date;
-    // console.log("Latest available date:", latestDate);
-
+ 
     // Step 2: Fetch all entries that match this date
     const todayData = await MarketDetailData.find({ date: latestDate });
 
@@ -438,9 +394,7 @@ const getDayLowBreak = async (req, res) => {
         success: false,
         message: "No data available for the latest saved date",
       };
-      // res
-      //   .status(404)
-      //   .json({ message: "No data available for the latest saved date" });
+      
     }
 
     // console.log("Total entries found for latest date:", todayData.length);
@@ -470,9 +424,7 @@ const getDayLowBreak = async (req, res) => {
         success: false,
         message: "Not enough data to calculate day low break",
       };
-      // res
-      //   .status(404)
-      //   .json({ message: "Not enough data to calculate day low break" });
+      
     }
 
     let filteredData = todayData.map((data) => ({
@@ -528,8 +480,7 @@ const getDayLowBreak = async (req, res) => {
       .sort((a, b) => a.percentageDifference - b.percentageDifference);
     return { success: true, dayLowBreak };
 
-    // console.log("dayLowBreak:", dayLowBreak);
-    // res.status(200).json({ dayLowBreak });
+    
   } catch (error) {
     // console.log(error);
     return { message: "Server error", error: error.message };
@@ -537,55 +488,221 @@ const getDayLowBreak = async (req, res) => {
 };
 
 // give the previous data if today data not avail
+// const previousDaysVolume = async (socket) => {
+//   try {
+//     const uniqueTradingDaysDates = await MarketDetailData.aggregate([
+//       { $group: { _id: "$date" } },
+//       { $sort: { _id: -1 } },
+//       { $limit: 2 },
+//     ],{allowDiskUse: true});
+
+//     if (!uniqueTradingDaysDates) {
+//       return { success: false, message: "No stock data available" };
+
+//       // res
+//       //   .status(404)
+//       //   .json({ success: false, message: "No stock data available" });
+//     }
+
+//     const latestDate = uniqueTradingDaysDates[0]._id;
+//     const previousDayDate = uniqueTradingDaysDates[1]._id;
+
+//     // Fetch today's data (latest available)
+//     const todayData = await MarketDetailData.find(
+//       { date: latestDate },
+//       {
+//         securityId: 1,
+//         "data.latestTradedPrice": 1,
+//         "data.dayOpen": 1,
+//         "data.volume": 1,
+//         _id: 0,
+//       }
+//     );
+
+//     // this is replacement of above below code
+//     const previousData = await MarketDetailData.aggregate([
+//       { $match: { date: { $lt: latestDate } } },
+//       { $sort: { date: -1 } },
+//       {
+//         $project: {
+//           securityId: 1,
+//           data: 1,
+//           date: 1,
+//           _id: 0,
+//         },
+//       },
+//     ],{allowDiskUse: true});
+
+//     //this cause error mongo  errro
+//     // Fetch all previous stock data (before latest date)
+//     // const previousData = await MarketDetailData.find(
+//     //   {
+//     //     date: { $lt: latestDate },
+//     //   },
+//     //   {
+//     //     securityId: 1,
+//     //     data: 1,
+//     //     date: 1,
+//     //     _id: 0,
+//     //   }
+//     // ).sort({ date: -1 }).allowDiskUse(true);
+
+//     if (!previousData.length) {
+//       return { success: false, message: "No previous stock data available" };
+
+//       // res
+//       //   .status(404)
+//       //   .json({ success: false, message: "No previous stock data available" });
+//     }
+
+//     const yesterdayData = await MarketDetailData.find(
+//       { date: previousDayDate },
+//       {
+//         securityId: 1,
+//         data: 1,
+//         _id: 0,
+//       }
+//     );
+
+//     const prevDayDataMap = new Map();
+//     yesterdayData.forEach((data) => {
+//       prevDayDataMap.set(data.securityId, data);
+//     });
+
+//     // Fetch stock details once
+//     const stocksDetail = await StocksDetail.find(
+//       {},
+//       {
+//         SECURITY_ID: 1,
+//         UNDERLYING_SYMBOL: 1,
+//         SYMBOL_NAME: 1,
+//         DISPLAY_NAME: 1,
+//         _id: 0,
+//       }
+//     );
+
+//     const stocksDetailsMap = new Map();
+//     stocksDetail.forEach((stock) => {
+//       stocksDetailsMap.set(stock.SECURITY_ID, {
+//         UNDERLYING_SYMBOL: stock.UNDERLYING_SYMBOL,
+//         SYMBOL_NAME: stock.SYMBOL_NAME,
+//         DISPLAY_NAME: stock.DISPLAY_NAME,
+//       });
+//     });
+
+//     // Build a lookup map for previous volumes by securityId
+//     let previousVolumesMap = {};
+//     previousData.forEach(({ securityId, data }) => {
+//       const volume = data?.volume?.[0] || 0;
+//       if (!previousVolumesMap[securityId]) {
+//         previousVolumesMap[securityId] = [];
+//       }
+//       previousVolumesMap[securityId].push(volume);
+//     });
+
+//     let bulkUpdates = [];
+//     const combinedData = todayData.map(({ securityId, data }) => {
+//       const todayVolume = data?.volume?.[0] || 0;
+//       const volumeHistory = previousVolumesMap[securityId] || [];
+//       const todayopen = data?.dayOpen;
+//       const latestTradedPrice = data?.latestTradedPrice?.[0];
+
+//       const stock = stocksDetailsMap.get(securityId);
+//       const previousDayData = prevDayDataMap?.get(securityId);
+//       const previousDayClose = previousDayData?.data?.dayClose?.[0];
+
+//       const percentageChange = todayopen
+//         ? ((latestTradedPrice - previousDayClose) / previousDayClose) * 100
+//         : 0;
+
+//       const totalPreviousVolume = volumeHistory.reduce(
+//         (sum, vol) => sum + vol,
+//         0
+//       );
+//       const averagePreviousVolume = volumeHistory.length
+//         ? totalPreviousVolume / volumeHistory.length
+//         : 0;
+
+//       const xElement =
+//         averagePreviousVolume > 0 ? todayVolume / averagePreviousVolume : 0;
+
+//       bulkUpdates.push({
+//         updateOne: {
+//           filter: { securityId, date: latestDate },
+//           update: { $set: { xelement: xElement } },
+//         },
+//       });
+
+//       return {
+//         securityId,
+//         todayVolume,
+//         stock,
+//         totalPreviousVolume,
+//         averagePreviousVolume,
+//         xElement,
+//         percentageChange,
+//       };
+//     });
+
+//     // Perform batch update in a single query
+//     if (bulkUpdates.length > 0) {
+//       await MarketDetailData.bulkWrite(bulkUpdates);
+//     }
+//     console.log('combinedData',combinedData)
+//     return { success: true, combinedData };
+
+//     // res.status(200).json({ success: true, combinedData });
+//   } catch (error) {
+//     console.error(error,'pd reeoe');
+//     // socket.emit('error', error.message);
+//     // res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// }; //mongoose sort errro vala controller
+
+// new controller for previousdayVloume
 const previousDaysVolume = async (socket) => {
   try {
     const uniqueTradingDaysDates = await MarketDetailData.aggregate([
       { $group: { _id: "$date" } },
       { $sort: { _id: -1 } },
       { $limit: 2 },
-    ],{allowDiskUse: true});
+    ]);
 
-    if (!uniqueTradingDaysDates) {
+    console.log(uniqueTradingDaysDates, "unique");
+    if (!uniqueTradingDaysDates || uniqueTradingDaysDates.length < 2) {
       return { success: false, message: "No stock data available" };
-
-      // res
-      //   .status(404)
-      //   .json({ success: false, message: "No stock data available" });
     }
 
     const latestDate = uniqueTradingDaysDates[0]._id;
     const previousDayDate = uniqueTradingDaysDates[1]._id;
 
-    // Fetch today's data (latest available)
     const todayData = await MarketDetailData.find(
       { date: latestDate },
       {
         securityId: 1,
-        "data.latestTradedPrice": 1,
-        "data.dayOpen": 1,
-        "data.volume": 1,
+        data: 1,
         _id: 0,
       }
     );
-    // Fetch all previous stock data (before latest date)
-    const previousData = await MarketDetailData.find(
+
+    // console.log('todatdata',todayData)
+
+    const previousData = await MarketDetailData.aggregate([
+      { $match: { date: { $lt: latestDate } } },
+      { $sort: { date: -1 } },
+      { $limit: 1000 },
       {
-        date: { $lt: latestDate },
+        $project: {
+          securityId: 1,
+          data: 1,
+          date: 1,
+          _id: 0,
+        },
       },
-      {
-        securityId: 1,
-        data: 1,
-        date: 1,
-        _id: 0,
-      }
-    ).sort({ date: -1 }).allowDiskUse(true);
+    ]);
 
     if (!previousData.length) {
       return { success: false, message: "No previous stock data available" };
-
-      // res
-      //   .status(404)
-      //   .json({ success: false, message: "No previous stock data available" });
     }
 
     const yesterdayData = await MarketDetailData.find(
@@ -602,7 +719,6 @@ const previousDaysVolume = async (socket) => {
       prevDayDataMap.set(data.securityId, data);
     });
 
-    // Fetch stock details once
     const stocksDetail = await StocksDetail.find(
       {},
       {
@@ -623,10 +739,10 @@ const previousDaysVolume = async (socket) => {
       });
     });
 
-    // Build a lookup map for previous volumes by securityId
     let previousVolumesMap = {};
     previousData.forEach(({ securityId, data }) => {
-      const volume = data?.volume?.[0] || 0;
+      const volume = data?.[0]?.volume || 0;
+
       if (!previousVolumesMap[securityId]) {
         previousVolumesMap[securityId] = [];
       }
@@ -634,20 +750,22 @@ const previousDaysVolume = async (socket) => {
     });
 
     let bulkUpdates = [];
+    // console.log(todayData,'today')
     const combinedData = todayData.map(({ securityId, data }) => {
       const todayVolume = data?.volume?.[0] || 0;
-      const volumeHistory = previousVolumesMap[securityId] || [];
-      const todayopen = data?.dayOpen;
-      const latestTradedPrice = data?.latestTradedPrice?.[0];
+      // console.log(todayVolume,'today')
+      const latestTradedPrice = data?.latestTradedPrice?.[0] || 0;
+      const todayOpen = data?.dayOpen?.[0] || 0;
 
       const stock = stocksDetailsMap.get(securityId);
-      const previousDayData = prevDayDataMap?.get(securityId);
-      const previousDayClose = previousDayData?.data?.dayClose?.[0];
+      const previousDayData = prevDayDataMap.get(securityId);
+      const previousDayClose = previousDayData?.data?.dayClose?.[0] || 0;
 
-      const percentageChange = todayopen
+      const percentageChange = previousDayClose
         ? ((latestTradedPrice - previousDayClose) / previousDayClose) * 100
         : 0;
 
+      const volumeHistory = previousVolumesMap[securityId] || [];
       const totalPreviousVolume = volumeHistory.reduce(
         (sum, vol) => sum + vol,
         0
@@ -677,17 +795,14 @@ const previousDaysVolume = async (socket) => {
       };
     });
 
-    // Perform batch update in a single query
     if (bulkUpdates.length > 0) {
       await MarketDetailData.bulkWrite(bulkUpdates);
     }
+    // console.log(combinedData,'dedee')
     return { success: true, combinedData };
-
-    // res.status(200).json({ success: true, combinedData });
   } catch (error) {
-    // console.error(error,'pd reeoe');
-    socket.emit('error', error.message);
-    // res.status(500).json({ message: "Server error", error: error.message });
+    // console.error(error, 'pd reeoe');
+    return { success: false, message: "Error in calculating volume data" };
   }
 };
 
@@ -708,12 +823,8 @@ const sectorStockData = async (req, res) => {
     if (latestData.length === 0) {
       return { message: "No stock data available for the latest date" };
 
-      // res
-      //   .status(404)
-      //   .json({ message: "No stock data available for the latest date" });
     }
-    // console.log("Total entries found for latest date:", latestData.length);
-
+ 
     // 3️⃣ Find previous day's stock data
     const previousDayEntry = await MarketDetailData.findOne({
       date: { $lt: latestDate },
@@ -721,13 +832,10 @@ const sectorStockData = async (req, res) => {
 
     if (!previousDayEntry)
       return { message: "No previous stock data available" };
-    // res
-    //     .status(404)
-    //     .json({ message: "No previous stock data available" });
+    
 
     const previousDayDate = previousDayEntry.date;
-    // console.log("Previous available date:", previousDayDate);
-
+ 
     const yesterdayData = await MarketDetailData.find(
       {
         date: previousDayDate,
@@ -758,8 +866,7 @@ const sectorStockData = async (req, res) => {
     );
     if (!stocksDetail) {
       return { message: "No stock details available" };
-      //  res.status(404).json({ message: "No stock details available" });
-    }
+     }
 
     // 6️⃣ Create a stock details map
     const stockmap = new Map();
@@ -778,7 +885,7 @@ const sectorStockData = async (req, res) => {
       const latestTradedPrice = data?.latestTradedPrice[0] || 0;
       const yesterdayClose = yesterdayMap.get(securityId) || 0;
       const stockdata = stockmap.get(securityId) || { INDEX: [], SECTOR: [] };
-      const volume = data?.volume || 0
+      const volume = data?.volume || 0;
       const sectors = Array.isArray(stockdata.SECTOR)
         ? stockdata.SECTOR
         : [stockdata.SECTOR];
@@ -805,7 +912,6 @@ const sectorStockData = async (req, res) => {
 
     // 8️⃣ Organize data sector-wise and index-wise
     const sectorWiseData = {};
-     
 
     combinedData.forEach((stock) => {
       // Categorize by SECTOR
@@ -817,22 +923,9 @@ const sectorStockData = async (req, res) => {
       // Categorize by INDEX
       stock.INDEX.forEach((index) => {
         if (!sectorWiseData[index]) sectorWiseData[index] = [];
-         sectorWiseData[index].push(stock);
+        sectorWiseData[index].push(stock);
       });
-
-      // Handle stocks with no sector
-      // if (stock.SECTOR.length === 0) {
-      //   if (!sectorWiseData["Uncategorized"])
-      //     sectorWiseData["Uncategorized"] = [];
-      //   sectorWiseData["Uncategorized"].push(stock);
-      // }
-
-      // Handle stocks with no index
-      // if (stock.INDEX.length === 0) {
-      //   if (!indexWiseData["Uncategorized"])
-      //     indexWiseData["Uncategorized"] = [];
-      //   indexWiseData["Uncategorized"].push(stock);
-      // }
+ 
     });
 
     return {
@@ -842,17 +935,11 @@ const sectorStockData = async (req, res) => {
       sectorWiseData,
     };
 
-    // 9️⃣ Send response
-    // res.status(200).json({
-    //   success: true,
-    //   latestDate,
-    //   previousDayDate,
-    //   sectorWiseData,
-    //   indexWiseData,
-    // });
+    
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error", error });
+    return {success:false, message: "Server error", error };
+    // res.status(500).json({ message: "Server error", error });
   }
 };
 

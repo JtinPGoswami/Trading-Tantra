@@ -42,9 +42,9 @@ socket.on("connect", () => {
   console.log("✅ Connected to WebSocket Server:", socket.id);
 });
 
-socket.on("connect_error", (err) => {
-  console.error("❌ WebSocket Connection Error:", err.message);
-});
+// socket.on("connect_error", (err) => {
+//   console.error("❌ WebSocket Connection Error:", err.message);
+// });
 const MarketDepthPage = () => {
   const stockDataList = [
     {
@@ -382,7 +382,7 @@ const MarketDepthPage = () => {
     };
 
     const handlePreviousDaysVolume = (data) => {
-      // console.log("boommmm", data);
+      console.log("boommmm", data);
       setPreviousDaysVolumeResponse(data?.combinedData);
       hasDataArrived = true;
       setLoading(false);
