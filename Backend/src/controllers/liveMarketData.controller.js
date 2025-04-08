@@ -24,194 +24,12 @@ const ACCESS_TOKEN = process.env.DHAN_ACCESS_TOKEN;
 const CLIENT_ID = process.env.DHAN_CLIENT_ID;
 const WS_URL = `wss://api-feed.dhan.co?version=2&token=${ACCESS_TOKEN}&clientId=${CLIENT_ID}&authType=2`;
 
-let securityIdList = [];
-const securityIdMap = new Map();
-let marketDataBuffer = new Map();
-const batchSize = 216;
-let isProcessingSave = false;
-let batchCount = 0; // Track how many batches have been processed
-
-const fetchSecurityIds = async () => {
-  try {
-    const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
-    securityIdList = stocks.map((stock) => stock.SECURITY_ID);
-  } catch (error) {
-    console.error("❌ Error fetching security IDs:", error);
-    throw error;
-  }
-};
-
-const splitIntoBatches = (array, batchSize) => {
-  const batches = [];
-  for (let i = 0; i < array.length; i += batchSize) {
-    batches.push(array.slice(i, i + batchSize));
-  }
-  return batches;
-};
-
-const calculateTurnover = (avgPrice, volume) => {
-  return Number(avgPrice * volume).toFixed(2);
-};
-
-const saveMarketData = async () => {
-  console.log("Starting to save market data");
-  const todayDate = new Date().toISOString().split("T")[0];
-  console.log(`Total records to save: ${marketDataBuffer.size}`);
-
-  let successCount = 0;
-  let errorCount = 0;
-
-  for (const [securityId, marketData] of marketDataBuffer.entries()) {
-    try {
-      console.log(`Processing securityId: ${securityId}`);
-
-      if (!marketData || !marketData.length || !marketData[0]) {
-        console.error(`Invalid market data for ${securityId}`);
-        errorCount++;
-        continue;
-      }
-
-      const turnover = calculateTurnover(
-        marketData[0].avgTradePrice,
-        marketData[0].volume
-      );
-
-      try {
-        await MarketDetailData.findOneAndUpdate(
-          { date: todayDate, securityId: securityId },
-          { $set: { data: marketData, turnover } },
-          { upsert: true, new: true }
-        );
-
-        successCount++;
-        console.log(`✅ DB operation complete for ${successCount}`);
-      } catch (dbError) {
-        console.error(`❌ DB error for ${securityId}:`, dbError.message);
-        errorCount++;
-      }
-    } catch (error) {
-      console.error(`❌ Processing error for ${securityId}:`, error.message);
-      errorCount++;
-    }
-  }
-
-  console.log(
-    `📊 Save operation completed. Success: ${successCount}, Errors: ${errorCount}`
-  );
-
-  // Clear the buffer after saving
-  console.log(`🧹 Clearing market data buffer to start fresh cycle`);
-  marketDataBuffer.clear();
-
-  // Mark processing as complete
-  isProcessingSave = false;
-  console.log(`✅ Ready to collect data for next cycle`);
-};
-
-async function startWebSocket() {
-  console.log("🔄 Fetching security IDs...");
-
-  await fetchSecurityIds();
-
-  if (securityIdList.length === 0) {
-    console.error("❌ No security IDs found. WebSocket will not start.");
-    return;
-  }
-
-  const securityIdBatches = splitIntoBatches(securityIdList, 100);
-
-  const ws = new WebSocket(WS_URL, {
-    perMessageDeflate: false,
-    maxPayload: 1024 * 1024,
-  });
-
-  ws.on("open", () => {
-    console.log("✅ Connected to Dhan WebSocket");
-
-    securityIdBatches.forEach((batch, batchIndex) => {
-      setTimeout(() => {
-        securityIdMap.set(batchIndex, batch);
-
-        const subscriptionRequest = {
-          RequestCode: 21,
-          InstrumentCount: batch.length,
-          InstrumentList: batch.map((securityId) => ({
-            ExchangeSegment: "NSE_EQ",
-            SecurityId: securityId,
-          })),
-        };
-
-        ws.send(JSON.stringify(subscriptionRequest));
-        console.log(`📩 Sent Subscription Request for Batch ${batchIndex + 1}`);
-      }, batchIndex * 5000);
-    });
-  });
-
-  ws.on("message", async (data) => {
-    if (isProcessingSave) return; // Skip if saving is in progress
-
-    try {
-      const marketData = parseBinaryData(data);
-
-      if (marketData && marketData.securityId) {
-        const securityId = marketData.securityId;
-
-        if (!marketDataBuffer.has(securityId)) {
-          marketDataBuffer.set(securityId, []);
-        }
-
-        marketDataBuffer.get(securityId).push(marketData);
-
-        // Process data in batches of exactly 216
-        if (marketDataBuffer.size === batchSize) {
-          batchCount++;
-          console.log(
-            `✅ Batch ${batchCount} of ${batchSize} records received. Saving...`
-          );
-
-          isProcessingSave = true;
-          await saveMarketData();
-
-          console.log(`🕒 Waiting 20 seconds before the next cycle...`);
-          await new Promise((resolve) => setTimeout(resolve, 20000)); // Wait 5 seconds
-
-          console.log(`✅ Ready for the next batch cycle.`);
-        }
-      } else {
-        console.warn(
-          "⚠️ No valid market data received or Security ID missing."
-        );
-      }
-    } catch (error) {
-      console.error("❌ Error processing market data:", error);
-    }
-  });
-
-  ws.on("error", (error) => {
-    console.error("❌ WebSocket Error:", error);
-  });
-
-  ws.on("close", () => {
-    console.log("❌ WebSocket Disconnected. Reconnecting...");
-    isProcessingSave = false; // Reset this flag in case of disconnection
-    setTimeout(startWebSocket, 2000);
-  });
-}
-// const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// //with redis
-
-// import redis from "../config/redisClient.js"; // or your own configured Redis connection
-
 // let securityIdList = [];
 // const securityIdMap = new Map();
 // let marketDataBuffer = new Map();
-
 // const batchSize = 216;
 // let isProcessingSave = false;
-// let batchCount = 0;
-
-// let lastDbSaveTime = 0;
+// let batchCount = 0; // Track how many batches have been processed
 
 // const fetchSecurityIds = async () => {
 //   try {
@@ -236,51 +54,63 @@ async function startWebSocket() {
 // };
 
 // const saveMarketData = async () => {
-//   console.log("📝 Saving market data to MongoDB");
+//   console.log("Starting to save market data");
 //   const todayDate = new Date().toISOString().split("T")[0];
+//   console.log(`Total records to save: ${marketDataBuffer.size}`);
+
 //   let successCount = 0;
 //   let errorCount = 0;
 
 //   for (const [securityId, marketData] of marketDataBuffer.entries()) {
-//     if (!marketData || !marketData.length || !marketData[0]) continue;
-
-//     const turnover = calculateTurnover(
-//       marketData[0].avgTradePrice,
-//       marketData[0].volume
-//     );
-
 //     try {
-//       await MarketDetailData.findOneAndUpdate(
-//         { date: todayDate, securityId },
-//         { $set: { data: marketData, turnover } },
-//         { upsert: true, new: true }
+//       console.log(`Processing securityId: ${securityId}`);
+
+//       if (!marketData || !marketData.length || !marketData[0]) {
+//         console.error(`Invalid market data for ${securityId}`);
+//         errorCount++;
+//         continue;
+//       }
+
+//       const turnover = calculateTurnover(
+//         marketData[0].avgTradePrice,
+//         marketData[0].volume
 //       );
-//       successCount++;
-//     } catch (err) {
-//       console.error(`❌ DB error for ${securityId}: ${err.message}`);
+
+//       try {
+//         await MarketDetailData.findOneAndUpdate(
+//           { date: todayDate, securityId: securityId },
+//           { $set: { data: marketData, turnover } },
+//           { upsert: true, new: true }
+//         );
+
+//         successCount++;
+//         console.log(`✅ DB operation complete for ${successCount}`);
+//       } catch (dbError) {
+//         console.error(`❌ DB error for ${securityId}:`, dbError.message);
+//         errorCount++;
+//       }
+//     } catch (error) {
+//       console.error(`❌ Processing error for ${securityId}:`, error.message);
 //       errorCount++;
 //     }
 //   }
 
 //   console.log(
-//     `✅ Saved to DB | Success: ${successCount}, Errors: ${errorCount}`
+//     `📊 Save operation completed. Success: ${successCount}, Errors: ${errorCount}`
 //   );
-//   marketDataBuffer.clear();
-//   isProcessingSave = false;
-//   lastDbSaveTime = Date.now();
-// };
 
-// const saveToRedis = async (securityId, data) => {
-//   try {
-//     await redis.set(`market:${securityId}`, JSON.stringify(data));
-//     // Optionally set TTL: await redis.expire(`market:${securityId}`, 300);
-//   } catch (err) {
-//     console.error(`❌ Redis Save Error for ${securityId}: ${err.message}`);
-//   }
+//   // Clear the buffer after saving
+//   console.log(`🧹 Clearing market data buffer to start fresh cycle`);
+//   marketDataBuffer.clear();
+
+//   // Mark processing as complete
+//   isProcessingSave = false;
+//   console.log(`✅ Ready to collect data for next cycle`);
 // };
 
 // async function startWebSocket() {
 //   console.log("🔄 Fetching security IDs...");
+
 //   await fetchSecurityIds();
 
 //   if (securityIdList.length === 0) {
@@ -296,7 +126,7 @@ async function startWebSocket() {
 //   });
 
 //   ws.on("open", () => {
-//     console.log("✅ Connected to WebSocket");
+//     console.log("✅ Connected to Dhan WebSocket");
 
 //     securityIdBatches.forEach((batch, batchIndex) => {
 //       setTimeout(() => {
@@ -312,13 +142,13 @@ async function startWebSocket() {
 //         };
 
 //         ws.send(JSON.stringify(subscriptionRequest));
-//         console.log(`📩 Subscribed Batch ${batchIndex + 1}`);
+//         console.log(`📩 Sent Subscription Request for Batch ${batchIndex + 1}`);
 //       }, batchIndex * 5000);
 //     });
 //   });
 
 //   ws.on("message", async (data) => {
-//     if (isProcessingSave) return;
+//     if (isProcessingSave) return; // Skip if saving is in progress
 
 //     try {
 //       const marketData = parseBinaryData(data);
@@ -332,36 +162,215 @@ async function startWebSocket() {
 
 //         marketDataBuffer.get(securityId).push(marketData);
 
-//         // Save each live data to Redis immediately
-//         await saveToRedis(securityId, marketData);
+//         // Process data in batches of exactly 216
+//         if (marketDataBuffer.size === batchSize) {
+//           batchCount++;
+//           console.log(
+//             `✅ Batch ${batchCount} of ${batchSize} records received. Saving...`
+//           );
 
-//         // Check if 5 minutes have passed since last DB save
-//         const currentTime = Date.now();
-//         if (currentTime - lastDbSaveTime >= 5 * 60 * 1000) {
-//           console.log("🕔 5 minutes passed. Saving batch to DB...");
 //           isProcessingSave = true;
 //           await saveMarketData();
+
+//           console.log(`🕒 Waiting 20 seconds before the next cycle...`);
+//           await new Promise((resolve) => setTimeout(resolve, 20000)); // Wait 5 seconds
+
+//           console.log(`✅ Ready for the next batch cycle.`);
 //         }
 //       } else {
-//         console.warn("⚠️ Invalid market data received.");
+//         console.warn(
+//           "⚠️ No valid market data received or Security ID missing."
+//         );
 //       }
 //     } catch (error) {
-//       console.error("❌ Error processing market data:", error.message);
+//       console.error("❌ Error processing market data:", error);
 //     }
 //   });
 
 //   ws.on("error", (error) => {
-//     console.error("❌ WebSocket Error:", error.message);
+//     console.error("❌ WebSocket Error:", error);
 //   });
 
 //   ws.on("close", () => {
-//     console.log("🔄 WebSocket disconnected. Reconnecting...");
-//     isProcessingSave = false;
+//     console.log("❌ WebSocket Disconnected. Reconnecting...");
+//     isProcessingSave = false; // Reset this flag in case of disconnection
 //     setTimeout(startWebSocket, 2000);
 //   });
 // }
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const getData = async (fromDate, toDate) => {
+//with redis
+
+import redis from "../config/redisClient.js"; // or your own configured Redis connection
+
+// const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+let securityIdList = [];
+let totalSecurityIds = 0;
+const securityIdMap = new Map();
+let marketDataBuffer = new Map();
+
+let receivedSecurityIds = new Set();
+let isProcessingSave = false;
+
+const fetchSecurityIds = async () => {
+  try {
+    const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
+    securityIdList = stocks.map((stock) => stock.SECURITY_ID);
+    totalSecurityIds = securityIdList.length;
+  } catch (error) {
+    console.error("❌ Error fetching security IDs:", error);
+    throw error;
+  }
+};
+
+const splitIntoBatches = (array, batchSize) => {
+  const batches = [];
+  for (let i = 0; i < array.length; i += batchSize) {
+    batches.push(array.slice(i + 0, i + batchSize));
+  }
+  return batches;
+};
+
+const calculateTurnover = (avgPrice, volume) => {
+  return Number(avgPrice * volume).toFixed(2);
+};
+
+const saveMarketData = async () => {
+  console.log("📝 Saving market data to MongoDB");
+  const todayDate = new Date().toISOString().split("T")[0];
+  let successCount = 0;
+  let errorCount = 0;
+
+  for (const [securityId, marketData] of marketDataBuffer.entries()) {
+    if (!marketData || !marketData.length || !marketData[0]) continue;
+
+    const turnover = calculateTurnover(
+      marketData[0].avgTradePrice,
+      marketData[0].volume
+    );
+
+    try {
+      await MarketDetailData.findOneAndUpdate(
+        { date: todayDate, securityId },
+        { $set: { data: marketData, turnover } },
+        { upsert: true, new: true }
+      );
+      successCount++;
+    } catch (err) {
+      console.error(`❌ DB error for ${securityId}: ${err.message}`);
+      errorCount++;
+    }
+  }
+
+  console.log(`✅ Saved to DB | Success: ${successCount}, Errors: ${errorCount}`);
+  marketDataBuffer.clear();
+  receivedSecurityIds.clear();
+  isProcessingSave = false;
+};
+
+const saveToRedis = async (securityId, data) => {
+  try {
+    await redis.set(`market:${securityId}`, JSON.stringify(data));
+    // Optional TTL: await redis.expire(`market:${securityId}`, 300);
+  } catch (err) {
+    console.error(`❌ Redis Save Error for ${securityId}: ${err.message}`);
+  }
+};
+
+async function startWebSocket() {
+  console.log("🔄 Fetching security IDs...");
+  await fetchSecurityIds();
+
+  if (securityIdList.length === 0) {
+    console.error("❌ No security IDs found. WebSocket will not start.");
+    return;
+  }
+
+  const batchSize = 100;
+  const securityIdBatches = splitIntoBatches(securityIdList, batchSize);
+
+  const ws = new WebSocket(WS_URL, {
+    perMessageDeflate: false,
+    maxPayload: 1024 * 1024,
+  });
+
+  ws.on("open", () => {
+    console.log("✅ Connected to WebSocket");
+
+    securityIdBatches.forEach((batch, index) => {
+      setTimeout(() => {
+        securityIdMap.set(index, batch);
+
+        const subscriptionRequest = {
+          RequestCode: 21,
+          InstrumentCount: batch.length,
+          InstrumentList: batch.map((securityId) => ({
+            ExchangeSegment: "NSE_EQ",
+            SecurityId: securityId,
+          })),
+        };
+
+        ws.send(JSON.stringify(subscriptionRequest));
+        console.log(`📩 Subscribed Batch ${index + 1}`);
+      }, index * 5000);
+    });
+  });
+
+  ws.on("message", async (data) => {
+    if (isProcessingSave) return;
+
+    try {
+      const marketData = parseBinaryData(data);
+
+      if (marketData && marketData.securityId) {
+        const securityId = marketData.securityId;
+
+        if (!marketDataBuffer.has(securityId)) {
+          marketDataBuffer.set(securityId, []);
+        }
+
+        marketDataBuffer.get(securityId).push(marketData);
+        receivedSecurityIds.add(securityId);
+
+        // ✅ Check if all expected security IDs received at least one data
+        if (receivedSecurityIds.size === totalSecurityIds) {
+          console.log("✅ All market data received. Saving to Redis...");
+          isProcessingSave = true;
+
+          for (const [secId, data] of marketDataBuffer.entries()) {
+            await saveToRedis(secId, data);
+          }
+
+          console.log("⏳ Waiting 5 minutes before saving to MongoDB...");
+          setTimeout(async () => {
+            await saveMarketData();
+          }, 5 * 60 * 1000);
+        }
+      } else {
+        console.warn("⚠️ Invalid market data received.");
+      }
+    } catch (error) {
+      console.error("❌ Error processing market data:", error.message);
+    }
+  });
+
+  ws.on("error", (error) => {
+    console.error("❌ WebSocket Error:", error.message);
+  });
+
+  ws.on("close", () => {
+    console.log("🔄 WebSocket disconnected. Reconnecting...");
+    isProcessingSave = false;
+    receivedSecurityIds.clear();
+    setTimeout(startWebSocket, 2000);
+  });
+}
+
+const getData = async (
+  fromDate,
+  toDate
+) => {
   const stocks = await StocksDetail.find({}, { SECURITY_ID: 1, _id: 0 });
   const securityIds = stocks.map((stock) =>
     stock.SECURITY_ID.trim().toString()
@@ -373,15 +382,16 @@ const getData = async (fromDate, toDate) => {
   }
 
   try {
-    const bulkOperations = [];
-
+    const updatedData = [];
+    let data;
     for (let i = 0; i < securityIds.length; i++) {
-      const data = await fetchHistoricalData(
-        securityIds[i],
-        fromDate,
-        toDate,
-        i
-      );
+      // const data = await fetchHistoricalData(
+      //   securityIds[i],
+      //   fromDate,
+      //   toDate,
+      //   i
+      // );
+      const redisKey = `stockFiveMinCandle:${securityIds[i]}:${fromDate}-${toDate}`;
 
       // Check Redis cache
       const cachedData = await redis.get(redisKey);
@@ -392,18 +402,18 @@ const getData = async (fromDate, toDate) => {
         data = await fetchHistoricalData(securityIds[i], fromDate, toDate, i);
 
         if (data) {
-          await redis.setEx(redisKey, 300, JSON.stringify(data)); // Cache for 5 minutes
+          await redis.set(redisKey, JSON.stringify(data));
           console.log(`Fetched from API and cached: ${securityIds[i]}`);
         }
       }
 
-      if (!data || !data.timestamp) {
+      if (!data) {
         console.warn(`No data found for Security ID: ${securityIds[i]}`);
         continue; // Skip if data is missing
       }
 
       // Prepare the updated data
-      const updatedData = {
+      updatedData.push({
         securityId: securityIds[i],
         timestamp: data.timestamp.slice(-5).map(convertToIST), // Convert all timestamps
         open: data.open.slice(-5),
@@ -411,24 +421,25 @@ const getData = async (fromDate, toDate) => {
         low: data.low.slice(-5),
         close: data.close.slice(-5),
         volume: data.volume.slice(-5),
-      };
+      });
 
       // Add update operation to bulkWrite array
-      bulkOperations.push({
-        updateOne: {
-          filter: { securityId: securityIds[i] }, // Find by securityId
-          update: { $set: updatedData }, // Update fields
-          upsert: true, // Insert if not found
-        },
-      });
+      // bulkOperations.push({
+      //   updateOne: {
+      //     filter: { securityId: securityIds[i] }, // Find by securityId
+      //     update: { $set: updatedData }, // Update fields
+      //     upsert: true, // Insert if not found
+      //   },
+      // });
       await delay(200);
     }
 
-    if (bulkOperations.length > 0) {
-      await FiveMinCandles.bulkWrite(bulkOperations);
+    if (updatedData.length > 0) {
+      // await FiveMinCandles.bulkWrite(bulkOperations);
       console.log(
-        `Bulk operation completed for ${bulkOperations.length} records.`
+        `Bulk operation completed for ${updatedData.length} records.`
       );
+      // console.log("data", updatedData);
     } else {
       console.log("No valid data found to update.");
     }

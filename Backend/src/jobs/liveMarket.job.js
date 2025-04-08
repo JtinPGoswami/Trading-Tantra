@@ -144,9 +144,9 @@ const runMarketTask = async () => {
 
     //new implementation with queue
 
-    await fiveMinDataQueue.add("fetch-five-min-candle", { fromDate, toDate });
+    await fiveMinDataQueue.add("fiveMinData", { fromDate, toDate });
 
-    await liveDataQueue.add("fetch-live-candle", { fromDate, toDate });
+    await liveDataQueue.add("liveData", { fromDate, toDate });
 
     
   console.log('All market jobs queued ✅');
