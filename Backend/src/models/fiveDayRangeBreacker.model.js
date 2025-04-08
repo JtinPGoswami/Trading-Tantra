@@ -14,11 +14,7 @@ const fiveDayRangeBreakerSchema = new mongoose.Schema(
     type: { type: String, enum: ["bullish", "bearish"], required: true },
     timestamp: {
       type: Date,
-      default: () => {
-        const now = new Date();
-        const istOffset = 5.5 * 60 * 60 * 1000;
-        return new Date(now.getTime() + istOffset);
-      },
+      required: true,
     },
   },
   { timestamps: true }

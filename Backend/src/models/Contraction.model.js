@@ -7,11 +7,7 @@ const ContractionSchema = new mongoose.Schema(
     SYMBOL_NAME: { type: String, required: true },
     timestamp: {
       type: Date,
-      default: () => {
-        const now = new Date();
-        const istOffset = 5.5 * 60 * 60 * 1000;
-        return new Date(now.getTime() + istOffset);
-      },
+      required: true,
     },
   },
   { timestamps: true }

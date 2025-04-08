@@ -7,19 +7,22 @@ const getFiiDiiData = async (req, res) => {
       return res.status(404).json({ message: "No data found" });
     }
 
-    const resdata = [];
+    const resdata = data.map((item) => ({
+      date: item.date,
+      fii_net: parseFloat(item.fii_net.replace(/,/g, "")),
+      dii_net: parseFloat(item.dii_net.replace(/,/g, "")),
+      fii_buy: parseFloat(item.fii_buy.replace(/,/g, "")),
+      fii_sell: parseFloat(item.fii_sell.replace(/,/g, "")),
+      dii_buy: parseFloat(item.dii_buy.replace(/,/g, "")),
+      dii_sell: parseFloat(item.dii_sell.replace(/,/g, "")),
+    }));
 
-    data.map((data) => {
-      resdata.push({
-        date: data.date,
-        fii_net: parseFloat(data.fii_net.replace(/,/g, "")),
-        dii_net: parseFloat(data.dii_net.replace(/,/g, "")),
-        fii_buy: parseFloat(data.fii_buy.replace(/,/g, "")),
-        fii_sell: parseFloat(data.fii_sell.replace(/,/g, "")),
-        dii_buy: parseFloat(data.dii_buy.replace(/,/g, "")),
-        dii_sell: parseFloat(data.dii_sell.replace(/,/g, "")),
-      });
+    // Sort by date descending
+    resdata.sort((a, b) => {
+      const parseDate = (d) => new Date(d.replace(/-/g, " "));
+      return parseDate(b.date) - parseDate(a.date); // Latest date first
     });
+
     res.status(200).json({ success: true, resdata });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

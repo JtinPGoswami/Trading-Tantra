@@ -5,6 +5,18 @@ import TenDayRangeBreakerModel from "../models/tenDayRangeBreacker.model.js";
 import DailyCandleReversalModel from "../models/dailyCandleRevarsal.model.js";
 import ContractionModel from "../models/Contraction.model.js";
 
+const getFormattedISTDate = () => {
+  const now = new Date();
+  const istDate = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  );
+  const year = istDate.getFullYear();
+  const month = String(istDate.getMonth() + 1).padStart(2, "0");
+  const day = String(istDate.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
 const fiveDayRangeBreakers = async (req, res) => {
   try {
     const uniqueTradingDays = await MarketDetailData.aggregate([
@@ -109,7 +121,7 @@ const fiveDayRangeBreakers = async (req, res) => {
       }
 
       if (!type) return;
-
+      const date = getFormattedISTDate();
       bulkOps.push({
         updateOne: {
           filter: { securityId: key },
@@ -124,7 +136,7 @@ const fiveDayRangeBreakers = async (req, res) => {
               UNDERLYING_SYMBOL: stock.UNDERLYING_SYMBOL,
               SYMBOL_NAME: stock.SYMBOL_NAME,
               type,
-              timestamp: new Date(new Date().getTime() + 5.5 * 60 * 60 * 1000), // IST Time
+              timestamp: date, // IST Time
             },
           },
           upsert: true,
@@ -135,43 +147,9 @@ const fiveDayRangeBreakers = async (req, res) => {
     if (bulkOps.length > 0) {
       await FiveDayRangeBreakerModel.bulkWrite(bulkOps);
     }
-    const respData = await FiveDayRangeBreakerModel.find(
-      {}, // Empty filter to get all documents
-      {
-        securityId: 1,
-        SYMBOL_NAME: 1,
-        UNDERLYING_SYMBOL: 1,
-        preFiveDaysHigh: 1,
-        preFiveDaysLow: 1,
-        timestamp: 1,
-        todayHigh: 1,
-        todayLatestTradedPrice: 1,
-        todayLow: 1,
-        type: 1,
-        _id: 0, // Explicitly exclude _id (optional if you only list fields you want)
-      }
-    ).lean();
-
-    if (!respData) {
-      return { message: "No data found" };
-    }
-
-    const resData = [];
-    respData.map((data) => {
-      const percentageChange =
-        preCha
-          .find((item) => item.securityId === data.securityId)
-          ?.percentageChanges.toFixed(2) || 0;
-
-      resData.push({
-        percentageChange,
-        ...data,
-      });
-    });
 
     return {
       success: true,
-      resData,
     };
   } catch (error) {
     return { message: "Internal server error", error: error.message };
@@ -283,6 +261,7 @@ const tenDayRangeBreakers = async (req, res) => {
       }
       if (!type) return;
 
+      const date = getFormattedISTDate();
       bulkOps.push({
         updateOne: {
           filter: { securityId: key },
@@ -297,7 +276,7 @@ const tenDayRangeBreakers = async (req, res) => {
               SYMBOL_NAME: stock.SYMBOL_NAME,
               percentageChange: percentageChanges.toFixed(2),
               type,
-              timestamp: new Date(new Date().getTime() + 5.5 * 60 * 60 * 1000), // IST Time
+              timestamp: date, // IST Time
             },
           },
           upsert: true,
@@ -307,41 +286,9 @@ const tenDayRangeBreakers = async (req, res) => {
     if (bulkOps.length > 0) {
       await TenDayRangeBreakerModel.bulkWrite(bulkOps);
     }
-    const respData = await TenDayRangeBreakerModel.find(
-      {}, // Empty filter to get all documents
-      {
-        securityId: 1,
-        SYMBOL_NAME: 1,
-        UNDERLYING_SYMBOL: 1,
-        preTenDaysHigh: 1,
-        preTenDaysLow: 1,
-        timestamp: 1,
-        todayHigh: 1,
-        todayLatestTradedPrice: 1,
-        todayLow: 1,
-        type: 1,
-        _id: 0,
-      }
-    ).lean();
-    if (!respData) {
-      return { message: "No data found" };
-    }
 
-    const resData = [];
-    respData.map((data) => {
-      const percentageChange =
-        preCha
-          .find((item) => item.securityId === data.securityId)
-          ?.percentageChanges.toFixed(2) || 0;
-
-      resData.push({
-        percentageChange,
-        ...data,
-      });
-    });
     return {
       success: true,
-      resData,
     };
   } catch (error) {
     return { message: "Internal server error", error: error.message };
@@ -467,6 +414,7 @@ const dailyCandleReversal = async (req, res) => {
         }
       }
       if (trend) {
+        const date = getFormattedISTDate();
         responseData.push({
           securityId: key,
           fstPreviousDayChange: fstPreviousDayChange.toFixed(2),
@@ -474,6 +422,7 @@ const dailyCandleReversal = async (req, res) => {
           trend,
           UNDERLYING_SYMBOL: stock?.UNDERLYING_SYMBOL,
           SYMBOL_NAME: stock?.SYMBOL_NAME,
+          timestamp: date,
         });
       }
     });
@@ -490,35 +439,7 @@ const dailyCandleReversal = async (req, res) => {
       await DailyCandleReversalModel.bulkWrite(bulkOps);
     }
 
-    const respData = await DailyCandleReversalModel.find(
-      {},
-      {
-        securityId: 1,
-        SYMBOL_NAME: 1,
-        UNDERLYING_SYMBOL: 1,
-        fstPreviousDayChange: 1,
-        trend: 1,
-        timestamp: 1,
-        _id: 0,
-      }
-    ).lean();
-
-    if (!respData) {
-      return { message: "No data found" };
-    }
-
-    const resData = respData.map((data) => {
-      const percentageChange =
-        preCha
-          .find((item) => item.securityId === data.securityId)
-          ?.persentageChange?.toFixed(2) || 0;
-      return { percentageChange, ...data };
-    });
-
-    // console.log(resData, "resData");
-    // console.log(preCha, "preCha");
-
-    return { success: true, resData };
+    return { success: true };
   } catch (error) {
     return { message: "Internal server error", error: error.message };
   }
@@ -621,9 +542,12 @@ const AIContraction = async (req, res) => {
         data.dayLow >= firstDay.dayLow
       ) {
         // Percentage change calculation
-
+        const date = getFormattedISTDate();
         responseData.push({
           ...stock,
+          percentageChange: percentageChange.toFixed(2),
+          securityId,
+          timestamp: date,
         });
       }
     }
@@ -646,36 +570,9 @@ const AIContraction = async (req, res) => {
     if (bulkOps.length > 0) {
       await ContractionModel.bulkWrite(bulkOps);
     }
-
-    const respData = await ContractionModel.find(
-      {},
-      {
-        securityId: 1,
-        SYMBOL_NAME: 1,
-        UNDERLYING_SYMBOL: 1,
-        timestamp: 1,
-        _id: 0,
-      }
-    ).lean();
-
-    if (!respData) {
-      return { message: "No data found" };
-    }
-
-    const resData = [];
-    respData.map((data) => {
-      const percentageChange =
-        preCha
-          .find((item) => item.securityId === data.securityId)
-          ?.percentageChange.toFixed(2) || 0;
-
-      resData.push({
-        percentageChange,
-        ...data,
-      });
-    });
-
-    return { success: true, resData };
+    return {
+      success: true,
+    };
   } catch (error) {
     return { message: "Internal server error", error: error.message };
   }
