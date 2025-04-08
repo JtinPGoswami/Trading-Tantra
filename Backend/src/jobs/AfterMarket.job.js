@@ -45,21 +45,21 @@ const runAfterMarketAnalysis = async () => {
   try {
     console.log("Running after-market analysis at 3:35 PM IST...");
 
-    const fd = await fiveDayRangeBreakers();
-    const sd = await tenDayRangeBreakers();
-    const td = await dailyCandleReversal();
-    const fod = await AIContraction();
+    const firstData = await fiveDayRangeBreakers();
+    const secondData = await tenDayRangeBreakers();
+    const thirdData = await dailyCandleReversal();
+    const forthData = await AIContraction();
 
     console.log(
       "✅ After-market analysis completed.",
       "fiveDayRangeBreakers:",
-      fd,
+      firstData,
       "tenDayRangeBreakers:",
-      sd,
+      secondData,
       "dailyCandleReversal:",
-      td,
+      thirdData,
       "AIContraction:",
-      fod
+      forthData
     );
   } catch (error) {
     console.error("❌ Error in after-market analysis:", error.message);

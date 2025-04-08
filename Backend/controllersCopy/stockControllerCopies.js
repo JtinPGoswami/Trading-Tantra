@@ -1218,3 +1218,175 @@
 //   previousDaysVolume,
 //   sectorStockData,
 // };
+
+// give the previous data if today data not avail
+// const previousDaysVolume = async (socket) => {
+//   try {
+//     const uniqueTradingDaysDates = await MarketDetailData.aggregate([
+//       { $group: { _id: "$date" } },
+//       { $sort: { _id: -1 } },
+//       { $limit: 2 },
+//     ],{allowDiskUse: true});
+
+//     if (!uniqueTradingDaysDates) {
+//       return { success: false, message: "No stock data available" };
+
+//       // res
+//       //   .status(404)
+//       //   .json({ success: false, message: "No stock data available" });
+//     }
+
+//     const latestDate = uniqueTradingDaysDates[0]._id;
+//     const previousDayDate = uniqueTradingDaysDates[1]._id;
+
+//     // Fetch today's data (latest available)
+//     const todayData = await MarketDetailData.find(
+//       { date: latestDate },
+//       {
+//         securityId: 1,
+//         "data.latestTradedPrice": 1,
+//         "data.dayOpen": 1,
+//         "data.volume": 1,
+//         _id: 0,
+//       }
+//     );
+
+//     // this is replacement of above below code
+//     const previousData = await MarketDetailData.aggregate([
+//       { $match: { date: { $lt: latestDate } } },
+//       { $sort: { date: -1 } },
+//       {
+//         $project: {
+//           securityId: 1,
+//           data: 1,
+//           date: 1,
+//           _id: 0,
+//         },
+//       },
+//     ],{allowDiskUse: true});
+
+//     //this cause error mongo  errro
+//     // Fetch all previous stock data (before latest date)
+//     // const previousData = await MarketDetailData.find(
+//     //   {
+//     //     date: { $lt: latestDate },
+//     //   },
+//     //   {
+//     //     securityId: 1,
+//     //     data: 1,
+//     //     date: 1,
+//     //     _id: 0,
+//     //   }
+//     // ).sort({ date: -1 }).allowDiskUse(true);
+
+//     if (!previousData.length) {
+//       return { success: false, message: "No previous stock data available" };
+
+//       // res
+//       //   .status(404)
+//       //   .json({ success: false, message: "No previous stock data available" });
+//     }
+
+//     const yesterdayData = await MarketDetailData.find(
+//       { date: previousDayDate },
+//       {
+//         securityId: 1,
+//         data: 1,
+//         _id: 0,
+//       }
+//     );
+
+//     const prevDayDataMap = new Map();
+//     yesterdayData.forEach((data) => {
+//       prevDayDataMap.set(data.securityId, data);
+//     });
+
+//     // Fetch stock details once
+//     const stocksDetail = await StocksDetail.find(
+//       {},
+//       {
+//         SECURITY_ID: 1,
+//         UNDERLYING_SYMBOL: 1,
+//         SYMBOL_NAME: 1,
+//         DISPLAY_NAME: 1,
+//         _id: 0,
+//       }
+//     );
+
+//     const stocksDetailsMap = new Map();
+//     stocksDetail.forEach((stock) => {
+//       stocksDetailsMap.set(stock.SECURITY_ID, {
+//         UNDERLYING_SYMBOL: stock.UNDERLYING_SYMBOL,
+//         SYMBOL_NAME: stock.SYMBOL_NAME,
+//         DISPLAY_NAME: stock.DISPLAY_NAME,
+//       });
+//     });
+
+//     // Build a lookup map for previous volumes by securityId
+//     let previousVolumesMap = {};
+//     previousData.forEach(({ securityId, data }) => {
+//       const volume = data?.volume?.[0] || 0;
+//       if (!previousVolumesMap[securityId]) {
+//         previousVolumesMap[securityId] = [];
+//       }
+//       previousVolumesMap[securityId].push(volume);
+//     });
+
+//     let bulkUpdates = [];
+//     const combinedData = todayData.map(({ securityId, data }) => {
+//       const todayVolume = data?.volume?.[0] || 0;
+//       const volumeHistory = previousVolumesMap[securityId] || [];
+//       const todayopen = data?.dayOpen;
+//       const latestTradedPrice = data?.latestTradedPrice?.[0];
+
+//       const stock = stocksDetailsMap.get(securityId);
+//       const previousDayData = prevDayDataMap?.get(securityId);
+//       const previousDayClose = previousDayData?.data?.dayClose?.[0];
+
+//       const percentageChange = todayopen
+//         ? ((latestTradedPrice - previousDayClose) / previousDayClose) * 100
+//         : 0;
+
+//       const totalPreviousVolume = volumeHistory.reduce(
+//         (sum, vol) => sum + vol,
+//         0
+//       );
+//       const averagePreviousVolume = volumeHistory.length
+//         ? totalPreviousVolume / volumeHistory.length
+//         : 0;
+
+//       const xElement =
+//         averagePreviousVolume > 0 ? todayVolume / averagePreviousVolume : 0;
+
+//       bulkUpdates.push({
+//         updateOne: {
+//           filter: { securityId, date: latestDate },
+//           update: { $set: { xelement: xElement } },
+//         },
+//       });
+
+//       return {
+//         securityId,
+//         todayVolume,
+//         stock,
+//         totalPreviousVolume,
+//         averagePreviousVolume,
+//         xElement,
+//         percentageChange,
+//       };
+//     });
+
+//     // Perform batch update in a single query
+//     if (bulkUpdates.length > 0) {
+//       await MarketDetailData.bulkWrite(bulkUpdates);
+//     }
+//     console.log('combinedData',combinedData)
+//     return { success: true, combinedData };
+
+//     // res.status(200).json({ success: true, combinedData });
+//   } catch (error) {
+//     console.error(error,'pd reeoe');
+//     // socket.emit('error', error.message);
+//     // res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// }; //mongoose sort errro vala controller

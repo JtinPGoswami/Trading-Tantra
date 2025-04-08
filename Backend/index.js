@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
 import {
   AIIntradayReversalFiveMins,
+  AIMomentumCatcherFiveMins,
+  getData,
   getDataForTenMin,
   startWebSocket,
 } from "./src/controllers/liveMarketData.controller.js";
@@ -13,6 +15,10 @@ import {
   fetchHistoricalData,
   fetchHistoricalDataforTenMin,
 } from "./src/utils/fetchData.js";
+import {
+  previousDaysVolume,
+  sectorStockData,
+} from "./src/controllers/stock.contollers.js";
 
 // import cron from "node-cron";
 // import scrapeAndSaveFIIDIIData from "./src/jobs/scrapData_Two.js";
@@ -215,178 +221,167 @@ dotenv.config();
 //   }
 // };
 
+// const previousDaysVolume = async (socket) => {
+//   try {
+//     const uniqueTradingDaysDates = await MarketDetailData.aggregate([
+//       { $group: { _id: "$date" } },
+//       { $sort: { _id: -1 } },
+//       { $limit: 2 },
+//     ]);
 
+//     // console.log(uniqueTradingDaysDates,'unique')
+//     if (!uniqueTradingDaysDates || uniqueTradingDaysDates.length < 2) {
+//       return { success: false, message: "No stock data available" };
+//     }
 
+//     const latestDate = uniqueTradingDaysDates[0]._id;
+//     const previousDayDate = uniqueTradingDaysDates[1]._id;
 
+//     const todayData = await MarketDetailData.find(
+//       { date: latestDate },
+//       {
+//         securityId: 1,
+//         data: 1,
+//         _id: 0,
+//       }
+//     );
 
+//     // console.log('todatdata',todayData)
 
+//     const previousData = await MarketDetailData.aggregate([
+//       { $match: { date: { $lt: latestDate } } },
+//       { $sort: { date: -1 } },
+//       { $limit: 1000 },
+//       {
+//         $project: {
+//           securityId: 1,
+//           data: 1,
+//           date: 1,
+//           _id: 0,
+//         },
+//       },
+//     ]);
 
-const previousDaysVolume = async (socket) => {
-  try {
-    const uniqueTradingDaysDates = await MarketDetailData.aggregate([
-      { $group: { _id: "$date" } },
-      { $sort: { _id: -1 } },
-      { $limit: 2 },
-    ]);
+//     if (!previousData.length) {
+//       return { success: false, message: "No previous stock data available" };
+//     }
 
-    // console.log(uniqueTradingDaysDates,'unique')
-    if (!uniqueTradingDaysDates || uniqueTradingDaysDates.length < 2) {
-      return { success: false, message: "No stock data available" };
-    }
+//     const yesterdayData = await MarketDetailData.find(
+//       { date: previousDayDate },
+//       {
+//         securityId: 1,
+//         data: 1,
+//         _id: 0,
+//       }
+//     );
 
-    const latestDate = uniqueTradingDaysDates[0]._id;
-    const previousDayDate = uniqueTradingDaysDates[1]._id;
+//     const prevDayDataMap = new Map();
+//     yesterdayData.forEach((data) => {
+//       prevDayDataMap.set(data.securityId, data);
+//     });
 
-    const todayData = await MarketDetailData.find(
-      { date: latestDate },
-      {
-        securityId: 1,
-        data: 1,
-        _id: 0,
-      }
-    );
+//     const stocksDetail = await StocksDetail.find(
+//       {},
+//       {
+//         SECURITY_ID: 1,
+//         UNDERLYING_SYMBOL: 1,
+//         SYMBOL_NAME: 1,
+//         DISPLAY_NAME: 1,
+//         _id: 0,
+//       }
+//     );
 
-    // console.log('todatdata',todayData)
+//     const stocksDetailsMap = new Map();
+//     stocksDetail.forEach((stock) => {
+//       stocksDetailsMap.set(stock.SECURITY_ID, {
+//         UNDERLYING_SYMBOL: stock.UNDERLYING_SYMBOL,
+//         SYMBOL_NAME: stock.SYMBOL_NAME,
+//         DISPLAY_NAME: stock.DISPLAY_NAME,
+//       });
+//     });
 
-    const previousData = await MarketDetailData.aggregate([
-      { $match: { date: { $lt: latestDate } } },
-      { $sort: { date: -1 } },
-      { $limit: 1000 },
-      {
-        $project: {
-          securityId: 1,
-          data: 1,
-          date: 1,
-          _id: 0,
-        },
-      },
-    ]);
+//     let previousVolumesMap = {};
+//     previousData.forEach(({ securityId, data }) => {
+//       const volume = data?.[0]?.volume || 0;
+//       // console.log('volume',volume)
 
-     
+//       if (!previousVolumesMap[securityId]) {
+//         previousVolumesMap[securityId] = [];
+//       }
+//       previousVolumesMap[securityId].push(volume);
+//     });
 
-    if (!previousData.length) {
-      return { success: false, message: "No previous stock data available" };
-    }
+//     let bulkUpdates = [];
+// // console.log(todayData,'today')
+//     const combinedData = todayData.map(({ securityId, data }) => {
+//       const todayVolume = data?.volume?.[0] || 0;
+//       // console.log(todayVolume,'today')
+//       const latestTradedPrice = data?.latestTradedPrice?.[0] || 0;
+//       const todayOpen = data?.dayOpen?.[0] || 0;
 
-    const yesterdayData = await MarketDetailData.find(
-      { date: previousDayDate },
-      {
-        securityId: 1,
-        data: 1,
-        _id: 0,
-      }
-    );
+//       const stock = stocksDetailsMap.get(securityId);
+//       const previousDayData = prevDayDataMap.get(securityId);
+//       const previousDayClose = previousDayData?.data?.dayClose?.[0] || 0;
 
-    const prevDayDataMap = new Map();
-    yesterdayData.forEach((data) => {
-      prevDayDataMap.set(data.securityId, data);
-    });
+//       const percentageChange = previousDayClose
+//         ? ((latestTradedPrice - previousDayClose) / previousDayClose) * 100
+//         : 0;
 
-    const stocksDetail = await StocksDetail.find(
-      {},
-      {
-        SECURITY_ID: 1,
-        UNDERLYING_SYMBOL: 1,
-        SYMBOL_NAME: 1,
-        DISPLAY_NAME: 1,
-        _id: 0,
-      }
-    );
+//       const volumeHistory = previousVolumesMap[securityId] || [];
+//       const totalPreviousVolume = volumeHistory.reduce(
+//         (sum, vol) => sum + vol,
+//         0
+//       );
+//       const averagePreviousVolume = volumeHistory.length
+//         ? totalPreviousVolume / volumeHistory.length
+//         : 0;
 
-    const stocksDetailsMap = new Map();
-    stocksDetail.forEach((stock) => {
-      stocksDetailsMap.set(stock.SECURITY_ID, {
-        UNDERLYING_SYMBOL: stock.UNDERLYING_SYMBOL,
-        SYMBOL_NAME: stock.SYMBOL_NAME,
-        DISPLAY_NAME: stock.DISPLAY_NAME,
-      });
-    });
+//       const xElement =
+//         averagePreviousVolume > 0 ? todayVolume / averagePreviousVolume : 0;
 
-    let previousVolumesMap = {};
-    previousData.forEach(({ securityId, data }) => {
-      const volume = data?.[0]?.volume || 0;
-      // console.log('volume',volume)
-      
-      if (!previousVolumesMap[securityId]) {
-        previousVolumesMap[securityId] = [];
-      }
-      previousVolumesMap[securityId].push(volume);
-    });
+//       bulkUpdates.push({
+//         updateOne: {
+//           filter: { securityId, date: latestDate },
+//           update: { $set: { xelement: xElement } },
+//         },
+//       });
 
-    let bulkUpdates = [];
-// console.log(todayData,'today')
-    const combinedData = todayData.map(({ securityId, data }) => {
-      const todayVolume = data?.volume?.[0] || 0;
-      // console.log(todayVolume,'today')
-      const latestTradedPrice = data?.latestTradedPrice?.[0] || 0;
-      const todayOpen = data?.dayOpen?.[0] || 0;
+//       return {
+//         securityId,
+//         todayVolume,
+//         stock,
+//         totalPreviousVolume,
+//         averagePreviousVolume,
+//         xElement,
+//         percentageChange,
+//       };
+//     });
 
-      const stock = stocksDetailsMap.get(securityId);
-      const previousDayData = prevDayDataMap.get(securityId);
-      const previousDayClose = previousDayData?.data?.dayClose?.[0] || 0;
-
-      const percentageChange = previousDayClose
-        ? ((latestTradedPrice - previousDayClose) / previousDayClose) * 100
-        : 0;
-
-      const volumeHistory = previousVolumesMap[securityId] || [];
-      const totalPreviousVolume = volumeHistory.reduce(
-        (sum, vol) => sum + vol,
-        0
-      );
-      const averagePreviousVolume = volumeHistory.length
-        ? totalPreviousVolume / volumeHistory.length
-        : 0;
-
-      const xElement =
-        averagePreviousVolume > 0 ? todayVolume / averagePreviousVolume : 0;
-
-      bulkUpdates.push({
-        updateOne: {
-          filter: { securityId, date: latestDate },
-          update: { $set: { xelement: xElement } },
-        },
-      });
-
-      return {
-        securityId,
-        todayVolume,
-        stock,
-        totalPreviousVolume,
-        averagePreviousVolume,
-        xElement,
-        percentageChange,
-      };
-    });
-
-    if (bulkUpdates.length > 0) {
-      await MarketDetailData.bulkWrite(bulkUpdates);
-    }
-console.log(combinedData,'dedee')
-    return { success: true, combinedData };
-  } catch (error) {
-    console.error(error, 'pd reeoe');
-    return { success: false, message: "Error in calculating volume data" };
-  }
-};
-
-
+//     if (bulkUpdates.length > 0) {
+//       await MarketDetailData.bulkWrite(bulkUpdates);
+//     }
+// console.log(combinedData,'dedee')
+//     return { success: true, combinedData };
+//   } catch (error) {
+//     console.error(error, 'pd reeoe');
+//     return { success: false, message: "Error in calculating volume data" };
+//   }
+// };
 
 connectDB();
-startWebSocket()
-// previousDaysVolume()
+// startWebSocket()
 // getTenMinDataInRedis();
 // getFiveMinDataInRedis()
 
- 
+const getDataah = async () => {
+  const datad = await getData("2025-04-08", "2025-04-09");
+  const datad2 = await getDataForTenMin("2025-04-08", "2025-04-09");
+  // const data = await AIMomentumCatcherFiveMins();
+  // const data = await AIIntradayReversalFiveMins();
 
-
-
-// const getData = async () => {
-//   const data = await getDataForTenMin()
-//   console.log('data',data)
-// }
-//  getData()
+  console.log("data");
+};
+getDataah();
 
 // startWebSocket();
 

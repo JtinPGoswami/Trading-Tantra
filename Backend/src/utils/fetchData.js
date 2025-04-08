@@ -98,13 +98,13 @@ export const fetchHistoricalData = async (securityId, fromDate, toDate, i) => {
     });
     console.log(" data for ", i + 1);
 
-  
     return response.data;
   } catch (error) {
     console.error("API Error:", error.response?.data || error.message);
     return null;
   }
 };
+
 export const fetchDailyHistoricalData = async (
   securityId,
   fromDate,

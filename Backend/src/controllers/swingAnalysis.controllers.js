@@ -295,6 +295,156 @@ const tenDayRangeBreakers = async (req, res) => {
   }
 };
 
+// const dailyCandleReversal = async (req, res) => {
+//   try {
+//     const uniqueTradingDays = await MarketDetailData.aggregate([
+//       { $group: { _id: "$date" } },
+//       { $sort: { _id: -1 } },
+//       { $limit: 3 },
+//     ]);
+
+//     if (uniqueTradingDays.length < 3) {
+//       return { message: "Not enough historical data found" };
+//     }
+
+//     const prevTargetDates = uniqueTradingDays.map((day) => day._id);
+
+//     const previousData = await MarketDetailData.find(
+//       { date: { $in: prevTargetDates } },
+//       {
+//         securityId: 1,
+//         "data.dayOpen": 1,
+//         "data.dayClose": 1,
+//         "data.dayHigh": 1,
+//         "data.dayLow": 1,
+//         "data.latestTradedPrice": 1,
+//         date: 1,
+//         _id: 0,
+//       }
+//     ).lean();
+
+//     const groupedData = prevTargetDates.reduce((acc, date) => {
+//       acc[date] = previousData.filter((entry) => entry.date === date);
+//       return acc;
+//     }, {});
+
+//     const latestDayData = new Map();
+//     const fstPreviousDaysData = new Map();
+//     const secPreviousDaysData = new Map();
+
+//     groupedData[prevTargetDates[0]]?.forEach((entry) => {
+//       latestDayData.set(entry.securityId, entry);
+//     });
+//     groupedData[prevTargetDates[1]]?.forEach((entry) => {
+//       fstPreviousDaysData.set(entry.securityId, entry);
+//     });
+//     groupedData[prevTargetDates[2]]?.forEach((entry) => {
+//       secPreviousDaysData.set(entry.securityId, entry);
+//     });
+
+//     const stocks = await StocksDetail.find(
+//       {},
+//       { SECURITY_ID: 1, UNDERLYING_SYMBOL: 1, SYMBOL_NAME: 1, _id: 0 }
+//     );
+//     if (!stocks) {
+//       return { message: "No stocks found" };
+//     }
+
+//     const stocksMap = new Map();
+//     stocks.forEach((stock) => {
+//       stocksMap.set(stock.SECURITY_ID, {
+//         SECURITY_ID: stock.SECURITY_ID,
+//         UNDERLYING_SYMBOL: stock.UNDERLYING_SYMBOL,
+//         SYMBOL_NAME: stock.SYMBOL_NAME,
+//       });
+//     });
+
+//     let responseData = [];
+//     let preCha = [];
+
+//     latestDayData.forEach((today, key) => {
+//       const todayLatestTradedPrice = today.data?.[0]?.latestTradedPrice;
+//       const todayOpen = today.data?.[0]?.dayOpen;
+//       const todayClose = today.data?.[0]?.dayClose;
+//       const stock = stocksMap.get(key);
+//       const fstPreviousDays = fstPreviousDaysData.get(key);
+//       const secPreviousDays = secPreviousDaysData.get(key);
+
+//       if (!fstPreviousDays || !secPreviousDays) {
+//         return;
+//       }
+
+//       const preOpen = fstPreviousDays.data?.[0]?.dayOpen;
+//       const preClose = fstPreviousDays.data?.[0]?.dayClose;
+//       const prevClose = fstPreviousDays.data?.[0]?.dayClose;
+//       const prevPrevClose = secPreviousDays.data?.[0]?.dayClose;
+
+//       if (
+//         prevClose === undefined ||
+//         prevPrevClose === undefined ||
+//         todayLatestTradedPrice === undefined ||
+//         prevClose === 0
+//       ) {
+//         return;
+//       }
+
+//       // Calculate percentage changes
+//       const fstPreviousDayChange =
+//         ((prevClose - prevPrevClose) / prevPrevClose) * 100;
+//       const persentageChange =
+//         ((todayLatestTradedPrice - prevClose) / prevClose) * 100;
+
+//       preCha.push({ securityId: key, persentageChange });
+
+//       // Apply 2% buffer logic
+//       const buffer = Math.abs(fstPreviousDayChange) * 0.02;
+//       let trend = null;
+
+//       if (
+//         (todayOpen > todayClose && preOpen < preClose) ||
+//         (todayOpen < todayClose && preOpen > preClose)
+//       ) {
+//         if (persentageChange >= Math.abs(fstPreviousDayChange) - buffer) {
+//           trend = "BULLISH";
+//         } else if (
+//           persentageChange <=
+//           -Math.abs(fstPreviousDayChange) + buffer
+//         ) {
+//           trend = "BEARISH";
+//         }
+//       }
+//       if (trend) {
+//         const date = getFormattedISTDate();
+//         responseData.push({
+//           securityId: key,
+//           fstPreviousDayChange: fstPreviousDayChange.toFixed(2),
+//           persentageChange: persentageChange.toFixed(2),
+//           trend,
+//           UNDERLYING_SYMBOL: stock?.UNDERLYING_SYMBOL,
+//           SYMBOL_NAME: stock?.SYMBOL_NAME,
+//           timestamp: date,
+//         });
+//       }
+//     });
+
+//     const bulkOps = responseData.map((data) => ({
+//       updateOne: {
+//         filter: { securityId: data.securityId },
+//         update: { $set: data },
+//         upsert: true,
+//       },
+//     }));
+
+//     if (bulkOps.length > 0) {
+//       await DailyCandleReversalModel.bulkWrite(bulkOps);
+//     }
+
+//     return { success: true };
+//   } catch (error) {
+//     return { message: "Internal server error", error: error.message };
+//   }
+// };
+
 const dailyCandleReversal = async (req, res) => {
   try {
     const uniqueTradingDays = await MarketDetailData.aggregate([
@@ -360,24 +510,26 @@ const dailyCandleReversal = async (req, res) => {
     });
 
     let responseData = [];
-    let preCha = [];
 
     latestDayData.forEach((today, key) => {
-      const todayLatestTradedPrice = today.data?.[0]?.latestTradedPrice;
-      const todayOpen = today.data?.[0]?.dayOpen;
-      const todayClose = today.data?.[0]?.dayClose;
+      const todayData = today.data?.[0];
+      const todayOpen = todayData?.dayOpen;
+      const todayClose = todayData?.dayClose;
+      const todayLatestTradedPrice = todayData?.latestTradedPrice;
+
       const stock = stocksMap.get(key);
       const fstPreviousDays = fstPreviousDaysData.get(key);
       const secPreviousDays = secPreviousDaysData.get(key);
 
-      if (!fstPreviousDays || !secPreviousDays) {
-        return;
-      }
+      if (!fstPreviousDays || !secPreviousDays) return;
 
-      const preOpen = fstPreviousDays.data?.[0]?.dayOpen;
-      const preClose = fstPreviousDays.data?.[0]?.dayClose;
-      const prevClose = fstPreviousDays.data?.[0]?.dayClose;
-      const prevPrevClose = secPreviousDays.data?.[0]?.dayClose;
+      const fstData = fstPreviousDays.data?.[0];
+      const secData = secPreviousDays.data?.[0];
+
+      const preOpen = fstData?.dayOpen;
+      const preClose = fstData?.dayClose;
+      const prevClose = fstData?.dayClose;
+      const prevPrevClose = secData?.dayClose;
 
       if (
         prevClose === undefined ||
@@ -388,37 +540,38 @@ const dailyCandleReversal = async (req, res) => {
         return;
       }
 
-      // Calculate percentage changes
-      const fstPreviousDayChange =
+      const firstDayChange =
         ((prevClose - prevPrevClose) / prevPrevClose) * 100;
-      const persentageChange =
+      const todayChange =
         ((todayLatestTradedPrice - prevClose) / prevClose) * 100;
 
-      preCha.push({ securityId: key, persentageChange });
-
-      // Apply 2% buffer logic
-      const buffer = Math.abs(fstPreviousDayChange) * 0.02;
+      const buffer = Math.abs(firstDayChange) * 0.02;
       let trend = null;
 
+      // Bullish Reversal Check
       if (
-        (todayOpen > todayClose && preOpen < preClose) ||
-        (todayOpen < todayClose && preOpen > preClose)
+        preOpen > preClose && // previous day red
+        todayOpen < todayClose && // today green
+        todayChange >= Math.abs(firstDayChange) - buffer
       ) {
-        if (persentageChange >= Math.abs(fstPreviousDayChange) - buffer) {
-          trend = "BULLISH";
-        } else if (
-          persentageChange <=
-          -Math.abs(fstPreviousDayChange) + buffer
-        ) {
-          trend = "BEARISH";
-        }
+        trend = "BULLISH";
       }
+
+      // Bearish Reversal Check
+      else if (
+        preOpen < preClose && // previous day green
+        todayOpen > todayClose && // today red
+        todayChange <= -(Math.abs(firstDayChange) - buffer)
+      ) {
+        trend = "BEARISH";
+      }
+
       if (trend) {
         const date = getFormattedISTDate();
         responseData.push({
           securityId: key,
-          fstPreviousDayChange: fstPreviousDayChange.toFixed(2),
-          persentageChange: persentageChange.toFixed(2),
+          fstPreviousDayChange: firstDayChange.toFixed(2),
+          percentageChange: todayChange.toFixed(2),
           trend,
           UNDERLYING_SYMBOL: stock?.UNDERLYING_SYMBOL,
           SYMBOL_NAME: stock?.SYMBOL_NAME,
@@ -445,6 +598,139 @@ const dailyCandleReversal = async (req, res) => {
   }
 };
 
+// const AIContraction = async (req, res) => {
+//   try {
+//     const uniqueTradingDays = await MarketDetailData.aggregate([
+//       { $group: { _id: "$date" } },
+//       { $sort: { _id: -1 } },
+//       { $limit: 5 },
+//     ]);
+
+//     if (uniqueTradingDays.length < 5) {
+//       return { message: "Not enough historical data (need 5 days)" };
+//     }
+
+//     const targetDates = uniqueTradingDays.map((day) => day._id);
+
+//     const previousData = await MarketDetailData.find(
+//       { date: { $in: targetDates } },
+//       {
+//         securityId: 1,
+//         data: 1, // Added for percentage change calculation
+//         date: 1,
+//         _id: 0,
+//       }
+//     ).lean();
+
+//     const groupedData = targetDates.reduce((acc, date) => {
+//       acc[date] = previousData.filter((entry) => entry.date === date);
+//       return acc;
+//     }, {});
+
+//     // Creating Maps for each day's data
+//     const dayMaps = targetDates.map(() => new Map());
+
+//     targetDates.forEach((date, index) => {
+//       groupedData[date]?.forEach((entry) => {
+//         dayMaps[index].set(entry.securityId, {
+//           securityId: entry.securityId,
+//           dayHigh: entry.data[0].dayHigh,
+//           dayLow: entry.data[0].dayLow,
+//           latestTradedPrice: entry.data[0].latestTradedPrice, // Needed for percentage change
+//           date,
+//         });
+//       });
+//     });
+
+//     const [
+//       firstDayData,
+//       secondDayData,
+//       thirdDayData,
+//       forthDayData,
+//       fifthDayData,
+//     ] = dayMaps;
+
+//     const stocks = await StocksDetail.find(
+//       {},
+//       { SECURITY_ID: 1, UNDERLYING_SYMBOL: 1, SYMBOL_NAME: 1, _id: 0 }
+//     );
+
+//     const stocksMap = new Map(
+//       stocks.map((stock) => [stock.SECURITY_ID, stock])
+//     );
+
+//     let responseData = [];
+//     let preCha = [];
+//     for (const [securityId, data] of fifthDayData.entries()) {
+//       const stock = stocksMap.get(securityId);
+//       if (!stock) continue;
+
+//       const firstDay = firstDayData.get(securityId);
+//       const secondDay = secondDayData.get(securityId);
+//       const thirdDay = thirdDayData.get(securityId);
+//       const forthDay = forthDayData.get(securityId);
+//       const todayLatestTradedPrice = data.latestTradedPrice;
+//       const previousClose = forthDay.latestTradedPrice;
+//       const percentageChange =
+//         ((Number(todayLatestTradedPrice) - Number(previousClose)) /
+//           Number(previousClose)) *
+//         100;
+
+//       preCha.push({
+//         securityId,
+//         percentageChange,
+//       });
+//       if (
+//         firstDay &&
+//         secondDay &&
+//         thirdDay &&
+//         forthDay &&
+//         secondDay.dayHigh <= firstDay.dayHigh &&
+//         secondDay.dayLow >= firstDay.dayLow &&
+//         thirdDay.dayHigh <= firstDay.dayHigh &&
+//         thirdDay.dayLow >= firstDay.dayLow &&
+//         forthDay.dayHigh <= firstDay.dayHigh &&
+//         forthDay.dayLow >= firstDay.dayLow &&
+//         data.dayHigh <= firstDay.dayHigh &&
+//         data.dayLow >= firstDay.dayLow
+//       ) {
+//         // Percentage change calculation
+//         const date = getFormattedISTDate();
+//         responseData.push({
+//           ...stock,
+//           percentageChange: percentageChange.toFixed(2),
+//           securityId,
+//           timestamp: date,
+//         });
+//       }
+//     }
+
+//     // Bulk update the contraction model
+//     const bulkOps = responseData.map((data) => ({
+//       updateOne: {
+//         filter: { securityId: data.SECURITY_ID },
+//         update: {
+//           $set: {
+//             securityId: data.SECURITY_ID,
+//             UNDERLYING_SYMBOL: data.UNDERLYING_SYMBOL,
+//             SYMBOL_NAME: data.SYMBOL_NAME,
+//           },
+//         },
+//         upsert: true,
+//       },
+//     }));
+
+//     if (bulkOps.length > 0) {
+//       await ContractionModel.bulkWrite(bulkOps);
+//     }
+//     return {
+//       success: true,
+//     };
+//   } catch (error) {
+//     return { message: "Internal server error", error: error.message };
+//   }
+// };
+
 const AIContraction = async (req, res) => {
   try {
     const uniqueTradingDays = await MarketDetailData.aggregate([
@@ -463,7 +749,7 @@ const AIContraction = async (req, res) => {
       { date: { $in: targetDates } },
       {
         securityId: 1,
-        data: 1, // Added for percentage change calculation
+        data: 1,
         date: 1,
         _id: 0,
       }
@@ -474,16 +760,18 @@ const AIContraction = async (req, res) => {
       return acc;
     }, {});
 
-    // Creating Maps for each day's data
     const dayMaps = targetDates.map(() => new Map());
 
     targetDates.forEach((date, index) => {
       groupedData[date]?.forEach((entry) => {
+        const d = entry.data[0];
         dayMaps[index].set(entry.securityId, {
           securityId: entry.securityId,
-          dayHigh: entry.data[0].dayHigh,
-          dayLow: entry.data[0].dayLow,
-          latestTradedPrice: entry.data[0].latestTradedPrice, // Needed for percentage change
+          dayHigh: d.dayHigh,
+          dayLow: d.dayLow,
+          latestTradedPrice: d.latestTradedPrice,
+          open: d.open,
+          close: d.close,
           date,
         });
       });
@@ -507,7 +795,7 @@ const AIContraction = async (req, res) => {
     );
 
     let responseData = [];
-    let preCha = [];
+
     for (const [securityId, data] of fifthDayData.entries()) {
       const stock = stocksMap.get(securityId);
       if (!stock) continue;
@@ -517,31 +805,35 @@ const AIContraction = async (req, res) => {
       const thirdDay = thirdDayData.get(securityId);
       const forthDay = forthDayData.get(securityId);
       const todayLatestTradedPrice = data.latestTradedPrice;
-      const previousClose = forthDay.latestTradedPrice;
-      const percentageChange =
-        ((Number(todayLatestTradedPrice) - Number(previousClose)) /
-          Number(previousClose)) *
-        100;
+      const previousClose = forthDay?.latestTradedPrice;
 
-      preCha.push({
-        securityId,
-        percentageChange,
-      });
       if (
         firstDay &&
         secondDay &&
         thirdDay &&
         forthDay &&
-        secondDay.dayHigh <= firstDay.dayHigh &&
-        secondDay.dayLow >= firstDay.dayLow &&
-        thirdDay.dayHigh <= firstDay.dayHigh &&
-        thirdDay.dayLow >= firstDay.dayLow &&
-        forthDay.dayHigh <= firstDay.dayHigh &&
-        forthDay.dayLow >= firstDay.dayLow &&
-        data.dayHigh <= firstDay.dayHigh &&
-        data.dayLow >= firstDay.dayLow
+        Math.max(secondDay.open, secondDay.close) <=
+          Math.max(firstDay.open, firstDay.close) &&
+        Math.min(secondDay.open, secondDay.close) >=
+          Math.min(firstDay.open, firstDay.close) &&
+        Math.max(thirdDay.open, thirdDay.close) <=
+          Math.max(firstDay.open, firstDay.close) &&
+        Math.min(thirdDay.open, thirdDay.close) >=
+          Math.min(firstDay.open, firstDay.close) &&
+        Math.max(forthDay.open, forthDay.close) <=
+          Math.max(firstDay.open, firstDay.close) &&
+        Math.min(forthDay.open, forthDay.close) >=
+          Math.min(firstDay.open, firstDay.close) &&
+        Math.max(data.open, data.close) <=
+          Math.max(firstDay.open, firstDay.close) &&
+        Math.min(data.open, data.close) >=
+          Math.min(firstDay.open, firstDay.close)
       ) {
-        // Percentage change calculation
+        const percentageChange =
+          ((Number(todayLatestTradedPrice) - Number(previousClose)) /
+            Number(previousClose)) *
+          100;
+
         const date = getFormattedISTDate();
         responseData.push({
           ...stock,
@@ -552,7 +844,6 @@ const AIContraction = async (req, res) => {
       }
     }
 
-    // Bulk update the contraction model
     const bulkOps = responseData.map((data) => ({
       updateOne: {
         filter: { securityId: data.SECURITY_ID },
@@ -570,9 +861,8 @@ const AIContraction = async (req, res) => {
     if (bulkOps.length > 0) {
       await ContractionModel.bulkWrite(bulkOps);
     }
-    return {
-      success: true,
-    };
+
+    return { success: true };
   } catch (error) {
     return { message: "Internal server error", error: error.message };
   }
