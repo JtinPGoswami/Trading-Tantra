@@ -1694,8 +1694,24 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
       }
 
       if (!data) {
-        console.warn(`No data found for Security ID: ${securityIds[i]}`);
-        continue; // Skip if data is missing
+        // console.warn(`No data found for Security ID: ${securityIds[i]}`);
+        const updatedDataFromDB = await MomentumStockFiveMin.find(
+          {},
+          {
+            securityId: 1,
+            symbol_name: 1,
+            symbol: 1,
+            _id: 0,
+            momentumType: 1,
+            timestamp: 1,
+            percentageChange: 1,
+          }
+        );
+        return {
+          message: "Momentum stocks found and saved",
+          count: momentumStocks.length,
+          updatedData: updatedDataFromDB.slice(0, 20),
+        }; // Skip if data is missing
       }
 
       // Prepare the updated data
@@ -1854,6 +1870,11 @@ const AIMomentumCatcherTenMins = async (req, res) => {
       return { message: "No previous stock data available" };
       // return res.status(404).json({ message: "No previous stock data available" });
     }
+
+    const tomorrow = new Date(latestDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
 
     const previousDayDate = previousDayEntry.date;
     const yesterdayData = await MarketDetailData.find({

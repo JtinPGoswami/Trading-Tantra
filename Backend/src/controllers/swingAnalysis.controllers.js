@@ -152,6 +152,7 @@ const fiveDayRangeBreakers = async (req, res) => {
       success: true,
     };
   } catch (error) {
+    console.log('5 day bo',error)
     return { message: "Internal server error", error: error.message };
   }
 };
@@ -594,6 +595,7 @@ const dailyCandleReversal = async (req, res) => {
 
     return { success: true };
   } catch (error) {
+    console.log('daily reversal',error)
     return { message: "Internal server error", error: error.message };
   }
 };

@@ -1,6 +1,6 @@
 import { Worker } from "bullmq";
-import { getDataForTenMin } from "../../controllers/liveMarketData.controllerj.js";
-
+import { getDataForTenMin } from "../../controllers/liveMarketData.controller.js";
+ 
 
 // Worker BullMQ ka part hai — iska kaam queue se jobs uthana aur unhe run karna hota hai.
 new Worker(
@@ -8,7 +8,7 @@ new Worker(
   async (job) => {
     const { fromDate, toDate } = job.data;
     console.log("running ten min candle fetch....⛷️");
-    const data = await getDataForTenMin(fromDate, toDate);
+    await getDataForTenMin(fromDate, toDate);
   },
   { connection: { host: "127.0.0.1", port: 6379 } }
 );

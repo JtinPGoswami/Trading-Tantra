@@ -76,7 +76,7 @@ import {
   getDataForTenMin,
   startWebSocket,
 } from "../controllers/liveMarketData.controller.js";
-import { fiveMinDataQueue, liveDataQueue } from "./Queues.js";
+import { fiveMinDataQueue, liveDataQueue, TenMinDataQueue } from "./Queues.js";
 
 // Helper to get IST time
 const getISTTime = () => {
@@ -145,7 +145,7 @@ const runMarketTask = async () => {
     //new implementation with queue
 
     await fiveMinDataQueue.add("fiveMinData", { fromDate, toDate });
-
+    await TenMinDataQueue.add("TenMinData", { fromDate, toDate });
     await liveDataQueue.add("liveData", { fromDate, toDate });
 
     
