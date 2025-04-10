@@ -471,8 +471,13 @@ const getDataForTenMin = async (fromDate, toDate) => {
   try {
     const convertFiveToTenMinCandle = (fiveMinCandles) => {
       const tenMinCandle = [];
-      for (let i = 1; i < fiveMinCandles.open.length - 1; i += 2) {
-        console.log("candles", i);
+
+      const len = fiveMinCandles.open.length;
+      const isOdd = len % 2 !== 0;
+      const loopUntil = isOdd ? len - 1 : len;
+
+      // Process full 10-min candles
+      for (let i = 0; i < loopUntil; i += 2) {
         tenMinCandle.push({
           open: fiveMinCandles.open[i],
           close: fiveMinCandles.close[i + 1],
@@ -482,6 +487,20 @@ const getDataForTenMin = async (fromDate, toDate) => {
           timestamp: fiveMinCandles.timestamp[i],
         });
       }
+
+      // Handle last remaining 5-min candle as-is
+      if (isOdd) {
+        const i = len - 1;
+        tenMinCandle.push({
+          open: fiveMinCandles.open[i],
+          close: fiveMinCandles.close[i],
+          high: fiveMinCandles.high[i],
+          low: fiveMinCandles.low[i],
+          volume: fiveMinCandles.volume[i],
+          timestamp: fiveMinCandles.timestamp[i], // This should be "9/4/2025, 3:25:00 pm"
+        });
+      }
+
       return tenMinCandle;
     };
 
@@ -511,12 +530,12 @@ const getDataForTenMin = async (fromDate, toDate) => {
         }
 
         const formattedData = {
-          open: rawData.open.slice(-12),
-          high: rawData.high.slice(-12),
-          low: rawData.low.slice(-12),
-          close: rawData.close.slice(-12),
-          volume: rawData.volume.slice(-12),
-          timestamp: rawData.timestamp.slice(-12).map(convertToIST),
+          open: rawData.open,
+          high: rawData.high,
+          low: rawData.low,
+          close: rawData.close,
+          volume: rawData.volume,
+          timestamp: rawData.timestamp.map(convertToIST),
         };
 
         const tenMinCandles = convertFiveToTenMinCandle(formattedData);
@@ -541,7 +560,7 @@ const getDataForTenMin = async (fromDate, toDate) => {
           redisKey,
           JSON.stringify(redisFormattedData),
           "EX",
-          300
+          600
         );
         console.log(`Fetched from API and cached: ${securityId}`);
       }
@@ -729,7 +748,7 @@ const getDataForTenMin = async (fromDate, toDate) => {
 //           securityId: securityIds[i],
 //         };
 //         if (data) {
-//           await redis.set(redisKey, JSON.stringify(formatedData), "EX", 300);
+//           await redis.set(redisKey, JSON.stringify(formatedData), "EX", 600);
 //           console.log(`Fetched from API and cached: ${securityIds[i]}`);
 //         }
 //       }

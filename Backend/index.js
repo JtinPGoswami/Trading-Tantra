@@ -374,8 +374,8 @@ connectDB();
 // getFiveMinDataInRedis()
 
 const getDataah = async () => {
-  const datad = await getData("2025-04-08", "2025-04-09");
-  const datad2 = await getDataForTenMin("2025-04-08", "2025-04-09");
+  // const datad = await getData("2025-04-08", "2025-04-09");
+  const datad2 = await getDataForTenMin("2025-04-09", "2025-04-10");
   // const data = await AIMomentumCatcherFiveMins();
   // const data = await AIIntradayReversalFiveMins();
 
