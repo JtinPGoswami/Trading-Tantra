@@ -116,35 +116,36 @@ const AICandleBreakers = async (req, res) => {
   }
 };
 
+const AIContractionDB = async (req, res) => {
+  try {
+    const data = await ContractionModel.find(
+      {},
+      {
+        _id: 0,
+        SYMBOL_NAME: 1,
+        UNDERLYING_SYMBOL: 1,
+        timestamp: 1,
+      }
+    ).lean();
 
-
-
-
-const AIContraction = async (req, res) => {
-    try {
-        const data = await ContractionModel.find({},{
-            _id: 0,
-            SYMBOL_NAME: 1,
-            UNDERLYING_SYMBOL: 1,
-            timestamp: 1,
-        }).lean();
-
-        if(!data){
-            res.status(404).json({success: false, message: "No data found"})
-        }
-
-        res.status(200).json({success: true, data})
-
-
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Internal server error",
-            error: error.message
-        })
-        
+    if (!data) {
+      res.status(404).json({ success: false, message: "No data found" });
     }
-}
 
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
 
-export { FiveDayBO, TenDayBO, AICandleReversal,AICandleBreakers , AIContraction};
+export {
+  FiveDayBO,
+  TenDayBO,
+  AICandleReversal,
+  AICandleBreakers,
+  AIContractionDB,
+};

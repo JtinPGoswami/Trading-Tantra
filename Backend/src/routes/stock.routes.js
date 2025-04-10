@@ -19,12 +19,15 @@ import {
   twoDayHLBreak,
 } from "../controllers/liveMarketData.controller.js";
 import {
-  AIContraction,
   dailyCandleReversal,
   fiveDayRangeBreakers,
   tenDayRangeBreakers,
 } from "../controllers/swingAnalysis.controllers.js";
 import getFiiDiiData from "../controllers/FiiDii.controller.js";
+import {
+  AICandleBreakers,
+  AIContractionDB,
+} from "../controllers/AIswingTrades.controller.js";
 const router = express.Router();
 router.get("/get-turnover", getStocksData);
 router.get("/get-top-gainers-and-losers", getTopGainersAndLosers);
@@ -44,7 +47,7 @@ router.get("/ten-min-momentum", AIMomentumCatcherTenMins);
 router.get("/five-day-range-break", fiveDayRangeBreakers);
 router.get("/ten-day-range-break", tenDayRangeBreakers);
 router.get("/daily-candel-reversal", dailyCandleReversal);
-router.get("/ai-contraction", AIContraction);
+router.get("/ai-contraction", AIContractionDB);
 
 router.get("/fii-dii", getFiiDiiData);
 export default router;

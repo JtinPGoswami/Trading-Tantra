@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import Lock from "../../Lock";
 
 const AIContractions = ({ data, loading, error, isSubscribed }) => {
-  console.log(data, "data");
   const [sortedData, setSortedData] = useState([]);
   const [sortOrderChange, setSortOrderChange] = useState("desc");
   const [sortOrderSymbol, setSortOrderSymbol] = useState("desc");

@@ -7,12 +7,7 @@ import dayHigh from "../../assets/Images/Dashboard/marketdepthpage/dayHigh.png";
 import useFetchData from "../../utils/useFetchData";
 import Loader from "../../Components/Loader";
 import HighPowerStock from "../../Components/Dashboard/Cards/HighPowerStock";
-import {
-  fetchStockData,
-  usefetchDayHighData,
-  usefetchDayLowData,
-  usefetchPreviousVolume,
-} from "../../hooks/fetchStocksData";
+
 import {
   TopGainers,
   TopLoosers,
@@ -26,11 +21,7 @@ import {
 import { PreviousVolume } from "../../Components/Dashboard/Cards/PreviousVolume";
 import Cookies from "js-cookie";
 
-
-
 const token = localStorage.getItem("token");
-
-
 
 const SOCKET_URI = import.meta.env.VITE_SOCKET_URI;
 const socket = io(SOCKET_URI, {
@@ -328,7 +319,7 @@ const MarketDepthPage = () => {
 
   const token = localStorage.getItem("token");
   useEffect(() => {
-    const Subscribed =Cookies.get("isSubscribed");
+    const Subscribed = Cookies.get("isSubscribed");
     setIsSubscribed(Subscribed);
 
     setLoading(true);
@@ -388,17 +379,19 @@ const MarketDepthPage = () => {
       setLoading(false);
     };
 
-    socket.on('error', (error) => {
-      console.error('Socket error:', error);
-    })
+    socket.on("error", (error) => {
+      console.error("Socket error:", error);
+    });
 
     socket.on("connect_error", (err) => {
       console.warn("Socket Connection Error:", err.message);
-      
+
       if (err.message.includes("Subscription required")) {
-          alert("⚠️ Subscription Required: Please subscribe to access this feature.");
+        alert(
+          "⚠️ Subscription Required: Please subscribe to access this feature."
+        );
       }
-  })  
+    });
     // Attach event listeners
     socket.on("turnOver", handleTurnOver);
     socket.on("dayLowBreak", handleDayLowBreak);
@@ -421,7 +414,7 @@ const MarketDepthPage = () => {
       socket.off("dayHighBreak", handleDayHighBreak);
       socket.off("getTopGainersAndLosers", handleTopGainersAndLosers);
       socket.off("previousDaysVolume", handlePreviousDaysVolume);
-      socket.off('connect_error')
+      socket.off("connect_error");
       clearInterval(interval);
     };
   }, [isFetching]);

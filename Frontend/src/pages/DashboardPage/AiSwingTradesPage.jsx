@@ -1,328 +1,121 @@
 import React, { useEffect, useState } from "react";
-import tendays from "../../assets/Images/Dashboard/AiSwingTradesPAge/tenDays.png";
-import fiftydays from "../../assets/Images/Dashboard/AiSwingTradesPAge/fiftyDays.png";
-import reversalRadar from "../../assets/Images/Dashboard/AiSwingTradesPAge/reversalRadar.png";
-import channel from "../../assets/Images/Dashboard/AiSwingTradesPAge/channel.png";
-import nrseven from "../../assets/Images/Dashboard/AiSwingTradesPAge/nr7.png";
-import StockCard from "../../Components/Dashboard/StockCard";
-import TreemapChart from "../../Components/Dashboard/TreemapChart";
-import { FcCandleSticks } from "react-icons/fc";
-import candles from "../../assets/Images/Dashboard/marketdepthpage/candles.png";
-import { FaPlayCircle } from "react-icons/fa";
-import topGainers from "../../assets/Images/Dashboard/marketdepthpage/topGainers.png";
 import FiveDayBO from "../../Components/Dashboard/Cards/SwingTrad/fiveDayBO";
-import { io } from "socket.io-client";
 import TenDayBO from "../../Components/Dashboard/Cards/SwingTrad/tenDayBO";
 import AICandleReversal from "../../Components/Dashboard/Cards/SwingTrad/AICandleReversal";
 import AIChannelBreakers from "../../Components/Dashboard/Cards/SwingTrad/AIChannelBreakers";
 import AIContractions from "../../Components/Dashboard/Cards/SwingTrad/AIContraction";
 import Cookies from "js-cookie";
-const token = localStorage.getItem("token");
-const SOCKET_URI = import.meta.env.VITE_SOCKET_URI;
-const socket = io(SOCKET_URI, {
-  auth: { token },
-  transports: ["websocket"],
-});
-
-//socket error handeling
-socket.on("connect", () => {
-  console.log("✅ Connected to WebSocket Server:", socket.id);
-});
-
-socket.on("connect_error", (err) => {
-  console.error("❌ WebSocket Connection Error:", err.message);
-});
+import {
+  usefetchAiCandleBreakers,
+  usefetchAiCandleReversal,
+  usefetchAiContraction,
+  usefetchFiveDayBreakOut,
+  usefetchTenDayBreakOut,
+} from "../../hooks/fetchStocksData";
 const AiSwingTradesPage = () => {
-  // const stockDataList = [
-  //   {
-  //     title: "10 D
-  // ays BO",
-  //     img: tendays,
-  //     price: "purchased",
-  //     stocks: [
-  //       {
-  //         symbol: "KPITTECH",
-  //         icon: "https://via.placeholder.com/20/00FF00",
-  //         percent: 2.96,
-  //         turnover: 332.89,
-  //       },
-  //       {
-  //         symbol: "ZOMATO",
-  //         icon: "https://via.placeholder.com/20/FF0000",
-  //         percent: 6.72,
-  //         turnover: 1.94,
-  //       },
-  //       {
-  //         symbol: "TVS MOTOR",
-  //         icon: "https://via.placeholder.com/20/FFA500",
-  //         percent: 5.94,
-  //         turnover: 0.77,
-  //       },
-  //       {
-  //         symbol: "SUPER MEIND",
-  //         icon: "https://via.placeholder.com/20/FF4500",
-  //         percent: 5.64,
-  //         turnover: 1.89,
-  //       },
-  //       {
-  //         symbol: "SUPER MEIND",
-  //         icon: "https://via.placeholder.com/20/FF4500",
-  //         percent: 5.64,
-  //         turnover: 1.89,
-  //       },
-  //       {
-  //         symbol: "SUPER MEIND",
-  //         icon: "https://via.placeholder.com/20/FF4500",
-  //         percent: 5.64,
-  //         turnover: 1.89,
-  //       },
-  //       {
-  //         symbol: "SUPER MEIND",
-  //         icon: "https://via.placeholder.com/20/FF4500",
-  //         percent: 5.64,
-  //         turnover: 1.89,
-  //       },
-  //       {
-  //         symbol: "SUPER MEIND",
-  //         icon: "https://via.placeholder.com/20/FF4500",
-  //         percent: 5.64,
-  //         turnover: 1.89,
-  //       },
-  //       {
-  //         symbol: "SUPER MEIND",
-  //         icon: "https://via.placeholder.com/20/FF4500",
-  //         percent: 5.64,
-  //         turnover: 1.89,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "50 Days BO",
-  //     img: fiftydays,
-  //     price: "purchased",
-  //     stocks: [
-  //       {
-  //         symbol: "HDFC",
-  //         icon: "https://via.placeholder.com/20/008000",
-  //         percent: 1.23,
-  //         turnover: 125.3,
-  //       },
-  //       {
-  //         symbol: "ICICI",
-  //         icon: "https://via.placeholder.com/20/FF4500",
-  //         percent: 2.45,
-  //         turnover: 76.5,
-  //       },
-  //       {
-  //         symbol: "TATA STEEL",
-  //         icon: "https://via.placeholder.com/20/0000FF",
-  //         percent: 3.78,
-  //         turnover: 56.1,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Reversal Radar",
-  //     img: reversalRadar,
-  //     price: "no",
-  //     stocks: [
-  //       {
-  //         symbol: "IRCTC",
-  //         icon: "https://via.placeholder.com/20/800080",
-  //         percent: 4.11,
-  //         turnover: 98.2,
-  //       },
-  //       {
-  //         symbol: "YES BANK",
-  //         icon: "https://via.placeholder.com/20/FFD700",
-  //         percent: 1.98,
-  //         turnover: 23.4,
-  //       },
-  //       {
-  //         symbol: "BIOCON",
-  //         icon: "https://via.placeholder.com/20/FF69B4",
-  //         percent: 3.22,
-  //         turnover: 45.8,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "Channel BO",
-  //     img: channel,
-  //     price: "no",
-  //     stocks: [
-  //       {
-  //         symbol: "IRCTC",
-  //         icon: "https://via.placeholder.com/20/800080",
-  //         percent: 4.11,
-  //         turnover: 98.2,
-  //       },
-  //       {
-  //         symbol: "YES BANK",
-  //         icon: "https://via.placeholder.com/20/FFD700",
-  //         percent: 1.98,
-  //         turnover: 23.4,
-  //       },
-  //       {
-  //         symbol: "BIOCON",
-  //         icon: "https://via.placeholder.com/20/FF69B4",
-  //         percent: 3.22,
-  //         turnover: 45.8,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     title: "NR7",
-  //     img: nrseven,
-  //     price: "no",
-  //     stocks: [
-  //       {
-  //         symbol: "IRCTC",
-  //         icon: "https://via.placeholder.com/20/800080",
-  //         percent: 4.11,
-  //         turnover: 98.2,
-  //       },
-  //       {
-  //         symbol: "YES BANK",
-  //         icon: "https://via.placeholder.com/20/FFD700",
-  //         percent: 1.98,
-  //         turnover: 23.4,
-  //       },
-  //       {
-  //         symbol: "BIOCON",
-  //         icon: "https://via.placeholder.com/20/FF69B4",
-  //         percent: 3.22,
-  //         turnover: 45.8,
-  //       },
-  //     ],
-  //   },
-  // ];
-
-  const [fiveDayRangeBreakers, setFiveDayRangeBreakers] = useState([]);
-
-  const [tenDayRangeBreakers, setTenDayRangeBreakers] = useState([]);
-
-  const [dailyCandleReversal, setDailyCandleReversal] = useState([]);
-
-  const [dailyRangeBreakout, setDailyRangeBreakout] = useState([]);
-
-  const [AIContraction, setAIContraction] = useState([]);
-
-  const [loading, setLoading] = useState(null);
-  const [error, seterror] = useState(null);
-  const [isFetching, setIsFetching] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  // check subscription cookie
   useEffect(() => {
-    const Subscribed =Cookies.get("isSubscribed");
-    setIsSubscribed(Subscribed);
+    const Subscribed = Cookies.get("isSubscribed");
+    setIsSubscribed(Subscribed === "true");
+  }, []);
 
-    setLoading(true);
+  // hooks for data fetching
+  const {
+    fiveDayBOData,
+    fiveDayBOLoading,
+    fiveDayBOError,
+    fetchFiveDayBOData,
+  } = usefetchFiveDayBreakOut();
 
-    let interval;
+  const { tenDayBOData, tenDayBOLoading, tenDayBOError, fetchTenDayBOData } =
+    usefetchTenDayBreakOut();
 
-    if (!isFetching) {
-      socket.emit("getSwingData", { token });
-      setIsFetching(true);
-    } else {
-      interval = setInterval(() => {
-        socket.emit("getSwingData", { token });
-      }, 50000);
+  const {
+    AICandelBreakData,
+    AICandelBreakDataLoading,
+    AICandelBreakDataError,
+    fetchAICandelBreakData,
+  } = usefetchAiCandleBreakers();
+
+  const {
+    AICandelReversalData,
+    AICandelReversalLoading,
+    AICandelReversalError,
+    fetchAICandelReversalData,
+  } = usefetchAiCandleReversal();
+
+  const {
+    AiContractionData,
+    AiContractionLoading,
+    AiContractionError,
+    fetchAiContractionData,
+  } = usefetchAiContraction();
+
+  // fetch all data only if subscribed
+  useEffect(() => {
+    if (isSubscribed) {
+      fetchFiveDayBOData();
+      fetchTenDayBOData();
+      fetchAICandelBreakData();
+      fetchAICandelReversalData();
+      fetchAiContractionData();
     }
+  }, [isSubscribed]);
 
-    let hasDataArrived = false;
-
-    const handleFiveDayRangeBreakers = (data) => {
-      setFiveDayRangeBreakers(data?.resData);
-      hasDataArrived = true;
-      setLoading(false);
-    };
-    const handleTenDayRangeBreakers = (data) => {
-      setTenDayRangeBreakers(data?.resData);
-      hasDataArrived = true;
-      setLoading(false);
-    };
-    const handleDailyCandleReversal = (data) => {
-      setDailyCandleReversal(data?.resData);
-      hasDataArrived = true;
-      setLoading(false);
-    };
-    const handleAIContraction = (data) => {
-      setAIContraction(data?.resData);
-      hasDataArrived = true;
-      setLoading(false);
-    };
-    const handleDailyRangeBreakout = (data) => {
-      setDailyRangeBreakout(data?.data);
-      hasDataArrived = true;
-      setLoading(false);
-    };
-
-    socket.on("connect_error", (err) => {
-      console.warn("Socket Connection Error:", err.message);
-      
-      if (err.message.includes("Subscription required")) {
-          alert("⚠️ Subscription Required: Please subscribe to access this feature.");
-      }
-  })  
-    socket.on("fiveDayRangeBreakers", handleFiveDayRangeBreakers);
-    socket.on("tenDayRangeBreakers", handleTenDayRangeBreakers);
-    socket.on("setDailyCandleReversal", handleDailyCandleReversal);
-    socket.on("AIContraction", handleAIContraction);
-    socket.on("DailyRangeBreakout", handleDailyRangeBreakout);
-
-    return () => {
-      socket.off("fiveDayRangeBreakers", handleFiveDayRangeBreakers);
-      socket.off("tenDayRangeBreakers", handleTenDayRangeBreakers);
-      socket.off("setDailyCandleReversal", handleDailyCandleReversal);
-      socket.off("AIContraction", handleAIContraction);
-      socket.off("DailyRangeBreakout", handleDailyRangeBreakout);
-      socket.off('connect_error');
-      clearInterval(interval);
-    };
-
-    // fetchData("get-turnover", "GET");
-  }, [isFetching]);
-
-  console.log(fiveDayRangeBreakers, "fiveDayRangeBreakers");
+  // console log all fetched data
+  useEffect(() => {
+    if (isSubscribed) {
+      console.log("5 Day Breakout:", fiveDayBOData);
+      console.log("10 Day Breakout:", tenDayBOData);
+      console.log("AI Candle Break:", AICandelBreakData);
+      console.log("AI Reversal:", AICandelReversalData);
+      console.log("AI Contraction:", AiContractionData);
+    }
+  }, [
+    fiveDayBOData,
+    tenDayBOData,
+    AICandelBreakData,
+    AICandelReversalData,
+    AiContractionData,
+    isSubscribed,
+  ]);
   return (
     <>
       <section className="mt-10">
         <h2 className="text-3xl font-bold ">AI Swing Trades</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
-          {/* {stockDataList.map((item, index) => (
-            <StockCard
-              key={index}
-              title={item.title}
-              stocks={item.stocks}
-              img={item.img}
-              price={item.price}
-            />
-          ))} */}
-
+          {/* Each component handles its own loading and error */}
           <FiveDayBO
-            data={fiveDayRangeBreakers}
-            loading={loading}
+            data={fiveDayBOData.data}
+            loading={fiveDayBOLoading}
+            error={fiveDayBOError}
             isSubscribed={isSubscribed}
           />
           <TenDayBO
-            data={tenDayRangeBreakers}
-            loading={loading}
+            data={tenDayBOData.data}
+            loading={tenDayBOLoading}
+            error={tenDayBOError}
             isSubscribed={isSubscribed}
           />
           <AICandleReversal
-            data={dailyCandleReversal}
-            loading={loading}
+            data={AICandelReversalData.data}
+            loading={AICandelReversalLoading}
+            error={AICandelReversalError}
             isSubscribed={isSubscribed}
           />
           <AIChannelBreakers
-            data={dailyRangeBreakout}
-            loading={loading}
+            data={AICandelBreakData.data}
+            loading={AICandelBreakDataLoading}
+            error={AICandelBreakDataError}
             isSubscribed={isSubscribed}
           />
           <AIContractions
-            data={AIContraction}
-            loading={loading}
+            data={AiContractionData.data}
+            loading={AiContractionLoading}
+            error={AiContractionError}
             isSubscribed={isSubscribed}
           />
         </div>

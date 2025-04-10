@@ -1709,7 +1709,6 @@ const AIMomentumCatcherFiveMins = async (req, res) => {
         );
         return {
           message: "Momentum stocks found and saved",
-          count: momentumStocks.length,
           updatedData: updatedDataFromDB.slice(0, 20),
         }; // Skip if data is missing
       }
