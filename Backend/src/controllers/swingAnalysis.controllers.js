@@ -152,7 +152,7 @@ const fiveDayRangeBreakers = async (req, res) => {
       success: true,
     };
   } catch (error) {
-    console.log('5 day bo',error)
+    console.log("5 day bo", error);
     return { message: "Internal server error", error: error.message };
   }
 };
@@ -247,6 +247,7 @@ const tenDayRangeBreakers = async (req, res) => {
       }
       const percentageChanges =
         ((todayLatestTradedPrice - previousClose[0]) / previousClose[0]) * 100;
+      console.log("ten day bo percentge chneg", percentageChanges);
       preCha.push({
         securityId: key,
         percentageChanges,
@@ -275,7 +276,7 @@ const tenDayRangeBreakers = async (req, res) => {
               preTenDaysLow: minPreviousLow.toFixed(2),
               UNDERLYING_SYMBOL: stock.UNDERLYING_SYMBOL,
               SYMBOL_NAME: stock.SYMBOL_NAME,
-              percentageChange: percentageChanges.toFixed(2),
+              persentageChange: percentageChanges.toFixed(2),
               type,
               timestamp: date, // IST Time
             },
@@ -517,6 +518,7 @@ const dailyCandleReversal = async (req, res) => {
       const todayOpen = todayData?.dayOpen;
       const todayClose = todayData?.dayClose;
       const todayLatestTradedPrice = todayData?.latestTradedPrice;
+      // console.log('todayLatestTradedPrice', todayLatestTradedPrice);
 
       const stock = stocksMap.get(key);
       const fstPreviousDays = fstPreviousDaysData.get(key);
@@ -572,7 +574,7 @@ const dailyCandleReversal = async (req, res) => {
         responseData.push({
           securityId: key,
           fstPreviousDayChange: firstDayChange.toFixed(2),
-          percentageChange: todayChange.toFixed(2),
+          persentageChange: todayChange.toFixed(2),
           trend,
           UNDERLYING_SYMBOL: stock?.UNDERLYING_SYMBOL,
           SYMBOL_NAME: stock?.SYMBOL_NAME,
@@ -595,7 +597,7 @@ const dailyCandleReversal = async (req, res) => {
 
     return { success: true };
   } catch (error) {
-    console.log('daily reversal',error)
+    console.log("daily reversal", error);
     return { message: "Internal server error", error: error.message };
   }
 };
@@ -740,6 +742,7 @@ const AIContraction = async (req, res) => {
       { $sort: { _id: -1 } },
       { $limit: 5 },
     ]);
+    // console.log('uniqueTradingDays', uniqueTradingDays)
 
     if (uniqueTradingDays.length < 5) {
       return { message: "Not enough historical data (need 5 days)" };
@@ -747,6 +750,7 @@ const AIContraction = async (req, res) => {
 
     const targetDates = uniqueTradingDays.map((day) => day._id);
 
+    // console.log('targetDates', targetDates)
     const previousData = await MarketDetailData.find(
       { date: { $in: targetDates } },
       {
@@ -756,29 +760,33 @@ const AIContraction = async (req, res) => {
         _id: 0,
       }
     ).lean();
+    // console.log('previousData', previousData)
 
     const groupedData = targetDates.reduce((acc, date) => {
       acc[date] = previousData.filter((entry) => entry.date === date);
       return acc;
     }, {});
 
+    // console.log( groupedData,"groupedData");
     const dayMaps = targetDates.map(() => new Map());
 
     targetDates.forEach((date, index) => {
       groupedData[date]?.forEach((entry) => {
         const d = entry.data[0];
+        // console.log(d,'data')
         dayMaps[index].set(entry.securityId, {
           securityId: entry.securityId,
-          dayHigh: d.dayHigh,
-          dayLow: d.dayLow,
+          dayHigh: Number(d.dayHigh),
+          dayLow: Number(d.dayLow),
           latestTradedPrice: d.latestTradedPrice,
-          open: d.open,
-          close: d.close,
+          open: Number(d.dayOpen),
+          close: Number(d.dayClose),
           date,
         });
       });
     });
 
+    // console.log('dayMaps', dayMaps);
     const [
       firstDayData,
       secondDayData,
@@ -786,6 +794,7 @@ const AIContraction = async (req, res) => {
       forthDayData,
       fifthDayData,
     ] = dayMaps;
+
 
     const stocks = await StocksDetail.find(
       {},
@@ -806,8 +815,11 @@ const AIContraction = async (req, res) => {
       const secondDay = secondDayData.get(securityId);
       const thirdDay = thirdDayData.get(securityId);
       const forthDay = forthDayData.get(securityId);
-      const todayLatestTradedPrice = data.latestTradedPrice;
+      const todayLatestTradedPrice = data?.latestTradedPrice;
       const previousClose = forthDay?.latestTradedPrice;
+
+
+      console.log(typeof firstDay.open, firstDay.open); // should be 'number'
 
       if (
         firstDay &&
@@ -836,6 +848,7 @@ const AIContraction = async (req, res) => {
             Number(previousClose)) *
           100;
 
+          console.log('ai pc',percentageChange)
         const date = getFormattedISTDate();
         responseData.push({
           ...stock,
@@ -845,6 +858,7 @@ const AIContraction = async (req, res) => {
         });
       }
     }
+    console.log(responseData,'responseData')
 
     const bulkOps = responseData.map((data) => ({
       updateOne: {
@@ -854,6 +868,7 @@ const AIContraction = async (req, res) => {
             securityId: data.SECURITY_ID,
             UNDERLYING_SYMBOL: data.UNDERLYING_SYMBOL,
             SYMBOL_NAME: data.SYMBOL_NAME,
+            percentageChange: data.percentageChange,
           },
         },
         upsert: true,
@@ -863,9 +878,11 @@ const AIContraction = async (req, res) => {
     if (bulkOps.length > 0) {
       await ContractionModel.bulkWrite(bulkOps);
     }
+    console.log(bulkOps,'bulkOps')
 
     return { success: true };
   } catch (error) {
+    console.log('error',error)
     return { message: "Internal server error", error: error.message };
   }
 };
