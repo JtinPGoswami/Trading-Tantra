@@ -89,31 +89,31 @@ const AiSwingTradesPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10">
           {/* Each component handles its own loading and error */}
           <FiveDayBO
-            data={fiveDayBOData.data}
+            data={fiveDayBOData?.data?.data}
             loading={fiveDayBOLoading}
             error={fiveDayBOError}
             isSubscribed={isSubscribed}
           />
           <TenDayBO
-            data={tenDayBOData.data}
+            data={tenDayBOData?.data?.data}
             loading={tenDayBOLoading}
             error={tenDayBOError}
             isSubscribed={isSubscribed}
           />
           <AICandleReversal
-            data={AICandelReversalData.data}
+            data={AICandelReversalData?.data?.data}
             loading={AICandelReversalLoading}
             error={AICandelReversalError}
             isSubscribed={isSubscribed}
           />
           <AIChannelBreakers
-            data={AICandelBreakData.data}
+            data={AICandelBreakData?.data?.data}
             loading={AICandelBreakDataLoading}
             error={AICandelBreakDataError}
             isSubscribed={isSubscribed}
           />
           <AIContractions
-            data={AiContractionData.data}
+            data={AiContractionData?.data?.data}
             loading={AiContractionLoading}
             error={AiContractionError}
             isSubscribed={isSubscribed}

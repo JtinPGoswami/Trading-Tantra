@@ -7,7 +7,7 @@ import topLoosers from "../../../assets/Images/Dashboard/marketdepthpage/topLoos
 import Loader from "../../Loader";
 import Lock from "../Lock";
 
-const TopGainers = ({ data, loading, error,isSubscribed }) => {
+const TopGainers = ({ data, loading, error, isSubscribed }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc"); // desc by default
   const [sortOrderChange, setSortOrderChange] = useState("desc");
@@ -94,89 +94,98 @@ const TopGainers = ({ data, loading, error,isSubscribed }) => {
           <div className="w-full rounded-lg dark:bg-db-secondary bg-db-secondary-light p-2 relative">
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden">
-             {
-              isSubscribed === 'false' ? <Lock/> : (
+              {isSubscribed === "false" ? (
+                <Lock />
+              ) : (
                 <table className="w-full">
-                {/* Table Header */}
-                <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
-                  <tr className="dark:text-gray-300 text-gray-800">
-                    <th
-                      className="flex justify-start items-center py-2"
-                      onClick={handleSortBySymbol}
-                    >
-                      Symbol{" "}
-                      <MdOutlineKeyboardArrowDown
-                        className={sortOrderSymbol === "desc" ? "rotate-180" : ""}
-                      />
-                    </th>
-                    <th className="py-2">
-                      <MdOutlineKeyboardArrowDown />
-                    </th>
-                    <th
-                      className="py-2 flex items-center justify-center"
-                      onClick={handleSortByPercentageChange}
-                    >
-                      %{" "}
-                      <MdOutlineKeyboardArrowDown
-                        className={sortOrderChange === "desc" ? "rotate-180" : ""}
-                      />
-                    </th>
-                    <th className="text-right py-2 cursor-pointer">
-                      <span
-                        title="xElement"
-                        className="flex items-center justify-end"
-                        onClick={handleSort}
+                  {/* Table Header */}
+                  <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
+                    <tr className="dark:text-gray-300 text-gray-800">
+                      <th
+                        className="flex justify-start items-center py-2"
+                        onClick={handleSortBySymbol}
                       >
-                        xElem{" "}
+                        Symbol{" "}
                         <MdOutlineKeyboardArrowDown
-                          className={sortOrder === "desc" ? "rotate-180" : ""}
+                          className={
+                            sortOrderSymbol === "desc" ? "rotate-180" : ""
+                          }
                         />
-                      </span>
-                    </th>
-                  </tr>
-                  <tr className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#000A2D] via-[#002ED0] to-[#000A2D]" />
-                </thead>
+                      </th>
+                      <th className="py-2">
+                        <MdOutlineKeyboardArrowDown />
+                      </th>
+                      <th
+                        className="py-2 flex items-center justify-center"
+                        onClick={handleSortByPercentageChange}
+                      >
+                        %{" "}
+                        <MdOutlineKeyboardArrowDown
+                          className={
+                            sortOrderChange === "desc" ? "rotate-180" : ""
+                          }
+                        />
+                      </th>
+                      <th className="text-right py-2 cursor-pointer">
+                        <span
+                          title="xElement"
+                          className="flex items-center justify-end"
+                          onClick={handleSort}
+                        >
+                          xElem{" "}
+                          <MdOutlineKeyboardArrowDown
+                            className={sortOrder === "desc" ? "rotate-180" : ""}
+                          />
+                        </span>
+                      </th>
+                    </tr>
+                    <tr className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#000A2D] via-[#002ED0] to-[#000A2D]" />
+                  </thead>
 
-                {/* Scrollable Table Body */}
-                <tbody>
-                  {loading && <Loader />}
-                  {error && <p>{error}</p>}
-                  {sortedData.length > 0 ? (
-                    sortedData.map((stock, index) => (
-                      <tr key={index}>
-                        <td className="flex items-center font-medium text-xs gap-2 py-3">
-                          {stock?.stockSymbol}
-                        </td>
-                        <td className="text-lg">
-                          <FcCandleSticks />
-                        </td>
-                        <td className="text-center">
-                          <span
-                            className={`${
-                              stock?.percentageChange >= 0
-                                ? "bg-green-600"
-                                : "bg-red-600"
-                            } px-2 py-1 text-xs rounded-full`}
-                          >
-                            {stock?.percentageChange}
-                          </span>
-                        </td>
-                        <td className="text-right text-xs">
-                          {stock?.xElement?.toFixed(2)}
+                  {/* Scrollable Table Body */}
+                  <tbody>
+                    {loading && <Loader />}
+                    {error && <p>{error}</p>}
+                    {sortedData.length > 0 ? (
+                      sortedData.map((stock, index) => (
+                        <tr key={index}>
+                          <td className="flex items-center font-medium text-xs gap-2 py-3">
+                            <a
+                              target="_blank"
+                              href={`https://in.tradingview.com/chart/?symbol=NSE%3A${stock?.stockSymbol}`}
+                            >
+                              {stock?.stockSymbol}
+                            </a>
+                          </td>
+                          <td className="text-lg">
+                            <FcCandleSticks />
+                          </td>
+                          <td className="text-center">
+                            <span
+                              className={`${
+                                stock?.percentageChange >= 0
+                                  ? "bg-green-600"
+                                  : "bg-red-600"
+                              } px-2 py-1 text-xs rounded-full`}
+                            >
+                              {stock?.percentageChange}
+                            </span>
+                          </td>
+                          <td className="text-right text-xs">
+                            {stock?.xElement?.toFixed(2)}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="4" className="text-center py-4">
+                          {!loading && !error ? "No data available" : ""}
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="4" className="text-center py-4">
-                        {!loading && !error ? "No data available" : ""}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-              )
-             }
+                    )}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>
@@ -185,7 +194,7 @@ const TopGainers = ({ data, loading, error,isSubscribed }) => {
   );
 };
 
-const TopLoosers = ({ data, loading, error,isSubscribed }) => {
+const TopLoosers = ({ data, loading, error, isSubscribed }) => {
   const [sortedData, setSortedData] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc"); // desc by default
   const [sortOrderChange, setSortOrderChange] = useState("desc");
@@ -270,83 +279,98 @@ const TopLoosers = ({ data, loading, error,isSubscribed }) => {
           <div className="w-full rounded-lg dark:bg-db-secondary bg-db-secondary-light p-2 relative">
             {/* Scrollable wrapper */}
             <div className="h-[260px] overflow-y-auto rounded-lg scrollbar-hidden">
-              {
-                isSubscribed === 'false' ? <Lock/> : (
-                  <table className="w-full">
-                {/* Table Header */}
-                <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
-                  <tr className="dark:text-gray-300 text-gray-800">
-                    <th className="flex justify-start items-center py-2" onClick={handleSortBySymbol}>
-                      Symbol <MdOutlineKeyboardArrowDown className={sortOrderSymbol === "desc" ? "rotate-180" : ""} />
-                    </th>
-                    <th className="py-2">
-                      <MdOutlineKeyboardArrowDown />
-                    </th>
-                    <th
-                      className="py-2 flex items-center justify-center"
-                      onClick={handleSortByPercentageChange}
-                    >
-                      %{" "}
-                      <MdOutlineKeyboardArrowDown
-                        className={sortOrderChange === "asc" ? "rotate-180" : ""}
-                      />
-                    </th>
-                    <th className=" py-2 cursor-pointer">
-                      <span
-                        title="xElement"
-                        className="flex  items-center justify-end"
-                        onClick={handleSort}
+              {isSubscribed === "false" ? (
+                <Lock />
+              ) : (
+                <table className="w-full">
+                  {/* Table Header */}
+                  <thead className="sticky top-0 dark:bg-db-secondary bg-db-secondary-light z-10">
+                    <tr className="dark:text-gray-300 text-gray-800">
+                      <th
+                        className="flex justify-start items-center py-2"
+                        onClick={handleSortBySymbol}
                       >
-                        xElem{" "}
+                        Symbol{" "}
                         <MdOutlineKeyboardArrowDown
-                          className={sortOrder === "desc" ? "rotate-180" : ""}
+                          className={
+                            sortOrderSymbol === "desc" ? "rotate-180" : ""
+                          }
                         />
-                      </span>
-                    </th>
-                  </tr>
-                  <tr className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#000A2D] via-[#002ED0] to-[#000A2D]" />
-                </thead>
+                      </th>
+                      <th className="py-2">
+                        <MdOutlineKeyboardArrowDown />
+                      </th>
+                      <th
+                        className="py-2 flex items-center justify-center"
+                        onClick={handleSortByPercentageChange}
+                      >
+                        %{" "}
+                        <MdOutlineKeyboardArrowDown
+                          className={
+                            sortOrderChange === "asc" ? "rotate-180" : ""
+                          }
+                        />
+                      </th>
+                      <th className=" py-2 cursor-pointer">
+                        <span
+                          title="xElement"
+                          className="flex  items-center justify-end"
+                          onClick={handleSort}
+                        >
+                          xElem{" "}
+                          <MdOutlineKeyboardArrowDown
+                            className={sortOrder === "desc" ? "rotate-180" : ""}
+                          />
+                        </span>
+                      </th>
+                    </tr>
+                    <tr className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-[#000A2D] via-[#002ED0] to-[#000A2D]" />
+                  </thead>
 
-                {/* Scrollable Table Body */}
-                <tbody>
-                  {loading && <Loader />}
-                  {error && <p>{error}</p>}
-                  {sortedData.length > 0 ? (
-                    sortedData.map((stock, index) => (
-                      <tr key={index}>
-                        <td className="flex items-center font-medium text-xs gap-2 py-3">
-                          {stock?.stockSymbol}
-                        </td>
-                        <td className="text-lg">
-                          <FcCandleSticks />
-                        </td>
-                        <td className="text-center">
-                          <span
-                            className={`${
-                              stock?.percentageChange >= 0
-                                ? "bg-green-600"
-                                : "bg-red-600"
-                            } px-2 py-1 text-xs rounded-full`}
-                          >
-                            {stock?.percentageChange}
-                          </span>
-                        </td>
-                        <td className="text-right text-xs">
-                          {stock?.xElement?.toFixed(2)}
+                  {/* Scrollable Table Body */}
+                  <tbody>
+                    {loading && <Loader />}
+                    {error && <p>{error}</p>}
+                    {sortedData.length > 0 ? (
+                      sortedData.map((stock, index) => (
+                        <tr key={index}>
+                          <td className="flex items-center font-medium text-xs gap-2 py-3">
+                            <a
+                              target="_blank"
+                              href={`https://in.tradingview.com/chart/?symbol=NSE%3A${stock?.stockSymbol}`}
+                            >
+                              {stock?.stockSymbol}
+                            </a>{" "}
+                          </td>
+                          <td className="text-lg">
+                            <FcCandleSticks />
+                          </td>
+                          <td className="text-center">
+                            <span
+                              className={`${
+                                stock?.percentageChange >= 0
+                                  ? "bg-green-600"
+                                  : "bg-red-600"
+                              } px-2 py-1 text-xs rounded-full`}
+                            >
+                              {stock?.percentageChange}
+                            </span>
+                          </td>
+                          <td className="text-right text-xs">
+                            {stock?.xElement?.toFixed(2)}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="4" className="text-center py-4">
+                          {!loading && !error ? "No data available" : ""}
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="4" className="text-center py-4">
-                        {!loading && !error ? "No data available" : ""}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-                )
-              }
+                    )}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>

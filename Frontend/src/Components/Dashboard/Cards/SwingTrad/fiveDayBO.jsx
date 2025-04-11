@@ -173,7 +173,7 @@ const FiveDayBO = ({ data, loading, error, isSubscribed }) => {
                   {/* Scrollable Table Body */}
                   <tbody>
                     {loading && <Loader />}
-                    {error && <p>{error}</p>}
+                    {error && <p>{error?.message || error?.response?.data}</p>}
                     {sortedData.length > 0 ? (
                       sortedData.map((stock, index) => (
                         <tr key={index}>

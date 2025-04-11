@@ -23,8 +23,8 @@ const TenDayBO = ({ data, loading, error, isSubscribed }) => {
 
     const newOrder = sortOrderChange === "asc" ? "desc" : "asc";
     const sorted = [...sortedData].sort((a, b) => {
-      const numA = Number(a.percentageChange);
-      const numB = Number(b.percentageChange);
+      const numA = Number(a.persentageChange);
+      const numB = Number(b.persentageChange);
       return newOrder === "asc" ? numA - numB : numB - numA;
     });
 
@@ -173,7 +173,7 @@ const TenDayBO = ({ data, loading, error, isSubscribed }) => {
                   {/* Scrollable Table Body */}
                   <tbody>
                     {loading && <Loader />}
-                    {error && <p>{error}</p>}
+                    {error && <p>{error?.message || error?.response?.data}</p>}
                     {sortedData.length > 0 ? (
                       sortedData.map((stock, index) => (
                         <tr key={index}>
@@ -186,12 +186,12 @@ const TenDayBO = ({ data, loading, error, isSubscribed }) => {
                           <td className="text-center">
                             <span
                               className={`${
-                                stock?.percentageChange >= 0
+                                stock?.persentageChange >= 0
                                   ? "bg-green-600"
                                   : "bg-red-600"
                               } px-2 py-1 text-xs rounded-full`}
                             >
-                              {stock?.percentageChange}
+                              {stock?.persentageChange}
                               {/* {Number(stock?.percentageChange=0)?.toFixed(2)} */}
                             </span>
                           </td>

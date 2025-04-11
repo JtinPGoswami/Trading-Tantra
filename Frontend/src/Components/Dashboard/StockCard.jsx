@@ -140,7 +140,12 @@ const StockCard = ({ title, data, loading, error }) => {
                       <tr key={index}>
                         {/* {console.log(stock?.xElement)} */}
                         <td className="flex items-center font-medium text-xs gap-2 py-3">
-                          {stock?.UNDERLYING_SYMBOL}
+                        <a
+                            target="_blank"
+                              href={`https://in.tradingview.com/chart/?symbol=NSE%3A${stock?.UNDERLYING_SYMBOL}`}
+                            >
+                            {stock?.UNDERLYING_SYMBOL}
+                            </a>
                         </td>
                         <td className="text-lg">
                           <FcCandleSticks />

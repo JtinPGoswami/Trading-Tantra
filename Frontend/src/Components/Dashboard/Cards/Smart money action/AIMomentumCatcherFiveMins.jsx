@@ -177,7 +177,12 @@ const AIMomentumCatcherFiveMins = ({ data, loading, error, isSubscribed }) => {
                       sortedData.map((stock, index) => (
                         <tr key={index}>
                           <td className="py-3 text-left text-sm font-semibold">
+                          <a
+                            target="_blank"
+                              href={`https://in.tradingview.com/chart/?symbol=NSE%3A${stock?.symbol}`}
+                            >
                             {stock?.symbol}
+                            </a>
                           </td>
                           <td className="text-lg text-center">
                             <FcCandleSticks />

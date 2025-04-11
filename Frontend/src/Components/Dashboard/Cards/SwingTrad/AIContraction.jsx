@@ -143,12 +143,17 @@ const AIContractions = ({ data, loading, error, isSubscribed }) => {
                   {/* Scrollable Table Body */}
                   <tbody>
                     {loading && <Loader />}
-                    {error && <p>{error}</p>}
+                    {error && <p>{error?.message || error?.response?.data}</p>}
                     {sortedData.length > 0 ? (
                       sortedData.map((stock, index) => (
                         <tr key={index}>
                           <td className="py-3 text-left text-sm font-semibold">
-                            {stock?.UNDERLYING_SYMBOL}
+                            <a
+                              target="_blank"
+                              href={`https://in.tradingview.com/chart/?symbol=NSE%3A${stock?.UNDERLYING_SYMBOL}`}
+                            >
+                              {stock?.UNDERLYING_SYMBOL}
+                            </a>
                           </td>
                           <td className="text-lg text-center">
                             <FcCandleSticks />

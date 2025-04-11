@@ -136,7 +136,12 @@ export const PreviousVolume = ({ data, loading, error,isSubscribed }) => {
                     sortedData.map((stock, index) => (
                       <tr key={index}>
                         <td className="flex items-center font-medium text-xs gap-2 py-3">
-                          {stock?.stock?.UNDERLYING_SYMBOL}
+                        <a
+                            target="_blank"
+                              href={`https://in.tradingview.com/chart/?symbol=NSE%3A${stock?.stock?.UNDERLYING_SYMBOL}`}
+                            >
+                              {stock?.stock?.UNDERLYING_SYMBOL}
+                            </a>
                         </td>
                         <td className="text-lg">
                           <FcCandleSticks />
