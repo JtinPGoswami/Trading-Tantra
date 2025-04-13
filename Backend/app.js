@@ -22,7 +22,6 @@ import swingTradeRoutes from "./src/routes/SwingTrades.routes.js";
 import isSubscribedRoute from "./src/routes/isSubscribed.js";
 // import scheduleMarketJob from "./src/jobs/liveMarket.job.js";
 
-// import FiiDiiJob from "./src/jobs/FiiDiiJob.js";
 // import holidayJob from "./src/jobs/holiday.job.js";
 
 import "./src/jobs/workers/FiveMinData.js";
@@ -30,6 +29,7 @@ import "./src/jobs/workers/LiveData.js";
 import "./src/jobs/liveMarket.job.js";
 import "./src/jobs/AfterMarket.job.js";
 import "./src/jobs/holiday.job.js";
+import "./src/jobs/FiiDiiJob.js";
 
 dotenv.config();
 

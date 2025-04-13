@@ -85,8 +85,8 @@ const fiveDayRangeBreakers = async (req, res) => {
     let preCha = [];
     let bulkOps = [];
     latestDayData.forEach((today, key) => {
-      const todayHigh = today.data?.[0].dayHigh;
-      const todayLow = today.data?.[0].dayLow;
+      const todayHigh = today.data?.[0].dayOpen;
+      const todayLow = today.data?.[0].dayClose;
       const todayLatestTradedPrice = today.data?.[0].latestTradedPrice;
       const stock = stocksMap.get(key);
       const previousDays = previousDaysData.get(key);
@@ -227,8 +227,8 @@ const tenDayRangeBreakers = async (req, res) => {
     let bulkOps = [];
     let preCha = [];
     latestDayData.forEach((today, key) => {
-      const todayHigh = today.data?.[0].dayHigh;
-      const todayLow = today.data?.[0].dayLow;
+      const todayHigh = today.data?.[0].dayOpen;
+      const todayLow = today.data?.[0].dayClose;
       const todayLatestTradedPrice = today.data?.[0].latestTradedPrice;
       const stock = stocksMap.get(key);
       const previousDays = previousDaysData.get(key);
@@ -602,139 +602,6 @@ const dailyCandleReversal = async (req, res) => {
   }
 };
 
-// const AIContraction = async (req, res) => {
-//   try {
-//     const uniqueTradingDays = await MarketDetailData.aggregate([
-//       { $group: { _id: "$date" } },
-//       { $sort: { _id: -1 } },
-//       { $limit: 5 },
-//     ]);
-
-//     if (uniqueTradingDays.length < 5) {
-//       return { message: "Not enough historical data (need 5 days)" };
-//     }
-
-//     const targetDates = uniqueTradingDays.map((day) => day._id);
-
-//     const previousData = await MarketDetailData.find(
-//       { date: { $in: targetDates } },
-//       {
-//         securityId: 1,
-//         data: 1, // Added for percentage change calculation
-//         date: 1,
-//         _id: 0,
-//       }
-//     ).lean();
-
-//     const groupedData = targetDates.reduce((acc, date) => {
-//       acc[date] = previousData.filter((entry) => entry.date === date);
-//       return acc;
-//     }, {});
-
-//     // Creating Maps for each day's data
-//     const dayMaps = targetDates.map(() => new Map());
-
-//     targetDates.forEach((date, index) => {
-//       groupedData[date]?.forEach((entry) => {
-//         dayMaps[index].set(entry.securityId, {
-//           securityId: entry.securityId,
-//           dayHigh: entry.data[0].dayHigh,
-//           dayLow: entry.data[0].dayLow,
-//           latestTradedPrice: entry.data[0].latestTradedPrice, // Needed for percentage change
-//           date,
-//         });
-//       });
-//     });
-
-//     const [
-//       firstDayData,
-//       secondDayData,
-//       thirdDayData,
-//       forthDayData,
-//       fifthDayData,
-//     ] = dayMaps;
-
-//     const stocks = await StocksDetail.find(
-//       {},
-//       { SECURITY_ID: 1, UNDERLYING_SYMBOL: 1, SYMBOL_NAME: 1, _id: 0 }
-//     );
-
-//     const stocksMap = new Map(
-//       stocks.map((stock) => [stock.SECURITY_ID, stock])
-//     );
-
-//     let responseData = [];
-//     let preCha = [];
-//     for (const [securityId, data] of fifthDayData.entries()) {
-//       const stock = stocksMap.get(securityId);
-//       if (!stock) continue;
-
-//       const firstDay = firstDayData.get(securityId);
-//       const secondDay = secondDayData.get(securityId);
-//       const thirdDay = thirdDayData.get(securityId);
-//       const forthDay = forthDayData.get(securityId);
-//       const todayLatestTradedPrice = data.latestTradedPrice;
-//       const previousClose = forthDay.latestTradedPrice;
-//       const percentageChange =
-//         ((Number(todayLatestTradedPrice) - Number(previousClose)) /
-//           Number(previousClose)) *
-//         100;
-
-//       preCha.push({
-//         securityId,
-//         percentageChange,
-//       });
-//       if (
-//         firstDay &&
-//         secondDay &&
-//         thirdDay &&
-//         forthDay &&
-//         secondDay.dayHigh <= firstDay.dayHigh &&
-//         secondDay.dayLow >= firstDay.dayLow &&
-//         thirdDay.dayHigh <= firstDay.dayHigh &&
-//         thirdDay.dayLow >= firstDay.dayLow &&
-//         forthDay.dayHigh <= firstDay.dayHigh &&
-//         forthDay.dayLow >= firstDay.dayLow &&
-//         data.dayHigh <= firstDay.dayHigh &&
-//         data.dayLow >= firstDay.dayLow
-//       ) {
-//         // Percentage change calculation
-//         const date = getFormattedISTDate();
-//         responseData.push({
-//           ...stock,
-//           percentageChange: percentageChange.toFixed(2),
-//           securityId,
-//           timestamp: date,
-//         });
-//       }
-//     }
-
-//     // Bulk update the contraction model
-//     const bulkOps = responseData.map((data) => ({
-//       updateOne: {
-//         filter: { securityId: data.SECURITY_ID },
-//         update: {
-//           $set: {
-//             securityId: data.SECURITY_ID,
-//             UNDERLYING_SYMBOL: data.UNDERLYING_SYMBOL,
-//             SYMBOL_NAME: data.SYMBOL_NAME,
-//           },
-//         },
-//         upsert: true,
-//       },
-//     }));
-
-//     if (bulkOps.length > 0) {
-//       await ContractionModel.bulkWrite(bulkOps);
-//     }
-//     return {
-//       success: true,
-//     };
-//   } catch (error) {
-//     return { message: "Internal server error", error: error.message };
-//   }
-// };
-
 const AIContraction = async (req, res) => {
   try {
     const uniqueTradingDays = await MarketDetailData.aggregate([
@@ -742,7 +609,6 @@ const AIContraction = async (req, res) => {
       { $sort: { _id: -1 } },
       { $limit: 5 },
     ]);
-    // console.log('uniqueTradingDays', uniqueTradingDays)
 
     if (uniqueTradingDays.length < 5) {
       return { message: "Not enough historical data (need 5 days)" };
@@ -750,43 +616,36 @@ const AIContraction = async (req, res) => {
 
     const targetDates = uniqueTradingDays.map((day) => day._id);
 
-    // console.log('targetDates', targetDates)
     const previousData = await MarketDetailData.find(
       { date: { $in: targetDates } },
       {
         securityId: 1,
-        data: 1,
+        data: 1, // Added for percentage change calculation
         date: 1,
         _id: 0,
       }
     ).lean();
-    // console.log('previousData', previousData)
 
     const groupedData = targetDates.reduce((acc, date) => {
       acc[date] = previousData.filter((entry) => entry.date === date);
       return acc;
     }, {});
 
-    // console.log( groupedData,"groupedData");
+    // Creating Maps for each day's data
     const dayMaps = targetDates.map(() => new Map());
 
     targetDates.forEach((date, index) => {
       groupedData[date]?.forEach((entry) => {
-        const d = entry.data[0];
-        // console.log(d,'data')
         dayMaps[index].set(entry.securityId, {
           securityId: entry.securityId,
-          dayHigh: Number(d.dayHigh),
-          dayLow: Number(d.dayLow),
-          latestTradedPrice: d.latestTradedPrice,
-          open: Number(d.dayOpen),
-          close: Number(d.dayClose),
+          dayHigh: entry.data[0].dayHigh,
+          dayLow: entry.data[0].dayLow,
+          latestTradedPrice: entry.data[0].latestTradedPrice, // Needed for percentage change
           date,
         });
       });
     });
 
-    // console.log('dayMaps', dayMaps);
     const [
       firstDayData,
       secondDayData,
@@ -794,7 +653,6 @@ const AIContraction = async (req, res) => {
       forthDayData,
       fifthDayData,
     ] = dayMaps;
-
 
     const stocks = await StocksDetail.find(
       {},
@@ -806,7 +664,7 @@ const AIContraction = async (req, res) => {
     );
 
     let responseData = [];
-
+    let preCha = [];
     for (const [securityId, data] of fifthDayData.entries()) {
       const stock = stocksMap.get(securityId);
       if (!stock) continue;
@@ -815,40 +673,32 @@ const AIContraction = async (req, res) => {
       const secondDay = secondDayData.get(securityId);
       const thirdDay = thirdDayData.get(securityId);
       const forthDay = forthDayData.get(securityId);
-      const todayLatestTradedPrice = data?.latestTradedPrice;
-      const previousClose = forthDay?.latestTradedPrice;
+      const todayLatestTradedPrice = data.latestTradedPrice;
+      const previousClose = forthDay.latestTradedPrice;
+      const percentageChange =
+        ((Number(todayLatestTradedPrice) - Number(previousClose)) /
+          Number(previousClose)) *
+        100;
 
-
-      console.log(typeof firstDay.open, firstDay.open); // should be 'number'
-
+      preCha.push({
+        securityId,
+        percentageChange,
+      });
       if (
         firstDay &&
         secondDay &&
         thirdDay &&
         forthDay &&
-        Math.max(secondDay.open, secondDay.close) <=
-          Math.max(firstDay.open, firstDay.close) &&
-        Math.min(secondDay.open, secondDay.close) >=
-          Math.min(firstDay.open, firstDay.close) &&
-        Math.max(thirdDay.open, thirdDay.close) <=
-          Math.max(firstDay.open, firstDay.close) &&
-        Math.min(thirdDay.open, thirdDay.close) >=
-          Math.min(firstDay.open, firstDay.close) &&
-        Math.max(forthDay.open, forthDay.close) <=
-          Math.max(firstDay.open, firstDay.close) &&
-        Math.min(forthDay.open, forthDay.close) >=
-          Math.min(firstDay.open, firstDay.close) &&
-        Math.max(data.open, data.close) <=
-          Math.max(firstDay.open, firstDay.close) &&
-        Math.min(data.open, data.close) >=
-          Math.min(firstDay.open, firstDay.close)
+        secondDay.dayHigh <= firstDay.dayHigh &&
+        secondDay.dayLow >= firstDay.dayLow &&
+        thirdDay.dayHigh <= firstDay.dayHigh &&
+        thirdDay.dayLow >= firstDay.dayLow &&
+        forthDay.dayHigh <= firstDay.dayHigh &&
+        forthDay.dayLow >= firstDay.dayLow &&
+        data.dayHigh <= firstDay.dayHigh &&
+        data.dayLow >= firstDay.dayLow
       ) {
-        const percentageChange =
-          ((Number(todayLatestTradedPrice) - Number(previousClose)) /
-            Number(previousClose)) *
-          100;
-
-          console.log('ai pc',percentageChange)
+        // Percentage change calculation
         const date = getFormattedISTDate();
         responseData.push({
           ...stock,
@@ -858,8 +708,8 @@ const AIContraction = async (req, res) => {
         });
       }
     }
-    console.log(responseData,'responseData')
 
+    // Bulk update the contraction model
     const bulkOps = responseData.map((data) => ({
       updateOne: {
         filter: { securityId: data.SECURITY_ID },
@@ -868,7 +718,6 @@ const AIContraction = async (req, res) => {
             securityId: data.SECURITY_ID,
             UNDERLYING_SYMBOL: data.UNDERLYING_SYMBOL,
             SYMBOL_NAME: data.SYMBOL_NAME,
-            percentageChange: data.percentageChange,
           },
         },
         upsert: true,
@@ -878,14 +727,234 @@ const AIContraction = async (req, res) => {
     if (bulkOps.length > 0) {
       await ContractionModel.bulkWrite(bulkOps);
     }
-    console.log(bulkOps,'bulkOps')
 
-    return { success: true };
+    return {
+      success: true,
+      data: responseData,
+    };
   } catch (error) {
-    console.log('error',error)
     return { message: "Internal server error", error: error.message };
   }
 };
+
+// const AIContraction = async (req, res) => {
+//   try {
+//     // Fetch the last 5 unique trading days
+//     const uniqueTradingDays = await MarketDetailData.aggregate([
+//       { $group: { _id: "$date" } },
+//       { $sort: { _id: -1 } },
+//       { $limit: 5 },
+//     ]);
+
+//     if (uniqueTradingDays.length < 5) {
+//       return { message: "Not enough historical data (need 5 days)" };
+//     }
+
+//     console.log("uniqueTradingDays", uniqueTradingDays);
+
+//     const targetDates = uniqueTradingDays.map((day) => day._id);
+
+//     // Fetch market data for these dates
+//     const previousData = await MarketDetailData.find(
+//       { date: { $in: targetDates } },
+//       {
+//         securityId: 1,
+//         data: 1,
+//         date: 1,
+//         _id: 0,
+//       }
+//     ).lean();
+
+//     // Group data by date
+//     const groupedData = targetDates.reduce((acc, date) => {
+//       acc[date] = previousData.filter((entry) => entry.date === date);
+//       return acc;
+//     }, {});
+
+//     // Create maps for each day's data
+//     const dayMaps = targetDates.map(() => new Map());
+//     targetDates.forEach((date, index) => {
+//       groupedData[date]?.forEach((entry) => {
+//         const d = entry.data[0];
+//         // Validate data
+//         if (
+//           !d ||
+//           isNaN(d.dayHigh) ||
+//           isNaN(d.dayLow) ||
+//           isNaN(d.dayOpen) ||
+//           isNaN(d.dayClose) ||
+//           isNaN(d.latestTradedPrice)
+//         ) {
+//           console.warn(`Invalid data for ${entry.securityId} on ${date}`);
+//           return;
+//         }
+//         dayMaps[index].set(entry.securityId, {
+//           securityId: entry.securityId,
+//           dayHigh: Number(d.dayHigh),
+//           dayLow: Number(d.dayLow),
+//           open: Number(d.dayOpen),
+//           close: Number(d.dayClose),
+//           latestTradedPrice: Number(d.latestTradedPrice),
+//           date,
+//         });
+//       });
+//     });
+
+//     const [
+//       firstDayData,
+//       secondDayData,
+//       thirdDayData,
+//       fourthDayData,
+//       fifthDayData,
+//     ] = dayMaps;
+
+//     // Log map sizes for debugging
+//     if (
+//       firstDayData &&
+//       secondDayData &&
+//       thirdDayData &&
+//       fourthDayData &&
+//       fifthDayData
+//     ) {
+//       console.log(
+//         "firstDayData →",
+//         typeof firstDayData,
+//         "| size:",
+//         firstDayData.size
+//       );
+//       console.log(
+//         "secondDayData →",
+//         typeof secondDayData,
+//         "| size:",
+//         secondDayData.size
+//       );
+//       console.log(
+//         "thirdDayData →",
+//         typeof thirdDayData,
+//         "| size:",
+//         thirdDayData.size
+//       );
+//       console.log(
+//         "fourthDayData →",
+//         typeof fourthDayData,
+//         "| size:",
+//         fourthDayData.size
+//       );
+//       console.log(
+//         "fifthDayData →",
+//         typeof fifthDayData,
+//         "| size:",
+//         fifthDayData.size
+//       );
+//     }
+
+//     // Fetch stock details
+//     const stocks = await StocksDetail.find(
+//       {},
+//       { SECURITY_ID: 1, UNDERLYING_SYMBOL: 1, SYMBOL_NAME: 1, _id: 0 }
+//     );
+//     const stocksMap = new Map(
+//       stocks.map((stock) => [stock.SECURITY_ID, stock])
+//     );
+
+//     let responseData = [];
+
+//     // Analyze each stock in the 5th day's data
+//     for (const [securityId, fifthDay] of fifthDayData.entries()) {
+//       const stock = stocksMap.get(securityId);
+//       if (!stock) {
+//         console.warn(`Stock details missing for ${securityId}`);
+//         continue;
+//       }
+
+//       const firstDay = firstDayData.get(securityId);
+//       const secondDay = secondDayData.get(securityId);
+//       const thirdDay = thirdDayData.get(securityId);
+//       const fourthDay = fourthDayData.get(securityId);
+
+//       // Ensure all days have data
+//       if (!firstDay || !secondDay || !thirdDay || !fourthDay) {
+//         console.warn(`Incomplete data for ${securityId}`);
+//         continue;
+//       }
+
+//       // Check if 2nd, 3rd, and 4th candles are within the 1st candle's high-low range
+//       const isContracting =
+//         secondDay.dayHigh <= firstDay.dayHigh &&
+//         secondDay.dayLow >= firstDay.dayLow &&
+//         thirdDay.dayHigh <= firstDay.dayHigh &&
+//         thirdDay.dayLow >= firstDay.dayLow &&
+//         fourthDay.dayHigh <= firstDay.dayHigh &&
+//         fourthDay.dayLow >= firstDay.dayLow;
+
+//       // Optional: Check if the body (open and close) of Days 2–4 is within Day 1's high-low
+//       // Uncomment if this is required based on "closing ho rahi hai" interpretation
+//       /*
+//       const isBodyContracting =
+//         secondDay.open <= firstDay.dayHigh &&
+//         secondDay.open >= firstDay.dayLow &&
+//         secondDay.close <= firstDay.dayHigh &&
+//         secondDay.close >= firstDay.dayLow &&
+//         thirdDay.open <= firstDay.dayHigh &&
+//         thirdDay.open >= firstDay.dayLow &&
+//         thirdDay.close <= firstDay.dayHigh &&
+//         thirdDay.close >= firstDay.dayLow &&
+//         fourthDay.open <= firstDay.dayHigh &&
+//         fourthDay.open >= firstDay.dayLow &&
+//         fourthDay.close <= firstDay.dayHigh &&
+//         fourthDay.close >= firstDay.dayLow;
+//       */
+
+//       // Check if 5th candle breaks the 1st candle's high or low
+//       const isBreakout =
+//         fifthDay.dayHigh > firstDay.dayHigh ||
+//         fifthDay.dayLow < firstDay.dayLow;
+
+//       // Use isContracting && isBreakout (add isBodyContracting if uncommented above)
+//       if (isContracting && isBreakout /* && isBodyContracting */) {
+//         console.log(`Pattern found for ${securityId}`);
+//         // Calculate percentage change
+//         const previousClose = fourthDay.close;
+//         const todayClose = fifthDay.close;
+//         const percentageChange =
+//           ((todayClose - previousClose) / previousClose) * 100;
+
+//         const date = getFormattedISTDate();
+//         responseData.push({
+//           ...stock,
+//           percentageChange: percentageChange.toFixed(2),
+//           securityId,
+//           timestamp: date,
+//         });
+//       }
+//     }
+
+//     // Bulk update the ContractionModel
+//     const bulkOps = responseData.map((data) => ({
+//       updateOne: {
+//         filter: { securityId: data.SECURITY_ID },
+//         update: {
+//           $set: {
+//             securityId: data.SECURITY_ID,
+//             UNDERLYING_SYMBOL: data.UNDERLYING_SYMBOL,
+//             SYMBOL_NAME: data.SYMBOL_NAME,
+//             percentageChange: data.percentageChange,
+//           },
+//         },
+//         upsert: true,
+//       },
+//     }));
+
+//     if (bulkOps.length > 0) {
+//       await ContractionModel.bulkWrite(bulkOps);
+//     }
+
+//     return { success: true, data: responseData };
+//   } catch (error) {
+//     console.error("Error in AIContraction:", error);
+//     return { message: "Internal server error", error: error.message };
+//   }
+// };
 
 export {
   fiveDayRangeBreakers,

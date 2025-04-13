@@ -13,7 +13,7 @@ const dailyCandleReversalSchema = new mongoose.Schema(
     UNDERLYING_SYMBOL: { type: String, required: true },
     SYMBOL_NAME: { type: String, required: true },
     timestamp: {
-      type: Date,
+      type: String,
       required: true,
     },
   },

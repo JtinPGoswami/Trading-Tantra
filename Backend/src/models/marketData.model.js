@@ -34,7 +34,6 @@ const MarketDataSchema = new mongoose.Schema(
     },
     stockId: { type: mongoose.Schema.Types.ObjectId, ref: "StocksDetail" },
     date: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now, expires: "1814400s" }, //auto delete entries after 21 days
   },
 
   { timestamps: true }

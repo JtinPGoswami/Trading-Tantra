@@ -7,7 +7,7 @@ const ContractionSchema = new mongoose.Schema(
     SYMBOL_NAME: { type: String, required: true },
     percentageChange: { type: String },
     timestamp: {
-      type: Date,
+      type: String,
       required: true,
     },
   },

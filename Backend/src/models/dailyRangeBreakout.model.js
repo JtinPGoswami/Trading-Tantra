@@ -54,7 +54,7 @@ const DailyRangeBreakoutSchema = new mongoose.Schema(
       required: false, // Optional, but useful for reference
     },
     timestamp: {
-      type: Date,
+      type: String,
       required: true,
     },
   },

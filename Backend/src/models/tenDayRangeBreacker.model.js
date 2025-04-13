@@ -13,7 +13,7 @@ const tenDayRangeBreakerSchema = new mongoose.Schema(
     persentageChange: { type: Number, required: true },
     type: { type: String, enum: ["bullish", "bearish"], required: true },
     timestamp: {
-      type: Date,
+      type: String,
       required: true,
     },
   },
